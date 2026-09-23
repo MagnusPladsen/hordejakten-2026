@@ -216,12 +216,12 @@ export default function App() {
 
       <div className="fixed top-[calc(env(safe-area-inset-top)+4.5rem)] right-3 z-[1000] flex flex-col gap-2">
         {[
-          { ikon: LocateFixed, navn: 'Min posisjon', gjor: finnMeg, pa: !!minPos },
-          { ikon: Navigation, navn: 'Søkesektor fra parkering', gjor: veksleFelt, pa: aktive.has('felt') },
-          { ikon: Layers, navn: `Bakgrunn: ${BAKGRUNN_NAVN[bakgrunn]}`, gjor: byttBakgrunn, pa: bakgrunn !== 'gra' },
-        ].map(({ ikon: Ikon, navn, gjor, pa }) => (
+          { id: 'gps', ikon: LocateFixed, navn: 'Min posisjon', gjor: finnMeg, pa: !!minPos },
+          { id: 'felt', ikon: Navigation, navn: 'Søkesektor fra parkering', gjor: veksleFelt, pa: aktive.has('felt') },
+          { id: 'bakgrunn', ikon: Layers, navn: `Bakgrunn: ${BAKGRUNN_NAVN[bakgrunn]}`, gjor: byttBakgrunn, pa: bakgrunn !== 'gra' },
+        ].map(({ id, ikon: Ikon, navn, gjor, pa }) => (
           <button
-            key={navn}
+            key={id}
             type="button"
             onClick={gjor}
             title={navn}

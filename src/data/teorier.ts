@@ -178,8 +178,8 @@ export const BEVIS: Bevis[] = [
   {
     id: 'kjoretid',
     tittel: 'Kjøretid ca. 7 t (hun sov)',
-    forklaring: 'Svakt hint: hun vet ikke hvor lenge de kjørte. Områder nær 7 t får litt høyere vekt.',
-    standardPa: true,
+    forklaring: 'Ikke et fakta: Anja tror hun sov ca. 7 t, men sier hun ikke vet hvor lenge de kjørte (Børsen). Av som standard.',
+    standardPa: false,
     faktor: (t) => (t.kjoretid == null ? 1 : 0.5 + 0.5 * gauss(t.kjoretid - 7, 2)),
   },
   {

@@ -57,7 +57,9 @@ export function Ark({ fane, onFane, hoyde, onHoyde, desktop, innhold, antallHint
   useEffect(() => {
     if (!desktop) return settHoyde(hoyder[hoyde], true)
     arkRef.current?.style.removeProperty('transform')
-  })
+    // settHoyde og hoyder avledes av vh, som er med her
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
+  }, [desktop, hoyde, vh])
 
   const ned = (e: React.PointerEvent) => {
     drag.current = { y0: e.clientY, h0: hoyder[hoyde], t0: performance.now(), aktiv: false }

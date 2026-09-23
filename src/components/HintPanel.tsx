@@ -1,10 +1,10 @@
 import { useMemo, useRef, useState } from 'react'
-import { Crosshair, ExternalLink, MapPinned } from 'lucide-react'
+import { Check, Crosshair, ExternalLink, MapPinned } from 'lucide-react'
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { BESTE_KODER, BOKSTAV_LESNINGER, BOKSTAVER, FOLK_TROR, HINT, KODER, SJANSE, STATUS, STEDER, TEORIER, type Hint } from '@/data/innhold'
+import { BESTE_KODER, BOKSTAV_LESNINGER, BOKSTAVER, FOLK_TROR, HINT, KODER, SIKRE_FAKTA, SJANSE, STATUS, STEDER, TEORIER, type Hint } from '@/data/innhold'
 import type { LatLon } from '@/lib/geo'
 import { cn } from '@/lib/utils'
 
@@ -53,9 +53,20 @@ export function HintPanel({ onVisPaKart, onGaTil }: { onVisPaKart: (h: Hint) => 
           ))}
         </div>
         <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
-          Løst og Bekreftet er sikre. Tolkning er noens forklaring. Usikker og Uløst er rykter eller ting vi ikke har knekt ennå.
+          Bekreftet betyr at vi vet at det er sagt eller sett. Hva det betyr kan likevel være tolkning. Tolkning er noens forklaring, Usikker er rykter, og Uløst er ikke knekt ennå.
         </p>
       </div>
+      <section className="rounded-2xl border-2 border-emerald-200 bg-emerald-50/60 p-4">
+        <h3 className="text-[16px] font-semibold">Dette vet vi sikkert</h3>
+        <ul className="mt-2 space-y-2">
+          {SIKRE_FAKTA.map((f) => (
+            <li key={f} className="flex items-start gap-2 text-[14.5px] leading-snug">
+              <Check className="mt-0.5 size-4 shrink-0 text-emerald-600" />
+              {f}
+            </li>
+          ))}
+        </ul>
+      </section>
       <Oppsummering onGaTil={onGaTil} onHint={gaTilHint} />
       <p className="pt-2 text-[12px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">Alle hint</p>
       <div className="sticky -top-4 z-10 -mx-4 flex flex-wrap gap-1.5 border-b bg-background/95 px-4 py-2.5 backdrop-blur">

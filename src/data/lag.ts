@@ -77,12 +77,12 @@ export const LAG: Lag[] = [
     kort: 'Alle hint vektet sammen',
     merkelapp: 'beregnet',
     forklaring:
-      'Hver rute (ca. 11 × 11 km) får en poengsum ut fra hintene du slår på i modellen under. Jo mørkere rødfarge, jo bedre passer ruta med hintene. Du bestemmer selv hvor mye hvert hint skal telle.',
+      'Hver rute (ca. 11 × 11 km) får en poengsum ut fra fokuset du har valgt i Kart-fanen. Fargen viser hvor godt ruta passer sammenlignet med den beste ruta. Er mange ruter like gode, får de samme farge. Ruter uten farge passer dårlig eller er utelukket.',
     tegn: [
-      { stil: 'fyll', farge: FARGE.modell[0], tekst: 'Topp 2 % av rutene' },
-      { stil: 'fyll', farge: FARGE.modell[1], tekst: 'Topp 2–5 %' },
-      { stil: 'fyll', farge: FARGE.modell[2], tekst: 'Topp 5–10 %' },
-      { stil: 'fyll', farge: FARGE.modell[3], tekst: 'Topp 10–25 %' },
+      { stil: 'fyll', farge: FARGE.modell[0], tekst: 'Passer svært godt (over 90 % av beste)' },
+      { stil: 'fyll', farge: FARGE.modell[1], tekst: 'Passer godt (60–90 %)' },
+      { stil: 'fyll', farge: FARGE.modell[2], tekst: 'Passer middels (35–60 %)' },
+      { stil: 'fyll', farge: FARGE.modell[3], tekst: 'Passer litt (15–35 %)' },
     ],
     kilde: 'Egen modell. Kjøretider fra OSRM (OpenStreetMap).',
   },

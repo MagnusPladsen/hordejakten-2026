@@ -98,6 +98,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
   const minPosRef = useRef<L.CircleMarker | null>(null)
   const nalRef = useRef<L.Marker | null>(null)
   const visInfoRef = useRef<(ll: L.LatLng) => void>(() => {})
+  const ventendeRef = useRef<(() => void) | null>(null)
   // Siste verdier for klikk-popupen, som lever utenfor React
   const siste = useRef({ punkter, resultat, vekter, kontekst })
   const onFeltFlyttRef = useRef(onFeltFlytt)
@@ -128,7 +129,14 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
       if (!kart) return
       nalRef.current?.remove()
       nalRef.current = L.marker(pos, { icon: pin('pin-nal', '', 18), zIndexOffset: 900, interactive: false }).addTo(kart)
-      kart.once('moveend', () => visInfoRef.current(L.latLng(pos[0], pos[1])))
+      // Fjern en ventende popup fra et tidligere søk, så bare det siste åpner
+      if (ventendeRef.current) kart.off('moveend', ventendeRef.current)
+      const vis = () => {
+        ventendeRef.current = null
+        visInfoRef.current(L.latLng(pos[0], pos[1]))
+      }
+      ventendeRef.current = vis
+      kart.once('moveend', vis)
       kart.flyTo(pos, 11, { duration: 0.8, animate: !roligBevegelse() })
     },
   }))
@@ -252,8 +260,8 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
       if (best < 0 || bestKm > 12) return
       const p = pk[best]
       const f = faktorer(p, v, ktx)
-      const utelukket = res ? res.andel[best] >= 1 : false
-      const topp = res && !utelukket ? Math.max(0.1, res.andel[best] * 100) : null
+      const relativ = res ? res.relativ[best] : null
+      const utelukket = relativ != null && relativ < 0.01
       const merknader = [
         SKYDEKKE.some((r) => iPolygon(klikk, r)) && 'Blått på Windy (utelukket)',
         SOL_I_DAG.some((r) => iPolygon(klikk, r)) && 'Klart på satellitt 23.09',
@@ -273,8 +281,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
           <dt>Kjøretid fra Oslo</dt><dd>${p.sek == null ? 'ukjent' : formaterTid(p.sek)}</dd>
           <dt>Kjørelengde</dt><dd>${p.meter == null ? 'ukjent' : Math.round(p.meter / 1000) + ' km'}</dd>
           <dt>Til nærmeste bilvei</dt><dd>${p.snap < 1000 ? p.snap + ' m' : (p.snap / 1000).toFixed(1) + ' km'}</dd>
-          ${topp != null ? `<dt>Plassering</dt><dd>topp ${topp < 1 ? topp.toFixed(1) : Math.round(topp)} %</dd>` : ''}
-          ${utelukket ? '<dt>Plassering</dt><dd>utelukket</dd>' : ''}
+          ${relativ != null ? `<dt>Passer</dt><dd>${utelukket ? 'utelukket' : `${Math.round(relativ * 100)} % av beste rute`}</dd>` : ''}
         </dl>
         ${merknader.length ? `<ul class="pop-merk">${merknader.map((m) => `<li>${m}</li>`).join('')}</ul>` : ''}
         ${rader ? `<p class="pop-under">Slik passer ruta med hintene</p><dl>${rader}</dl>` : ''}
@@ -340,7 +347,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
   useEffect(() => {
     if (!resultat) return
     modellRuter.current.forEach((r, i) => {
-      const k = klasse(resultat.andel[i])
+      const k = klasse(resultat.relativ[i])
       r.setStyle(k < 0 ? { fillOpacity: 0 } : { fillColor: FARGE.modell[k], fillOpacity: [0.72, 0.62, 0.5, 0.38][k] })
     })
   }, [resultat])
