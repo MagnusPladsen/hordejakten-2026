@@ -41,6 +41,36 @@ export type Hint = {
 
 export const HINT: Hint[] = [
   {
+    id: 'solidag',
+    tittel: 'Sol hos Anja, skyet over mesteparten av Norge',
+    status: 'tolkning',
+    kilde: 'Satellittbilde (fellesskapet)',
+    dato: '23.09',
+    tekst: 'Tidligere i dag var det skyer over store deler av Norge på satellitt, mens Anja hadde sol. Klart var det fra Kongsvinger opp til Rena på siden mot Sverige, i deler av Vestfold og rundt Trondheim–Ålesund.',
+    betydning: 'Kassen står trolig i et av de klare områdene. Det peker mot Kongsvinger–Elverum–Rena, som passer med flyet over Løten. Trondheim–Ålesund var blått på Windy tidligere, og det er uklart hvilke deler av Vestfold som var klare.',
+    lag: ['solidag'],
+  },
+  {
+    id: 'lysfake',
+    tittel: 'Er sollyset på streamen falskt?',
+    status: 'usikker',
+    kilde: 'Chat + Dagbladet-video',
+    dato: '23.09',
+    tekst: 'Tidlig om morgenen, da nattkameraet ble skrudd av, var det skyer og grått. Neste sekund var det plutselig sol og den «AI»-looken streamen har nå. I Dagbladet-videoen fra stedet er det mindre sol, og lyset faller ikke likt som på streamen.',
+    betydning: 'Kan bety at bildet er filtrert eller kunstig lyssatt. Da er hint som bygger på sol i bildet usikre: «Sol i dag» og solbanen (kamera mot 220°). Anjas egne ord («KLAR HIMMEL») påvirkes ikke. Lyden er allerede vist å være delvis avspilt på nytt, se default.no.',
+  },
+  {
+    id: 'haslemoen',
+    tittel: 'Tips fra fellesskapet: Flisa og Haslemoen',
+    status: 'usikker',
+    kilde: 'Chat',
+    dato: '23.09',
+    tekst: '«Tror og i nærheten av Rena. Men ikke helt. Kanskje mer i området Flisa? Haslemoen har en nedlagt base.»',
+    betydning: 'Ligger i det som var klart på satellitt 23.09, i typisk furumo mot Finnskogen. Men flyet Anja pekte på var ca. 40 km unna, og default.no fant at Finnskogen ikke passer med flyet. Lagt inn som egen teori (Solør).',
+    lag: ['teorier', 'solidag'],
+    fokus: 'haslemoen',
+  },
+  {
     id: 'vedkassen',
     tittel: 'Folk skal være ved kassen og prøve koder',
     status: 'usikker',
@@ -248,7 +278,7 @@ export const HINT: Hint[] = [
     status: 'usikker',
     kilde: 'Chat',
     dato: '23.09',
-    tekst: 'Noen tipper 61°10\'43.84"N 11°15\'50.13"E, en skogkledd ås på 606 moh. mellom Løten og Åmot, ca. 2,5 t fra Oslo.',
+    tekst: 'Flere tipper 61°10\'43.84"N 11°15\'50.13"E og mener det «er så klink her». En skogkledd ås på 606 moh. mellom Løten og Åmot, ca. 2,5 t fra Oslo.',
     betydning: 'Passer med lyden: NOZ56U var nesten rett over (74°) kl. 21:32:50, da rumlingen var høyest. Passer ikke med pekingen: da Anja pekte opp, var flyet 45 km sør og bare 8° over horisonten. Bruk «Sjekk et punkt» i Kart-fanen for å teste slike tips.',
     lag: ['teorier', 'fly'],
     fokus: 'digeras',
@@ -353,7 +383,14 @@ export const TEORIER: Sted[] = [
     navn: 'Tips: Digeråsen (Løten/Åmot)',
     pos: [61.1788, 11.2639],
     type: 'teori',
-    info: '61°10\'43.8"N 11°15\'50.1"E. Skog, 606 moh., 2 t 35 min fra Oslo. NOZ56U var rett over her kl. 21:32:50 (74°), da rumlingen var høyest. Men da Anja pekte opp (21:28:53 ekte tid) var flyet 45 km unna og bare 8° over horisonten.',
+    info: '61°10\'43.8"N 11°15\'50.1"E. Flere i chatten mener dette stemmer godt. Skog, 606 moh., 2 t 35 min fra Oslo, i kanten av det som var klart på satellitt 23.09. NOZ56U var rett over her kl. 21:32:50 (74°), da rumlingen var høyest. Men da Anja pekte opp (21:28:53 ekte tid) var flyet 45 km unna og bare 8° over horisonten.',
+  },
+  {
+    id: 'haslemoen',
+    navn: 'Tips: Flisa og Haslemoen',
+    pos: [60.66, 11.87],
+    type: 'teori',
+    info: 'Noen tror det er nær Rena, men mer mot Flisa. Haslemoen har en nedlagt militærleir. Innenfor det som var klart på satellitt 23.09. Ca. 2,5 t fra Oslo. Flyet NOZ56U var ca. 40 km unna (10° over horisonten) da Anja pekte opp.',
   },
   {
     id: 'gjovik',
@@ -372,6 +409,17 @@ export const TEORIER: Sted[] = [
   { id: 'froland', navn: 'Froland (ekorn i kommunevåpenet)', pos: [58.53, 8.63], type: 'teori', info: 'Kommunevåpenet er et sølvfarget ekorn på grønn bunn (bekreftet). Skyanalysen peker også hit. Kjøretid fra Oslo ca. 3,5 t.' },
   { id: 'lillehammer', navn: 'Lillehammer (ekorn-maskot)', pos: [61.115, 10.466], type: 'teori', info: 'Ubekreftet teori om ekorn som maskot. Ligger i det blå båndet på Windy-kartet, så det taler imot.' },
   { id: 'notteroy', navn: 'Nøtterøy (utelukket)', pos: [59.21, 10.42], type: 'teori', utelukket: true, info: 'Ordspill på «nøtt», men «Ikke en øy» og «ingen ferge» taler mot.' },
+]
+
+/**
+ * Klare områder på satellittbildet 23.09 (fellesskapet), mens det ellers var skyet over store deler av Norge og Anja hadde sol.
+ * Grovt tegnet ut fra en beskrivelse, ikke fra selve bildet. [0] = Kongsvinger–Rena mot Sverige, [1] = deler av Vestfold,
+ * [2] = Trondheim–Ålesund (var blått på Windy-kartet tidligere, så usikkert).
+ */
+export const SOL_I_DAG: LatLon[][] = [
+  [[60.1, 11.85], [60.5, 11.6], [60.88, 11.35], [61.15, 11.2], [61.3, 11.35], [61.3, 12.1], [61.0, 12.45], [60.6, 12.6], [60.2, 12.55], [60.0, 12.2]],
+  [[59.05, 9.95], [59.1, 10.55], [59.6, 10.45], [59.65, 10.0], [59.35, 9.8]],
+  [[62.3, 5.9], [62.8, 6.2], [63.2, 8.0], [63.55, 10.0], [63.5, 10.7], [63.2, 10.6], [62.9, 9.0], [62.5, 7.2], [62.2, 6.3]],
 ]
 
 /** Toppkandidater fra default.no sin fusjonsmodell (22.09 kl. 16:42) */
