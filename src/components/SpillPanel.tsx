@@ -167,13 +167,24 @@ function Dartkalkulator() {
 
 export function SpillPanel() {
   return (
-    <div className="space-y-4">
-      <div>
+    <div className="avis space-y-4">
+      <div className="spenn">
         <h2 className="text-xl font-semibold tracking-tight">Kodejakten</h2>
         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
           Fire spill gir koden til én av de to hengelåsene på pengeboksen (det er 3 låser: 2 på boksen, 1 på døra for Anja). Slik løser du dem, hentet fra spillets egen kildekode.
         </p>
       </div>
+
+      <section className="rounded-2xl border-2 border-emerald-300 bg-emerald-50/70 p-4">
+        <h3 className="text-[16px] font-semibold">Når alle fire er klart</h3>
+        <ul className="mt-2 space-y-1.5 text-[14px] leading-snug text-slate-600">
+          <li className="rounded-xl bg-white p-3 text-[15px] text-slate-900 ring-1 ring-emerald-200">Siden viser <b className="font-bold">«Låsen er åpen: dette er koden til den ene hengelåsen på kassen»</b>. Koden har <b>4 siffer</b> og kommer fram automatisk, ett siffer om gangen.</li>
+          <li>Du må ikke åpne noen lås selv i spillet. Gradene som går rundt (5°, −41°, −30°, −34°) er bare animasjonen av bøylen som svinger opp.</li>
+          <li>Koden ligger ikke i nettsiden. Serveren gir den først når den har spilt av trekkene dine og godkjent alle fire spill.</li>
+          <li>Fremgangen lagres, så du kan ta pauser mellom spillene. Hjelpeknappen sier bare «Tips: Vær bedre».</li>
+          <li>Figuren «Alf» er Horde-mannen fra videoene, ikke Alf Prøysen.</li>
+        </ul>
+      </section>
 
       <div className="rounded-2xl border border-amber-200 bg-amber-50 p-3.5 text-[14.5px] leading-relaxed text-amber-900">
         <p className="font-semibold">Ikke aktiv ennå (23.09)</p>
@@ -186,7 +197,7 @@ export function SpillPanel() {
         </a>
       </Button>
 
-      <ol className="grid items-start gap-2.5 @3xl:grid-cols-2">
+      <ol className="spenn avis-liste grid gap-2.5">
         {SPILL.map((s) => (
           <li key={s.nr} className="rounded-2xl border bg-card p-4">
             <p className="text-[12px] font-semibold tracking-wider text-muted-foreground uppercase">Spill {s.nr} av 4</p>
@@ -206,16 +217,6 @@ export function SpillPanel() {
 
       <Dartkalkulator />
 
-      <section className="rounded-2xl border bg-card p-4">
-        <h3 className="text-[16px] font-semibold">Når alle fire er klart</h3>
-        <ul className="mt-2 space-y-1.5 text-[14px] leading-snug text-slate-600">
-          <li>Siden viser «Låsen er åpen: dette er koden til den ene hengelåsen på kassen». Koden har 4 siffer og kommer fram automatisk, ett siffer om gangen.</li>
-          <li>Du må ikke åpne noen lås selv i spillet. Gradene som går rundt (5°, −41°, −30°, −34°) er bare animasjonen av bøylen som svinger opp.</li>
-          <li>Koden ligger ikke i nettsiden. Serveren gir den først når den har spilt av trekkene dine og godkjent alle fire spill.</li>
-          <li>Fremgangen lagres, så du kan ta pauser mellom spillene. Hjelpeknappen sier bare «Tips: Vær bedre».</li>
-          <li>Figuren «Alf» er Horde-mannen fra videoene, ikke Alf Prøysen.</li>
-        </ul>
-      </section>
     </div>
   )
 }

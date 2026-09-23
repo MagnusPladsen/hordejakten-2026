@@ -9,14 +9,14 @@ export function TavlePanel() {
   const liste = nyesteForst ? [...TAVLE].reverse() : TAVLE
 
   return (
-    <div className="space-y-4">
-      <div>
+    <div className="avis space-y-4">
+      <div className="spenn">
         <h2 className="text-xl font-semibold tracking-tight">Tavla</h2>
         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
           Alt Anja har skrevet på tavla som sier noe om stedet. Tidene er streamtid, som ligger 45 sek bak.
         </p>
       </div>
-      <div className="flex items-center justify-between gap-3">
+      <div className="spenn flex items-center justify-between gap-3">
         <p className="text-[13px] text-muted-foreground">
           {TAVLE.length} svar · {nyesteForst ? 'nyeste først' : 'eldste først'}
         </p>
@@ -29,7 +29,7 @@ export function TavlePanel() {
           {nyesteForst ? 'Vis eldste først' : 'Vis nyeste først'}
         </button>
       </div>
-      <ol className="grid gap-3 @3xl:grid-cols-2">
+      <ol className="spenn avis-liste grid gap-3">
         {liste.map((t) => (
           <li key={`${t.t}-${t.tekst}`} className="grid grid-cols-[5.5rem_1fr] items-start gap-3">
             <time className="pt-2 font-mono text-[12px] text-muted-foreground">{t.t}</time>

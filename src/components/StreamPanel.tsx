@@ -7,8 +7,8 @@ import { FAKTA, STREAM } from '@/data/innhold'
 export function StreamPanel() {
   const [spiller, setSpiller] = useState(false)
   return (
-    <div className="space-y-4">
-      <div>
+    <div className="avis space-y-4">
+      <div className="spenn">
         <h2 className="text-xl font-semibold tracking-tight">Direktesendingen</h2>
         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
           Anja sitter i kassen døgnet rundt. Streamen er bekreftet {STREAM.forsinkelseSek} sek forsinket, så trekk fra det når du sammenligner med fly og vær.
