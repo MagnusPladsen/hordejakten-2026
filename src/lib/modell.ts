@@ -26,7 +26,7 @@ export type Vekter = {
 export type FaktorId = 'kjoretid' | 'vei' | 'skyfri' | 'retning' | 'skyanalyse' | 'defaultno' | 'fly' | 'bokstaver' | 'innlandet' | 'solidag' | 'bergen'
 
 export const FAKTORER: { id: FaktorId; navn: string; forklaring: string }[] = [
-  { id: 'kjoretid', navn: 'Kjøretid fra Oslo', forklaring: 'Ruter nær valgt kjøretid får høyest poeng.' },
+  { id: 'kjoretid', navn: 'Kjøretid fra Oslo', forklaring: 'Usikkert: hun sov og vet ikke hvor lenge de kjørte. Ruter nær valgt kjøretid får høyest poeng.' },
   { id: 'vei', navn: 'Nær bilvei', forklaring: '5–10 min gange fra bilen. Ruter langt fra vei trekkes ned.' },
   { id: 'skyfri', navn: 'Utelukk skyer og tåke', forklaring: 'Hun så klar himmel. 100 % = blått på Windy og tåka i Odal er helt utelukket.' },
   { id: 'solidag', navn: 'Sol i dag (satellitt)', forklaring: 'Anja hadde sol mens det var skyet nesten overalt. Klare områder får høyest poeng.' },
@@ -42,38 +42,44 @@ export const FAKTORER: { id: FaktorId; navn: string; forklaring: string }[] = [
 /** Ferdige teorier. `lag` slås på når teorien velges. */
 export const FORHAND: { id: string; navn: string; beskrivelse: string; vekter: Vekter; lag?: LagId[] }[] = [
   {
-    id: 'innlandet',
-    navn: 'Innlandet',
-    beskrivelse: 'Bare Innlandet fylke, uten områdene som var blå på Windy.',
-    vekter: { kjoretid: 0.4, timer: 5, slingring: 2.5, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.3, fly: 0.5, bokstaver: 0, innlandet: 1, solidag: 0.7, bergen: 0 },
-    lag: ['innlandet'],
+    id: 'alt',
+    navn: 'Alt vi har',
+    beskrivelse: 'Alle hintene samlet: vær, sol i dag, flyet, Innlandet og default.no. Ikke kjøretid, fordi den er usikker.',
+    vekter: { kjoretid: 0, timer: 7, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.3, fly: 0.6, bokstaver: 0, innlandet: 0.5, solidag: 0.4, bergen: 0 },
   },
   {
     id: 'fakta',
-    navn: 'Harde fakta',
-    beskrivelse: 'Bare det vi vet: rundt 7 t kjøring, nær vei og klar himmel.',
-    vekter: { kjoretid: 0.8, timer: 7, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0.7, bergen: 0 },
+    navn: 'Bare bekreftet',
+    beskrivelse: 'Bare det som er bekreftet: nær bilvei og klar himmel der hun var. Ikke kjøretid, fordi hun sov og ikke vet hvor lenge de kjørte.',
+    vekter: { kjoretid: 0, timer: 7, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0, bergen: 0 },
+  },
+  {
+    id: 'innlandet',
+    navn: 'Innlandet',
+    beskrivelse: 'Bare Innlandet fylke, uten områdene som var blå på Windy.',
+    vekter: { kjoretid: 0, timer: 5, slingring: 2.5, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.3, fly: 0.5, bokstaver: 0, innlandet: 1, solidag: 0.7, bergen: 0 },
+    lag: ['innlandet'],
   },
   {
     // Ser bort fra Windy-kartet, ellers blir hele Hardanger utelukket
     id: 'norheimsund',
     navn: 'Norheimsund',
     beskrivelse: 'Tester bokstav-teorien. Ser bort fra Windy-kartet.',
-    vekter: { kjoretid: 0.6, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 0, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 1, innlandet: 0, solidag: 0, bergen: 0 },
+    vekter: { kjoretid: 0, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 0, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 1, innlandet: 0, solidag: 0, bergen: 0 },
     lag: ['teorier'],
   },
   {
     id: 'retning',
     navn: 'Retningsteorien',
     beskrivelse: 'Tester at 118° på tavla peker fra kassen mot Oslo.',
-    vekter: { kjoretid: 0.8, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 1, retning: 0.9, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0, bergen: 0 },
+    vekter: { kjoretid: 0.3, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 1, retning: 0.9, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0, bergen: 0 },
     lag: ['retning'],
   },
   {
     id: 'fly',
     navn: 'Flyet kl. 21:29',
     beskrivelse: 'Nær flyene som var i lufta da Anja pekte rett opp.',
-    vekter: { kjoretid: 0.4, timer: 5, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 1, bokstaver: 0, innlandet: 0, solidag: 0.7, bergen: 0 },
+    vekter: { kjoretid: 0, timer: 5, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 1, bokstaver: 0, innlandet: 0, solidag: 0.7, bergen: 0 },
     lag: ['fly'],
   },
   {
@@ -86,14 +92,14 @@ export const FORHAND: { id: string; navn: string; beskrivelse: string; vekter: V
     id: 'agder',
     navn: 'Agder-teorien',
     beskrivelse: 'Skyanalysen og ekornet i Froland.',
-    vekter: { kjoretid: 0.5, timer: 4, slingring: 1.5, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0.9, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0, bergen: 0 },
+    vekter: { kjoretid: 0, timer: 4, slingring: 1.5, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0.9, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0, bergen: 0 },
     lag: ['skyanalyse'],
   },
   {
     id: 'defaultno',
     navn: 'Som default.no',
     beskrivelse: 'Nær default.no sine toppkandidater.',
-    vekter: { kjoretid: 0.3, timer: 3.5, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 1, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0, bergen: 0 },
+    vekter: { kjoretid: 0, timer: 3.5, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 1, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0, bergen: 0 },
     lag: ['defaultno'],
   },
 ]
@@ -102,37 +108,45 @@ const gauss = (x: number, sigma: number) => Math.exp(-0.5 * (x / sigma) ** 2)
 
 export type Kontekst = { flyPos: LatLon[]; innlandet: LatLon[][] }
 
-export function faktorer(p: Punkt, v: Vekter, { flyPos, innlandet: innlandetRinger }: Kontekst): Record<FaktorId, number> {
-  const pos: LatLon = [p.lat, p.lon]
+type Faste = Omit<Record<FaktorId, number>, 'kjoretid' | 'retning'>
 
-  const kjoretid = p.sek == null ? 0 : gauss(p.sek / 3600 - v.timer, v.slingring)
+// Faktorene som ikke avhenger av vektene regnes bare én gang per rute og kontekst
+const fasteCache = new WeakMap<Kontekst, WeakMap<Punkt, Faste>>()
+
+function fasteFaktorer(p: Punkt, { flyPos, innlandet: innlandetRinger }: Kontekst): Faste {
+  const pos: LatLon = [p.lat, p.lon]
   const vei = p.snap <= 1500 ? 1 : Math.exp(-(p.snap - 1500) / 2000)
   const skyfri = [...SKYDEKKE, ...TAAKE].some((ring) => iPolygon(pos, ring)) ? 0 : 1
-
-  let retning = 0
-  for (const kurs of v.retningBegge ? [298, 118] : [298]) {
-    const { tvers, langs } = tversAvstand(OSLO, kurs, pos)
-    if (langs <= 0) continue
-    const sigma = Math.max(8, langs * Math.tan((5 * Math.PI) / 180))
-    retning = Math.max(retning, gauss(tvers, sigma))
-  }
-
   const norheimsund = TEORIER.find((t) => t.id === 'norheimsund')!
   const bokstaver = gauss(avstand(pos, norheimsund.pos), 20)
   const fraBergen = tversAvstand(BERGEN, 118, pos)
   const bergen = fraBergen.langs > 0 ? gauss(fraBergen.tvers, Math.max(8, fraBergen.langs * Math.tan((5 * Math.PI) / 180))) : 0
   const skyanalyse = gauss(avstand(pos, SKYANALYSE.senter), 35)
   const defaultno = Math.max(...DEFAULTNO.map((k) => gauss(avstand(pos, k.pos), 25)))
-
   // Pekte rett opp: flyet var trolig innen noen få km horisontalt. 10 km gir rom for tidsusikkerhet.
   let flyKm = Infinity
-  if (v.fly > 0) for (const f of flyPos) flyKm = Math.min(flyKm, avstand(pos, f))
+  for (const f of flyPos) flyKm = Math.min(flyKm, avstand(pos, f))
   const fly = flyPos.length ? gauss(flyKm, 10) : 1
-
   const solidag = SOL_I_DAG.some((r) => iPolygon(pos, r)) ? 1 : 0
   const innlandet = innlandetRinger.length ? (innlandetRinger.some((r) => iPolygon(pos, r)) ? 1 : 0) : 1
+  return { vei, skyfri, skyanalyse, defaultno, fly, bokstaver, innlandet, solidag, bergen }
+}
 
-  return { kjoretid, vei, skyfri, retning, skyanalyse, defaultno, fly, bokstaver, innlandet, solidag, bergen }
+export function faktorer(p: Punkt, v: Vekter, ktx: Kontekst): Record<FaktorId, number> {
+  let perPunkt = fasteCache.get(ktx)
+  if (!perPunkt) fasteCache.set(ktx, (perPunkt = new WeakMap()))
+  let faste = perPunkt.get(p)
+  if (!faste) perPunkt.set(p, (faste = fasteFaktorer(p, ktx)))
+
+  const kjoretid = p.sek == null ? 0 : gauss(p.sek / 3600 - v.timer, v.slingring)
+  let retning = 0
+  for (const kurs of v.retningBegge ? [298, 118] : [298]) {
+    const { tvers, langs } = tversAvstand(OSLO, kurs, [p.lat, p.lon])
+    if (langs <= 0) continue
+    const sigma = Math.max(8, langs * Math.tan((5 * Math.PI) / 180))
+    retning = Math.max(retning, gauss(tvers, sigma))
+  }
+  return { ...faste, kjoretid, retning }
 }
 
 export function poeng(f: Record<FaktorId, number>, v: Vekter): number {
@@ -146,28 +160,30 @@ export function poeng(f: Record<FaktorId, number>, v: Vekter): number {
 
 export type Resultat = {
   poeng: Float64Array
-  /** Andel av rutene som har høyere poeng (0 = best) */
-  andel: Float64Array
+  /** Poeng delt på beste rute (1 = like godt som den beste, 0 = utelukket) */
+  relativ: Float64Array
 }
 
 export function beregn(punkter: Punkt[], v: Vekter, ktx: Kontekst): Resultat {
   const n = punkter.length
   const s = new Float64Array(n)
   for (let i = 0; i < n; i++) s[i] = poeng(faktorer(punkter[i], v, ktx), v)
-  const orden = Array.from({ length: n }, (_, i) => i).sort((a, b) => s[b] - s[a])
-  const andel = new Float64Array(n)
-  // Ruter som er så godt som utelukket skal aldri havne i en toppklasse, selv om mange har samme poeng
-  const terskel = (orden.length ? s[orden[0]] : 0) * 0.01
-  orden.forEach((idx, r) => (andel[idx] = s[idx] > terskel ? r / n : 1))
-  return { poeng: s, andel }
+  let maks = 0
+  for (let i = 0; i < n; i++) if (s[i] > maks) maks = s[i]
+  const relativ = new Float64Array(n)
+  for (let i = 0; i < n; i++) relativ[i] = maks > 0 ? s[i] / maks : 0
+  return { poeng: s, relativ }
 }
 
-/** Klasse 0–3 for fargen på kartet, eller -1 når ruta ikke skal vises */
-export function klasse(andel: number): number {
-  if (andel < 0.02) return 0
-  if (andel < 0.05) return 1
-  if (andel < 0.1) return 2
-  if (andel < 0.25) return 3
+/**
+ * Klasse 0–3 for fargen på kartet, eller -1 når ruta ikke skal vises.
+ * Bygger på hvor godt ruta passer sammenlignet med den beste, så like gode ruter får samme farge.
+ */
+export function klasse(relativ: number): number {
+  if (relativ >= 0.9) return 0
+  if (relativ >= 0.6) return 1
+  if (relativ >= 0.35) return 2
+  if (relativ >= 0.15) return 3
   return -1
 }
 
@@ -176,6 +192,7 @@ export function toppOmrader(punkter: Punkt[], res: Resultat, antall = 6, minKm =
   const orden = Array.from({ length: punkter.length }, (_, i) => i).sort((a, b) => res.poeng[b] - res.poeng[a])
   const valgt: number[] = []
   for (const i of orden) {
+    if (res.relativ[i] < 0.01) break
     const p: LatLon = [punkter[i].lat, punkter[i].lon]
     if (valgt.every((j) => avstand(p, [punkter[j].lat, punkter[j].lon]) >= minKm)) valgt.push(i)
     if (valgt.length >= antall) break

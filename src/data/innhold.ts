@@ -122,7 +122,7 @@ export const HINT: Hint[] = [
     kilde: 'Tavla + Børsen-intervju',
     dato: '22.09',
     tekst: 'Anja ble hentet i Oslo kl. 04:00 (søndag ifølge tavla). Vinduene i bilen var dekket til. Hun sov store deler av turen og «aner ikke hvor lenge de kjørte». Hun tror selv det var ca. 7 timer. Kun bil, ingen ferge.',
-    betydning: 'Kjøretiden er et svakt hint fordi hun sov. Viktig åpent spørsmål: tavla sier søndag, men Børsen skriver at hun har sittet i buret «siden mandag morgen». Ble hun hentet mandag 04:00, var turen under ca. 3 t (streamen startet 06:50). Slå på «Hentet mandag» i Teorier-fanen for å se utslaget.',
+    betydning: 'Kjøretiden er ikke et fakta: hun sov og vet ikke hvor lenge de kjørte. Den er derfor av som standard. Viktig åpent spørsmål: tavla sier søndag, men Børsen skriver at hun har sittet i buret «siden mandag morgen». Ble hun hentet mandag 04:00, var turen under ca. 3 t (streamen startet 06:50). Slå på «Hentet mandag» i Teorier-fanen for å se utslaget.',
     lag: ['kjoretid', 'modell'],
     lenke: 'https://borsen.dagbladet.no/nyheter/anja-29-snakker-ut-absurd/85185489',
   },
@@ -385,12 +385,22 @@ export const HINT: Hint[] = [
     betydning: 'Du trenger ikke lete etter en hytte eller et bygg. Se etter en åpen furumo nær en skogsbilvei, der et team kan bære inn utstyret.',
   },
   {
+    id: 'video2309',
+    tittel: 'Ny Horde-video: «Hvordan går det med Anja?»',
+    status: 'bekreftet',
+    kilde: 'YouTube 1raIm3ANsAI (23.09)',
+    dato: '23.09',
+    tekst: 'Horde skriver: «Kjenner jeg dere riktig så vil dere overanalysere denne videoen». Videoen viser kassen forfra: blandingsskog med gran, furu og mange tynne bjørker med gule blader, flatt og mosegrodd underlag, en stige og en svart skjerm inne i kassen. «+5» står på ryggen av genseren. Nattbildene har tre lamper over kassen.',
+    betydning: 'Bekrefter «+5» og blandingsskog med mye bjørk. Bjørk med gule blader passer med høstfarger i innlandet rundt 20. september. Ingen stedsnavn eller skilt synes.',
+    lenke: 'https://www.youtube.com/shorts/1raIm3ANsAI',
+  },
+  {
     id: 'pluss5',
     tittel: '«+5» på genseren',
     status: 'apen',
-    kilde: 'Stream',
+    kilde: 'Stream + Horde-video 23.09',
     dato: '23.09',
-    tekst: 'Genseren til Anja viser nå «+5».',
+    tekst: 'Genseren til Anja viser nå «+5» på ryggen. Det synes tydelig når hun står på hendene i Horde-videoen 23.09.',
     betydning: 'Uløst. Mulige lesninger: samme Cæsar-forskyvning (+5) som på buksa, brukt på et nytt hint. Eller legg 5 til en kode: 5008 + 5 = 5013, eller +5 på hvert siffer = 0553. Eller temperaturen ute, ca. +5 °C. Prøvd på genser-tallene (7 10 5 12 4 6 18 9): +5 gir LOJQIKWN og −5 gir BEZGYAMD, så det gir ingen mening der.',
   },
   {
@@ -453,6 +463,7 @@ export const TAVLE: { t: string; tekst: string }[] = [
   { t: '23.09', tekst: '118–120 GR ØST (retningen skiltet peker)' },
   { t: '23.09', tekst: 'SOLA VAR OPPE FØR 07' },
   { t: '23.09', tekst: '«+5» på genseren' },
+  { t: '23.09', tekst: 'SKISSE: et rektangel i midten (kassen?) med ord rundt. Ikke lesbart på bildet.' },
   { t: '23.09 09:33', tekst: 'DET GÅR FINT · TAKK SOM SPØR ♡' },
 ]
 
@@ -661,4 +672,15 @@ export const HYTTER: { navn: string; sted: string; pos: LatLon; opptatt: string;
   { navn: 'Forest View', sted: 'Høgbrennvegen', pos: [60.9811, 10.9401], opptatt: 'Opptatt 24., 26. og 27.09' },
   { navn: 'Lerkhytta', sted: 'Veldre (ca.)', pos: [60.93, 10.9], opptatt: 'Opptatt 25.–27.09' },
   { navn: 'Klatrehytta', sted: 'Helgøya', pos: [60.7388, 10.9798], opptatt: 'Opptatt 25.–27.09' },
+]
+
+/** Det vi vet sikkert. Holdes kort, og bare ting Anja, Horde eller bildet selv bekrefter. */
+export const SIKRE_FAKTA: string[] = [
+  'Kassen står i Norge, ikke på en øy og ikke i farlig terreng.',
+  'Anja ble hentet i Oslo kl. 04:00, med tildekkede bilvinduer. Hun sov mesteparten og vet ikke hvor lenge de kjørte.',
+  'Kun bil, ingen ferge. De siste 5–10 min ble hun båret oppover med sovemaske og headset.',
+  'Skog med furu, gran og mye bjørk, lyng og bærlyng. Fire store steiner. Kupert rundt.',
+  'Klar himmel kvelden 21.09. Sola var oppe før kl. 07.',
+  'Horde-skiltet peker 118–120° mot kassen.',
+  'Kassen har 2 kodelåser med 4 siffer. Appen ga 5008 som hint.',
 ]
