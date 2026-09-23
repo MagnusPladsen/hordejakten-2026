@@ -143,7 +143,7 @@ export const HINT: Hint[] = [
     kilde: 'Stream',
     dato: '23.09',
     tekst: 'Foran kassen står et «Horde»-skilt båret av to hender, og det peker mot venstre i bildet.',
-    betydning: 'Kameraet ser mot sørvest, så venstre i bildet er omtrent sørøst, samme vei som parkeringen (118°). Skiltet kan altså vise veien inn. Hva håndsymbolene betyr er ikke løst.',
+    betydning: 'Kameraet ser mot sørvest, så venstre i bildet er omtrent sørøst, samme vei som parkeringen (118°). Skiltet kan altså vise veien inn. Håndsymbolene er ikke løst. To teorier fra Discord: fingrene er romertall (den første viser VII = 7), eller binærtall der hver finger opp er 1. Begge kan gi sifre til en kode.',
   },
   {
     id: 'bjorneparken',
@@ -267,7 +267,7 @@ export const HINT: Hint[] = [
     status: 'apen',
     kilde: 'Appen, stream og chat',
     dato: '23.09',
-    tekst: 'Kassen har 2 hengelåser og døra 1, alle med 4 siffer. Kandidater: 5008 (kredittskår + «terje»). 5528: plakaten foran kameraet ser ut til å vise kortstokker, ikke pengebunker, og en kortstokk har 52 kort, så «00» i 5008 kan være 52. 2188 (nevnt i chatten, ukjent kilde). Kodejakten gir en kode. 072 og 500 fra «Ho Ho Hint Hint».',
+    tekst: 'Kassen har 2 hengelåser og døra 1, alle med 4 siffer. Kandidater: 5008 (kredittskår + «terje»). 5528: plakaten foran kameraet ser ut til å vise kortstokker, ikke pengebunker, og en kortstokk har 52 kort, så «00» i 5008 kan være 52. 2188 (nevnt i chatten, ukjent kilde). Hendene under Horde-skiltet kan også være sifre, som romertall (første hånd VII = 7) eller binært. Kodejakten gir en kode. 072 og 500 fra «Ho Ho Hint Hint».',
     betydning: 'Koder, ikke steder. Ha med alle kandidatene når du drar ut. 5528 og 2188 er ubekreftet.',
   },
   {
