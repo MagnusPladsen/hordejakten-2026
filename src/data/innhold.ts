@@ -385,6 +385,15 @@ export const HINT: Hint[] = [
     betydning: 'Du trenger ikke lete etter en hytte eller et bygg. Se etter en åpen furumo nær en skogsbilvei, der et team kan bære inn utstyret.',
   },
   {
+    id: 'pluss5',
+    tittel: '«+5» på genseren',
+    status: 'apen',
+    kilde: 'Stream',
+    dato: '23.09',
+    tekst: 'Genseren til Anja viser nå «+5».',
+    betydning: 'Uløst. Mulige lesninger: samme Cæsar-forskyvning (+5) som på buksa, brukt på et nytt hint. Eller legg 5 til en kode: 5008 + 5 = 5013, eller +5 på hvert siffer = 0553. Eller temperaturen ute, ca. +5 °C.',
+  },
+  {
     id: 'koder',
     tittel: 'Mulige koder til låsene',
     status: 'apen',
@@ -443,6 +452,7 @@ export const TAVLE: { t: string; tekst: string }[] = [
   { t: '23.09', tekst: 'REVEN HETER BENNY' },
   { t: '23.09', tekst: '118–120 GR ØST (retningen skiltet peker)' },
   { t: '23.09', tekst: 'SOLA VAR OPPE FØR 07' },
+  { t: '23.09', tekst: '«+5» på genseren' },
   { t: '23.09 09:33', tekst: 'DET GÅR FINT · TAKK SOM SPØR ♡' },
 ]
 
@@ -601,6 +611,8 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
   { kode: '5528', kilde: '5008 med 52 i stedet for 00: plakaten ser ut til å vise kortstokker, og en kortstokk har 52 kort.', status: 'tolkning', sjanse: 'middels', hint: ['plakat', 'koder'] },
   { kode: '2188', kilde: 'Nevnt i chatten. Ingen vet hvor den kommer fra.', status: 'usikker', sjanse: 'middels', hint: ['koder'] },
   { kode: '7…', kilde: 'Hendene under Horde-skiltet: romertall (første hånd VII = 7) eller binært.', status: 'tolkning', sjanse: 'lav', hint: ['skilt', 'koder'] },
+  { kode: '5013', kilde: '5008 + 5, hvis «+5» på genseren skal legges til koden.', status: 'tolkning', sjanse: 'lav', hint: ['pluss5', 'terje'] },
+  { kode: '0553', kilde: '5008 med +5 på hvert siffer (5→0, 0→5, 0→5, 8→3).', status: 'tolkning', sjanse: 'lav', hint: ['pluss5', 'terje'] },
   { kode: '072', kilde: '«Ho Ho Hint Hint»: siste sifre i premien fra 2024 (1 093 072 kr). Bare 3 siffer.', status: 'usikker', sjanse: 'lav', hint: ['hohoh'] },
   { kode: '500', kilde: '«Ho Ho Hint Hint»: poeng for å verve. Bare 3 siffer.', status: 'usikker', sjanse: 'lav', hint: ['hohoh'] },
   { kode: 'ord', kilde: 'Kredittskår-boksen tar imot ord («terje» ga 5008). Verdt å prøve: JAKTEN, MINUSHORDE, HORDEMINUS, NORHEIMSUND.', status: 'tolkning', sjanse: 'middels', hint: ['terje', 'bokstaver', 'dyr'] },
