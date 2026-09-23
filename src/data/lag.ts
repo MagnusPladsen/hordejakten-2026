@@ -2,6 +2,8 @@
 
 export type LagId =
   | 'modell'
+  | 'teoriomrader'
+  | 'innlandet'
   | 'kjoretid'
   | 'retning'
   | 'skydekke'
@@ -36,7 +38,8 @@ export const FARGE = {
   kjoretid: ['#ccfbf1', '#99f6e4', '#5eead4', '#2dd4bf', '#0d9488', '#115e59'],
   langtFraVei: '#94a3b8',
   retning: '#7c3aed',
-  skydekke: '#64748b',
+  skydekke: '#2563eb',
+  innlandet: '#e11d48',
   skyanalyse: '#2563eb',
   defaultno: '#111827',
   steder: '#e5007e',
@@ -80,12 +83,33 @@ export const LAG: Lag[] = [
     kilde: 'Egen modell. Kjøretider fra OSRM (OpenStreetMap).',
   },
   {
+    id: 'teoriomrader',
+    navn: 'Teoriene',
+    kort: 'Områdene med sannsynlighet i prosent',
+    merkelapp: 'beregnet',
+    forklaring:
+      'Hver sirkel er en teori om hvor kassen står. Prosenten er regnet ut fra hintene du har slått på i Teorier-fanen. Større tall og tykkere kant betyr mer sannsynlig.',
+    tegn: [
+      { stil: 'ring', farge: '#e11d48', tekst: 'Teori-område med prosent' },
+    ],
+    kilde: 'Teorier-fanen.',
+  },
+  {
+    id: 'innlandet',
+    navn: 'Innlandet fylke',
+    kort: 'Der fellesskapet leter nå',
+    merkelapp: 'tolkning',
+    forklaring: 'Grensen for Innlandet fylke. Fellesskapet er nå sikre på at kassen står her. Velg «Innlandet» i modellen for å vekte det.',
+    tegn: [{ stil: 'rute', farge: FARGE.innlandet, tekst: 'Innlandet fylke' }],
+    kilde: 'Fylkesgrenser fra Kartverket (forenklet).',
+  },
+  {
     id: 'kjoretid',
     navn: 'Kjøretid fra Oslo',
     kort: 'Hvor langt kommer man på ~7 t?',
     merkelapp: 'beregnet',
     forklaring:
-      'Faktisk kjøretid med bil fra Oslo sentrum til hver rute, beregnet langs veinettet. Grå ruter ligger mer enn 3 km fra nærmeste bilvei. OSRM regner ofte litt tregere enn Google, så se på tallene som ±30 min.',
+      'Faktisk kjøretid med bil fra Oslo sentrum til hver rute, beregnet langs veinettet. Grå ruter ligger mer enn 3 km fra nærmeste bilvei. OSRM regner ofte litt tregere enn Google, så se på tallene som ±30 min. Anja sov og vet ikke hvor lenge de kjørte, så bruk laget som en pekepinn.',
     tegn: [
       { stil: 'fyll', farge: FARGE.kjoretid[0], tekst: '4–5 t' },
       { stil: 'fyll', farge: FARGE.kjoretid[1], tekst: '5–6 t' },
@@ -113,13 +137,13 @@ export const LAG: Lag[] = [
   },
   {
     id: 'skydekke',
-    navn: 'Skydekke',
-    kort: 'Hun så klar himmel, her var det skyet',
+    navn: 'Blått på Windy (utelukket)',
+    kort: 'Hun så klar himmel, her var det skyer',
     merkelapp: 'tolkning',
     forklaring:
-      'Grovt tegnet ut fra Windy-skykartet. Anja skrev «KLAR HIMMEL» samme kveld, så områder med tett skydekke er mindre sannsynlige. Tidspunktet for skjermbildet er ukjent.',
-    tegn: [{ stil: 'rute', farge: FARGE.skydekke, tekst: 'Tett skydekke (mindre sannsynlig)' }],
-    kilde: 'Windy.com (ECMWF), skjermbilde fra fellesskapet.',
+      'Områdene som var blå på Windy-kartet samme periode som Anja skrev «KLAR HIMMEL». De er utelukket i sannsynlighetskartet. Tegnet for hånd fra skjermbildet, så kantene er omtrentlige (±10 km). Båndet fra Lillehammer mot Sverige er mest usikkert.',
+    tegn: [{ stil: 'rute', farge: FARGE.skydekke, tekst: 'Blått på Windy = utelukket' }],
+    kilde: 'Windy.com, skjermbilde fra fellesskapet.',
   },
   {
     id: 'skyanalyse',
