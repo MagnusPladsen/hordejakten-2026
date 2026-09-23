@@ -52,12 +52,34 @@ export default function App() {
   const [modus, setModus] = useState<Modus>('alt')
   const [aktiveBevis, setAktiveBevis] = useState<Set<string>>(() => standardBevis('alt'))
   const [bakgrunn, setBakgrunn] = useState<Bakgrunn>('gra')
-  const [fane, setFane] = useState<Fane>('teorier')
+  // Lenkbare seksjoner: ?fane=hint, og ?fane=hint&hint=<id> for ett bestemt hint
+  const FANER_OK: Fane[] = ['teorier', 'lag', 'hint', 'tavla', 'spill', 'analyse', 'stream']
+  const startParam = new URLSearchParams(window.location.search)
+  const [fane, setFane] = useState<Fane>(() => {
+    const f = startParam.get('fane') as Fane | null
+    if (f && FANER_OK.includes(f)) return f
+    return startParam.get('hint') ? 'hint' : 'teorier'
+  })
+  // Bredt sidepanel på desktop, til kartet tas i bruk
+  const [bred, setBred] = useState(true)
+  const [vinduBredde, setVinduBredde] = useState(() => window.innerWidth)
+  useEffect(() => {
+    const oppdater = () => setVinduBredde(window.innerWidth)
+    window.addEventListener('resize', oppdater)
+    return () => window.removeEventListener('resize', oppdater)
+  }, [])
+  const SMAL = 400
+  const panelBredde = desktop ? (bred ? Math.max(SMAL, Math.min(900, Math.round(vinduBredde * 0.58))) : SMAL) : 0
+  /** Kartet tas i bruk: smalt panel igjen */
+  const tilKartet = useCallback(() => setBred(false), [])
   const [hoyde, setHoyde] = useState<Hoyde>('halv')
   const [feltPos, setFeltPos] = useState<LatLon | null>(null)
   const [minPos, setMinPos] = useState<LatLon | null>(null)
   // Hint som skal åpnes i Hint-fanen (fra en markør på kartet). Telleren gjør at samme hint kan åpnes flere ganger.
-  const [apneHint, setApneHint] = useState<{ id: string; n: number } | null>(null)
+  const [apneHint, setApneHint] = useState<{ id: string; n: number } | null>(() => {
+    const h = startParam.get('hint')
+    return h ? { id: h, n: 1 } : null
+  })
 
   useEffect(() => {
     const base = import.meta.env.BASE_URL
@@ -87,6 +109,13 @@ export default function App() {
       .catch(() => {})
   }, [])
 
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    url.searchParams.set('fane', fane)
+    if (fane !== 'hint') url.searchParams.delete('hint')
+    window.history.replaceState(null, '', url)
+  }, [fane])
+
   const kontekst = useMemo<Kontekst>(
     () => ({
       flyPos: flyData ? posisjonerRundtPeking(flyData) : [],
@@ -111,6 +140,7 @@ export default function App() {
 
   const visPaKart = useCallback(
     (h: Hint) => {
+      tilKartet()
       for (const id of h.lag ?? []) veksle(id, true)
       const sted = [...STEDER, ...TEORIER].find((s) => s.id === h.fokus)
       if (!desktop) setHoyde('lav')
@@ -119,11 +149,12 @@ export default function App() {
         else if (h.lag?.[0] && h.lag[0] !== 'felt') kart.current?.visLag(h.lag[0])
       }, 60)
     },
-    [desktop, veksle],
+    [desktop, veksle, tilKartet],
   )
 
   const visTeori = useCallback(
     (t: Teori) => {
+      tilKartet()
       if (!t.senter) return
       veksle('teoriomrader', true)
       const forhand = FORHAND.find((f) => f.id === t.forhand)
@@ -134,18 +165,20 @@ export default function App() {
       if (!desktop) setHoyde('lav')
       kart.current?.flyTil(t.senter, 8)
     },
-    [desktop, veksle],
+    [desktop, veksle, tilKartet],
   )
 
   const gaTil = useCallback(
     (pos: LatLon, zoom?: number) => {
+      tilKartet()
       if (!desktop) setHoyde('lav')
       kart.current?.flyTil(pos, zoom)
     },
-    [desktop],
+    [desktop, tilKartet],
   )
 
   const finnMeg = () => {
+    tilKartet()
     if (!navigator.geolocation) return toast.error('Nettleseren støtter ikke posisjon')
     navigator.geolocation.getCurrentPosition(
       (p) => {
@@ -159,6 +192,7 @@ export default function App() {
   }
 
   const veksleFelt = () => {
+    tilKartet()
     const pa = !aktive.has('felt')
     veksle('felt', pa)
     if (pa) {
@@ -177,13 +211,15 @@ export default function App() {
     toast(BAKGRUNN_NAVN[neste])
   }
 
-  const venstre = desktop ? 'left-[27.5rem]' : 'left-3'
+  const venstre = desktop ? '' : 'left-3'
+  const venstreStil = desktop ? { left: panelBredde + 28, transition: 'left 300ms ease-out' } : undefined
 
   return (
     <div className="fixed inset-0 overflow-hidden">
       <Kart
         ref={kart}
         polstring={desktop ? { venstre: 420, bunn: 0 } : { venstre: 0, bunn: Math.round(window.innerHeight * 0.5) }}
+        onKartBruk={tilKartet}
         punkter={punkter}
         norge={norge}
         flyData={flyData}
@@ -207,7 +243,7 @@ export default function App() {
         minPos={minPos}
       />
 
-      <header className={cn('pointer-events-none fixed top-[calc(env(safe-area-inset-top)+0.75rem)] right-3 z-[1000] flex items-center justify-between gap-2', venstre)}>
+      <header style={venstreStil} className={cn('pointer-events-none fixed top-[calc(env(safe-area-inset-top)+0.75rem)] right-3 z-[1000] flex items-center justify-between gap-2', venstre)}>
         <div className="pointer-events-auto flex items-center gap-2.5 rounded-full border bg-white/95 py-1.5 pr-4 pl-1.5 shadow-lg shadow-black/5 backdrop-blur">
           <span className="grid size-8 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground">H</span>
           <div className="leading-tight">
@@ -229,6 +265,7 @@ export default function App() {
       <Legende
         aktive={aktive}
         kompakt={!desktop}
+        stil={venstreStil}
         className={cn('fixed top-[calc(env(safe-area-inset-top)+4.5rem)] z-[999]', venstre)}
         onMer={() => {
           setFane('lag')
@@ -265,6 +302,9 @@ export default function App() {
         hoyde={hoyde}
         onHoyde={setHoyde}
         desktop={desktop}
+        bred={bred}
+        onBred={setBred}
+        bredde={panelBredde}
         antallHint={HINT.length}
         innhold={{
           teorier: (
@@ -296,6 +336,7 @@ export default function App() {
               topp={topp}
               onGaTil={gaTil}
               onSjekkPunkt={(pos) => {
+                tilKartet()
                 if (!desktop) setHoyde('lav')
                 kart.current?.visPunkt(pos)
               }}
@@ -307,6 +348,7 @@ export default function App() {
           analyse: (
             <AnalysePanel
               onVisKommuner={() => {
+                tilKartet()
                 veksle('kommuner', true)
                 if (!desktop) setHoyde('lav')
                 // Zoom til der de «usikre» (åpne) kommunene ligger: Innlandet og Telemark

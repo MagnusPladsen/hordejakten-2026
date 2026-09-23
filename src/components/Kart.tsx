@@ -43,6 +43,8 @@ type Props = {
   onPopup: () => void
   /** Åpner et hint i Hint-fanen */
   onApneHint: (id: string) => void
+  /** Brukeren klikker eller drar i kartet */
+  onKartBruk: () => void
   minPos: LatLon | null
 }
 
@@ -93,7 +95,7 @@ function kjoretidFarge(p: Punkt): string | null {
   return i < 0 ? null : FARGE.kjoretid[i]
 }
 
-export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelukket, kommuner, kontekst, prosent, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, onPopup, onApneHint, minPos }: Props) {
+export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelukket, kommuner, kontekst, prosent, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, onPopup, onApneHint, onKartBruk, minPos }: Props) {
   const divRef = useRef<HTMLDivElement>(null)
   const kartRef = useRef<L.Map | null>(null)
   const flisRef = useRef<L.TileLayer | null>(null)
@@ -109,12 +111,14 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
   const onFeltFlyttRef = useRef(onFeltFlytt)
   const onPopupRef = useRef(onPopup)
   const onApneHintRef = useRef(onApneHint)
+  const onKartBrukRef = useRef(onKartBruk)
   const mobilRef = useRef(polstring.venstre === 0)
   useLayoutEffect(() => {
     siste.current = { punkter, resultat, vekter, kontekst }
     onFeltFlyttRef.current = onFeltFlytt
     onPopupRef.current = onPopup
     onApneHintRef.current = onApneHint
+    onKartBrukRef.current = onKartBruk
     mobilRef.current = polstring.venstre === 0
   })
 
@@ -358,6 +362,9 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
     }
     visInfoRef.current = visInfo
     kart.on('click', (e: L.LeafletMouseEvent) => visInfo(e.latlng))
+    // Klikk, dra eller zoom med musa i kartet: panelet går tilbake til smalt
+    kart.on('mousedown dragstart', () => onKartBrukRef.current())
+    kart.getContainer().addEventListener('wheel', () => onKartBrukRef.current(), { passive: true })
 
     return () => {
       kart.remove()

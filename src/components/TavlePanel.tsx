@@ -29,7 +29,7 @@ export function TavlePanel() {
           {nyesteForst ? 'Vis eldste først' : 'Vis nyeste først'}
         </button>
       </div>
-      <ol className="space-y-3">
+      <ol className="grid gap-3 @3xl:grid-cols-2">
         {liste.map((t) => (
           <li key={`${t.t}-${t.tekst}`} className="grid grid-cols-[5.5rem_1fr] items-start gap-3">
             <time className="pt-2 font-mono text-[12px] text-muted-foreground">{t.t}</time>

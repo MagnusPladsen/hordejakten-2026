@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Check, Crosshair, ExternalLink, MapPinned } from 'lucide-react'
+import { Check, Crosshair, ExternalLink, Link2, MapPinned } from 'lucide-react'
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
@@ -39,7 +39,22 @@ export function HintPanel({
   const liste = HINT.filter(FILTRE.find((f) => f.id === filter)!.test)
 
   // Hopp til et hint-kort og blink det kort, så man ser hvilket det var
+  const [kopiert, setKopiert] = useState<string | null>(null)
+  const kopierLenke = (id: string) => {
+    const url = new URL(window.location.href)
+    url.searchParams.set('fane', 'hint')
+    url.searchParams.set('hint', id)
+    navigator.clipboard?.writeText(url.toString()).catch(() => {})
+    window.history.replaceState(null, '', url)
+    setKopiert(id)
+    window.setTimeout(() => setKopiert((k) => (k === id ? null : k)), 1800)
+  }
+
   const gaTilHint = (id: string) => {
+    const url = new URL(window.location.href)
+    url.searchParams.set('fane', 'hint')
+    url.searchParams.set('hint', id)
+    window.history.replaceState(null, '', url)
     setFilter('alle')
     setMarkert(id)
     requestAnimationFrame(() => document.getElementById(`hint-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }))
@@ -102,7 +117,7 @@ export function HintPanel({
           </button>
         ))}
       </div>
-      <div className="space-y-2.5">
+      <div className="grid items-start gap-2.5 @3xl:grid-cols-2">
         {liste.map((h) => (
           <article
             key={h.id}
@@ -126,6 +141,9 @@ export function HintPanel({
                 {h.kilde}
               </span>
               <div className="flex gap-1.5">
+                <Button variant="ghost" size="sm" onClick={() => kopierLenke(h.id)} aria-label={`Kopier lenke til «${h.tittel}»`}>
+                  <Link2 /> {kopiert === h.id ? 'Kopiert!' : 'Lenke'}
+                </Button>
                 {h.lenke && (
                   <Button asChild variant="outline" size="sm">
                     <a href={h.lenke} target="_blank" rel="noopener">
