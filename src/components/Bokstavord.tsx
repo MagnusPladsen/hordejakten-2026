@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Crosshair } from 'lucide-react'
+import { Crosshair, Shuffle } from 'lucide-react'
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
@@ -19,7 +19,7 @@ type Sted = {
   restOrd: string[]
 }
 
-type Data = { kilde: string; alleTi: string[]; ord: string[]; lange: string[]; steder: Sted[] }
+type Data = { kilde: string; alleTi: string[]; ord: string[]; alleOrd: string[]; lange: string[]; steder: Sted[] }
 
 const STYRKE: Record<Lesning['styrke'], { tekst: string; klasse: string }> = {
   sterk: { tekst: 'Sterk', klasse: 'bg-emerald-600 text-white' },
@@ -63,6 +63,8 @@ export function Bokstavord({ onGaTil, lenker }: { onGaTil: (pos: LatLon, zoom?: 
         Bokstavene fra «Verv en venn»: <b className="font-mono">{BOKSTAVER.join(' ')}</b>. Ikke i riktig rekkefølge, og hver bokstav kan bare brukes én gang.
         Mellomrom er lov.
       </p>
+
+      {data && <Generator data={data} />}
 
       <div>
         <p className="text-[14.5px] font-semibold">Teorier</p>
@@ -180,4 +182,87 @@ export function Bokstavord({ onGaTil, lenker }: { onGaTil: (pos: LatLon, zoom?: 
       )}
     </div>
   )
+}
+
+type Modus = 'alle' | 'ord' | 'sted'
+
+/** Trykk for å få et nytt tilfeldig ord eller en setning av bokstavene */
+function Generator({ data }: { data: Data }) {
+  const [modus, setModus] = useState<Modus>('alle')
+  const [resultat, setResultat] = useState<{ tekst: string; rest: string; info?: string } | null>(null)
+  const [antall, setAntall] = useState(0)
+
+  const generer = (m: Modus = modus) => {
+    const tilfeldig = <T,>(liste: T[]) => liste[Math.floor(Math.random() * liste.length)]
+    if (m === 'alle') {
+      setResultat({ tekst: tilfeldig(data.alleTi), rest: '' })
+    } else if (m === 'ord') {
+      const ord = tilfeldig(data.alleOrd.filter((w) => w.length >= 3))
+      setResultat({ tekst: ord, rest: restBokstaver(ord) })
+    } else {
+      const s = tilfeldig(data.steder)
+      setResultat({ tekst: s.navn.toUpperCase(), rest: s.rest, info: s.teori ? `nær ${s.teori}` : undefined })
+    }
+    setAntall((a) => a + 1)
+  }
+
+  const valg: { id: Modus; navn: string }[] = [
+    { id: 'alle', navn: 'Alle 10 bokstaver' },
+    { id: 'ord', navn: 'Ett ord' },
+    { id: 'sted', navn: 'Stedsnavn' },
+  ]
+
+  return (
+    <section className="rounded-2xl border-2 border-primary/40 bg-white p-4">
+      <p className="text-[15px] font-semibold">Ordgenerator</p>
+      <p className="text-[13px] text-muted-foreground">Trykk for å få et nytt ord eller en setning laget av bokstavene.</p>
+      <div className="mt-3 grid grid-cols-3 gap-1 rounded-xl bg-slate-100 p-1" role="radiogroup" aria-label="Hva skal genereres?">
+        {valg.map((v) => (
+          <button
+            key={v.id}
+            type="button"
+            role="radio"
+            aria-checked={modus === v.id}
+            onClick={() => {
+              setModus(v.id)
+              generer(v.id)
+            }}
+            className={cn('min-h-11 rounded-lg px-1 text-[13px] font-semibold', modus === v.id ? 'bg-white shadow-sm' : 'text-slate-600')}
+          >
+            {v.navn}
+          </button>
+        ))}
+      </div>
+      <div className="mt-3 grid min-h-24 place-items-center rounded-xl bg-slate-900 px-3 py-4 text-center" aria-live="polite">
+        {resultat ? (
+          <div key={antall} className="animate-in fade-in zoom-in-95 duration-200">
+            <p className="font-mono text-[24px] leading-tight font-bold tracking-wider text-white">{resultat.tekst}</p>
+            {(resultat.rest || resultat.info) && (
+              <p className="mt-1.5 font-mono text-[13px] text-slate-300">
+                {resultat.info && <span>{resultat.info}</span>}
+                {resultat.info && resultat.rest && ' · '}
+                {resultat.rest && <span>Rest: {resultat.rest}</span>}
+              </p>
+            )}
+          </div>
+        ) : (
+          <p className="text-[14px] text-slate-400">Trykk på knappen under</p>
+        )}
+      </div>
+      <Button className="mt-3 h-12 w-full text-[15px]" onClick={() => generer()}>
+        <Shuffle /> Generer nytt ord
+      </Button>
+    </section>
+  )
+}
+
+const BOKSTAVSETT = 'NORHEIMSUD'.split('')
+
+function restBokstaver(ord: string) {
+  const igjen = [...BOKSTAVSETT]
+  for (const b of ord) {
+    const i = igjen.indexOf(b)
+    if (i >= 0) igjen.splice(i, 1)
+  }
+  return igjen.join(' ')
 }

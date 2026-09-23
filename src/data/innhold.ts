@@ -266,7 +266,7 @@ export const HINT: Hint[] = [
     kilde: 'Stream',
     dato: '23.09',
     tekst: 'Det har kommet en rev, et ekorn og en kråke inn i boksen. 23.09 ble det satt en rev inn i buret.',
-    betydning: 'Kan peke på «What does the fox say» (Ylvis) eller «Reven og kråka» (Alf Prøysen fra Ringsaker, nabo til Hamar og Løten). I visa er ostebiten det tredje elementet. Froland har et ekorn i kommunevåpenet.',
+    betydning: 'Rev, kråke og ekorn er alle med i Alf Prøysens «Sirkus Mikkelikski» (Mikkel Rev, Frøken Kråke og ekornet Nøtteliten). Det peker mot Prøysen og Rudshøgda i Ringsaker. Kan også være «What does the fox say» (Ylvis).',
     lag: ['steder', 'teorier'],
     fokus: 'proysen',
   },
@@ -383,6 +383,17 @@ export const HINT: Hint[] = [
     tekst: 'De fleste som leter peker nå mot Innlandet: flyet over Løten, klar himmel på Østlandet, furumo og tømmerdrift, og default.no sin topp-kandidat i Rena/Åmot. Fra chatten: «Det er null tvil, været, sola, skogen og alt.»',
     betydning: 'Innlandet er egen teori og eget kartlag. Velg «Innlandet» i modellen for å se de beste rutene der.',
     lag: ['innlandet'],
+  },
+  {
+    id: 'rudshogda',
+    tittel: 'Prøysen-teorien: Rudshøgda',
+    status: 'tolkning',
+    kilde: 'Fellesskapet + egne søk',
+    dato: '23.09',
+    tekst: 'Mange leter nå ved Rudshøgda i Ringsaker, der Alf Prøysen vokste opp. Sammenhenger: (1) Dyrene i boksen, rev, kråke og ekorn, er alle med i Prøysens «Sirkus Mikkelikski»: Mikkel Rev, Frøken Kråke og ekornet Nøtteliten. (2) Bak Prøysenstua står Prøysenstjerna, en 27 m høy stjerne laget etter Prøysens julevers om stjerna, og Anja sier hun liker å se stjernene om natta. (3) Flyet NOZ9EG gikk ca. 6–11 km fra Prøysenstua kl. 21:31. (4) Ringsaker er default.no sin kandidat nr. 5 (Brøttum). (5) Blandingsskog med gran og bjørk, ca. 2 t fra Oslo.',
+    betydning: 'Den tematisk sterkeste teorien: nesten alle dyre-hintene peker på Prøysen. Mot: da Anja pekte opp, var begge flyene ca. 30 km unna. Rudshøgda lå utenfor det som var klart på satellitt 23.09. Soloppgang ca. 07:00, akkurat på grensen. Prøysenstua er sjekket, men skogen rundt stjerna er det ikke.',
+    lag: ['teorier', 'steder'],
+    fokus: 'proysenstjerna',
   },
   {
     id: 'digeras',
@@ -526,7 +537,8 @@ export const STEDER: Sted[] = [
   { id: 'oslo', navn: 'Oslo (start)', pos: OSLO, type: 'start', info: 'Anja ble hentet her søndag 20.09 kl. 04:00.' },
   { id: 'horde', navn: 'Horde AS, 5008 Bergen', pos: [60.3896, 5.3297], type: 'hint', info: 'Koden 5008 er postnummeret til Horde AS (Lars Hilles gate 20A).' },
   { id: 'bjorneparken', navn: 'Bjørneparken, Flå (ca.)', pos: [60.426, 9.464], type: 'hint', info: 'Reklamefargene til Horde ligner Bjørneparken sine.' },
-  { id: 'proysen', navn: 'Prøysenhuset, Rudshøgda (ca., sjekket)', pos: [60.8903, 10.718], type: 'hint', info: 'Alf Prøysen skrev «Reven og kråka». Rev og kråke har vært i boksen. Prøysenstua er sjekket av en i chatten, uten funn.' },
+  { id: 'proysen', navn: 'Prøysenstua, Rudshøgda', pos: [60.912, 10.8076], type: 'hint', info: 'Alf Prøysens barndomshjem. Dyrene i boksen (rev, kråke, ekorn) er figurer fra Prøysens «Sirkus Mikkelikski». Én i chatten har sjekket stua, men skogen rundt er ikke sjekket.' },
+  { id: 'proysenstjerna', navn: 'Prøysenstjerna (ca.)', pos: [60.9115, 10.806], type: 'hint', info: '27 m høy stjerne i granskogen bak Prøysenstua, laget til Prøysen-jubileet i 2014 etter hans julevers om stjerna.' },
   { id: 'tokke', navn: '2023: Tokke (område)', pos: [59.444, 7.989], type: 'tidligere', info: 'Hordejakten 2023 ble funnet i Tokke i Telemark. Skog, bil og litt gange.' },
   { id: 'kongsberg', navn: '2024: Kongsberg-området', pos: [59.668, 9.65], type: 'tidligere', info: 'Hordejakten 2024 ble funnet i Kongsberg-området i Buskerud. Skog.' },
 ]
@@ -558,7 +570,7 @@ export const TEORIER: Sted[] = [
     navn: 'Tips: Tretopphyttene, Ringsaker',
     pos: [60.9748, 10.9167],
     type: 'teori',
-    info: 'Danseråsvegen 173, Brumunddal. Logoen er et ekorn. Ringsaker er også Prøysens kommune («Reven og kråka»). Ca. 2 t fra Oslo. NOZ56U var ca. 21 km unna (19° over horisonten) da Anja pekte opp.',
+    info: 'Danseråsvegen 173, Brumunddal. Logoen er et ekorn. Ringsaker er også Prøysens kommune (Sirkus Mikkelikski). Ca. 2 t fra Oslo. NOZ56U var ca. 21 km unna (19° over horisonten) da Anja pekte opp.',
   },
   {
     id: 'haslemoen',
@@ -700,6 +712,7 @@ export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: Lat
   { tekst: 'Digeråsen mellom Løten og Åmot', hvem: 'Flere sier det «er så klink her». Passer med lyden av flyet, ikke med pekingen.', fokus: 'digeras', hint: ['digeras', 'fly'] },
   { tekst: 'Løten og Elverum', hvem: 'Vår modell: der flyet var da Anja pekte rett opp.', pos: [60.87, 11.25], hint: ['fly'] },
   { tekst: 'Reven heter Benny', hvem: 'Bennyøy (Nome) ligger 3,4 km fra 118°-linja fra Bergen. Benningstad (Løten) er nær flyet. Trolig tilfeldig.', fokus: 'bennyoy', hint: ['benny', 'bergen118', 'dyr'] },
+  { tekst: 'Rudshøgda (Prøysen)', hvem: 'Mange leter her nå. Rev, kråke og ekorn er alle figurer i Prøysens «Sirkus Mikkelikski», og Prøysenstjerna står bak Prøysenstua.', fokus: 'proysenstjerna', hint: ['rudshogda', 'dyr', 'ekorn'] },
   { tekst: 'Rundt de to flysporene', hvem: '«Eneste stedene det er sol i Norge nå + eneste stedene det fløy fly over hodet hennes 21:29.» Løten–Elverum (NOZ56U) og Ringsaker (NOZ9EG).', pos: [61.0, 11.05], hint: ['fly', 'solidag'] },
   { tekst: 'Nittedalen', hvem: 'Nevnt i chatten. 37 min fra Oslo og langt fra flyene, så passer dårlig.', fokus: 'nittedalen' },
   { tekst: 'Tretopphyttene i Ringsaker', hvem: 'Sjekket: én i chatten har vært innom alle hyttene og Prøysenstua, uten funn. NOZ9EG gikk 3 km unna kl. 21:31.', fokus: 'tretopp', hint: ['tretopp', 'ekorn', 'dyr'] },
@@ -843,6 +856,12 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '23.09 kveld',
+    tittel: 'Mange leter nå ved Rudshøgda (Prøysen-teorien)',
+    tekst: 'Rev, kråke og ekorn er alle med i Prøysens «Sirkus Mikkelikski», og bak Prøysenstua står den 27 m høye Prøysenstjerna. Flyet NOZ9EG gikk ca. 6–11 km unna kl. 21:31. Se «Prøysen-teorien» under Hint.',
+    hint: 'rudshogda',
+  },
   {
     tid: '23.09 kl. 15:30',
     tittel: 'Ny Horde-video med nye tall og bokstaver på genseren',
