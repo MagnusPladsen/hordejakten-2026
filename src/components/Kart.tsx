@@ -2,7 +2,7 @@ import { useEffect, useImperativeHandle, useLayoutEffect, useRef, type Ref } fro
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-import { BERGEN, DEFAULTNO, FLY_PUNKT, HYTTER, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, STEDER, TAAKE, TEORIER, type Sted } from '@/data/innhold'
+import { BERGEN, DEFAULTNO, FLY_PUNKT, FLY_PUNKT2, HYTTER, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, STEDER, TAAKE, TEORIER, type Sted } from '@/data/innhold'
 import { FARGE, KJORETID_KLASSER, type LagId } from '@/data/lag'
 import { avstand, destinasjon, formaterTid, iPolygon, sektor, storsirkel, type LatLon } from '@/lib/geo'
 import { PEKETID_EKTE, posisjon, type FlyData } from '@/lib/fly'
@@ -358,7 +358,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
     if (!flyData || !g) return
     g.fly.clearLayers()
     for (const fly of flyData.fly) {
-      const hovedfly = fly.kallesignal === FLY_PUNKT.kallesignal
+      const hovedfly = fly.kallesignal === FLY_PUNKT.kallesignal || fly.kallesignal === FLY_PUNKT2.kallesignal
       const naa = posisjon(fly, PEKETID_EKTE)
       const lavt = (naa?.fot ?? fly.spor[0][3]) < 3000
       L.polyline(
@@ -376,7 +376,9 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
         L.circleMarker(naa.pos, { radius: hovedfly ? 6 : 3.5, color: '#fff', weight: 1.5, fillColor: FARGE.fly, fillOpacity: lavt ? 0.4 : 1 }).addTo(g.fly)
       }
     }
-    L.circle(FLY_PUNKT.pos, { radius: 10000, color: FARGE.fly, weight: 2, dashArray: '5 5', fillOpacity: 0.08, interactive: false }).addTo(g.fly)
+    for (const punkt of [FLY_PUNKT, FLY_PUNKT2]) {
+      L.circle(punkt.pos, { radius: 10000, color: FARGE.fly, weight: 2, dashArray: '5 5', fillOpacity: 0.08, interactive: false }).addTo(g.fly)
+    }
   }, [flyData])
 
   // Innlandet fylke

@@ -50,12 +50,12 @@ export const TEORIER_LISTE: Teori[] = [
   },
   {
     id: 'ringsaker',
-    navn: 'Ringsaker (Tretopphyttene)',
+    navn: 'Ringsaker (under NOZ9EG)',
     etikett: 'Ringsaker',
-    kort: 'Ekorn-logo og Prøysens kommune',
-    senter: [60.9748, 10.9167],
-    radiusKm: 15,
-    kjoretid: 2.0,
+    kort: 'Sjusjøen–Brumunddal, Tretopphyttene',
+    senter: [61.08, 10.89],
+    radiusKm: 20,
+    kjoretid: 2.4,
     prior: 1,
     farge: '#16a34a',
   },
@@ -232,11 +232,11 @@ export const BEVIS: Bevis[] = [
   },
   {
     id: 'fly',
-    tittel: 'Flyet NOZ56U rett over kl. 21:29',
+    tittel: 'Et fly rett over kl. 21:29 (NOZ56U eller NOZ9EG)',
     forklaring:
-      'Hun pekte nesten rett opp. Flyet var i ca. 24 000 fot, så kassen står trolig innen ca. 5 km fra sporet der flyet var da: mellom Løten og Elverum. Det kan ha vært et annet fly.',
+      'Hun pekte nesten rett opp. To fly var nær: NOZ56U over Løten og NOZ9EG over Ringsakfjellet. NOZ56U er beste treff hos default.no, så Løten teller litt mer.',
     standardPa: true,
-    faktor: tabell({ loten: 3, rena: 1.3, ringsaker: 1.2, solor: 0.7, gjovik: 0.8, roros: 0.7, valdres: 0.8, agder: 0.6, hardanger: 0.6, annet: 0.7 }),
+    faktor: tabell({ loten: 3, ringsaker: 2.5, rena: 1.3, solor: 0.7, gjovik: 0.8, roros: 0.7, valdres: 0.8, agder: 0.6, hardanger: 0.6, annet: 0.7 }),
   },
   {
     id: 'defaultno',
@@ -287,10 +287,10 @@ export const BEVIS: Bevis[] = [
   {
     id: 'folk_tretopp',
     kilde: 'folk',
-    tittel: 'Noen peker på Tretopphyttene',
-    forklaring: 'Ekorn-logoen til Tretopphyttene i Ringsaker.',
+    tittel: 'Flere mistenker Tretopphyttene',
+    forklaring: 'Ekorn-logoen, og NOZ9EG gikk 3 km unna kl. 21:31. Mange i chatten peker hit nå.',
     standardPa: true,
-    faktor: tabell({ ringsaker: 1.2 }),
+    faktor: tabell({ ringsaker: 1.3 }),
   },
   {
     id: 'folk_ingenhytte',
