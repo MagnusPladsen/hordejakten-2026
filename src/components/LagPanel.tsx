@@ -176,7 +176,7 @@ function BesteOmrader({ topp, onGaTil }: { topp: Punkt[]; onGaTil: (pos: LatLon,
         {(alle ? topp : topp.slice(0, 3)).map((p, i) => (
           <li key={`${p.lat},${p.lon}`}>
             <button type="button" className="flex w-full items-center gap-3 py-2.5 text-left" onClick={() => onGaTil([p.lat, p.lon], 10)}>
-              <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-rose-800 font-mono text-xs font-bold text-white">{i + 1}</span>
+              <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-red-800 font-mono text-xs font-bold text-white">{i + 1}</span>
               <span className="min-w-0 flex-1">
                 <Stedsnavn lat={p.lat} lon={p.lon} />
                 <span className="block text-[12px] text-muted-foreground">{p.sek == null ? 'Ukjent kjøretid' : `${formaterTid(p.sek)} fra Oslo`}</span>
@@ -287,7 +287,7 @@ function SjekkPunkt({ onSjekk }: { onSjekk: (pos: LatLon) => void }) {
           <Search />
         </Button>
       </div>
-      {feil && <p className="mt-2 text-xs font-medium text-rose-600">Fant ikke gyldige koordinater i Norge.</p>}
+      {feil && <p className="mt-2 text-xs font-medium text-red-600">Fant ikke gyldige koordinater i Norge.</p>}
     </form>
   )
 }

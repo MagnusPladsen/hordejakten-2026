@@ -113,7 +113,7 @@ export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis
                     {opp.length > 0 && ned.length > 0 && ' · '}
                     {ned.length > 0 && (
                       <>
-                        <span className="font-semibold text-rose-700">Mot:</span> {kortTittel(ned[0].b)}
+                        <span className="font-semibold text-red-700">Mot:</span> {kortTittel(ned[0].b)}
                       </>
                     )}
                   </p>
@@ -125,9 +125,9 @@ export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis
                   <ul className="space-y-1.5">
                     {[...opp, ...ned].map(({ b, f }) => (
                       <li key={b.id} className="flex items-start gap-2 text-[13.5px] leading-snug">
-                        {f > 1 ? <ArrowUp className="mt-0.5 size-3.5 shrink-0 text-emerald-600" /> : <ArrowDown className="mt-0.5 size-3.5 shrink-0 text-rose-600" />}
+                        {f > 1 ? <ArrowUp className="mt-0.5 size-3.5 shrink-0 text-emerald-600" /> : <ArrowDown className="mt-0.5 size-3.5 shrink-0 text-red-600" />}
                         <span className="min-w-0 flex-1">{b.tittel}</span>
-                        <span className={cn('shrink-0 font-mono text-[12px] font-semibold', f > 1 ? 'text-emerald-700' : 'text-rose-700')}>
+                        <span className={cn('shrink-0 font-mono text-[12px] font-semibold', f > 1 ? 'text-emerald-700' : 'text-red-700')}>
                           ×{f < 0.1 ? f.toFixed(2) : f.toFixed(1)}
                         </span>
                       </li>
@@ -241,7 +241,7 @@ function SisteNytt() {
   const eldre = alle ? resten : resten.slice(0, 3)
   if (!nyest) return null
   return (
-    <section className="overflow-hidden rounded-2xl bg-[#e5007e] text-white shadow-lg shadow-fuchsia-900/20" aria-labelledby="siste-nytt">
+    <section className="overflow-hidden rounded-2xl bg-[#dc2626] text-white shadow-lg shadow-red-900/20" aria-labelledby="siste-nytt">
       <div className="p-4">
         <div className="flex items-center gap-2">
           <span className="live-puls size-2 rounded-full bg-white" />
@@ -250,13 +250,13 @@ function SisteNytt() {
           </p>
         </div>
         <p className="mt-2 text-[17px] leading-snug font-semibold">{nyest.tittel}</p>
-        <p className="mt-1.5 text-[14.5px] leading-relaxed text-fuchsia-50">{nyest.tekst}</p>
+        <p className="mt-1.5 text-[14.5px] leading-relaxed text-red-50">{nyest.tekst}</p>
         {nyest.lenke && (
           <a
             href={nyest.lenke.url}
             target="_blank"
             rel="noopener"
-            className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-4 text-[14.5px] font-semibold text-[#9d0056]"
+            className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-4 text-[14.5px] font-semibold text-[#991b1b]"
           >
             {nyest.lenke.tekst} <ExternalLink className="size-4" />
           </a>
@@ -266,7 +266,7 @@ function SisteNytt() {
         <ul className="divide-y divide-white/20 border-t border-white/20 bg-black/10">
           {eldre.map((n) => (
             <li key={n.tittel} className="px-4 py-2.5 text-[13.5px] leading-snug">
-              <span className="font-semibold">{n.tittel}.</span> <span className="text-fuchsia-100">{n.tekst}</span>
+              <span className="font-semibold">{n.tittel}.</span> <span className="text-red-100">{n.tekst}</span>
             </li>
           ))}
           {resten.length > 3 && (

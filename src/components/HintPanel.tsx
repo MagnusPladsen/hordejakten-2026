@@ -21,7 +21,7 @@ const STATUSKANT: Record<Hint['status'], string> = {
   bekreftet: 'border-l-sky-400',
   tolkning: 'border-l-amber-400',
   usikker: 'border-l-slate-300',
-  apen: 'border-l-fuchsia-400',
+  apen: 'border-l-red-400',
 }
 
 export function HintPanel({
@@ -232,7 +232,7 @@ function Anagram() {
       </div>
       <Input className="mt-3 bg-white font-mono uppercase" placeholder="Prøv et ord, f.eks. NORHEIMSUND" value={ord} onChange={(e) => setOrd(e.target.value)} />
       {lengde > 0 && (
-        <p className={cn('mt-2 text-xs font-medium', mangler.length ? 'text-rose-600' : 'text-emerald-700')}>
+        <p className={cn('mt-2 text-xs font-medium', mangler.length ? 'text-red-600' : 'text-emerald-700')}>
           {mangler.length
             ? `Mangler: ${mangler.join(' ')} (kan komme i senere bokstaver)`
             : lengde === BOKSTAVER.length

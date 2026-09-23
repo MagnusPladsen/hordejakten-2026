@@ -21,7 +21,7 @@ export const STATUS: Record<Status, { tekst: string; klasse: string }> = {
   bekreftet: { tekst: 'Bekreftet', klasse: 'bg-sky-50 text-sky-700 ring-sky-200' },
   tolkning: { tekst: 'Tolkning', klasse: 'bg-amber-50 text-amber-800 ring-amber-200' },
   usikker: { tekst: 'Usikker', klasse: 'bg-slate-100 text-slate-600 ring-slate-200' },
-  apen: { tekst: 'Uløst', klasse: 'bg-fuchsia-50 text-fuchsia-700 ring-fuchsia-200' },
+  apen: { tekst: 'Uløst', klasse: 'bg-red-50 text-red-700 ring-red-200' },
 }
 
 export type Hint = {
@@ -191,6 +191,15 @@ export const HINT: Hint[] = [
     tekst: 'default.no sin nyeste analyse: klare celler i kveld er Finnskogen (8,5 °C), Koppang (8,2 °C), Trysil (6,1 °C) og halvskyet Meråker. «Sett + hørt fly»-testen deres beholder bare ca. 10 % av landet: vestsiden av Østerdalen (Elverum–Rena–Koppang under NOZ56U/NOZ9EG), Røros–Gauldal–Meråker-korridoren og Hallingdal.',
     betydning: 'Peker mot vestre Østerdalen (Løten–Elverum–Rena–Koppang), som passer med begge flyene, klar himmel og furumo. Deres nr. 1 er nå Løten/Elverum-skogen, nr. 2 Rena–Åsta.',
     lag: ['defaultno', 'fly'],
+  },
+  {
+    id: 'skiltborte',
+    tittel: '«Skiltet er borte, vet ikke hvor» (19:12)',
+    status: 'bekreftet',
+    kilde: 'Tavla',
+    dato: '23.09',
+    tekst: 'Anja skrev kl. 19:12: «SKILTET ER BORTE · VET IKKE HVOR». Horde-skiltet som sto foran kassen og pekte 118–120°, er fjernet.',
+    betydning: 'Horde fjernet skiltet samme kveld som fellesskapet begynte å bruke retningen det pekte i. Det kan tyde på at skiltet ga for mye bort. Retningen vi har registrert (118–120°) gjelder fortsatt: den er målt før skiltet ble tatt.',
   },
   {
     id: 'litefly',
@@ -373,7 +382,7 @@ export const HINT: Hint[] = [
     kilde: 'Stream',
     dato: '23.09',
     tekst: 'Foran kassen står et «Horde»-skilt båret av to hender. Det peker mot venstre i bildet, og Anja har bekreftet at det peker ca. 118° øst-sørøst.',
-    betydning: 'Skiltet står vest-nordvest for kassen og peker mot den, så det viser veien inn. Håndsymbolene er ikke løst, og hendene ser ut til å ha endret stilling i løpet av 23.09, så de kan være et hint som oppdateres. To teorier fra Discord: fingrene er romertall (den første viser VII = 7), eller binærtall der hver finger opp er 1. Begge kan gi sifre til en kode.',
+    betydning: 'Skiltet står vest-nordvest for kassen og peker mot den, så det viser veien inn. Håndsymbolene er ikke løst, og hendene ser ut til å ha endret stilling i løpet av 23.09, så de kan være et hint som oppdateres. To teorier fra Discord: fingrene er romertall (den første viser VII = 7), eller binærtall der hver finger opp er 1. Begge kan gi sifre til en kode. Skiltet ble fjernet kl. 19:12 den 23.09.',
   },
   {
     id: 'bjorneparken',
@@ -665,6 +674,11 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     t: '23.09 19:09',
     tekst: 'LITE MED FLY HER · SIKKERT MED VILT (siste ord litt utydelig)',
     bilder: [{ src: 'img/tavle-1909-fly-vilt.jpg', alt: 'Tavla kl. 19:09: LITE MED FLY HER' }],
+  },
+  {
+    t: '23.09 19:12',
+    tekst: 'SKILTET ER BORTE · VET IKKE HVOR',
+    bilder: [{ src: 'img/tavle-1912-skilt-borte.jpg', alt: 'Tavla kl. 19:12: SKILTET ER BORTE, VET IKKE HVOR' }],
   },
 ]
 
@@ -1009,6 +1023,12 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '23.09 kl. 19:12',
+    tittel: 'Horde-skiltet er fjernet',
+    tekst: 'Anja skrev «SKILTET ER BORTE, VET IKKE HVOR». Skiltet som pekte 118–120° er tatt bort. Retningen vi målte før gjelder fortsatt.',
+    hint: 'skiltborte',
+  },
   {
     tid: '23.09 kl. 19:09',
     tittel: 'Ny tavle: «Lite med fly her · sikkert med vilt»',
