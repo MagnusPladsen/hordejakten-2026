@@ -391,7 +391,7 @@ export const HINT: Hint[] = [
     kilde: 'Stream',
     dato: '23.09',
     tekst: 'Genseren til Anja viser nå «+5».',
-    betydning: 'Uløst. Mulige lesninger: samme Cæsar-forskyvning (+5) som på buksa, brukt på et nytt hint. Eller legg 5 til en kode: 5008 + 5 = 5013, eller +5 på hvert siffer = 0553. Eller temperaturen ute, ca. +5 °C.',
+    betydning: 'Uløst. Mulige lesninger: samme Cæsar-forskyvning (+5) som på buksa, brukt på et nytt hint. Eller legg 5 til en kode: 5008 + 5 = 5013, eller +5 på hvert siffer = 0553. Eller temperaturen ute, ca. +5 °C. Prøvd på genser-tallene (7 10 5 12 4 6 18 9): +5 gir LOJQIKWN og −5 gir BEZGYAMD, så det gir ingen mening der.',
   },
   {
     id: 'koder',
