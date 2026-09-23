@@ -318,9 +318,9 @@ export const BEVIS: Bevis[] = [
   {
     id: 'ekorn',
     tittel: 'Ekornet (Froland, Tretopphyttene)',
-    forklaring: 'Froland har et ekorn i kommunevåpenet (bekreftet). Tretopphyttene i Ringsaker har et grønt ekorn som logo.',
+    forklaring: 'Froland har et ekorn i kommunevåpenet, og Tretopphyttene har et ekorn som logo. Men ekorn finnes overalt, så det kan like gjerne bare bety at det er ekorn der kassen står. Teller lite.',
     standardPa: true,
-    faktor: tabell({ agder: 1.3, ringsaker: 1.4 }),
+    faktor: tabell({ agder: 1.1, ringsaker: 1.1 }),
   },
   {
     id: 'bjorneparken',
