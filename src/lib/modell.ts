@@ -140,7 +140,9 @@ export function beregn(punkter: Punkt[], v: Vekter, ktx: Kontekst): Resultat {
   for (let i = 0; i < n; i++) s[i] = poeng(faktorer(punkter[i], v, ktx), v)
   const orden = Array.from({ length: n }, (_, i) => i).sort((a, b) => s[b] - s[a])
   const andel = new Float64Array(n)
-  orden.forEach((idx, r) => (andel[idx] = r / n))
+  // Ruter som er så godt som utelukket skal aldri havne i en toppklasse, selv om mange har samme poeng
+  const terskel = (orden.length ? s[orden[0]] : 0) * 0.01
+  orden.forEach((idx, r) => (andel[idx] = s[idx] > terskel ? r / n : 1))
   return { poeng: s, andel }
 }
 
