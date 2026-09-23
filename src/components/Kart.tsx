@@ -2,7 +2,7 @@ import { useEffect, useImperativeHandle, useLayoutEffect, useRef, type Ref } fro
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-import { BERGEN, DEFAULTNO, FLY_PUNKT, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, STEDER, TAAKE, TEORIER, type Sted } from '@/data/innhold'
+import { BERGEN, DEFAULTNO, FLY_PUNKT, HYTTER, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, STEDER, TAAKE, TEORIER, type Sted } from '@/data/innhold'
 import { FARGE, KJORETID_KLASSER, type LagId } from '@/data/lag'
 import { avstand, destinasjon, formaterTid, iPolygon, sektor, storsirkel, type LatLon } from '@/lib/geo'
 import { PEKETID_EKTE, posisjon, type FlyData } from '@/lib/fly'
@@ -153,7 +153,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
     tone()
 
     const g = Object.fromEntries(
-      (['modell', 'teoriomrader', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'solidag', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
+      (['modell', 'teoriomrader', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'solidag', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'hytter', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
         id,
         L.featureGroup(),
       ]),
@@ -176,6 +176,19 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
     L.polyline(storsirkel(BERGEN, destinasjon(BERGEN, 118, 320), 24), { color: '#0891b2', weight: 3, bubblingMouseEvents: false })
       .bindPopup(popupTekst('118° fra Horde AS i Bergen', 'Teori: skiltet peker 118° fra Horde sitt kontor (5008). Linja går forbi Odda og gjennom Telemark til Kragerø.'))
       .addTo(g.retning)
+    // Samme linje korrigert for misvisning: kompass viser ca. 4° for lite på Østlandet
+    L.polyline(storsirkel(BERGEN, destinasjon(BERGEN, 123, 320), 24), { color: '#0891b2', weight: 2.5, dashArray: '6 6', bubblingMouseEvents: false })
+      .bindPopup(popupTekst('123° fra Bergen (korrigert)', 'Skiltets 118–120° korrigert for misvisning (ca. +4°). Går litt lenger sør gjennom Telemark.'))
+      .addTo(g.retning)
+
+    // Tretopphyttene
+    for (const h of HYTTER) {
+      L.marker(h.pos, { icon: pin(h.helePerioden ? 'pin-hytte hel' : 'pin-hytte', '', h.helePerioden ? 20 : 16) })
+        .bindTooltip(h.navn, { direction: 'right', offset: [10, 0], className: 'etikett' })
+        .bindPopup(popupTekst(`${h.navn} (${h.sted})`, `${h.opptatt}. En av Tretopphyttene i Ringsaker.`))
+        .addTo(g.hytter)
+    }
+
     for (const km of [100, 200, 300, 400, 500]) {
       L.marker(destinasjon(OSLO, 298, km), {
         icon: L.divIcon({ className: '', html: `<div class="km-merke">${km} km</div>`, iconSize: [52, 20], iconAnchor: [-6, 10] }),
@@ -435,15 +448,15 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
       return
     }
     const tegn = (pos: LatLon) => ({
-      sektor: sektor(pos, 298, 20, 0.3, 0.9),
-      pil: [pos, destinasjon(pos, 298, 0.6)] as LatLon[],
+      sektor: sektor(pos, 120, 20, 0.3, 0.9),
+      pil: [pos, destinasjon(pos, 120, 0.6)] as LatLon[],
     })
     const { sektor: s, pil } = tegn(feltPos)
     if (!feltRef.current) {
       const sek = L.polygon(s, { color: FARGE.felt, weight: 2, fillOpacity: 0.22 }).addTo(g.felt)
       const p = L.polyline(pil, { color: FARGE.felt, weight: 2, dashArray: '4 6' }).addTo(g.felt)
       const m = L.marker(feltPos, { draggable: true, icon: pin('pin-felt', 'P', 30), zIndexOffset: 1000 })
-        .bindPopup(popupTekst('Parkering', 'Dra meg til en parkering eller skogsbilvei. Grønt felt = der kassen bør ligge (298° ±20°, 300–900 m, oppover).'))
+        .bindPopup(popupTekst('Parkering', 'Dra meg til en parkering eller skogsbilvei. Grønt felt = der kassen bør ligge (ca. 120° ±20°, 300–900 m, oppover).'))
         .addTo(g.felt)
       m.on('drag', () => {
         const ll = m.getLatLng()

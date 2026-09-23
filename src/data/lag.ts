@@ -14,6 +14,7 @@ export type LagId =
   | 'teorier'
   | 'fly'
   | 'felt'
+  | 'hytter'
   | 'utenfor'
 
 export type Merkelapp = 'fakta' | 'beregnet' | 'tolkning' | 'teori'
@@ -49,6 +50,7 @@ export const FARGE = {
   teorier: '#d97706',
   fly: '#0284c7',
   felt: '#16a34a',
+  hytter: '#92400e',
   utenfor: '#0f172a',
 }
 
@@ -135,6 +137,7 @@ export const LAG: Lag[] = [
       { stil: 'stiplet', farge: FARGE.retning, tekst: '118° (sørøst) fra Oslo' },
       { stil: 'rute', farge: FARGE.retning, tekst: '±5° usikkerhet' },
       { stil: 'linje', farge: '#0891b2', tekst: '118° fra Horde AS i Bergen' },
+      { stil: 'stiplet', farge: '#0891b2', tekst: 'Samme linje korrigert for misvisning (ca. 123°)' },
     ],
     kilde: 'Tavla («ØST CA 118 · RETNING SKILT»).',
   },
@@ -230,12 +233,24 @@ export const LAG: Lag[] = [
     kort: 'For deg som leter i felt',
     merkelapp: 'tolkning',
     forklaring:
-      'Plasser markøren på en parkering eller skogsbilvei. Skiltet ved kassen peker 118°. Hvis det peker mot veien inn, ligger kassen mot 298° (±20°) fra bilen, 300–900 m unna, oppover. Dra markøren for å flytte den.',
+      'Plasser markøren på en parkering eller skogsbilvei. Skiltet står vest-nordvest for kassen og peker 118–120° mot den. Kommer du fra bilen, ligger kassen altså mot ca. 120° (±20°), 300–900 m unna, oppover. Dra markøren for å flytte den.',
     tegn: [
       { stil: 'rute', farge: FARGE.felt, tekst: 'Søkesektor (300–900 m)' },
       { stil: 'prikk', farge: FARGE.felt, tekst: 'Parkering (dra meg)' },
     ],
     kilde: 'Tavla («ØST CA 118 · RETNING SKILT», 5–10 min gange).',
+  },
+  {
+    id: 'hytter',
+    navn: 'Utleide hytter (Tretopphyttene)',
+    kort: 'Kan teamet bo her?',
+    merkelapp: 'teori',
+    forklaring: 'De 8 hyttene til Tretopphyttene i Ringsaker. Mørk nål = opptatt hele jakten (Bjørkhytta). Lys nål = delvis opptatt 23.–27.09. Ikke bekreftet at de har noe med jakten å gjøre.',
+    tegn: [
+      { stil: 'prikk', farge: FARGE.hytter, tekst: 'Opptatt hele perioden' },
+      { stil: 'prikk', farge: '#d6a57a', tekst: 'Delvis opptatt' },
+    ],
+    kilde: 'tretopphytter.no, bookingkalender 23.09.',
   },
   {
     id: 'utenfor',
@@ -255,6 +270,6 @@ export const GRUPPER: { navn: string; forklaring: string; ider: LagId[] }[] = [
   { navn: 'Hovedkart', forklaring: 'Hvor kassen mest sannsynlig står.', ider: ['modell', 'teoriomrader'] },
   { navn: 'Vær', forklaring: 'Anja har hatt klar himmel og sol. Her var det ikke det.', ider: ['skydekke', 'solidag'] },
   { navn: 'Fly, retning og kjøretid', forklaring: 'Flyet hun pekte på, 118°-linjene og hvor langt man kommer fra Oslo.', ider: ['fly', 'retning', 'kjoretid'] },
-  { navn: 'Steder og teorier', forklaring: 'Stedene hintene og folk i chatten peker på.', ider: ['teorier', 'steder', 'defaultno', 'innlandet', 'skyanalyse'] },
+  { navn: 'Steder og teorier', forklaring: 'Stedene hintene og folk i chatten peker på.', ider: ['teorier', 'hytter', 'steder', 'defaultno', 'innlandet', 'skyanalyse'] },
   { navn: 'Annet', forklaring: 'Verktøy og bakgrunn.', ider: ['felt', 'utenfor'] },
 ]

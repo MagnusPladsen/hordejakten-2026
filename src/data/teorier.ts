@@ -143,6 +143,8 @@ export const TEORIER_LISTE: Teori[] = [
 
 export type Bevis = {
   id: string
+  /** 'folk' = det folk i chatten og på Discord sier, ikke noe vi har sett selv. Teller bare i «Alt vi har». */
+  kilde?: 'folk'
   tittel: string
   forklaring: string
   /** Av som standard for tolkninger mange er uenige i */
@@ -204,6 +206,24 @@ export const BEVIS: Bevis[] = [
     faktor: (t) => (t.id === 'annet' ? 0.5 : 0.2 + 1.8 * andelInnenfor(t, SOL_I_DAG)),
   },
   {
+    // Soloppgang 22.09 (NOAA-formel, flat horisont): Solør 06:55, Røros 06:57, Løten/Rena 06:58, Ringsaker 06:59,
+    // Gjøvik 07:00, Valdres 07:06, Agder 07:08, Hardanger 07:18
+    id: 'soloppgang',
+    tittel: 'Sola var oppe før kl. 07 (Anja)',
+    forklaring: 'Bare mulig øst for ca. 11° øst disse dagene. I skog kommer sola enda senere, så østligste steder passer best.',
+    standardPa: true,
+    faktor: tabell({ solor: 1.3, roros: 1.15, loten: 1.1, rena: 1.1, ringsaker: 1.0, gjovik: 0.9, valdres: 0.5, agder: 0.4, hardanger: 0.2, annet: 0.7 }),
+  },
+  {
+    // Sola rett i sør 13:02–13:08. Beregnet soltid-middag: Solør 13:05, Løten 13:07, Rena/Røros 13:08,
+    // Ringsaker 13:09, Gjøvik 13:10, Valdres 13:16, Agder 13:17, Hardanger 13:28
+    id: 'solmiddag',
+    tittel: 'Sola i sør kl. 13:02–13:08 (lengdegrad 11–12° øst)',
+    forklaring: 'Solvinkelen kl. 13:20 gir lengdegraden. Bygger på sollyset i bildet, som kan være falskt.',
+    standardPa: true,
+    faktor: tabell({ solor: 1.3, loten: 1.2, rena: 1.2, roros: 1.2, ringsaker: 1.1, gjovik: 1.0, valdres: 0.5, agder: 0.4, hardanger: 0.3, annet: 0.7 }),
+  },
+  {
     id: 'bokstaver',
     tittel: 'Vervebokstavene = NORHEIMSUND?',
     forklaring: 'Bokstavene mangler én N for å bli NORHEIMSUND, mens HORDE MINUS går opp uten rest. Derfor teller det bare litt.',
@@ -234,17 +254,59 @@ export const BEVIS: Bevis[] = [
   },
   {
     id: 'konsensus',
-    tittel: 'Fellesskapet er sikre på Innlandet',
-    forklaring: 'Bygger mest på de samme hintene som over (fly, default.no, terreng), så den teller lite for å unngå dobbelttelling.',
+    kilde: 'folk',
+    tittel: 'Nesten alle i chatten er sikre på Innlandet',
+    forklaring: '«Det er null tvil, været, sola, skogen og alt.» Bygger mest på de samme hintene som over, så den teller lite for å unngå dobbelttelling.',
     standardPa: true,
     faktor: tabell({ loten: 1.2, rena: 1.2, ringsaker: 1.2, solor: 1.2, gjovik: 1.2, roros: 1.1, valdres: 1.1 }),
   },
   {
     id: 'gjovikvaer',
+    kilde: 'folk',
     tittel: 'Vær og sol passer i Gjøvik',
     forklaring: 'Noen i fellesskapet mener vær og solgang på streamen passer med Gjøvik. Ikke dokumentert, så det teller lite.',
     standardPa: true,
     faktor: tabell({ gjovik: 1.5 }),
+  },
+  {
+    id: 'folk_digeras',
+    kilde: 'folk',
+    tittel: 'Flere tipper Digeråsen (Løten/Åmot)',
+    forklaring: 'Flere i chatten mener Digeråsen «er så klink». Ligger i Rena/Åmot-området, 34 km fra Løten-sirkelen.',
+    standardPa: true,
+    faktor: tabell({ rena: 1.4, loten: 1.1 }),
+  },
+  {
+    id: 'folk_flisa',
+    kilde: 'folk',
+    tittel: 'Én tipper Flisa og Haslemoen',
+    forklaring: '«Nær Rena, men ikke helt. Kanskje mer i området Flisa?»',
+    standardPa: true,
+    faktor: tabell({ solor: 1.2 }),
+  },
+  {
+    id: 'folk_tretopp',
+    kilde: 'folk',
+    tittel: 'Noen peker på Tretopphyttene',
+    forklaring: 'Ekorn-logoen til Tretopphyttene i Ringsaker.',
+    standardPa: true,
+    faktor: tabell({ ringsaker: 1.2 }),
+  },
+  {
+    id: 'folk_ingenhytte',
+    kilde: 'folk',
+    tittel: 'Horde unngår hytter i år',
+    forklaring: 'Folk fant bookingene sist, og Anja var et sted uten vinduer og wifi. Trekker ned Tretopphytte-teorien i Ringsaker.',
+    standardPa: true,
+    faktor: tabell({ ringsaker: 0.8 }),
+  },
+  {
+    id: 'folk_benny',
+    kilde: 'folk',
+    tittel: '«Reven heter Benny» (Benningstad i Løten)',
+    forklaring: 'Gården Benningstad i Løten ligner navnet. Trolig tilfeldig, så det teller lite.',
+    standardPa: true,
+    faktor: tabell({ loten: 1.05 }),
   },
   {
     id: 'proysen',
@@ -289,6 +351,13 @@ export const BEVIS: Bevis[] = [
     faktor: tabell({ valdres: 1.8 }),
   },
 ]
+
+export type Modus = 'hint' | 'alt'
+
+/** Hintene som er på som standard i hver modus */
+export function standardBevis(modus: Modus): Set<string> {
+  return new Set(BEVIS.filter((b) => b.standardPa && (modus === 'alt' || b.kilde !== 'folk')).map((b) => b.id))
+}
 
 /** Prosent per teori for de valgte hintene */
 export function sannsynligheter(aktive: Set<string>): Record<TeoriId, number> {
