@@ -191,3 +191,12 @@
 }
 .teori-merke b { display: block; font-family: var(--font-mono); font-size: 12.5px; color: var(--f); }
 .teori-merke span { display: block; font-size: 9.5px; font-weight: 600; color: #334155; }
+
+/* Synlig fokus for tastatur, og mindre bevegelse for dem som ber om det */
+:where(button, a, [role='button'], [role='tab'], [role='radio'], summary, input):focus-visible {
+  outline: 2.5px solid oklch(0.646 0.198 41.1);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}

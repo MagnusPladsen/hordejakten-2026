@@ -51,15 +51,15 @@ export function StreamPanel() {
         {FAKTA.map((f) => (
           <div key={f.tekst} className="rounded-2xl border bg-card p-3">
             <p className="font-mono text-base font-semibold text-primary">{f.verdi}</p>
-            <p className="text-xs text-muted-foreground">{f.tekst}</p>
+            <p className="text-[13px] text-muted-foreground">{f.tekst}</p>
           </div>
         ))}
       </div>
-      <div className="rounded-2xl border bg-amber-50/70 p-4 text-[13px] leading-relaxed text-amber-900">
+      <div className="rounded-2xl border bg-amber-50/70 p-4 text-[14.5px] leading-relaxed text-amber-900">
         <p className="font-semibold">Jaktvett</p>
         <p className="mt-1">Kassen står ikke i farlig terreng. Ta trygge veivalg, respekter privat eiendom og vær grei mot Anja og andre som leter.</p>
       </div>
-      <p className="text-xs text-muted-foreground">
+      <p className="text-[13px] text-muted-foreground">
         Mer data: <a className="font-semibold text-primary" href="https://default.no" target="_blank" rel="noopener">default.no</a> ·{' '}
         <a className="font-semibold text-primary" href="https://horde.no/gjeldfri/hordejakten" target="_blank" rel="noopener">horde.no</a>
       </p>

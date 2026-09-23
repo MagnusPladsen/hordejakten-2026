@@ -6,18 +6,20 @@ import { Tegnrute } from '@/components/Tegnrute'
 import { cn } from '@/lib/utils'
 
 /** Flytende «Hva ser jeg?»-boks med tegnforklaring for lagene som er på */
-export function Legende({ aktive, onMer, className }: { aktive: Set<LagId>; onMer: () => void; className?: string }) {
+export function Legende({ aktive, onMer, kompakt, className }: { aktive: Set<LagId>; onMer: () => void; kompakt?: boolean; className?: string }) {
   const [apen, setApen] = useState(false)
   const synlige = LAG.filter((l) => aktive.has(l.id) && l.id !== 'utenfor')
 
   return (
     <div className={cn('w-[min(60vw,15.5rem)] rounded-2xl border bg-white/95 shadow-lg shadow-black/5 backdrop-blur', className)}>
-      <button type="button" onClick={() => setApen((a) => !a)} className="flex w-full items-center justify-between gap-2 px-3 pt-2.5 pb-2" aria-expanded={apen}>
-        <span className="text-[10px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">Hva ser jeg?</span>
+      <button type="button" onClick={() => setApen((a) => !a)} className="flex min-h-11 w-full items-center justify-between gap-2 px-3" aria-expanded={apen}>
+        <span className="text-[12px] font-semibold tracking-[0.1em] text-slate-600 uppercase">
+          Hva ser jeg?{kompakt && !apen && synlige.length > 0 && <span className="ml-1 text-primary">({synlige.length})</span>}
+        </span>
         <ChevronDown className={cn('size-4 text-muted-foreground transition-transform', apen && 'rotate-180')} />
       </button>
-      <div className="max-h-[40vh] overflow-y-auto px-3 pb-3">
-        {synlige.length === 0 && <p className="text-xs text-muted-foreground">Ingen kartlag er på.</p>}
+      <div className={cn('max-h-[40vh] overflow-y-auto px-3', kompakt && !apen ? 'hidden' : 'pb-3')}>
+        {synlige.length === 0 && <p className="text-[13px] text-muted-foreground">Ingen kartlag er på.</p>}
         {!apen && (
           <ul className="space-y-1.5">
             {synlige.map((l) => (
@@ -35,7 +37,7 @@ export function Legende({ aktive, onMer, className }: { aktive: Set<LagId>; onMe
                 <p className="text-xs font-semibold">{l.navn}</p>
                 <ul className="mt-1 space-y-1">
                   {l.tegn.map((t) => (
-                    <li key={t.tekst} className="flex items-center gap-2 text-[11.5px] leading-tight text-slate-600">
+                    <li key={t.tekst} className="flex items-center gap-2 text-[12px] leading-tight text-slate-600">
                       <Tegnrute tegn={t} />
                       {t.tekst}
                     </li>
@@ -43,7 +45,7 @@ export function Legende({ aktive, onMer, className }: { aktive: Set<LagId>; onMe
                 </ul>
               </div>
             ))}
-            <button type="button" onClick={onMer} className="text-xs font-semibold text-primary">
+            <button type="button" onClick={onMer} className="min-h-11 text-[14px] font-semibold text-primary">
               Mer forklaring →
             </button>
           </div>

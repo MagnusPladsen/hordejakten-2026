@@ -47,17 +47,17 @@ export function HintPanel({ onVisPaKart, onGaTil }: { onVisPaKart: (h: Hint) => 
         </p>
         <div className="mt-2.5 flex flex-wrap gap-1.5">
           {(Object.keys(STATUS) as Hint['status'][]).map((st) => (
-            <span key={st} className={cn('rounded-md px-1.5 py-0.5 text-[10.5px] font-semibold ring-1', STATUS[st].klasse)}>
+            <span key={st} className={cn('rounded-md px-1.5 py-0.5 text-[11px] font-semibold ring-1', STATUS[st].klasse)}>
               {STATUS[st].tekst}
             </span>
           ))}
         </div>
-        <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+        <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
           Løst og Bekreftet er sikre. Tolkning er noens forklaring. Usikker og Uløst er rykter eller ting vi ikke har knekt ennå.
         </p>
       </div>
       <Oppsummering onGaTil={onGaTil} onHint={gaTilHint} />
-      <p className="pt-2 text-[11px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">Alle hint</p>
+      <p className="pt-2 text-[12px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">Alle hint</p>
       <div className="sticky -top-4 z-10 -mx-4 flex flex-wrap gap-1.5 border-b bg-background/95 px-4 py-2.5 backdrop-blur">
         {FILTRE.map((f) => (
           <button
@@ -65,7 +65,7 @@ export function HintPanel({ onVisPaKart, onGaTil }: { onVisPaKart: (h: Hint) => 
             type="button"
             onClick={() => setFilter(f.id)}
             className={cn(
-              'rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors',
+              'min-h-11 rounded-full border px-3.5 py-2 text-[13.5px] font-semibold transition-colors',
               filter === f.id ? 'border-slate-900 bg-slate-900 text-white' : 'bg-white text-slate-600 hover:bg-slate-50',
             )}
           >
@@ -81,18 +81,18 @@ export function HintPanel({ onVisPaKart, onGaTil }: { onVisPaKart: (h: Hint) => 
             className={cn('scroll-mt-4 rounded-2xl border border-l-4 bg-card p-4 transition-shadow duration-500', STATUSKANT[h.status], markert === h.id && 'ring-4 ring-primary/40')}
           >
             <div className="flex items-start justify-between gap-3">
-              <h3 className="text-[15px] leading-snug font-semibold">{h.tittel}</h3>
-              <span className={cn('shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-semibold ring-1', STATUS[h.status].klasse)}>{STATUS[h.status].tekst}</span>
+              <h3 className="text-[16px] leading-snug font-semibold">{h.tittel}</h3>
+              <span className={cn('shrink-0 rounded-md px-1.5 py-0.5 text-[11px] font-semibold ring-1', STATUS[h.status].klasse)}>{STATUS[h.status].tekst}</span>
             </div>
-            <p className="mt-2 text-[13.5px] leading-relaxed text-slate-600">{h.tekst}</p>
-            <p className="mt-2 text-[13.5px] leading-relaxed">
+            <p className="mt-2 text-[14.5px] leading-relaxed text-slate-600">{h.tekst}</p>
+            <p className="mt-2 text-[14.5px] leading-relaxed">
               <span className="font-semibold text-primary">Betyr: </span>
               {h.betydning}
             </p>
             {h.kompass && <Kompass />}
             {h.anagram && <Anagram />}
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-              <span className="font-mono text-[11px] text-muted-foreground">
+              <span className="font-mono text-[12px] text-muted-foreground">
                 {h.dato && `${h.dato} · `}
                 {h.kilde}
               </span>
@@ -228,7 +228,7 @@ function HintLenker({ ider, onHint }: { ider?: string[]; onHint: (id: string) =>
             key={id}
             type="button"
             onClick={() => onHint(id)}
-            className="max-w-full truncate rounded-md bg-slate-100 px-1.5 py-0.5 text-left text-[11px] font-medium text-slate-700 hover:bg-slate-200"
+            className="min-h-10 max-w-full truncate rounded-lg bg-slate-100 px-2.5 py-2 text-left text-[13px] font-medium text-slate-700 hover:bg-slate-200"
           >
             → {h.tittel}
           </button>
@@ -243,15 +243,15 @@ function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: numbe
   return (
     <div className="space-y-3">
       <section className="rounded-2xl border-2 border-primary/40 bg-card p-4">
-        <h3 className="text-[15px] font-semibold">Mest sannsynlige koder</h3>
-        <p className="mt-0.5 text-xs text-muted-foreground">Kassen har 2 kodelåser med 4 siffer. Vår beste gjetning:</p>
+        <h3 className="text-[16px] font-semibold">Mest sannsynlige koder</h3>
+        <p className="mt-0.5 text-[13px] text-muted-foreground">Kassen har 2 kodelåser med 4 siffer. Vår beste gjetning:</p>
         <div className="mt-3 grid grid-cols-2 gap-2">
           {BESTE_KODER.map((b) => (
             <div key={b.las} className="rounded-xl bg-slate-50 p-3">
-              <p className="text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">{b.las}</p>
+              <p className="text-[12px] font-semibold tracking-wider text-muted-foreground uppercase">{b.las}</p>
               <p className={cn('mt-1 font-mono font-bold tracking-wider', b.kode.length > 4 ? 'text-base' : 'text-2xl')}>{b.kode}</p>
-              <p className="mt-1.5 text-[12px] leading-snug text-slate-600">{b.hvorfor}</p>
-              {b.reserve && <p className="mt-1.5 text-[12px] leading-snug font-medium text-slate-800">Reserve: {b.reserve}</p>}
+              <p className="mt-1.5 text-[13.5px] leading-snug text-slate-600">{b.hvorfor}</p>
+              {b.reserve && <p className="mt-1.5 text-[13.5px] leading-snug font-medium text-slate-800">Reserve: {b.reserve}</p>}
             </div>
           ))}
         </div>
@@ -267,13 +267,13 @@ function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: numbe
             <li key={k.kode} className="flex items-start gap-3 py-2.5">
               <div className="w-14 shrink-0">
                 <p className="font-mono text-base font-semibold tracking-wider">{k.kode}</p>
-                <span className={cn('mt-1 inline-block rounded px-1 py-px text-[9.5px] font-bold tracking-wide uppercase', SJANSE[k.sjanse].klasse)}>{SJANSE[k.sjanse].tekst}</span>
+                <span className={cn('mt-1 inline-block rounded px-1 py-px text-[11px] font-bold tracking-wide uppercase', SJANSE[k.sjanse].klasse)}>{SJANSE[k.sjanse].tekst}</span>
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-[13px] leading-snug text-slate-600">{k.kilde}</p>
+                <p className="text-[14.5px] leading-snug text-slate-600">{k.kilde}</p>
                 <HintLenker ider={k.hint} onHint={onHint} />
               </div>
-              <span className={cn('shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-semibold ring-1', STATUS[k.status].klasse)}>{STATUS[k.status].tekst}</span>
+              <span className={cn('shrink-0 rounded-md px-1.5 py-0.5 text-[11px] font-semibold ring-1', STATUS[k.status].klasse)}>{STATUS[k.status].tekst}</span>
             </li>
           ))}
         </ul>
@@ -287,8 +287,8 @@ function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: numbe
         <ul className="divide-y">
           {BOKSTAV_LESNINGER.map((b) => (
             <li key={b.ord} className="py-2.5">
-              <p className="font-mono text-[14px] font-semibold tracking-wide">{b.ord}</p>
-              <p className="text-[12.5px] leading-snug text-slate-600">{b.forklaring}</p>
+              <p className="font-mono text-[15px] font-semibold tracking-wide">{b.ord}</p>
+              <p className="text-[13.5px] leading-snug text-slate-600">{b.forklaring}</p>
               <HintLenker ider={b.hint} onHint={onHint} />
             </li>
           ))}
@@ -306,8 +306,8 @@ function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: numbe
             return (
               <li key={f.tekst} className="flex items-start gap-3 py-2.5">
                 <div className="min-w-0 flex-1">
-                  <p className="text-[13.5px] font-semibold">{f.tekst}</p>
-                  <p className="text-[12.5px] leading-snug text-slate-600">{f.hvem}</p>
+                  <p className="text-[14.5px] font-semibold">{f.tekst}</p>
+                  <p className="text-[13.5px] leading-snug text-slate-600">{f.hvem}</p>
                   <HintLenker ider={f.hint} onHint={onHint} />
                 </div>
                 {pos && (
@@ -329,7 +329,7 @@ function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: numbe
 function Tittel({ tittel, tekst }: { tittel: string; tekst: string }) {
   return (
     <span className="min-w-0">
-      <span className="block text-[15px] font-semibold">{tittel}</span>
+      <span className="block text-[16px] font-semibold">{tittel}</span>
       <span className="block text-xs font-normal text-muted-foreground">{tekst}</span>
     </span>
   )

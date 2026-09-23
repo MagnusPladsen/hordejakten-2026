@@ -64,22 +64,18 @@ export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis
               onClick={() => onModus(m.id)}
               className={cn('rounded-xl px-3 py-2 text-left transition-colors', modus === m.id ? 'bg-slate-900 text-white' : 'hover:bg-slate-50')}
             >
-              <span className="block text-[13.5px] font-semibold">{m.navn}</span>
-              <span className={cn('block text-[11.5px]', modus === m.id ? 'text-slate-300' : 'text-muted-foreground')}>{m.tekst}</span>
+              <span className="block text-[14.5px] font-semibold">{m.navn}</span>
+              <span className={cn('block text-[12px]', modus === m.id ? 'text-slate-300' : 'text-muted-foreground')}>{m.tekst}</span>
             </button>
           ))}
         </div>
-        <p className="px-2 pt-2 pb-1 text-xs leading-relaxed text-muted-foreground">
+        <p className="px-2 pt-2 pb-1 text-[13px] leading-relaxed text-muted-foreground">
           {modus === 'alt'
             ? 'Regner med alle hintene og det folk i chatten og på Discord mener, som tips om Digeråsen, Flisa og Tretopphyttene. Folkemeninger teller litt, ikke mye.'
             : 'Regner bare med det vi har sett selv: tavla, streamen, appen, vær og flydata. Det folk i chatten mener, er ikke med.'}
         </p>
       </div>
 
-      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-3.5 text-[13px] leading-relaxed text-amber-900">
-        <p className="font-semibold">Siste nytt fra chatten</p>
-        <p className="mt-0.5">Flere skal allerede være ved kassen og prøve koder. Se «Mest sannsynlige koder» under Hint.</p>
-      </div>
 
       <ol className="space-y-2">
         {rangert.map((t, i) => {
@@ -94,8 +90,8 @@ export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis
                     {p < 1 ? '<1' : Math.round(p)}%
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-[14.5px] leading-snug font-semibold">{t.navn}</p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-[15px] leading-snug font-semibold">{t.navn}</p>
+                    <p className="text-[13px] text-muted-foreground">
                       {t.kort}
                       {t.kjoretid != null && ` · ${t.kjoretid.toFixed(1).replace('.', ',')} t fra Oslo`}
                     </p>
@@ -106,7 +102,7 @@ export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis
                   <div className="h-full rounded-full transition-[width] duration-500" style={{ width: `${Math.max(1, p)}%`, background: t.farge }} />
                 </div>
                 {!erApen && (opp.length > 0 || ned.length > 0) && (
-                  <p className="mt-2 text-[12px] leading-snug text-slate-600">
+                  <p className="mt-2 text-[13.5px] leading-snug text-slate-600">
                     {opp.length > 0 && (
                       <>
                         <span className="font-semibold text-emerald-700">For:</span> {opp.slice(0, 2).map(({ b }) => kortTittel(b)).join(', ')}
@@ -123,13 +119,13 @@ export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis
               </button>
               {erApen && (
                 <div className="border-t border-dashed px-3.5 pt-3 pb-3.5">
-                  {opp.length === 0 && ned.length === 0 && <p className="text-xs text-muted-foreground">Ingen av hintene som er på, sier noe spesielt om denne teorien.</p>}
+                  {opp.length === 0 && ned.length === 0 && <p className="text-[13px] text-muted-foreground">Ingen av hintene som er på, sier noe spesielt om denne teorien.</p>}
                   <ul className="space-y-1.5">
                     {[...opp, ...ned].map(({ b, f }) => (
-                      <li key={b.id} className="flex items-start gap-2 text-[12.5px] leading-snug">
+                      <li key={b.id} className="flex items-start gap-2 text-[13.5px] leading-snug">
                         {f > 1 ? <ArrowUp className="mt-0.5 size-3.5 shrink-0 text-emerald-600" /> : <ArrowDown className="mt-0.5 size-3.5 shrink-0 text-rose-600" />}
                         <span className="min-w-0 flex-1">{b.tittel}</span>
-                        <span className={cn('shrink-0 font-mono text-[11.5px] font-semibold', f > 1 ? 'text-emerald-700' : 'text-rose-700')}>
+                        <span className={cn('shrink-0 font-mono text-[12px] font-semibold', f > 1 ? 'text-emerald-700' : 'text-rose-700')}>
                           ×{f < 0.1 ? f.toFixed(2) : f.toFixed(1)}
                         </span>
                       </li>
@@ -146,12 +142,18 @@ export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis
           )
         })}
       </ol>
+      <p className="px-1 text-[13px] leading-relaxed text-muted-foreground">Prosentene er et anslag basert på skjønn, ikke fasit. Se «Hvordan regnes prosenten ut?» under.</p>
+
+      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-3.5 text-[14.5px] leading-relaxed text-amber-900">
+        <p className="font-semibold">Siste nytt fra chatten</p>
+        <p className="mt-0.5">Flere skal allerede være ved kassen og prøve koder. Se «Mest sannsynlige koder» under Hint.</p>
+      </div>
 
       <Accordion type="single" collapsible className="rounded-2xl border bg-card px-4">
         <AccordionItem value="hint" className="border-none">
           <AccordionTrigger className="py-3.5">
             <span>
-              <span className="block text-[14px] font-semibold">Juster hvilke hint som teller</span>
+              <span className="block text-[15px] font-semibold">Juster hvilke hint som teller</span>
               <span className="block text-xs font-normal text-muted-foreground">
                 {aktive.length} av {iModus.length} er med. Slå av det du ikke tror på.
               </span>
@@ -164,11 +166,11 @@ export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis
                 return (
                   <label key={b.id} className={cn('flex cursor-pointer items-start justify-between gap-3 py-3', !pa && 'opacity-60')}>
                     <span className="min-w-0">
-                      <span className="block text-[13px] leading-snug font-semibold">
+                      <span className="block text-[14.5px] leading-snug font-semibold">
                         {b.tittel}
-                        {b.kilde === 'folk' && <span className="ml-1.5 rounded bg-violet-50 px-1 py-px text-[10px] font-semibold text-violet-700 ring-1 ring-violet-200">Folk sier</span>}
+                        {b.kilde === 'folk' && <span className="ml-1.5 rounded bg-violet-50 px-1 py-px text-[11px] font-semibold text-violet-700 ring-1 ring-violet-200">Folk sier</span>}
                       </span>
-                      <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">{b.forklaring}</span>
+                      <span className="mt-0.5 block text-[13px] leading-relaxed text-muted-foreground">{b.forklaring}</span>
                     </span>
                     <Switch checked={pa} onCheckedChange={(v) => onVeksleBevis(b.id, v)} aria-label={b.tittel} />
                   </label>
@@ -178,9 +180,9 @@ export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="metode" className="border-t">
-          <AccordionTrigger className="py-3.5 text-[14px] font-semibold">Hvordan regnes prosenten ut?</AccordionTrigger>
-          <AccordionContent className="space-y-2 text-[13px] leading-relaxed text-slate-600">
-            <p>Alle teoriene starter likt. «Et helt annet sted» starter dobbelt så høyt, fordi det dekker resten av landet.</p>
+          <AccordionTrigger className="py-3.5 text-[15px] font-semibold">Hvordan regnes prosenten ut?</AccordionTrigger>
+          <AccordionContent className="space-y-2 text-[14.5px] leading-relaxed text-slate-600">
+            <p>Alle teoriene starter likt. «Et helt annet sted» starter fire ganger så høyt, fordi teori-sirklene er små og resten av landet er stort.</p>
             <p>
               Hvert hint gir en faktor per teori. ×2 betyr at hintet gjør teorien dobbelt så sannsynlig, ×0,5 halvparten så sannsynlig. Faktorene ganges sammen, og alt
               skaleres til 100 %.
@@ -213,11 +215,11 @@ function Intro() {
   }
   return (
     <div className="relative rounded-2xl bg-slate-900 p-4 pr-10 text-white">
-      <button type="button" onClick={lukk} className="absolute top-3 right-3 text-slate-400 hover:text-white" aria-label="Lukk">
+      <button type="button" onClick={lukk} className="absolute top-1 right-1 grid size-11 place-items-center text-slate-400 hover:text-white" aria-label="Lukk">
         <X className="size-4" />
       </button>
-      <p className="text-[15px] font-semibold">Slik bruker du kartet</p>
-      <ol className="mt-2 space-y-1.5 text-[13px] leading-snug text-slate-200">
+      <p className="text-[16px] font-semibold">Slik bruker du kartet</p>
+      <ol className="mt-2 space-y-1.5 text-[14.5px] leading-snug text-slate-200">
         <li>
           <b className="text-white">Teorier</b> viser hvor kassen mest sannsynlig står, i prosent.
         </li>
@@ -228,7 +230,7 @@ function Intro() {
           <b className="text-white">Hint</b> samler alle hint, koder og hva folk tror.
         </li>
       </ol>
-      <button type="button" onClick={lukk} className="mt-3 rounded-full bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-900">
+      <button type="button" onClick={lukk} className="mt-3 min-h-11 rounded-full bg-white px-5 text-[14.5px] font-semibold text-slate-900">
         Skjønner
       </button>
     </div>
