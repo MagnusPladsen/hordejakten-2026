@@ -4,7 +4,7 @@
 import { SKYDEKKE, SOL_I_DAG, TAAKE } from '@/data/innhold'
 import { iPolygon, type LatLon } from '@/lib/geo'
 
-export type TeoriId = 'loten' | 'rena' | 'ringsaker' | 'solor' | 'gjovik' | 'roros' | 'valdres' | 'agder' | 'hardanger' | 'annet'
+export type TeoriId = 'loten' | 'rena' | 'rudshogda' | 'ringsaker' | 'solor' | 'gjovik' | 'roros' | 'valdres' | 'agder' | 'hardanger' | 'annet'
 
 export type Teori = {
   id: TeoriId
@@ -47,6 +47,17 @@ export const TEORIER_LISTE: Teori[] = [
     prior: 1,
     farge: '#e11d48',
     forhand: 'innlandet',
+  },
+  {
+    id: 'rudshogda',
+    navn: 'Rudshøgda (Prøysen-teorien)',
+    etikett: 'Rudshøgda',
+    kort: 'Prøysenstua og Prøysenstjerna, der mange leter nå',
+    senter: [60.912, 10.808],
+    radiusKm: 10,
+    kjoretid: 1.95,
+    prior: 1,
+    farge: '#9333ea',
   },
   {
     id: 'ringsaker',
@@ -212,7 +223,7 @@ export const BEVIS: Bevis[] = [
     tittel: 'Sola var oppe før kl. 07 (Anja)',
     forklaring: 'Bare mulig øst for ca. 11° øst disse dagene. Skiller ikke mellom de østlige stedene (1–4 min forskjell), men utelukker nesten vest.',
     standardPa: true,
-    faktor: tabell({ gjovik: 0.9, valdres: 0.5, agder: 0.4, hardanger: 0.2, annet: 0.7 }),
+    faktor: tabell({ rudshogda: 0.95, gjovik: 0.9, valdres: 0.5, agder: 0.4, hardanger: 0.2, annet: 0.7 }),
   },
   {
     // Sola rett i sør 13:02–13:08. Beregnet soltid-middag: Solør 13:05, Løten 13:07, Rena/Røros 13:08,
@@ -221,7 +232,7 @@ export const BEVIS: Bevis[] = [
     tittel: 'Sola i sør kl. 13:02–13:08 (lengdegrad 11–12° øst)',
     forklaring: 'Solvinkelen kl. 13:20 gir lengdegraden. Måleusikkerheten er noen minutter, så de østlige stedene passer like godt. Sollyset ser ekte ut: kameraretningen fra sola stemmer med «KAMERA 41 ØST».',
     standardPa: true,
-    faktor: tabell({ ringsaker: 0.95, gjovik: 0.9, valdres: 0.4, agder: 0.3, hardanger: 0.1, annet: 0.6 }),
+    faktor: tabell({ ringsaker: 0.95, rudshogda: 0.95, gjovik: 0.9, valdres: 0.4, agder: 0.3, hardanger: 0.1, annet: 0.6 }),
   },
   {
     id: 'froland',
@@ -243,21 +254,21 @@ export const BEVIS: Bevis[] = [
     forklaring:
       'Hun pekte nesten rett opp. To fly var nær: NOZ56U over Løten og NOZ9EG over Ringsakfjellet. NOZ56U er beste treff hos default.no, så Løten teller litt mer.',
     standardPa: true,
-    faktor: tabell({ loten: 3, ringsaker: 2.5, rena: 1.3, solor: 0.7, gjovik: 0.8, roros: 0.7, valdres: 0.8, agder: 0.6, hardanger: 0.6, annet: 0.7 }),
+    faktor: tabell({ loten: 3, ringsaker: 2.5, rudshogda: 1.6, rena: 1.3, solor: 0.7, gjovik: 0.8, roros: 0.7, valdres: 0.8, agder: 0.6, hardanger: 0.6, annet: 0.7 }),
   },
   {
     id: 'defaultno',
     tittel: 'default.no sin fusjonsmodell',
     forklaring: 'Nr. 1 er Rena/Åmot, nr. 2 Risør/Gjerstad. Flyet er allerede med i modellen deres, så dette teller mindre for å unngå dobbelttelling.',
     standardPa: true,
-    faktor: tabell({ rena: 1.5, loten: 1.2, ringsaker: 1.2, agder: 1.3, valdres: 1.1, roros: 1.1, hardanger: 0.8 }),
+    faktor: tabell({ rena: 1.5, loten: 1.2, ringsaker: 1.2, rudshogda: 1.1, agder: 1.3, valdres: 1.1, roros: 1.1, hardanger: 0.8 }),
   },
   {
     id: 'terreng',
     tittel: 'Furumo, lyng, bærlyng og tømmerdrift',
     forklaring: 'Typisk for Østerdalen, Røros og indre Agder. Mindre typisk for Vestlandet.',
     standardPa: true,
-    faktor: tabell({ rena: 1.5, loten: 1.4, ringsaker: 1.3, solor: 1.5, gjovik: 1.2, roros: 1.3, agder: 1.3, valdres: 1.1, hardanger: 0.6 }),
+    faktor: tabell({ rena: 1.5, loten: 1.4, ringsaker: 1.3, rudshogda: 1.2, solor: 1.5, gjovik: 1.2, roros: 1.3, agder: 1.3, valdres: 1.1, hardanger: 0.6 }),
   },
   {
     id: 'konsensus',
@@ -265,7 +276,7 @@ export const BEVIS: Bevis[] = [
     tittel: 'Nesten alle i chatten er sikre på Innlandet',
     forklaring: '«Det er null tvil, været, sola, skogen og alt.» Bygger mest på de samme hintene som over, så den teller lite for å unngå dobbelttelling.',
     standardPa: true,
-    faktor: tabell({ loten: 1.2, rena: 1.2, ringsaker: 1.2, solor: 1.2, gjovik: 1.2, roros: 1.1, valdres: 1.1 }),
+    faktor: tabell({ loten: 1.2, rena: 1.2, ringsaker: 1.2, rudshogda: 1.2, solor: 1.2, gjovik: 1.2, roros: 1.1, valdres: 1.1 }),
   },
   {
     id: 'gjovikvaer',
@@ -308,6 +319,21 @@ export const BEVIS: Bevis[] = [
     faktor: tabell({ ringsaker: 0.8 }),
   },
   {
+    id: 'folk_rudshogda',
+    kilde: 'folk',
+    tittel: 'Mange leter ved Rudshøgda nå',
+    forklaring: 'Prøysen-teorien er den mange i chatten jakter på akkurat nå: Prøysenstua og Prøysenstjerna.',
+    standardPa: true,
+    faktor: tabell({ rudshogda: 1.5 }),
+  },
+  {
+    id: 'stjerne',
+    tittel: 'Stjerne: Prøysenstjerna og «ser stjernene»',
+    forklaring: 'Anja sier hun liker å se stjernene om natta (Børsen). Ved Prøysenstua står den 27 m høye Prøysenstjerna, laget etter Prøysens julevers om stjerna. Tynn kobling.',
+    standardPa: true,
+    faktor: tabell({ rudshogda: 1.2 }),
+  },
+  {
     id: 'folk_benny',
     kilde: 'folk',
     tittel: '«Reven heter Benny» (Benningstad i Løten)',
@@ -317,17 +343,17 @@ export const BEVIS: Bevis[] = [
   },
   {
     id: 'proysen',
-    tittel: 'Rev og kråke: «Reven og kråka» (Prøysen)',
-    forklaring: 'Alf Prøysen er fra Ringsaker, nabokommunen til Hamar og Løten.',
+    tittel: 'Dyrene i boksen er Prøysen-figurer',
+    forklaring: 'Rev, kråke og ekorn er alle med i Prøysens «Sirkus Mikkelikski» (Mikkel Rev, Frøken Kråke og ekornet Nøtteliten). Prøysen er fra Rudshøgda i Ringsaker.',
     standardPa: true,
-    faktor: tabell({ ringsaker: 1.5, loten: 1.3, rena: 1.1 }),
+    faktor: tabell({ rudshogda: 2.2, ringsaker: 1.4, loten: 1.1, rena: 1.05 }),
   },
   {
     id: 'ekorn',
     tittel: 'Ekornet (Froland, Tretopphyttene)',
     forklaring: 'Froland har et ekorn i kommunevåpenet, og Tretopphyttene har et ekorn som logo. Men ekorn finnes overalt, så det kan like gjerne bare bety at det er ekorn der kassen står. Teller lite.',
     standardPa: true,
-    faktor: tabell({ agder: 1.1, ringsaker: 1.1 }),
+    faktor: tabell({ agder: 1.1, ringsaker: 1.1, rudshogda: 1.2 }),
   },
   {
     id: 'bjorneparken',
