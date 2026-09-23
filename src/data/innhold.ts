@@ -57,7 +57,7 @@ export const HINT: Hint[] = [
     status: 'tolkning',
     kilde: 'Horde-appen («Verv en venn»)',
     tekst: 'Etter å ha vervet noen får man opp bokstaver. Bekreftet sett så langt, ikke i riktig rekkefølge: N O R H E I M S U D.',
-    betydning: 'Alle ti bokstavene finnes i NORHEIMSUND (Kvam i Hardanger), og bare én N mangler. Det er 6,5 t å kjøre fra Oslo uten ferge, som passer med «sov ca. 7 t». Horde holder også til i Bergen, ca. 1 t unna. Test egne ord under.',
+    betydning: 'HORDE MINUS bruker nøyaktig alle ti bokstavene, uten rest. Vi vet ikke om det er riktig eller hva det skal brukes til. NORHEIMSUND (Kvam i Hardanger) passer nesten, men mangler én N, og Hardanger var blått på Windy-kartet. Test egne ord under.',
     lag: ['teorier'],
     fokus: 'norheimsund',
     anagram: true,

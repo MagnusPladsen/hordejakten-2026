@@ -176,9 +176,9 @@ export const BEVIS: Bevis[] = [
   {
     id: 'bokstaver',
     tittel: 'Vervebokstavene = NORHEIMSUND?',
-    forklaring: 'N O R H E I M S U D mangler bare én N for å bli NORHEIMSUND. Sterkt hvis det stemmer.',
+    forklaring: 'Bokstavene mangler én N for å bli NORHEIMSUND, mens HORDE MINUS går opp uten rest. Derfor teller det bare litt.',
     standardPa: true,
-    faktor: tabell({ hardanger: 4 }),
+    faktor: tabell({ hardanger: 2 }),
   },
   {
     id: 'fly',
