@@ -273,7 +273,7 @@ function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: numbe
     <div className="space-y-3">
       <section className="rounded-2xl border-2 border-primary/40 bg-card p-4">
         <h3 className="text-[16px] font-semibold">Mest sannsynlige koder</h3>
-        <p className="mt-0.5 text-[13px] text-muted-foreground">Hengelåser med 4 siffer på kassen og en elektronisk lås med 5 siffer på døra. Vår beste gjetning:</p>
+        <p className="mt-0.5 text-[13px] text-muted-foreground">3 låser: 2 hengelåser med 4 siffer på pengeboksen, og 1 elektronisk lås med 5 siffer på døra for å slippe ut Anja. Vår beste gjetning:</p>
         <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
           {BESTE_KODER.map((b) => (
             <div key={b.las} className="rounded-xl bg-slate-50 p-3">
