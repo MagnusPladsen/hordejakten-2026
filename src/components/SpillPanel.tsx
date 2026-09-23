@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
-import { ExternalLink, Plus, Trash2 } from "lucide-react";
+import { ExternalLink, Gamepad2, Plus, Trash2 } from "lucide-react";
+
+import { OvelseModal, type SpillNr } from "@/components/ovelse/OvelseModal";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -230,6 +232,7 @@ function Dartkalkulator() {
 }
 
 export function SpillPanel() {
+  const [ovelse, setOvelse] = useState<SpillNr | null>(null);
   return (
     <div className="space-y-4">
       <div>
@@ -289,7 +292,7 @@ export function SpillPanel() {
 
       <ol className="grid gap-2.5 @[46rem]:grid-cols-2">
         {SPILL.map((s) => (
-          <li key={s.nr} className="rounded-2xl border bg-card p-4">
+          <li key={s.nr} className="flex flex-col rounded-2xl border bg-card p-4">
             <p className="text-[12px] font-semibold tracking-wider text-muted-foreground uppercase">
               Spill {s.nr} av 4
             </p>
@@ -308,11 +311,21 @@ export function SpillPanel() {
                 </li>
               ))}
             </ul>
+            <div className="mt-auto pt-3">
+              <Button
+                variant="outline"
+                className="w-full border-primary/40 text-primary hover:bg-primary/5"
+                onClick={() => setOvelse(s.nr as SpillNr)}
+              >
+                <Gamepad2 /> Øv på {s.navn}
+              </Button>
+            </div>
           </li>
         ))}
       </ol>
 
       <Dartkalkulator />
+      <OvelseModal nr={ovelse} onLukk={() => setOvelse(null)} />
     </div>
   );
 }
