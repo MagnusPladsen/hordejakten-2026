@@ -245,7 +245,7 @@ export const LAG: Lag[] = [
     navn: 'Utleide hytter (Tretopphyttene)',
     kort: 'Kan teamet bo her?',
     merkelapp: 'teori',
-    forklaring: 'De 8 hyttene til Tretopphyttene i Ringsaker. Mørk nål = opptatt hele jakten (Bjørkhytta). Lys nål = delvis opptatt 23.–27.09. Ikke bekreftet at de har noe med jakten å gjøre.',
+    forklaring: 'De 8 hyttene til Tretopphyttene i Ringsaker. Mørk nål = opptatt hele jakten (Bjørkhytta). Lys nål = delvis opptatt 23.–27.09. Alle er sjekket av en i chatten, uten funn.',
     tegn: [
       { stil: 'prikk', farge: FARGE.hytter, tekst: 'Opptatt hele perioden' },
       { stil: 'prikk', farge: '#d6a57a', tekst: 'Delvis opptatt' },
