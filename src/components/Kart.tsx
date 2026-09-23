@@ -437,14 +437,14 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
     if (!utelukket || !g) return
     g.utelukket.clearLayers()
     const renderer = L.canvas({ padding: 0.3, pane: 'rutenett' })
-    const farger: Record<string, string> = { R: '#dc2626', C: '#22d3ee' }
+    const farger: Record<string, string> = { R: '#b91c1c', C: '#22d3ee' }
     for (const [la, lo, k] of utelukket) {
       L.rectangle(
         [
           [la - 0.025, lo - 0.05],
           [la + 0.025, lo + 0.05],
         ],
-        { renderer, stroke: false, fillColor: farger[k] ?? '#dc2626', fillOpacity: k === 'R' ? 0.16 : 0.42, interactive: false },
+        { renderer, stroke: false, fillColor: farger[k] ?? '#dc2626', fillOpacity: k === 'R' ? 0.24 : 0.42, interactive: false },
       ).addTo(g.utelukket)
     }
   }, [utelukket])
