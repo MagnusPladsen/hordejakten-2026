@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
-import { ChevronDown, Crosshair, Search } from 'lucide-react'
+import { Check, Crosshair, Search } from 'lucide-react'
 
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Switch } from '@/components/ui/switch'
 import { Slider } from '@/components/ui/slider'
+import { Switch } from '@/components/ui/switch'
 import { Tegnrute } from '@/components/Tegnrute'
-import { LAG, MERKELAPP, type Lag, type LagId } from '@/data/lag'
+import { GRUPPER, LAG, LAG_ETTER_ID, MERKELAPP, type LagId } from '@/data/lag'
 import { formaterTid, lesKoordinater, type LatLon } from '@/lib/geo'
 import { FAKTORER, FORHAND, type Punkt, type Vekter } from '@/lib/modell'
 import { stedsnavn } from '@/lib/stedsnavn'
@@ -24,154 +25,186 @@ type Props = {
 
 type Forhand = (typeof FORHAND)[number]
 
-export function LagPanel({ aktive, onVeksle, vekter, onVekter, topp, onGaTil, onSjekkPunkt }: Props) {
-  const velgForhand = (f: Forhand) => {
-    onVekter(f.vekter)
-    f.lag?.forEach((id) => onVeksle(id, true))
-  }
-  const [apen, setApen] = useState<LagId | null>(null)
-  const modell = LAG[0]
+function Seksjon({ tittel, tekst, children }: { tittel: string; tekst?: string; children: React.ReactNode }) {
   return (
-    <div className="space-y-4">
-      <div>
-        <h2 className="text-xl font-semibold tracking-tight">Hvor står kassen?</h2>
-        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-          Slå kartlag av og på. Trykk på et lag for å se hva fargene betyr. Trykk hvor som helst på kartet for kjøretid og detaljer.
-        </p>
-      </div>
-
-      <SjekkPunkt onSjekk={onSjekkPunkt} />
-
-      <LagKort lag={modell} pa={aktive.has('modell')} apen={apen === 'modell'} onVeksle={onVeksle} onApne={setApen}>
-        <Modell vekter={vekter} onVekter={onVekter} onForhand={velgForhand} topp={topp} onGaTil={onGaTil} />
-      </LagKort>
-
-      <div className="space-y-2">
-        <p className="pt-2 text-[11px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">Kartlag</p>
-        {LAG.slice(1).map((l) => (
-          <LagKort key={l.id} lag={l} pa={aktive.has(l.id)} apen={apen === l.id} onVeksle={onVeksle} onApne={setApen} />
-        ))}
-      </div>
-    </div>
+    <section className="rounded-2xl border bg-card p-4">
+      <h3 className="text-[15px] font-semibold">{tittel}</h3>
+      {tekst && <p className="mt-0.5 text-[13px] leading-relaxed text-muted-foreground">{tekst}</p>}
+      <div className="mt-3">{children}</div>
+    </section>
   )
 }
 
-function LagKort({
-  lag,
-  pa,
-  apen,
-  onVeksle,
-  onApne,
-  children,
-}: {
-  lag: Lag
-  pa: boolean
-  apen: boolean
-  onVeksle: (id: LagId, pa: boolean) => void
-  onApne: (id: LagId | null) => void
-  children?: React.ReactNode
-}) {
-  const m = MERKELAPP[lag.merkelapp]
+export function LagPanel({ aktive, onVeksle, vekter, onVekter, topp, onGaTil, onSjekkPunkt }: Props) {
+  const velgForhand = (f: Forhand) => {
+    onVekter(f.vekter)
+    onVeksle('modell', true)
+    f.lag?.forEach((id) => onVeksle(id, true))
+  }
+  const synlige = LAG.filter((l) => aktive.has(l.id) && l.id !== 'utenfor')
+
   return (
-    <div className={cn('rounded-2xl border bg-card transition-colors', pa && 'border-slate-300 shadow-sm')}>
-      <div className="flex items-center gap-3 p-3 pl-3.5">
-        <button type="button" className="flex min-w-0 flex-1 items-center gap-3 text-left" onClick={() => onApne(apen ? null : lag.id)} aria-expanded={apen}>
-          <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-slate-50 ring-1 ring-slate-200">
-            <Tegnrute tegn={lag.tegn[0]} className="scale-125" />
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="flex items-center gap-2">
-              <span className="truncate text-[14.5px] font-semibold">{lag.navn}</span>
-              <span className={cn('shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-semibold ring-1', m.klasse)}>{m.tekst}</span>
-            </span>
-            <span className="block truncate text-xs text-muted-foreground">{lag.kort}</span>
-          </span>
-          <ChevronDown className={cn('size-4 shrink-0 text-muted-foreground transition-transform', apen && 'rotate-180')} />
-        </button>
-        <Switch checked={pa} onCheckedChange={(v) => onVeksle(lag.id, v)} aria-label={`Vis ${lag.navn}`} />
+    <div className="space-y-3">
+      <div>
+        <h2 className="text-xl font-semibold tracking-tight">Kartet</h2>
+        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+          Velg hva kartet skal vektlegge og hva du vil se. Trykk hvor som helst på kartet for å se kjøretid, vær og hvor godt stedet passer.
+        </p>
       </div>
-      {(apen || children) && (
-        <div className={cn('border-t border-dashed px-3.5 pb-3.5', !apen && !children && 'hidden')}>
-          {apen && (
-            <>
-              <p className="mt-3 text-[13px] leading-relaxed text-slate-700">{lag.forklaring}</p>
-              <ul className="mt-3 space-y-1.5">
-                {lag.tegn.map((t) => (
-                  <li key={t.tekst} className="flex items-center gap-2.5 text-[13px]">
+
+      <Seksjon tittel="1. Velg fokus for det røde kartet" tekst="Rødt på kartet er der kassen passer best med det du velger her. Mørkere rødt passer bedre.">
+        <Teorivalg vekter={vekter} onForhand={velgForhand} />
+        <BesteOmrader topp={topp} onGaTil={onGaTil} />
+        <Accordion type="single" collapsible className="mt-2 border-t">
+          <AccordionItem value="avansert" className="border-none">
+            <AccordionTrigger className="text-[13px] text-muted-foreground">Avansert: bestem selv hvor mye hvert hint teller</AccordionTrigger>
+            <AccordionContent>
+              <Vekting vekter={vekter} onVekter={onVekter} />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </Seksjon>
+
+      <Seksjon tittel="2. Hva vil du se på kartet?" tekst="Trykk for å slå av og på.">
+        <div className="space-y-4">
+          {GRUPPER.map((g) => (
+            <div key={g.navn}>
+              <p className="text-[13px] font-semibold">{g.navn}</p>
+              <p className="text-xs text-muted-foreground">{g.forklaring}</p>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {g.ider.map((id) => {
+                  const l = LAG_ETTER_ID[id]
+                  const pa = aktive.has(id)
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      aria-pressed={pa}
+                      onClick={() => onVeksle(id, !pa)}
+                      className={cn(
+                        'flex items-center gap-2 rounded-full border py-1.5 pr-3 pl-2 text-[12.5px] font-medium transition-colors',
+                        pa ? 'border-slate-900 bg-slate-900 text-white' : 'bg-white text-slate-700 hover:bg-slate-50',
+                      )}
+                    >
+                      {pa ? <Check className="size-3.5" /> : <Tegnrute tegn={l.tegn[0]} className="size-3" />}
+                      {l.navn}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </Seksjon>
+
+      <Seksjon tittel="Hva betyr fargene?" tekst={synlige.length ? 'Forklaring for lagene som er på nå.' : 'Ingen lag er på.'}>
+        <div className="divide-y">
+          {synlige.map((l) => (
+            <div key={l.id} className="py-3 first:pt-0 last:pb-0">
+              <div className="flex items-center gap-2">
+                <p className="text-[13.5px] font-semibold">{l.navn}</p>
+                <span className={cn('rounded-md px-1.5 py-0.5 text-[10px] font-semibold ring-1', MERKELAPP[l.merkelapp].klasse)}>{MERKELAPP[l.merkelapp].tekst}</span>
+              </div>
+              <ul className="mt-1.5 space-y-1">
+                {l.tegn.map((t) => (
+                  <li key={t.tekst} className="flex items-center gap-2.5 text-[12.5px]">
                     <Tegnrute tegn={t} />
                     {t.tekst}
                   </li>
                 ))}
               </ul>
-              <p className="mt-3 text-[11px] text-muted-foreground">Kilde: {lag.kilde}</p>
-            </>
-          )}
-          {children}
+              <p className="mt-1.5 text-[12.5px] leading-relaxed text-slate-600">{l.forklaring}</p>
+            </div>
+          ))}
         </div>
-      )}
+      </Seksjon>
+
+      <SjekkPunkt onSjekk={onSjekkPunkt} />
     </div>
   )
 }
 
-function Modell({
-  vekter,
-  onVekter,
-  onForhand,
-  topp,
-  onGaTil,
-}: {
-  vekter: Vekter
-  onVekter: (v: Vekter) => void
-  onForhand: (f: Forhand) => void
-  topp: Punkt[]
-  onGaTil: (pos: LatLon, zoom?: number) => void
-}) {
-  const aktivForhand = FORHAND.find((f) => JSON.stringify(f.vekter) === JSON.stringify(vekter))?.id
-  const sett = (endring: Partial<Vekter>) => onVekter({ ...vekter, ...endring })
-
+function Teorivalg({ vekter, onForhand }: { vekter: Vekter; onForhand: (f: Forhand) => void }) {
+  const aktiv = FORHAND.find((f) => JSON.stringify(f.vekter) === JSON.stringify(vekter))?.id
+  const [alle, setAlle] = useState(false)
+  // Vis de fire første, pluss den valgte hvis den ligger lenger ned
+  const synlige = alle ? FORHAND : FORHAND.filter((f, i) => i < 4 || f.id === aktiv)
   return (
-    <div className="mt-3">
-      <p className="text-[11px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">Velg en teori</p>
-      <div className="-mx-1 mt-2 flex gap-1.5 overflow-x-auto px-1 pb-1 [scrollbar-width:none]">
-        {FORHAND.map((f) => (
+    <div className="space-y-1.5" role="radiogroup" aria-label="Fokus">
+      {synlige.map((f) => {
+        const valgt = aktiv === f.id
+        return (
           <button
             key={f.id}
             type="button"
+            role="radio"
+            aria-checked={valgt}
             onClick={() => onForhand(f)}
             className={cn(
-              'shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors',
-              aktivForhand === f.id ? 'border-primary bg-primary text-primary-foreground' : 'bg-white text-slate-700 hover:bg-slate-50',
+              'flex w-full items-start gap-3 rounded-xl border p-2.5 text-left transition-colors',
+              valgt ? 'border-primary bg-primary/8' : 'bg-white hover:bg-slate-50',
             )}
           >
-            {f.navn}
+            <span className={cn('mt-0.5 grid size-4 shrink-0 place-items-center rounded-full border-2', valgt ? 'border-primary' : 'border-slate-300')}>
+              {valgt && <span className="size-2 rounded-full bg-primary" />}
+            </span>
+            <span className="min-w-0">
+              <span className="block text-[13.5px] font-semibold">{f.navn}</span>
+              <span className="block text-xs leading-snug text-muted-foreground">{f.beskrivelse}</span>
+            </span>
           </button>
-        ))}
-      </div>
+        )
+      })}
+      {FORHAND.length > synlige.length || alle ? (
+        <button type="button" className="px-1 text-xs font-semibold text-primary" onClick={() => setAlle((a) => !a)}>
+          {alle ? 'Vis færre' : `Vis ${FORHAND.length - synlige.length} flere`}
+        </button>
+      ) : null}
+      {!aktiv && <p className="px-1 text-xs text-muted-foreground">Egen vekting er i bruk (se Avansert).</p>}
+    </div>
+  )
+}
 
-      <p className="mt-4 text-[11px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">Topp-områder nå</p>
+function BesteOmrader({ topp, onGaTil }: { topp: Punkt[]; onGaTil: (pos: LatLon, zoom?: number) => void }) {
+  const [alle, setAlle] = useState(false)
+  if (!topp.length) return null
+  return (
+    <div className="mt-4">
+      <p className="text-[13px] font-semibold">Beste områder med dette fokuset</p>
+      <p className="text-xs text-muted-foreground">Trykk for å gå dit på kartet.</p>
       <ol className="mt-1 divide-y">
-        {topp.map((p, i) => (
+        {(alle ? topp : topp.slice(0, 3)).map((p, i) => (
           <li key={`${p.lat},${p.lon}`}>
             <button type="button" className="flex w-full items-center gap-3 py-2.5 text-left" onClick={() => onGaTil([p.lat, p.lon], 10)}>
               <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-rose-800 font-mono text-xs font-bold text-white">{i + 1}</span>
               <span className="min-w-0 flex-1">
                 <Stedsnavn lat={p.lat} lon={p.lon} />
-                <span className="block font-mono text-[11px] text-muted-foreground">
-                  {p.lat.toFixed(2)}, {p.lon.toFixed(2)} · {p.sek == null ? '–' : formaterTid(p.sek)}
-                </span>
+                <span className="block text-[11.5px] text-muted-foreground">{p.sek == null ? 'Ukjent kjøretid' : `${formaterTid(p.sek)} fra Oslo`}</span>
               </span>
               <Crosshair className="size-4 shrink-0 text-muted-foreground" />
             </button>
           </li>
         ))}
       </ol>
+      {topp.length > 3 && (
+        <button type="button" className="text-xs font-semibold text-primary" onClick={() => setAlle((a) => !a)}>
+          {alle ? 'Vis færre' : `Vis alle ${topp.length}`}
+        </button>
+      )}
+    </div>
+  )
+}
 
-      <p className="mt-4 text-[11px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">Hvor mye skal hvert hint telle?</p>
+function Vekting({ vekter, onVekter }: { vekter: Vekter; onVekter: (v: Vekter) => void }) {
+  const sett = (endring: Partial<Vekter>) => onVekter({ ...vekter, ...endring })
+  return (
+    <div>
+      <p className="text-xs leading-relaxed text-muted-foreground">0 % betyr at hintet ikke teller. 100 % betyr at steder som ikke passer, blir helt utelukket.</p>
       <div className="mt-1 divide-y">
         {FAKTORER.map((f) => (
           <div key={f.id} className="py-3">
             <div className="flex items-baseline justify-between gap-2">
-              <label className="text-[13.5px] font-semibold" htmlFor={`vekt-${f.id}`}>
+              <label className="text-[13px] font-semibold" htmlFor={`vekt-${f.id}`}>
                 {f.navn}
               </label>
               <span className="font-mono text-xs text-primary">{Math.round(vekter[f.id] * 100)} %</span>
@@ -185,7 +218,7 @@ function Modell({
                     <span className="font-medium">Antatt kjøretid</span>
                     <span className="font-mono text-primary">{vekter.timer.toFixed(1).replace('.', ',')} t</span>
                   </div>
-                  <Slider className="mt-2" min={2} max={11} step={0.5} value={[vekter.timer]} onValueChange={([x]) => sett({ timer: x })} />
+                  <Slider className="mt-2" min={1} max={11} step={0.5} value={[vekter.timer]} onValueChange={([x]) => sett({ timer: x })} />
                 </div>
                 <div>
                   <div className="flex justify-between text-xs">
@@ -234,11 +267,11 @@ function SjekkPunkt({ onSjekk }: { onSjekk: (pos: LatLon) => void }) {
     if (pos) onSjekk(pos)
   }
   return (
-    <form onSubmit={sjekk} className="rounded-2xl border bg-card p-3.5">
-      <label htmlFor="sjekk-punkt" className="text-[13.5px] font-semibold">
+    <form onSubmit={sjekk} className="rounded-2xl border bg-card p-4">
+      <label htmlFor="sjekk-punkt" className="text-[15px] font-semibold">
         Sjekk et punkt
       </label>
-      <p className="text-xs text-muted-foreground">Lim inn koordinater eller en Google Maps-lenke.</p>
+      <p className="mt-0.5 text-[13px] text-muted-foreground">Har noen delt koordinater? Lim dem inn, eller en Google Maps-lenke.</p>
       <div className="mt-2.5 flex gap-2">
         <Input
           id="sjekk-punkt"

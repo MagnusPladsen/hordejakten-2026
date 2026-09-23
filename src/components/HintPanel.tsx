@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { Crosshair, ExternalLink, MapPinned } from 'lucide-react'
 
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { BESTE_KODER, BOKSTAV_LESNINGER, BOKSTAVER, FOLK_TROR, HINT, KODER, SJANSE, STATUS, STEDER, TEORIER, type Hint } from '@/data/innhold'
@@ -42,7 +43,17 @@ export function HintPanel({ onVisPaKart, onGaTil }: { onVisPaKart: (h: Hint) => 
       <div>
         <h2 className="text-xl font-semibold tracking-tight">Hint og koder</h2>
         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-          Hva vi vet, og hva det betyr for hvor kassen kan stå. Hint med kartknapp slår på riktig kartlag.
+          Alt vi vet så langt. Hvert hint sier hva vi har sett, og hva det betyr for hvor kassen står.
+        </p>
+        <div className="mt-2.5 flex flex-wrap gap-1.5">
+          {(Object.keys(STATUS) as Hint['status'][]).map((st) => (
+            <span key={st} className={cn('rounded-md px-1.5 py-0.5 text-[10.5px] font-semibold ring-1', STATUS[st].klasse)}>
+              {STATUS[st].tekst}
+            </span>
+          ))}
+        </div>
+        <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+          Løst og Bekreftet er sikre. Tolkning er noens forklaring. Usikker og Uløst er rykter eller ting vi ikke har knekt ennå.
         </p>
       </div>
       <Oppsummering onGaTil={onGaTil} onHint={gaTilHint} />
@@ -107,14 +118,14 @@ export function HintPanel({ onVisPaKart, onGaTil }: { onVisPaKart: (h: Hint) => 
   )
 }
 
-/** Skisse av kassen sett ovenfra: kamera ca. 73°, parkering ca. 118° */
+/** Skisse av kassen sett ovenfra: kamera nordøst (ser mot ca. 220°), parkering ca. 118° */
 function Kompass() {
   const pil = (grader: number, r: number) => {
     const a = ((grader - 90) * Math.PI) / 180
     return [100 + r * Math.cos(a), 100 + r * Math.sin(a)]
   }
   const [px, py] = pil(118, 78)
-  const [kx, ky] = pil(73, 70)
+  const [kx, ky] = pil(40, 70)
   const [bx, by] = pil(298, 70)
   return (
     <figure className="mt-3 rounded-xl bg-slate-50 p-3">
@@ -142,7 +153,7 @@ function Kompass() {
       </svg>
       <figcaption className="mt-2 space-y-1 text-xs text-slate-600">
         <p className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-orange-600" /> Parkering ca. 118° (øst-sørøst)</p>
-        <p className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-sky-600" /> Kamera ca. 73°</p>
+        <p className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-sky-600" /> Kameraet står nordøst og ser mot sørvest</p>
         <p className="flex items-center gap-2"><span className="h-0.5 w-2.5 bg-green-600" /> Fra bilen: gå mot 298° (vest-nordvest)</p>
       </figcaption>
     </figure>
@@ -235,10 +246,13 @@ function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: numbe
           ))}
         </div>
       </section>
-      <section className="rounded-2xl border bg-card p-4">
-        <h3 className="text-[15px] font-semibold">Alle koder</h3>
-        <p className="mt-0.5 text-xs text-muted-foreground">Sortert etter hvor sannsynlige de er.</p>
-        <ul className="mt-3 divide-y">
+      <Accordion type="multiple" className="rounded-2xl border bg-card px-4">
+        <AccordionItem value="koder">
+          <AccordionTrigger className="py-3.5">
+            <Tittel tittel="Alle koder" tekst={`${KODER.length} kandidater, sortert etter hvor sannsynlige de er`} />
+          </AccordionTrigger>
+          <AccordionContent>
+        <ul className="divide-y">
           {[...KODER].sort((a, b) => ['hoy', 'middels', 'lav'].indexOf(a.sjanse) - ['hoy', 'middels', 'lav'].indexOf(b.sjanse)).map((k) => (
             <li key={k.kode} className="flex items-start gap-3 py-2.5">
               <div className="w-14 shrink-0">
@@ -253,11 +267,14 @@ function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: numbe
             </li>
           ))}
         </ul>
-      </section>
-      <section className="rounded-2xl border bg-card p-4">
-        <h3 className="text-[15px] font-semibold">Bokstavene</h3>
-        <p className="mt-0.5 text-xs text-muted-foreground">Fra «Verv en venn»: {BOKSTAVER.join(' ')}, ikke i riktig rekkefølge.</p>
-        <ul className="mt-3 divide-y">
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="bokstaver">
+          <AccordionTrigger className="py-3.5">
+            <Tittel tittel="Bokstavene" tekst={`${BOKSTAVER.join(' ')}: hva kan de bety?`} />
+          </AccordionTrigger>
+          <AccordionContent>
+        <ul className="divide-y">
           {BOKSTAV_LESNINGER.map((b) => (
             <li key={b.ord} className="py-2.5">
               <p className="font-mono text-[14px] font-semibold tracking-wide">{b.ord}</p>
@@ -266,11 +283,14 @@ function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: numbe
             </li>
           ))}
         </ul>
-      </section>
-      <section className="rounded-2xl border bg-card p-4">
-        <h3 className="text-[15px] font-semibold">Hva folk tror</h3>
-        <p className="mt-0.5 text-xs text-muted-foreground">Fra chatten, Discord og default.no. Se Teorier-fanen for prosenter.</p>
-        <ul className="mt-3 divide-y">
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="folk" className="border-none">
+          <AccordionTrigger className="py-3.5">
+            <Tittel tittel="Hva folk tror" tekst={`${FOLK_TROR.length} teorier og tips fra chatten, Discord og default.no`} />
+          </AccordionTrigger>
+          <AccordionContent>
+        <ul className="divide-y">
           {FOLK_TROR.map((f) => {
             const pos = posFor(f)
             return (
@@ -289,7 +309,18 @@ function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: numbe
             )
           })}
         </ul>
-      </section>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </div>
+  )
+}
+
+function Tittel({ tittel, tekst }: { tittel: string; tekst: string }) {
+  return (
+    <span className="min-w-0">
+      <span className="block text-[15px] font-semibold">{tittel}</span>
+      <span className="block text-xs font-normal text-muted-foreground">{tekst}</span>
+    </span>
   )
 }
