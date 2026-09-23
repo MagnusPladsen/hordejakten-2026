@@ -125,15 +125,16 @@ export const LAG: Lag[] = [
   },
   {
     id: 'retning',
-    navn: '118° / 298° fra Oslo',
-    kort: 'Linja fra «ØST CA 118»',
+    navn: 'Retningslinjer (118°)',
+    kort: 'Fra Oslo og fra Horde i Bergen',
     merkelapp: 'teori',
     forklaring:
-      'Hvis «118° øst» er retningen fra kassen mot Oslo, ligger kassen et sted på den heltrukne linja nordvest for Oslo (298°). Det skraverte feltet viser ±5° usikkerhet. Den stiplede delen mot sørøst (118°) er med for fullstendighet, men er under 2 t fra Oslo. Mest sannsynlig gjelder tallet bare retningen fra kassen til parkeringen.',
+      'Hvis «118° øst» er retningen fra kassen mot Oslo, ligger kassen et sted på den heltrukne linja nordvest for Oslo (298°). Det skraverte feltet viser ±5° usikkerhet. Den stiplede delen mot sørøst (118°) er med for fullstendighet, men er under 2 t fra Oslo. Mest sannsynlig gjelder tallet bare retningen fra kassen til parkeringen. Den turkise linja er 118° fra Horde AS i Bergen (5008), gjennom Telemark.',
     tegn: [
       { stil: 'linje', farge: FARGE.retning, tekst: '298° (nordvest) fra Oslo' },
       { stil: 'stiplet', farge: FARGE.retning, tekst: '118° (sørøst) fra Oslo' },
       { stil: 'rute', farge: FARGE.retning, tekst: '±5° usikkerhet' },
+      { stil: 'linje', farge: '#0891b2', tekst: '118° fra Horde AS i Bergen' },
     ],
     kilde: 'Tavla («ØST CA 118»).',
   },

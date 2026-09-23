@@ -272,7 +272,7 @@ export default function App() {
               }}
             />
           ),
-          hint: <HintPanel onVisPaKart={visPaKart} />,
+          hint: <HintPanel onVisPaKart={visPaKart} onGaTil={gaTil} />,
           tavla: <TavlePanel />,
           stream: <StreamPanel />,
         }}

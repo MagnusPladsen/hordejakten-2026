@@ -11,6 +11,8 @@ export const STREAM = {
 }
 
 export const OSLO: LatLon = [59.9139, 10.7522]
+/** Horde AS, Lars Hilles gate 20A, 5008 Bergen */
+export const BERGEN: LatLon = [60.3896, 5.3297]
 
 export type Status = 'lost' | 'bekreftet' | 'tolkning' | 'usikker' | 'apen'
 
@@ -97,7 +99,7 @@ export const HINT: Hint[] = [
     status: 'tolkning',
     kilde: 'Horde-appen («Verv en venn»)',
     tekst: 'Etter å ha vervet noen får man opp bokstaver. Bekreftet sett så langt, ikke i riktig rekkefølge: N O R H E I M S U D.',
-    betydning: 'HORDE MINUS bruker nøyaktig alle ti bokstavene, uten rest. Vi vet ikke om det er riktig eller hva det skal brukes til. NORHEIMSUND (Kvam i Hardanger) passer nesten, men mangler én N, og Hardanger var blått på Windy-kartet. Test egne ord under.',
+    betydning: 'HORDE MINUS bruker nøyaktig alle ti bokstavene, uten rest. Vi vet ikke om det er riktig eller hva det skal brukes til. Én idé: «HORDEJAKTEN» minus «HORDE» = «JAKTEN», og dyrene (rev, and, kråke) er jaktbare. Prøv ordene i kredittskår-boksen i appen. NORHEIMSUND (Kvam i Hardanger) passer nesten, men mangler én N, og Hardanger var blått på Windy-kartet. Test egne ord under.',
     lag: ['teorier'],
     fokus: 'norheimsund',
     anagram: true,
@@ -111,6 +113,16 @@ export const HINT: Hint[] = [
     betydning: 'Står du på parkeringen, ligger kassen mot ca. 298° (vest-nordvest), 5–10 min oppover. Det stemmer med to andre ting: Horde-skiltet peker mot venstre i bildet (sørøst), og «mer åpen skog til høyre for meg» er også sørøst. Hvis 118° i stedet er retningen mot Oslo, ligger kassen på linja nordvest for Oslo.',
     lag: ['retning'],
     kompass: true,
+  },
+  {
+    id: 'bergen118',
+    tittel: 'Horde-skiltet peker 118° fra Bergen?',
+    status: 'tolkning',
+    kilde: 'Chat',
+    dato: '23.09',
+    tekst: 'Noen har trukket 118°-linja fra Horde AS i Bergen (postnummer 5008) i stedet for fra Oslo. Den går forbi Odda, over søndre Hardangervidda og gjennom Telemark (Vinje, Seljord, Drangedal) til kysten ved Kragerø.',
+    betydning: 'Kobler 5008 og 118° sammen. Linja går ca. 20 km fra Tokke, der kassen stod i 2023. Vestlige del var blå på Windy, men Telemark-delen er fri. Slå på «118°-linja fra Bergen» i modellen for å teste.',
+    lag: ['retning'],
   },
   {
     id: 'terje',
@@ -183,7 +195,7 @@ export const HINT: Hint[] = [
     kilde: 'Stream',
     dato: '23.09',
     tekst: 'Foran kassen står et «Horde»-skilt båret av to hender, og det peker mot venstre i bildet.',
-    betydning: 'Kameraet ser mot sørvest, så venstre i bildet er omtrent sørøst, samme vei som parkeringen (118°). Skiltet kan altså vise veien inn. Håndsymbolene er ikke løst. To teorier fra Discord: fingrene er romertall (den første viser VII = 7), eller binærtall der hver finger opp er 1. Begge kan gi sifre til en kode.',
+    betydning: 'Kameraet ser mot sørvest, så venstre i bildet er omtrent sørøst, samme vei som parkeringen (118°). Skiltet kan altså vise veien inn. Håndsymbolene er ikke løst, og hendene ser ut til å ha endret stilling i løpet av 23.09, så de kan være et hint som oppdateres. To teorier fra Discord: fingrene er romertall (den første viser VII = 7), eller binærtall der hver finger opp er 1. Begge kan gi sifre til en kode.',
   },
   {
     id: 'bjorneparken',
@@ -356,6 +368,7 @@ export const TAVLE: { t: string; tekst: string }[] = [
   { t: '21.09 21:30', tekst: 'FLY (pekte opp, litt mot sørøst)' },
   { t: 'Ukjent', tekst: 'ØST CA 118 · RETNING S…? (siste ord uklart)' },
   { t: 'Ukjent', tekst: 'VIL DERE SE EN BACKFLIP?' },
+  { t: '23.09', tekst: 'LAST NED HORDE APPEN' },
   { t: '23.09 09:33', tekst: 'DET GÅR FINT · TAKK SOM SPØR ♡' },
 ]
 
@@ -454,4 +467,44 @@ export const FAKTA = [
   { verdi: '45 sek', tekst: 'Forsinkelse på streamen' },
   { verdi: '3 låser', tekst: '2 på kassen, 1 på døra' },
   { verdi: '5–10 min', tekst: 'Fra bilen, båret oppover' },
+]
+
+/** Alle kodekandidater samlet. Kassen har 2 hengelåser og døra 1, alle med 4 siffer. */
+export const KODER: { kode: string; kilde: string; status: Status; hint: string[] }[] = [
+  { kode: '5008', kilde: 'Kredittskår i appen + «terje». Også postnummeret til Horde AS i Bergen.', status: 'bekreftet', hint: ['terje', 'koder'] },
+  { kode: '5528', kilde: '5008 med 52 i stedet for 00: plakaten ser ut til å vise kortstokker, og en kortstokk har 52 kort.', status: 'tolkning', hint: ['plakat', 'koder'] },
+  { kode: '2188', kilde: 'Nevnt i chatten. Ingen vet hvor den kommer fra.', status: 'usikker', hint: ['koder'] },
+  { kode: '7…', kilde: 'Hendene under Horde-skiltet: romertall (første hånd VII = 7) eller binært.', status: 'tolkning', hint: ['skilt', 'koder'] },
+  { kode: '072', kilde: '«Ho Ho Hint Hint»: siste sifre i premien fra 2024 (1 093 072 kr). Bare 3 siffer.', status: 'usikker', hint: ['hohoh'] },
+  { kode: '500', kilde: '«Ho Ho Hint Hint»: poeng for å verve. Bare 3 siffer.', status: 'usikker', hint: ['hohoh'] },
+  { kode: 'ord', kilde: 'Kredittskår-boksen tar imot ord («terje» ga 5008). Verdt å prøve: JAKTEN, MINUSHORDE, HORDEMINUS, NORHEIMSUND.', status: 'tolkning', hint: ['terje', 'bokstaver', 'dyr'] },
+  { kode: '????', kilde: 'Kodejakten (horde.no/secret/kodejakten): fire minispill gir én kode.', status: 'apen', hint: ['kodejakten'] },
+]
+
+/** Hva folk i chatten og på Discord tror, kort oppsummert. `fokus` er et sted på kartet. */
+export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: LatLon; hint?: string[] }[] = [
+  { tekst: 'Innlandet', hvem: 'De fleste. Klar himmel på Østlandet, flyet over Løten, furumo og tømmerdrift.', hint: ['innlandet', 'fly', 'skyer'] },
+  { tekst: 'Digeråsen mellom Løten og Åmot', hvem: 'Flere sier det «er så klink her». Passer med lyden av flyet, ikke med pekingen.', fokus: 'digeras', hint: ['digeras', 'fly'] },
+  { tekst: 'Løten og Elverum', hvem: 'Vår modell: der flyet var da Anja pekte rett opp.', pos: [60.87, 11.25], hint: ['fly'] },
+  { tekst: 'Flisa og Haslemoen', hvem: 'Én person: «nær Rena, men mer mot Flisa». Nedlagt leir på Haslemoen.', fokus: 'haslemoen', hint: ['haslemoen', 'solidag'] },
+  { tekst: 'Rena og Åmot', hvem: 'default.no sin toppkandidat.', pos: [61.45, 11.1], hint: ['innlandet'] },
+  { tekst: 'Gjøvik', hvem: 'Én person: vær og sol passer.', fokus: 'gjovik', hint: ['skyer'] },
+  { tekst: 'Norheimsund', hvem: 'Bokstavene, men mangler én N. HORDE MINUS går opp uten rest, og Hardanger var blått på Windy.', fokus: 'norheimsund', hint: ['bokstaver', 'skyer'] },
+  { tekst: 'Froland og Agder', hvem: 'Ekornet i kommunevåpenet og skyanalyse-kartet.', fokus: 'froland', hint: ['ekorn', 'dyr', 'skyanalyse'] },
+  { tekst: 'Lillehammer', hvem: 'Ekorn-maskot. Ligger i det blå båndet på Windy.', fokus: 'lillehammer', hint: ['ekorn'] },
+  {
+    tekst: 'MINUS HORDE = JAKTEN',
+    hvem: '«HORDEJAKTEN» minus «HORDE» gir «JAKTEN». Rev, and og kråke er jaktbare dyr, så dyrene kan også handle om jakt. Prøv ordene i kredittskår-boksen i appen, der «terje» ga 5008.', hint: ['bokstaver', 'dyr', 'and'] },
+  { tekst: '118° fra Bergen, gjennom Telemark', hvem: 'Skiltet peker 118° fra Horde AS i Bergen (5008): Odda, Vinje, Seljord, Kragerø.', pos: [59.5, 8.46], hint: ['bergen118', 'terje', 'retning118'] },
+  { tekst: 'Tromsø (69° nord)', hvem: 'TikTok-teori om «MINUS HORDE». Rundt 20 t fra Oslo, så lite sannsynlig.', hint: ['bokstaver'] },
+  { tekst: 'Noen er alt ved kassen', hvem: 'Chatten sier flere prøver koder der nå.', hint: ['vedkassen', 'koder'] },
+  { tekst: 'Sollyset er falskt', hvem: 'Noen mener bildet er filtrert. Da er hint fra sol i bildet usikre.', hint: ['lysfake', 'solidag'] },
+]
+
+/** Mulige lesninger av vervebokstavene N O R H E I M S U D */
+export const BOKSTAV_LESNINGER: { ord: string; forklaring: string; hint: string[] }[] = [
+  { ord: 'HORDE MINUS', forklaring: 'Bruker nøyaktig alle ti bokstavene, uten rest. Ukjent hva det skal brukes til.', hint: ['bokstaver'] },
+  { ord: 'JAKTEN', forklaring: '«HORDEJAKTEN» minus «HORDE». Rev, and og kråke er jaktbare dyr. Prøv i kredittskår-boksen.', hint: ['bokstaver', 'dyr', 'and', 'terje'] },
+  { ord: 'NORHEIMSUND', forklaring: 'Mangler én N. Stedet var blått på Windy-kartet.', hint: ['bokstaver', 'skyer'] },
+  { ord: '69° nord / Tromsø', forklaring: 'TikTok-teori om «MINUS HORDE». Rundt 20 t fra Oslo.', hint: ['bokstaver'] },
 ]

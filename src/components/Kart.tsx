@@ -2,7 +2,7 @@ import { useEffect, useImperativeHandle, useLayoutEffect, useRef, type Ref } fro
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-import { DEFAULTNO, FLY_PUNKT, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, STEDER, TEORIER, type Sted } from '@/data/innhold'
+import { BERGEN, DEFAULTNO, FLY_PUNKT, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, STEDER, TEORIER, type Sted } from '@/data/innhold'
 import { FARGE, KJORETID_KLASSER, type LagId } from '@/data/lag'
 import { avstand, destinasjon, formaterTid, iPolygon, sektor, storsirkel, type LatLon } from '@/lib/geo'
 import { PEKETID_EKTE, posisjon, type FlyData } from '@/lib/fly'
@@ -171,6 +171,10 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
       .addTo(g.retning)
     L.polyline(so, { color: FARGE.retning, weight: 3, dashArray: '6 8', bubblingMouseEvents: false })
       .bindPopup(popupTekst('118° fra Oslo', 'Retningen 118° rett fra Oslo. Under 2 t kjøring, så lite sannsynlig.'))
+      .addTo(g.retning)
+    // 118° fra Horde AS i Bergen
+    L.polyline(storsirkel(BERGEN, destinasjon(BERGEN, 118, 320), 24), { color: '#0891b2', weight: 3, bubblingMouseEvents: false })
+      .bindPopup(popupTekst('118° fra Horde AS i Bergen', 'Teori: skiltet peker 118° fra Horde sitt kontor (5008). Linja går forbi Odda og gjennom Telemark til Kragerø.'))
       .addTo(g.retning)
     for (const km of [100, 200, 300, 400, 500]) {
       L.marker(destinasjon(OSLO, 298, km), {
