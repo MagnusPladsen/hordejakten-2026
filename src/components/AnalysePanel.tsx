@@ -81,8 +81,8 @@ export function AnalysePanel({ onVisKommuner }: { onVisKommuner: () => void }) {
   const maksTag = Math.max(...a.lydtyper.map((t) => t.antall))
 
   return (
-    <div className="space-y-4">
-      <div>
+    <div className="avis space-y-4">
+      <div className="spenn">
         <h2 className="text-xl font-semibold tracking-tight">Analyse</h2>
         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
           Lyd, fugler, fly og kommunevurderinger fra andre som leter. Alt er hentet fra deres åpne sider, med kreditt under hver del.

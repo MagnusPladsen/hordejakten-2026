@@ -209,3 +209,12 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
+
+/* Bredt sidepanel: blokkene flyter i spalter og beholder smal-utseendet */
+@container (min-width: 46rem) {
+  .avis { columns: 21rem; column-gap: 1.25rem; }
+  .avis > * { break-inside: avoid; }
+  .avis > .spenn { column-span: all; }
+  .avis-liste { display: block; columns: 21rem; column-gap: 0.75rem; }
+  .avis-liste > * { break-inside: avoid; margin-bottom: 0.75rem; }
+}

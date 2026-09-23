@@ -44,8 +44,8 @@ export function LagPanel({ aktive, onVeksle, vekter, onVekter, topp, onGaTil, on
   const synlige = LAG.filter((l) => aktive.has(l.id) && l.id !== 'utenfor')
 
   return (
-    <div className="space-y-3">
-      <div>
+    <div className="avis space-y-3">
+      <div className="spenn">
         <h2 className="text-xl font-semibold tracking-tight">Kartet</h2>
         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
           Velg hva kartet skal vektlegge og hva du vil se. Trykk hvor som helst på kartet for å se kjøretid, vær og hvor godt stedet passer.

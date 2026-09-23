@@ -39,7 +39,7 @@ export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis
   const [apen, setApen] = useState<TeoriId | null>(null)
 
   return (
-    <div className="space-y-4">
+    <div className="avis space-y-4">
       <SisteNytt />
       <Intro />
 
@@ -79,7 +79,7 @@ export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis
       </div>
 
 
-      <ol className="grid items-start gap-2 @3xl:grid-cols-2">
+      <ol className="spenn grid items-start gap-2 @[46rem]:grid-cols-2">
         {rangert.map((t, i) => {
           const p = prosent[t.id]
           const { opp, ned } = utslagFor(t, aktive)

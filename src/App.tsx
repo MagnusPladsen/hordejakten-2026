@@ -69,7 +69,7 @@ export default function App() {
     return () => window.removeEventListener('resize', oppdater)
   }, [])
   const SMAL = 400
-  const panelBredde = desktop ? (bred ? Math.max(SMAL, Math.min(900, Math.round(vinduBredde * 0.58))) : SMAL) : 0
+  const panelBredde = desktop ? (bred ? Math.max(SMAL, Math.min(900, Math.round(vinduBredde * 0.58), vinduBredde - 480)) : SMAL) : 0
   /** Kartet tas i bruk: smalt panel igjen */
   const tilKartet = useCallback(() => setBred(false), [])
   const [hoyde, setHoyde] = useState<Hoyde>('halv')

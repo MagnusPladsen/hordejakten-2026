@@ -72,8 +72,8 @@ export function HintPanel({
   }, [apneHint])
 
   return (
-    <div className="space-y-4">
-      <div>
+    <div className="avis space-y-4">
+      <div className="spenn">
         <h2 className="text-xl font-semibold tracking-tight">Hint og koder</h2>
         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
           Alt vi vet så langt. Hvert hint sier hva vi har sett, og hva det betyr for hvor kassen står.
@@ -101,8 +101,8 @@ export function HintPanel({
         </ul>
       </section>
       <Oppsummering onGaTil={onGaTil} onHint={gaTilHint} />
-      <p className="pt-2 text-[12px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">Alle hint</p>
-      <div className="sticky -top-4 z-10 -mx-4 flex flex-wrap gap-1.5 border-b bg-background/95 px-4 py-2.5 backdrop-blur">
+      <p className="spenn pt-2 text-[12px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">Alle hint</p>
+      <div className="spenn sticky -top-4 z-10 -mx-4 flex flex-wrap gap-1.5 border-b bg-background/95 px-4 py-2.5 backdrop-blur">
         {FILTRE.map((f) => (
           <button
             key={f.id}
@@ -117,7 +117,7 @@ export function HintPanel({
           </button>
         ))}
       </div>
-      <div className="grid items-start gap-2.5 @3xl:grid-cols-2">
+      <div className="spenn avis-liste grid gap-2.5">
         {liste.map((h) => (
           <article
             key={h.id}
