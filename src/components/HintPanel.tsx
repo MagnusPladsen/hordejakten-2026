@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react'
-import { ExternalLink, MapPinned } from 'lucide-react'
+import { useMemo, useRef, useState } from 'react'
+import { Crosshair, ExternalLink, MapPinned } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { BOKSTAVER, HINT, STATUS, type Hint } from '@/data/innhold'
+import { BOKSTAV_LESNINGER, BOKSTAVER, FOLK_TROR, HINT, KODER, STATUS, STEDER, TEORIER, type Hint } from '@/data/innhold'
+import type { LatLon } from '@/lib/geo'
 import { cn } from '@/lib/utils'
 
 const FILTRE = [
@@ -21,18 +22,31 @@ const STATUSKANT: Record<Hint['status'], string> = {
   apen: 'border-l-fuchsia-400',
 }
 
-export function HintPanel({ onVisPaKart }: { onVisPaKart: (h: Hint) => void }) {
+export function HintPanel({ onVisPaKart, onGaTil }: { onVisPaKart: (h: Hint) => void; onGaTil: (pos: LatLon, zoom?: number) => void }) {
   const [filter, setFilter] = useState<(typeof FILTRE)[number]['id']>('alle')
+  const [markert, setMarkert] = useState<string | null>(null)
+  const tidtaker = useRef<number | undefined>(undefined)
   const liste = HINT.filter(FILTRE.find((f) => f.id === filter)!.test)
+
+  // Hopp til et hint-kort og blink det kort, så man ser hvilket det var
+  const gaTilHint = (id: string) => {
+    setFilter('alle')
+    setMarkert(id)
+    requestAnimationFrame(() => document.getElementById(`hint-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }))
+    window.clearTimeout(tidtaker.current)
+    tidtaker.current = window.setTimeout(() => setMarkert(null), 2200)
+  }
 
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-xl font-semibold tracking-tight">Alle hint</h2>
+        <h2 className="text-xl font-semibold tracking-tight">Hint og koder</h2>
         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
           Hva vi vet, og hva det betyr for hvor kassen kan stå. Hint med kartknapp slår på riktig kartlag.
         </p>
       </div>
+      <Oppsummering onGaTil={onGaTil} onHint={gaTilHint} />
+      <p className="pt-2 text-[11px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">Alle hint</p>
       <div className="flex flex-wrap gap-1.5">
         {FILTRE.map((f) => (
           <button
@@ -50,7 +64,11 @@ export function HintPanel({ onVisPaKart }: { onVisPaKart: (h: Hint) => void }) {
       </div>
       <div className="space-y-2.5">
         {liste.map((h) => (
-          <article key={h.id} className={cn('rounded-2xl border border-l-4 bg-card p-4', STATUSKANT[h.status])}>
+          <article
+            key={h.id}
+            id={`hint-${h.id}`}
+            className={cn('scroll-mt-4 rounded-2xl border border-l-4 bg-card p-4 transition-shadow duration-500', STATUSKANT[h.status], markert === h.id && 'ring-4 ring-primary/40')}
+          >
             <div className="flex items-start justify-between gap-3">
               <h3 className="text-[15px] leading-snug font-semibold">{h.tittel}</h3>
               <span className={cn('shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-semibold ring-1', STATUS[h.status].klasse)}>{STATUS[h.status].tekst}</span>
@@ -172,6 +190,89 @@ function Anagram() {
               : `Går opp. ${BOKSTAVER.length - lengde} bokstaver til overs.`}
         </p>
       )}
+    </div>
+  )
+}
+
+/** Kort oppsummert: alle kodekandidater og hva folk tror */
+function HintLenker({ ider, onHint }: { ider?: string[]; onHint: (id: string) => void }) {
+  if (!ider?.length) return null
+  return (
+    <div className="mt-1.5 flex flex-wrap gap-1">
+      {ider.map((id) => {
+        const h = HINT.find((x) => x.id === id)
+        if (!h) return null
+        return (
+          <button
+            key={id}
+            type="button"
+            onClick={() => onHint(id)}
+            className="max-w-full truncate rounded-md bg-slate-100 px-1.5 py-0.5 text-left text-[11px] font-medium text-slate-700 hover:bg-slate-200"
+          >
+            → {h.tittel}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: number) => void; onHint: (id: string) => void }) {
+  const posFor = (f: (typeof FOLK_TROR)[number]) => f.pos ?? [...STEDER, ...TEORIER].find((s) => s.id === f.fokus)?.pos
+  return (
+    <div className="space-y-3">
+      <section className="rounded-2xl border bg-card p-4">
+        <h3 className="text-[15px] font-semibold">Alle koder</h3>
+        <p className="mt-0.5 text-xs text-muted-foreground">2 hengelåser på kassen og 1 på døra, alle med 4 siffer.</p>
+        <ul className="mt-3 divide-y">
+          {KODER.map((k) => (
+            <li key={k.kode} className="flex items-start gap-3 py-2.5">
+              <span className="w-14 shrink-0 font-mono text-base font-semibold tracking-wider">{k.kode}</span>
+              <div className="min-w-0 flex-1">
+                <p className="text-[13px] leading-snug text-slate-600">{k.kilde}</p>
+                <HintLenker ider={k.hint} onHint={onHint} />
+              </div>
+              <span className={cn('shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-semibold ring-1', STATUS[k.status].klasse)}>{STATUS[k.status].tekst}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+      <section className="rounded-2xl border bg-card p-4">
+        <h3 className="text-[15px] font-semibold">Bokstavene</h3>
+        <p className="mt-0.5 text-xs text-muted-foreground">Fra «Verv en venn»: {BOKSTAVER.join(' ')}, ikke i riktig rekkefølge.</p>
+        <ul className="mt-3 divide-y">
+          {BOKSTAV_LESNINGER.map((b) => (
+            <li key={b.ord} className="py-2.5">
+              <p className="font-mono text-[14px] font-semibold tracking-wide">{b.ord}</p>
+              <p className="text-[12.5px] leading-snug text-slate-600">{b.forklaring}</p>
+              <HintLenker ider={b.hint} onHint={onHint} />
+            </li>
+          ))}
+        </ul>
+      </section>
+      <section className="rounded-2xl border bg-card p-4">
+        <h3 className="text-[15px] font-semibold">Hva folk tror</h3>
+        <p className="mt-0.5 text-xs text-muted-foreground">Fra chatten, Discord og default.no. Se Teorier-fanen for prosenter.</p>
+        <ul className="mt-3 divide-y">
+          {FOLK_TROR.map((f) => {
+            const pos = posFor(f)
+            return (
+              <li key={f.tekst} className="flex items-start gap-3 py-2.5">
+                <div className="min-w-0 flex-1">
+                  <p className="text-[13.5px] font-semibold">{f.tekst}</p>
+                  <p className="text-[12.5px] leading-snug text-slate-600">{f.hvem}</p>
+                  <HintLenker ider={f.hint} onHint={onHint} />
+                </div>
+                {pos && (
+                  <Button variant="outline" size="icon-sm" onClick={() => onGaTil(pos, 10)} aria-label={`Vis ${f.tekst} på kartet`}>
+                    <Crosshair />
+                  </Button>
+                )}
+              </li>
+            )
+          })}
+        </ul>
+      </section>
     </div>
   )
 }
