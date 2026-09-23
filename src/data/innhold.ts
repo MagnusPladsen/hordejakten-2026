@@ -193,6 +193,16 @@ export const HINT: Hint[] = [
     lag: ['defaultno', 'fly'],
   },
   {
+    id: 'litefly',
+    tittel: '«Lite med fly her · sikkert med vilt» (19:09)',
+    status: 'bekreftet',
+    kilde: 'Tavla',
+    dato: '23.09',
+    tekst: 'Anja skrev kl. 19:09: «LITE MED FLY HER» og «SIKKERT MED VILT» (siste ord er litt utydelig).',
+    betydning: 'Få fly bekrefter det hun sa første dag («INGEN FLY»): kassen står ikke under en inn- eller utflygningsrute til Gardermoen, der fly går lavt og ofte. Fly i marsjhøyde, som NOZ56U over Løten, høres lite. «Sikkert med vilt» passer med skog der det jaktes (elg, rådyr, skogsfugl).',
+    lag: ['fly'],
+  },
+  {
     id: 'fjellmark',
     pos: [61.1, 10.75],
     tittel: '«Typisk fjellmark», masse sopp, mose på steiner, ikke vann',
@@ -651,6 +661,11 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
   { t: '23.09 kveld', tekst: 'IKKE VANN · STEIN + SOPP · MOSE PÅ STEINER' },
   { t: '23.09 kveld', tekst: 'ISH 16° (ca. 16 grader)' },
   { t: '23.09 kveld', tekst: 'GIKK 2 MIN INN I SKOGEN' },
+  {
+    t: '23.09 19:09',
+    tekst: 'LITE MED FLY HER · SIKKERT MED VILT (siste ord litt utydelig)',
+    bilder: [{ src: 'img/tavle-1909-fly-vilt.jpg', alt: 'Tavla kl. 19:09: LITE MED FLY HER' }],
+  },
 ]
 
 export type Sted = {
@@ -994,6 +1009,12 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '23.09 kl. 19:09',
+    tittel: 'Ny tavle: «Lite med fly her · sikkert med vilt»',
+    tekst: 'Få fly der kassen står, altså ikke under lavtflygende ruter til Gardermoen. Og trolig mye vilt, som passer med jaktskog.',
+    hint: 'litefly',
+  },
   {
     tid: '23.09 kveld',
     tittel: 'Utelukkingskart: bare Hamar–Løten–Rena–Koppang og Ringsakfjellet står igjen',
