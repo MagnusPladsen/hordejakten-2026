@@ -238,7 +238,7 @@ export const HINT: Hint[] = [
     status: 'bekreftet',
     kilde: 'Horde-appen',
     tekst: 'Trykk «Verv en venn» i appen. På slutten dukker det opp «Hint-hint» med bilde av et ekorn.',
-    betydning: 'Ekornet går igjen i flere teorier (Froland, Lillehammer, Tretopphyttene, ordspill på «nøtt»). Ekorn ble også jaktet og solgt som kjøtt og pels i Innlandet, av romanifolk (tatere) og fattige bønder. Det knytter ekornet til både «jakten» og Innlandet.',
+    betydning: 'Ekorn finnes over hele landet, så det kan bare bety at det er ekorn der kassen står. Ekornet går likevel igjen i flere teorier (Froland, Lillehammer, Tretopphyttene, ordspill på «nøtt»). Ekorn ble også jaktet og solgt som kjøtt og pels i Innlandet, av romanifolk (tatere) og fattige bønder. Det knytter ekornet til både «jakten» og Innlandet.',
     lag: ['teorier'],
   },
   {
