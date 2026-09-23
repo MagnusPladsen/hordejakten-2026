@@ -136,7 +136,7 @@ export const LAG: Lag[] = [
       { stil: 'rute', farge: FARGE.retning, tekst: '±5° usikkerhet' },
       { stil: 'linje', farge: '#0891b2', tekst: '118° fra Horde AS i Bergen' },
     ],
-    kilde: 'Tavla («ØST CA 118»).',
+    kilde: 'Tavla («ØST CA 118 · RETNING SKILT»).',
   },
   {
     id: 'skydekke',
@@ -227,12 +227,12 @@ export const LAG: Lag[] = [
     kort: 'For deg som leter i felt',
     merkelapp: 'tolkning',
     forklaring:
-      'Plasser markøren på en parkering eller skogsbilvei. Sektoren viser hvor kassen bør ligge hvis parkeringen er 118° fra kassen: mot 298° (±20°), 300–900 m unna, oppover. Dra markøren for å flytte den.',
+      'Plasser markøren på en parkering eller skogsbilvei. Skiltet ved kassen peker 118°. Hvis det peker mot veien inn, ligger kassen mot 298° (±20°) fra bilen, 300–900 m unna, oppover. Dra markøren for å flytte den.',
     tegn: [
       { stil: 'rute', farge: FARGE.felt, tekst: 'Søkesektor (300–900 m)' },
       { stil: 'prikk', farge: FARGE.felt, tekst: 'Parkering (dra meg)' },
     ],
-    kilde: 'Tavla («ØST CA 118», 5–10 min gange).',
+    kilde: 'Tavla («ØST CA 118 · RETNING SKILT», 5–10 min gange).',
   },
   {
     id: 'utenfor',

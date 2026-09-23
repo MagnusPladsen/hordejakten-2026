@@ -118,7 +118,7 @@ export function HintPanel({ onVisPaKart, onGaTil }: { onVisPaKart: (h: Hint) => 
   )
 }
 
-/** Skisse av kassen sett ovenfra: kamera nordøst (ser mot ca. 220°), parkering ca. 118° */
+/** Skisse av kassen sett ovenfra: kamera nordøst (ser mot ca. 220°), skiltet peker ca. 118° */
 function Kompass() {
   const pil = (grader: number, r: number) => {
     const a = ((grader - 90) * Math.PI) / 180
@@ -152,9 +152,9 @@ function Kompass() {
         <rect x="88" y="90" width="24" height="20" rx="3" fill="#0f172a" transform="rotate(-17 100 100)" />
       </svg>
       <figcaption className="mt-2 space-y-1 text-xs text-slate-600">
-        <p className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-orange-600" /> Parkering ca. 118° (øst-sørøst)</p>
+        <p className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-orange-600" /> Skiltet peker ca. 118° (øst-sørøst), trolig mot veien inn</p>
         <p className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-sky-600" /> Kameraet står nordøst og ser mot sørvest</p>
-        <p className="flex items-center gap-2"><span className="h-0.5 w-2.5 bg-green-600" /> Fra bilen: gå mot 298° (vest-nordvest)</p>
+        <p className="flex items-center gap-2"><span className="h-0.5 w-2.5 bg-green-600" /> Fra bilen: gå mot 298° (vest-nordvest), hvis skiltet viser veien inn</p>
       </figcaption>
     </figure>
   )
