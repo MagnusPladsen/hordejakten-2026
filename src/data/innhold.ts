@@ -199,7 +199,7 @@ export const HINT: Hint[] = [
     status: 'bekreftet',
     kilde: 'Horde-appen',
     tekst: 'Trykk «Verv en venn» i appen. På slutten dukker det opp «Hint-hint» med bilde av et ekorn.',
-    betydning: 'Ekornet går igjen i flere teorier (Froland, Lillehammer, ordspill på «nøtt»).',
+    betydning: 'Ekornet går igjen i flere teorier (Froland, Lillehammer, Tretopphyttene, ordspill på «nøtt»). Ekorn ble også jaktet og solgt som kjøtt og pels i Innlandet, av romanifolk (tatere) og fattige bønder. Det knytter ekornet til både «jakten» og Innlandet.',
     lag: ['teorier'],
   },
   {
@@ -579,7 +579,7 @@ export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: Lat
 /** Mulige lesninger av vervebokstavene N O R H E I M S U D */
 export const BOKSTAV_LESNINGER: { ord: string; forklaring: string; hint: string[] }[] = [
   { ord: 'HORDE MINUS', forklaring: 'Bruker nøyaktig alle ti bokstavene, uten rest. Ukjent hva det skal brukes til.', hint: ['bokstaver'] },
-  { ord: 'JAKTEN', forklaring: '«HORDEJAKTEN» minus «HORDE». Rev, and og kråke er jaktbare dyr. Prøv i kredittskår-boksen.', hint: ['bokstaver', 'dyr', 'and', 'terje'] },
+  { ord: 'JAKTEN', forklaring: '«HORDEJAKTEN» minus «HORDE». Rev, and og kråke er jaktbare dyr, og ekorn ble før jaktet for kjøtt og pels i Innlandet. Prøv i kredittskår-boksen.', hint: ['bokstaver', 'dyr', 'and', 'terje'] },
   { ord: 'NORHEIMSUND', forklaring: 'Mangler én N. Stedet var blått på Windy-kartet.', hint: ['bokstaver', 'skyer'] },
   { ord: '69° nord / Tromsø', forklaring: 'TikTok-teori om «MINUS HORDE». Rundt 20 t fra Oslo.', hint: ['bokstaver'] },
 ]
