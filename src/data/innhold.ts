@@ -218,7 +218,7 @@ export const HINT: Hint[] = [
     status: 'lost',
     kilde: 'Stream',
     dato: '23.09',
-    tekst: 'Cæsar-chiffer med forskyvning 5: MT→HO, WI→RD, JO→EJ, FP→AK, YJ→TE … = HORDEJAKTEN@… (en e-postadresse).',
+    tekst: 'Cæsar-chiffer med forskyvning 5: MT WI JO FP YJ S@ MT … blir HO RD EJ AK TE N@ HO … = HORDEJAKTEN@HO…, trolig hordejakten@horde.no (som ville stått MTWIJ.ST på buksa).',
     betydning: 'En minikonkurranse (20 000 Horde-poeng til første løser). Sier ingenting om stedet.',
   },
   {
