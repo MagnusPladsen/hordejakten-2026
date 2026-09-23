@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 
-export type Fane = 'teorier' | 'lag' | 'hint' | 'tavla' | 'spill' | 'stream'
+export type Fane = 'teorier' | 'lag' | 'hint' | 'tavla' | 'spill' | 'analyse' | 'stream'
 export type Hoyde = 'lav' | 'halv' | 'full'
 
 const FANER: { id: Fane; navn: string }[] = [
@@ -12,6 +12,7 @@ const FANER: { id: Fane; navn: string }[] = [
   { id: 'hint', navn: 'Hint' },
   { id: 'tavla', navn: 'Tavla' },
   { id: 'spill', navn: 'Spill' },
+  { id: 'analyse', navn: 'Analyse' },
   { id: 'stream', navn: 'Stream' },
 ]
 
@@ -123,11 +124,11 @@ export function Ark({ fane, onFane, hoyde, onHoyde, desktop, innhold, antallHint
               <span className="h-1.5 w-11 rounded-full bg-slate-300" />
             </button>
           )}
-          <TabsList className="grid h-11 w-full grid-cols-6">
+          <TabsList className="grid h-11 w-full grid-cols-7">
             {FANER.map((f) => (
-              <TabsTrigger key={f.id} value={f.id} className="h-full px-0.5 text-[12.5px]">
+              <TabsTrigger key={f.id} value={f.id} className="h-full px-0 text-[12px]">
                 {f.navn}
-                {f.id === 'hint' && <span className="ml-1 font-mono text-[11px] text-primary">{antallHint}</span>}
+                {f.id === 'hint' && <span className="ml-0.5 font-mono text-[10px] text-primary">{antallHint}</span>}
               </TabsTrigger>
             ))}
           </TabsList>

@@ -30,6 +30,7 @@ type Props = {
   flyData: FlyData | null
   innlandet: GeoJSON.MultiPolygon | null
   utelukket: [number, number, string][] | null
+  kommuner: GeoJSON.FeatureCollection | null
   kontekst: Kontekst
   prosent: Record<TeoriId, number>
   resultat: Resultat | null
@@ -92,7 +93,7 @@ function kjoretidFarge(p: Punkt): string | null {
   return i < 0 ? null : FARGE.kjoretid[i]
 }
 
-export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelukket, kontekst, prosent, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, onPopup, onApneHint, minPos }: Props) {
+export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelukket, kommuner, kontekst, prosent, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, onPopup, onApneHint, minPos }: Props) {
   const divRef = useRef<HTMLDivElement>(null)
   const kartRef = useRef<L.Map | null>(null)
   const flisRef = useRef<L.TileLayer | null>(null)
@@ -169,7 +170,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
     tone()
 
     const g = Object.fromEntries(
-      (['modell', 'hintmarkorer', 'teoriomrader', 'utelukket', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'solidag', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'hytter', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
+      (['modell', 'hintmarkorer', 'teoriomrader', 'utelukket', 'kommuner', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'solidag', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'hytter', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
         id,
         L.featureGroup(),
       ]),
@@ -448,6 +449,25 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
       ).addTo(g.utelukket)
     }
   }, [utelukket])
+
+  // Kommunevurdering fra hordejakten.vercel.app
+  useEffect(() => {
+    const g = grupper.current
+    if (!kommuner || !g) return
+    g.kommuner.clearLayers()
+    const farger: Record<string, string> = { usikkert: '#4d9b73', 'lite sannsynlig': '#64748b', utelukket: '#b91c1c' }
+    for (const f of kommuner.features) {
+      const p = f.properties as { navn: string; v: string }
+      const geo = f.geometry as GeoJSON.MultiPolygon
+      L.polygon(
+        geo.coordinates.map((poly) => poly.map((ring) => ring.map(([lo, la]) => [la, lo] as LatLon))),
+        { color: '#ffffff', weight: 0.6, fillColor: farger[p.v] ?? '#94a3b8', fillOpacity: p.v === 'usikkert' ? 0.35 : 0.2, bubblingMouseEvents: false },
+      )
+        .bindTooltip(`${p.navn}: ${p.v}`, { sticky: true, className: 'etikett' })
+        .bindPopup(popupTekst(p.navn, `Vurdering: <b>${p.v}</b>. Kilde: hordejakten.vercel.app (23.09).`))
+        .addTo(g.kommuner)
+    }
+  }, [kommuner])
 
   // Innlandet fylke
   useEffect(() => {

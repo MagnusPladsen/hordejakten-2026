@@ -223,13 +223,22 @@ export const HINT: Hint[] = [
     lag: ['teorier'],
   },
   {
+    id: 'bindfold',
+    tittel: 'Bind for øynene hver gang hun forlater kassen',
+    status: 'bekreftet',
+    kilde: 'hordejakten.vercel.app (bekreftet-lista)',
+    dato: '21.09',
+    tekst: 'Anja får bind for øynene hver gang hun forlater boksen. Livestreamen starter 06:40.',
+    betydning: 'Hun ser aldri omgivelsene utenfor kassen, så det hun forteller gjelder bare utsikten fra kassen. Det forklarer også «Gikk 2 min inn i skogen»: pausestedet er rundt 2 minutter unna, og hun blir ført dit med bind for øynene.',
+  },
+  {
     id: 'gikk2min',
     tittel: '«Gikk 2 min inn i skogen»',
     status: 'tolkning',
     kilde: 'Tavla',
     dato: '23.09',
     tekst: 'Anja skrev: «GIKK 2 MIN INN I SKOGEN».',
-    betydning: 'Uklart hva det svarer på. Kan være hvor langt hun går på pause (til stedet uten vinduer og wifi), eller et nytt anslag for turen inn, kortere enn de 5–10 min hun sa før (hun ble båret med sovemaske). Er det turen inn, står kassen bare 100–200 m fra bilveien.',
+    betydning: 'Trolig turen til pausestedet: hun får bind for øynene hver gang hun går ut av kassen (hordejakten.vercel.app). Ellers kan det være hvor langt hun går på pause (til stedet uten vinduer og wifi), eller et nytt anslag for turen inn, kortere enn de 5–10 min hun sa før (hun ble båret med sovemaske). Er det turen inn, står kassen bare 100–200 m fra bilveien.',
   },
   {
     id: 'utelukkingskart',
