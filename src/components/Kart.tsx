@@ -2,9 +2,10 @@ import { useEffect, useImperativeHandle, useRef, type Ref } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-import { DEFAULTNO, FLYRUTE, OSLO, SKYANALYSE, SKYDEKKE, STEDER, TEORIER, type Sted } from '@/data/innhold'
+import { DEFAULTNO, FLY_PUNKT, OSLO, SKYANALYSE, SKYDEKKE, STEDER, TEORIER, type Sted } from '@/data/innhold'
 import { FARGE, KJORETID_KLASSER, type LagId } from '@/data/lag'
-import { avstand, destinasjon, formaterTid, peiling, sektor, storsirkel, type LatLon } from '@/lib/geo'
+import { avstand, destinasjon, formaterTid, sektor, storsirkel, type LatLon } from '@/lib/geo'
+import { PEKETID_EKTE, posisjon, type FlyData } from '@/lib/fly'
 import { FAKTORER, faktorer, klasse, type Punkt, type Resultat, type Vekter } from '@/lib/modell'
 import { stedsnavn } from '@/lib/stedsnavn'
 
@@ -18,14 +19,20 @@ export type KartApi = {
 
 type Props = {
   ref?: Ref<KartApi>
+  /** Plass som panelet dekker, slik at startutsnittet havner i den synlige delen */
+  polstring: { venstre: number; bunn: number }
   punkter: Punkt[] | null
   norge: GeoJSON.MultiPolygon | null
+  flyData: FlyData | null
+  flyPos: LatLon[]
   resultat: Resultat | null
   vekter: Vekter
   aktive: Set<LagId>
   bakgrunn: Bakgrunn
   feltPos: LatLon | null
   onFeltFlytt: (pos: LatLon) => void
+  /** Kalles før en info-popup åpnes, slik at panelet kan gjøre plass */
+  onPopup: () => void
   minPos: LatLon | null
 }
 
@@ -74,7 +81,7 @@ function kjoretidFarge(p: Punkt): string | null {
   return i < 0 ? null : FARGE.kjoretid[i]
 }
 
-export function Kart({ ref, punkter, norge, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, minPos }: Props) {
+export function Kart({ ref, polstring, punkter, norge, flyData, flyPos, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, onPopup, minPos }: Props) {
   const divRef = useRef<HTMLDivElement>(null)
   const kartRef = useRef<L.Map | null>(null)
   const flisRef = useRef<L.TileLayer | null>(null)
@@ -83,10 +90,13 @@ export function Kart({ ref, punkter, norge, resultat, vekter, aktive, bakgrunn, 
   const feltRef = useRef<{ markor: L.Marker; sektor: L.Polygon; pil: L.Polyline } | null>(null)
   const minPosRef = useRef<L.CircleMarker | null>(null)
   // Siste verdier for klikk-popupen, som lever utenfor React
-  const siste = useRef({ punkter, resultat, vekter, aktive })
-  siste.current = { punkter, resultat, vekter, aktive }
+  const siste = useRef({ punkter, resultat, vekter, flyPos })
+  siste.current = { punkter, resultat, vekter, flyPos }
   const onFeltFlyttRef = useRef(onFeltFlytt)
   onFeltFlyttRef.current = onFeltFlytt
+  const onPopupRef = useRef(onPopup)
+  onPopupRef.current = onPopup
+  const mobil = polstring.venstre === 0
 
   useImperativeHandle(ref, () => ({
     flyTil: (pos, zoom = 9) => kartRef.current?.flyTo(pos, zoom, { duration: 0.8 }),
@@ -107,7 +117,13 @@ export function Kart({ ref, punkter, norge, resultat, vekter, aktive, bakgrunn, 
   useEffect(() => {
     if (!divRef.current || kartRef.current) return
     const kart = L.map(divRef.current, { zoomControl: false, preferCanvas: true, attributionControl: true })
-    kart.setView([61.3, 9.8], 5)
+    kart.fitBounds(
+      [
+        [57.9, 4.6],
+        [63.6, 12.6],
+      ],
+      { paddingTopLeft: [polstring.venstre + 16, 72], paddingBottomRight: [60, polstring.bunn + 16] },
+    )
     kart.attributionControl.setPrefix(false)
     kartRef.current = kart
 
@@ -164,7 +180,7 @@ export function Kart({ ref, punkter, norge, resultat, vekter, aktive, bakgrunn, 
     // Steder og teorier
     const leggTilSted = (s: Sted, gruppe: L.FeatureGroup) => {
       const klasse = { start: 'pin-start', hint: 'pin-hint', tidligere: 'pin-tidligere', teori: s.utelukket ? 'pin-teori ut' : 'pin-teori' }[s.type]
-      const innhold = { start: 'O', hint: '', tidligere: `<b>${s.id === 'tokke' ? '23' : '24'}</b>`, teori: '?' }[s.type]
+      const innhold = { start: 'S', hint: '', tidligere: `<b>${s.id === 'tokke' ? '23' : '24'}</b>`, teori: '?' }[s.type]
       L.marker(s.pos, { icon: pin(klasse, innhold, s.type === 'hint' ? 20 : 24) })
         .bindTooltip(s.navn, { direction: 'right', offset: [12, 0], className: 'etikett' })
         .bindPopup(popupTekst(s.navn, s.info))
@@ -173,18 +189,9 @@ export function Kart({ ref, punkter, norge, resultat, vekter, aktive, bakgrunn, 
     STEDER.forEach((s) => leggTilSted(s, g.steder))
     TEORIER.forEach((s) => leggTilSted(s, g.teorier))
 
-    // Fly Oslo–Bodø
-    L.polyline(storsirkel(FLYRUTE.fra, FLYRUTE.til, 60), { color: FARGE.fly, weight: 2.5, dashArray: '2 7', lineCap: 'round' })
-      .bindPopup(popupTekst('Flyrute Oslo–Bodø', 'NOZ56U tok denne ruten. Anja så og hørte et fly ca. 21:29 (ekte tid).'))
-      .addTo(g.fly)
-    const kurs = peiling(FLYRUTE.fra, FLYRUTE.til)
-    L.polyline(storsirkel(destinasjon(FLYRUTE.fra, kurs, 100), destinasjon(FLYRUTE.fra, kurs, 200), 10), { color: FARGE.fly, weight: 7, opacity: 0.8 })
-      .bindPopup(popupTekst('Flyet ca. kl. 21:29', 'Grovt anslag: i stigning 100–200 km fra Gardermoen. Kassen bør ligge nær flyets bane.'))
-      .addTo(g.fly)
-
     // Klikk på kartet: vis info om nærmeste rute
     kart.on('click', (e: L.LeafletMouseEvent) => {
-      const { punkter: pk, resultat: res, vekter: v } = siste.current
+      const { punkter: pk, resultat: res, vekter: v, flyPos: fp } = siste.current
       if (!pk) return
       const klikk: LatLon = [e.latlng.lat, e.latlng.lng]
       let best = -1
@@ -198,7 +205,7 @@ export function Kart({ ref, punkter, norge, resultat, vekter, aktive, bakgrunn, 
       })
       if (best < 0 || bestKm > 12) return
       const p = pk[best]
-      const f = faktorer(p, v)
+      const f = faktorer(p, v, fp)
       const topp = res ? Math.max(0.1, res.andel[best] * 100) : null
       const rader = FAKTORER.filter((fk) => v[fk.id] > 0)
         .map((fk) => `<dt>${fk.navn}</dt><dd>${Math.round(f[fk.id] * 100)} %</dd>`)
@@ -220,7 +227,16 @@ export function Kart({ ref, punkter, norge, resultat, vekter, aktive, bakgrunn, 
           <a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${lat},${lon}">Google Maps</a>
         </div>
       </div>`
-      const popup = L.popup({ maxWidth: 300 }).setLatLng(e.latlng).setContent(html).openOn(kart)
+      onPopupRef.current()
+      // Hold popupen unna tittel, tegnforklaring og knapper som ligger oppå kartet
+      const popup = L.popup({
+        maxWidth: 290,
+        autoPanPaddingTopLeft: mobil ? [12, 250] : [440, 90],
+        autoPanPaddingBottomRight: mobil ? [70, 150] : [70, 20],
+      })
+        .setLatLng(e.latlng)
+        .setContent(html)
+        .openOn(kart)
       stedsnavn(klikk[0], klikk[1]).then((navn) => {
         const el = popup.getElement()?.querySelector('[data-sted]')
         if (el && navn) el.textContent = `Nær ${navn}`
@@ -231,6 +247,7 @@ export function Kart({ ref, punkter, norge, resultat, vekter, aktive, bakgrunn, 
       kart.remove()
       kartRef.current = null
     }
+    // Startutsnittet settes bare én gang
   }, [])
 
   // Bakgrunnskart
@@ -269,6 +286,40 @@ export function Kart({ ref, punkter, norge, resultat, vekter, aktive, bakgrunn, 
       r.setStyle(k < 0 ? { fillOpacity: 0 } : { fillColor: FARGE.modell[k], fillOpacity: [0.72, 0.62, 0.5, 0.38][k] })
     })
   }, [resultat])
+
+  // Flyspor rundt 21:29
+  useEffect(() => {
+    const g = grupper.current
+    if (!flyData || !g) return
+    g.fly.clearLayers()
+    for (const fly of flyData.fly) {
+      const hovedfly = fly.kallesignal === FLY_PUNKT.kallesignal
+      const naa = posisjon(fly, PEKETID_EKTE)
+      const lavt = (naa?.fot ?? fly.spor[0][3]) < 3000
+      L.polyline(
+        fly.spor.map(([, la, lo]) => [la, lo] as LatLon),
+        { color: FARGE.fly, weight: hovedfly ? 4 : 1.5, opacity: hovedfly ? 0.95 : lavt ? 0.25 : 0.55 },
+      )
+        .bindPopup(
+          popupTekst(
+            fly.kallesignal + (fly.type ? ` (${fly.type})` : ''),
+            `Sporet 21:28–21:34 (ekte tid). ${naa ? `Kl. ${PEKETID_EKTE} var flyet i ca. ${Math.round(naa.fot).toLocaleString('nb-NO')} fot.` : ''}`,
+          ),
+        )
+        .addTo(g.fly)
+      if (naa) {
+        L.circleMarker(naa.pos, { radius: hovedfly ? 6 : 3.5, color: '#fff', weight: 1.5, fillColor: FARGE.fly, fillOpacity: lavt ? 0.4 : 1 }).addTo(g.fly)
+      }
+    }
+    L.circle(FLY_PUNKT.pos, { radius: 10000, color: FARGE.fly, weight: 2, dashArray: '5 5', fillOpacity: 0.08 })
+      .bindPopup(
+        popupTekst(
+          `${FLY_PUNKT.kallesignal} da Anja skrev «FLY»`,
+          'Beste treff i flydataene (Oslo–Bodø, ca. 24 000 fot). Hvis det var dette flyet, står kassen innenfor ringen (10 km). Bare ca. 2 t fra Oslo.',
+        ),
+      )
+      .addTo(g.fly)
+  }, [flyData])
 
   // Maske utenfor Norge
   useEffect(() => {
