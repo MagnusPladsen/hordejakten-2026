@@ -6,12 +6,12 @@ import { Tegnrute } from '@/components/Tegnrute'
 import { cn } from '@/lib/utils'
 
 /** Flytende «Hva ser jeg?»-boks med tegnforklaring for lagene som er på */
-export function Legende({ aktive, onMer, kompakt, className }: { aktive: Set<LagId>; onMer: () => void; kompakt?: boolean; className?: string }) {
+export function Legende({ aktive, onMer, kompakt, className, stil }: { aktive: Set<LagId>; onMer: () => void; kompakt?: boolean; className?: string; stil?: React.CSSProperties }) {
   const [apen, setApen] = useState(false)
   const synlige = LAG.filter((l) => aktive.has(l.id) && l.id !== 'utenfor')
 
   return (
-    <div className={cn('w-[min(60vw,15.5rem)] rounded-2xl border bg-white/95 shadow-lg shadow-black/5 backdrop-blur', className)}>
+    <div style={stil} className={cn('w-[min(60vw,15.5rem)] rounded-2xl border bg-white/95 shadow-lg shadow-black/5 backdrop-blur', className)}>
       <button type="button" onClick={() => setApen((a) => !a)} className="flex min-h-11 w-full items-center justify-between gap-2 px-3" aria-expanded={apen}>
         <span className="text-[12px] font-semibold tracking-[0.1em] text-slate-600 uppercase">
           Hva ser jeg?{kompakt && !apen && synlige.length > 0 && <span className="ml-1 text-primary">({synlige.length})</span>}

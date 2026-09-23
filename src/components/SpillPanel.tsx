@@ -186,7 +186,7 @@ export function SpillPanel() {
         </a>
       </Button>
 
-      <ol className="space-y-2.5">
+      <ol className="grid items-start gap-2.5 @3xl:grid-cols-2">
         {SPILL.map((s) => (
           <li key={s.nr} className="rounded-2xl border bg-card p-4">
             <p className="text-[12px] font-semibold tracking-wider text-muted-foreground uppercase">Spill {s.nr} av 4</p>

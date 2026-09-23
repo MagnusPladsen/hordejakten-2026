@@ -79,7 +79,7 @@ export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis
       </div>
 
 
-      <ol className="space-y-2">
+      <ol className="grid items-start gap-2 @3xl:grid-cols-2">
         {rangert.map((t, i) => {
           const p = prosent[t.id]
           const { opp, ned } = utslagFor(t, aktive)
