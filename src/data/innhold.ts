@@ -469,7 +469,7 @@ export const HINT: Hint[] = [
     kilde: 'Appen, stream og chat',
     dato: '23.09',
     tekst: 'Kassen har 2 kodelåser med 4 siffer. Kandidater: 5008 (kredittskår + «terje»). 5528: plakaten foran kameraet ser ut til å vise kortstokker, ikke pengebunker, og en kortstokk har 52 kort, så «00» i 5008 kan være 52. 2188 (nevnt i chatten, ukjent kilde). Hendene under Horde-skiltet kan også være sifre, som romertall (første hånd VII = 7) eller binært. Kodejakten gir en kode. 072 og 500 fra «Ho Ho Hint Hint».',
-    betydning: 'Koder, ikke steder. Ha med alle kandidatene når du drar ut. 5528 og 2188 er ubekreftet.',
+    betydning: 'Koder, ikke steder. Anja har nå skrevet at døra har en elektronisk lås med 5 siffer, i tillegg til hengelåsene med 4 siffer. Ha med alle kandidatene når du drar ut. 5528 og 2188 er ubekreftet.',
   },
   {
     id: 'plakat',
@@ -533,6 +533,7 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
   },
   { t: '23.09', tekst: 'KAMERA 41 ØST' },
   { t: '23.09 17:49', tekst: 'LYDTETT · SOL · VINDSTILLE' },
+  { t: '23.09 kveld', tekst: 'ELEKTRONISK LÅS PÅ DØRA MED 5 SIFFER' },
 ]
 
 export type Sted = {
@@ -673,7 +674,7 @@ export const BOKSTAVER = ['N', 'O', 'R', 'H', 'E', 'I', 'M', 'S', 'U', 'D']
 export const FAKTA = [
   { verdi: '1 116 897 kr', tekst: 'Premie' },
   { verdi: '45 sek', tekst: 'Forsinkelse på streamen' },
-  { verdi: '2 koder', tekst: 'To kodelåser, 4 siffer hver' },
+  { verdi: '4 + 5 siffer', tekst: 'Hengelåser 4 siffer, dørlås 5 siffer' },
   { verdi: '5–10 min', tekst: 'Fra bilen, båret oppover' },
 ]
 
@@ -687,6 +688,13 @@ export const SJANSE: Record<Sjanse, { tekst: string; klasse: string }> = {
 
 /** De to mest sannsynlige kodene (kassen har 2 kodelåser), med begrunnelse */
 export const BESTE_KODER: { las: string; kode: string; hvorfor: string; sjanse: Sjanse; reserve?: string }[] = [
+  {
+    las: 'Døra (5 siffer)',
+    kode: 'Ukjent',
+    hvorfor: 'Anja skrev at døra har en elektronisk lås med 5 siffer. Ingen kjent kode har 5 siffer ennå.',
+    sjanse: 'lav',
+    reserve: 'Kandidater med 5 siffer: 50085, 55285 (5008/5528 + «+5»), 07250 (072 + 500 kortet ned)',
+  },
   {
     las: 'Lås 1',
     kode: '5008',
@@ -862,11 +870,17 @@ export const SIKRE_FAKTA: string[] = [
   'Klar himmel kvelden 21.09. Sola var oppe før kl. 07.',
   'Kassen er lydtett, så hun hører lite utenfra. Sol og vindstille kl. 17:49 den 23.09.',
   'Horde-skiltet peker 118–120° mot kassen. Kameraet står ca. 41° (nordøst) fra kassen.',
-  'Kassen har 2 kodelåser med 4 siffer. Appen ga 5008 som hint.',
+  'Låser: hengelåser med 4 siffer på kassen, og en elektronisk lås med 5 siffer på døra. Appen ga 5008 som hint.',
 ]
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '23.09 kveld',
+    tittel: 'Døra har en elektronisk lås med 5 siffer',
+    tekst: 'Anja skrev at døra har en elektronisk lås med 5 siffer, i tillegg til hengelåsene med 4 siffer. Kodejakten gir koden til én hengelås. Se «Mest sannsynlige koder» under Hint.',
+    hint: 'koder',
+  },
   {
     tid: '23.09 kl. 17:49',
     tittel: 'Ny tavle: «LYDTETT · SOL · VINDSTILLE»',
