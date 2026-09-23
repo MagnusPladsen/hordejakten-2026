@@ -49,8 +49,20 @@ export const HINT: Hint[] = [
     kilde: 'Satellittbilde (fellesskapet)',
     dato: '23.09',
     tekst: 'Tidligere i dag var det skyer over store deler av Norge på satellitt, mens Anja hadde sol. Klart var det fra Kongsvinger opp til Rena på siden mot Sverige, i deler av Vestfold og rundt Trondheim–Ålesund.',
-    betydning: 'Kassen står trolig i et av de klare områdene. Det peker mot Kongsvinger–Elverum–Rena, som passer med flyet over Løten. Trondheim–Ålesund var blått på Windy tidligere, og det er uklart hvilke deler av Vestfold som var klare.',
+    betydning: 'Kassen står trolig i et av de klare områdene. Det peker mot Kongsvinger–Elverum–Rena, som passer med flyet over Løten. Fredrikstad, Sarpsborg og Halden var overskyet hele dagen og er ute. Trondheim–Ålesund var blått på Windy tidligere, og det er uklart hvilke deler av Vestfold som var klare.',
     lag: ['solidag'],
+  },
+  {
+    id: 'tretopp',
+    tittel: 'Tips: Tretopphyttene i Ringsaker',
+    status: 'usikker',
+    kilde: 'Chat',
+    dato: '23.09',
+    tekst: 'Tretopphyttene (Danseråsvegen 173, Brumunddal) har et ekorn som logo, i grønt. Noen mener det er hintet bak ekornet i appen.',
+    betydning: 'Knytter sammen ekornet og Prøysen (Ringsaker), og default.no har en kandidat i Ringsaker. Men stedet lå utenfor det klare området på satellitt 23.09, og flyet var 21 km unna (19°) da Anja pekte opp. Sammenlign med «Hint-hint»-ekornet i appen.',
+    lag: ['teorier'],
+    fokus: 'tretopp',
+    lenke: 'https://tretopphytter.no/',
   },
   {
     id: 'lysfake',
@@ -319,7 +331,7 @@ export const HINT: Hint[] = [
     status: 'apen',
     kilde: 'Appen, stream og chat',
     dato: '23.09',
-    tekst: 'Kassen har 2 hengelåser og døra 1, alle med 4 siffer. Kandidater: 5008 (kredittskår + «terje»). 5528: plakaten foran kameraet ser ut til å vise kortstokker, ikke pengebunker, og en kortstokk har 52 kort, så «00» i 5008 kan være 52. 2188 (nevnt i chatten, ukjent kilde). Hendene under Horde-skiltet kan også være sifre, som romertall (første hånd VII = 7) eller binært. Kodejakten gir en kode. 072 og 500 fra «Ho Ho Hint Hint».',
+    tekst: 'Kassen har 2 kodelåser med 4 siffer. Kandidater: 5008 (kredittskår + «terje»). 5528: plakaten foran kameraet ser ut til å vise kortstokker, ikke pengebunker, og en kortstokk har 52 kort, så «00» i 5008 kan være 52. 2188 (nevnt i chatten, ukjent kilde). Hendene under Horde-skiltet kan også være sifre, som romertall (første hånd VII = 7) eller binært. Kodejakten gir en kode. 072 og 500 fra «Ho Ho Hint Hint».',
     betydning: 'Koder, ikke steder. Ha med alle kandidatene når du drar ut. 5528 og 2188 er ubekreftet.',
   },
   {
@@ -399,6 +411,13 @@ export const TEORIER: Sted[] = [
     info: '61°10\'43.8"N 11°15\'50.1"E. Flere i chatten mener dette stemmer godt. Skog, 606 moh., 2 t 35 min fra Oslo, i kanten av det som var klart på satellitt 23.09. NOZ56U var rett over her kl. 21:32:50 (74°), da rumlingen var høyest. Men da Anja pekte opp (21:28:53 ekte tid) var flyet 45 km unna og bare 8° over horisonten.',
   },
   {
+    id: 'tretopp',
+    navn: 'Tips: Tretopphyttene, Ringsaker',
+    pos: [60.9748, 10.9167],
+    type: 'teori',
+    info: 'Danseråsvegen 173, Brumunddal. Logoen er et ekorn. Ringsaker er også Prøysens kommune («Reven og kråka»). Ca. 2 t fra Oslo. NOZ56U var ca. 21 km unna (19° over horisonten) da Anja pekte opp.',
+  },
+  {
     id: 'haslemoen',
     navn: 'Tips: Flisa og Haslemoen',
     pos: [60.66, 11.87],
@@ -465,20 +484,46 @@ export const BOKSTAVER = ['N', 'O', 'R', 'H', 'E', 'I', 'M', 'S', 'U', 'D']
 export const FAKTA = [
   { verdi: '1 116 897 kr', tekst: 'Premie' },
   { verdi: '45 sek', tekst: 'Forsinkelse på streamen' },
-  { verdi: '3 låser', tekst: '2 på kassen, 1 på døra' },
+  { verdi: '2 koder', tekst: 'To kodelåser, 4 siffer hver' },
   { verdi: '5–10 min', tekst: 'Fra bilen, båret oppover' },
 ]
 
-/** Alle kodekandidater samlet. Kassen har 2 hengelåser og døra 1, alle med 4 siffer. */
-export const KODER: { kode: string; kilde: string; status: Status; hint: string[] }[] = [
-  { kode: '5008', kilde: 'Kredittskår i appen + «terje». Også postnummeret til Horde AS i Bergen.', status: 'bekreftet', hint: ['terje', 'koder'] },
-  { kode: '5528', kilde: '5008 med 52 i stedet for 00: plakaten ser ut til å vise kortstokker, og en kortstokk har 52 kort.', status: 'tolkning', hint: ['plakat', 'koder'] },
-  { kode: '2188', kilde: 'Nevnt i chatten. Ingen vet hvor den kommer fra.', status: 'usikker', hint: ['koder'] },
-  { kode: '7…', kilde: 'Hendene under Horde-skiltet: romertall (første hånd VII = 7) eller binært.', status: 'tolkning', hint: ['skilt', 'koder'] },
-  { kode: '072', kilde: '«Ho Ho Hint Hint»: siste sifre i premien fra 2024 (1 093 072 kr). Bare 3 siffer.', status: 'usikker', hint: ['hohoh'] },
-  { kode: '500', kilde: '«Ho Ho Hint Hint»: poeng for å verve. Bare 3 siffer.', status: 'usikker', hint: ['hohoh'] },
-  { kode: 'ord', kilde: 'Kredittskår-boksen tar imot ord («terje» ga 5008). Verdt å prøve: JAKTEN, MINUSHORDE, HORDEMINUS, NORHEIMSUND.', status: 'tolkning', hint: ['terje', 'bokstaver', 'dyr'] },
-  { kode: '????', kilde: 'Kodejakten (horde.no/secret/kodejakten): fire minispill gir én kode.', status: 'apen', hint: ['kodejakten'] },
+export type Sjanse = 'hoy' | 'middels' | 'lav'
+
+export const SJANSE: Record<Sjanse, { tekst: string; klasse: string }> = {
+  hoy: { tekst: 'Høy', klasse: 'bg-emerald-600 text-white' },
+  middels: { tekst: 'Middels', klasse: 'bg-amber-500 text-white' },
+  lav: { tekst: 'Lav', klasse: 'bg-slate-300 text-slate-700' },
+}
+
+/** De to mest sannsynlige kodene (kassen har 2 kodelåser), med begrunnelse */
+export const BESTE_KODER: { las: string; kode: string; hvorfor: string; sjanse: Sjanse; reserve?: string }[] = [
+  {
+    las: 'Lås 1',
+    kode: '5008',
+    hvorfor: 'Det eneste tallet appen selv kaller et hint («Du fant et hint!»), og det har 4 siffer.',
+    sjanse: 'hoy',
+    reserve: '5528 hvis «00» skal byttes med 52 (kortstokken)',
+  },
+  {
+    las: 'Lås 2',
+    kode: 'Kodejakten',
+    hvorfor: 'Horde sier selv at Kodejakten gir koden til en av låsene. Koden er ikke kjent ennå.',
+    sjanse: 'hoy',
+    reserve: 'Prøv 2188 og 5528 til Kodejakten-koden er kjent',
+  },
+]
+
+/** Alle kodekandidater samlet. Kassen har 2 kodelåser med 4 siffer. */
+export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjanse; hint: string[] }[] = [
+  { kode: '5008', kilde: 'Kredittskår i appen + «terje». Også postnummeret til Horde AS i Bergen.', status: 'bekreftet', sjanse: 'hoy', hint: ['terje', 'koder'] },
+  { kode: '5528', kilde: '5008 med 52 i stedet for 00: plakaten ser ut til å vise kortstokker, og en kortstokk har 52 kort.', status: 'tolkning', sjanse: 'middels', hint: ['plakat', 'koder'] },
+  { kode: '2188', kilde: 'Nevnt i chatten. Ingen vet hvor den kommer fra.', status: 'usikker', sjanse: 'middels', hint: ['koder'] },
+  { kode: '7…', kilde: 'Hendene under Horde-skiltet: romertall (første hånd VII = 7) eller binært.', status: 'tolkning', sjanse: 'lav', hint: ['skilt', 'koder'] },
+  { kode: '072', kilde: '«Ho Ho Hint Hint»: siste sifre i premien fra 2024 (1 093 072 kr). Bare 3 siffer.', status: 'usikker', sjanse: 'lav', hint: ['hohoh'] },
+  { kode: '500', kilde: '«Ho Ho Hint Hint»: poeng for å verve. Bare 3 siffer.', status: 'usikker', sjanse: 'lav', hint: ['hohoh'] },
+  { kode: 'ord', kilde: 'Kredittskår-boksen tar imot ord («terje» ga 5008). Verdt å prøve: JAKTEN, MINUSHORDE, HORDEMINUS, NORHEIMSUND.', status: 'tolkning', sjanse: 'middels', hint: ['terje', 'bokstaver', 'dyr'] },
+  { kode: '????', kilde: 'Kodejakten (horde.no/secret/kodejakten): fire minispill gir én kode.', status: 'apen', sjanse: 'hoy', hint: ['kodejakten'] },
 ]
 
 /** Hva folk i chatten og på Discord tror, kort oppsummert. `fokus` er et sted på kartet. */
@@ -486,6 +531,7 @@ export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: Lat
   { tekst: 'Innlandet', hvem: 'De fleste. Klar himmel på Østlandet, flyet over Løten, furumo og tømmerdrift.', hint: ['innlandet', 'fly', 'skyer'] },
   { tekst: 'Digeråsen mellom Løten og Åmot', hvem: 'Flere sier det «er så klink her». Passer med lyden av flyet, ikke med pekingen.', fokus: 'digeras', hint: ['digeras', 'fly'] },
   { tekst: 'Løten og Elverum', hvem: 'Vår modell: der flyet var da Anja pekte rett opp.', pos: [60.87, 11.25], hint: ['fly'] },
+  { tekst: 'Tretopphyttene i Ringsaker', hvem: 'Ekorn-logo, Prøysens kommune. Men utenfor det klare området og 21 km fra flyet.', fokus: 'tretopp', hint: ['tretopp', 'ekorn', 'dyr'] },
   { tekst: 'Flisa og Haslemoen', hvem: 'Én person: «nær Rena, men mer mot Flisa». Nedlagt leir på Haslemoen.', fokus: 'haslemoen', hint: ['haslemoen', 'solidag'] },
   { tekst: 'Rena og Åmot', hvem: 'default.no sin toppkandidat.', pos: [61.45, 11.1], hint: ['innlandet'] },
   { tekst: 'Gjøvik', hvem: 'Én person: vær og sol passer.', fokus: 'gjovik', hint: ['skyer'] },
@@ -496,6 +542,7 @@ export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: Lat
     tekst: 'MINUS HORDE = JAKTEN',
     hvem: '«HORDEJAKTEN» minus «HORDE» gir «JAKTEN». Rev, and og kråke er jaktbare dyr, så dyrene kan også handle om jakt. Prøv ordene i kredittskår-boksen i appen, der «terje» ga 5008.', hint: ['bokstaver', 'dyr', 'and'] },
   { tekst: '118° fra Bergen, gjennom Telemark', hvem: 'Skiltet peker 118° fra Horde AS i Bergen (5008): Odda, Vinje, Seljord, Kragerø.', pos: [59.5, 8.46], hint: ['bergen118', 'terje', 'retning118'] },
+  { tekst: 'Ikke Fredrikstad, Sarpsborg eller Halden', hvem: 'Overskyet der hele dagen, mens Anja hadde sol.', hint: ['solidag'] },
   { tekst: 'Tromsø (69° nord)', hvem: 'TikTok-teori om «MINUS HORDE». Rundt 20 t fra Oslo, så lite sannsynlig.', hint: ['bokstaver'] },
   { tekst: 'Noen er alt ved kassen', hvem: 'Chatten sier flere prøver koder der nå.', hint: ['vedkassen', 'koder'] },
   { tekst: 'Sollyset er falskt', hvem: 'Noen mener bildet er filtrert. Da er hint fra sol i bildet usikre.', hint: ['lysfake', 'solidag'] },

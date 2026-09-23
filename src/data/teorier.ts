@@ -4,7 +4,7 @@
 import { SKYDEKKE, SOL_I_DAG } from '@/data/innhold'
 import { iPolygon, type LatLon } from '@/lib/geo'
 
-export type TeoriId = 'loten' | 'rena' | 'solor' | 'gjovik' | 'roros' | 'valdres' | 'agder' | 'hardanger' | 'annet'
+export type TeoriId = 'loten' | 'rena' | 'ringsaker' | 'solor' | 'gjovik' | 'roros' | 'valdres' | 'agder' | 'hardanger' | 'annet'
 
 export type Teori = {
   id: TeoriId
@@ -47,6 +47,17 @@ export const TEORIER_LISTE: Teori[] = [
     prior: 1,
     farge: '#e11d48',
     forhand: 'innlandet',
+  },
+  {
+    id: 'ringsaker',
+    navn: 'Ringsaker (Tretopphyttene)',
+    etikett: 'Ringsaker',
+    kort: 'Ekorn-logo og Prøysens kommune',
+    senter: [60.9748, 10.9167],
+    radiusKm: 15,
+    kjoretid: 2.0,
+    prior: 1,
+    farge: '#16a34a',
   },
   {
     id: 'solor',
@@ -205,28 +216,28 @@ export const BEVIS: Bevis[] = [
     forklaring:
       'Hun pekte nesten rett opp. Flyet var i ca. 24 000 fot, så kassen står trolig innen ca. 5 km fra sporet der flyet var da: mellom Løten og Elverum. Det kan ha vært et annet fly.',
     standardPa: true,
-    faktor: tabell({ loten: 4, rena: 1.3, solor: 0.7, gjovik: 0.8, roros: 0.7, valdres: 0.8, agder: 0.6, hardanger: 0.6, annet: 0.7 }),
+    faktor: tabell({ loten: 4, rena: 1.3, ringsaker: 1.2, solor: 0.7, gjovik: 0.8, roros: 0.7, valdres: 0.8, agder: 0.6, hardanger: 0.6, annet: 0.7 }),
   },
   {
     id: 'defaultno',
     tittel: 'default.no sin fusjonsmodell',
     forklaring: 'Nr. 1 er Rena/Åmot, nr. 2 Risør/Gjerstad. Flyet er allerede med i modellen deres, så dette teller mindre for å unngå dobbelttelling.',
     standardPa: true,
-    faktor: tabell({ rena: 1.5, loten: 1.2, agder: 1.3, valdres: 1.1, roros: 1.1, hardanger: 0.8 }),
+    faktor: tabell({ rena: 1.5, loten: 1.2, ringsaker: 1.2, agder: 1.3, valdres: 1.1, roros: 1.1, hardanger: 0.8 }),
   },
   {
     id: 'terreng',
     tittel: 'Furumo, lyng, bærlyng og tømmerdrift',
     forklaring: 'Typisk for Østerdalen, Røros og indre Agder. Mindre typisk for Vestlandet.',
     standardPa: true,
-    faktor: tabell({ rena: 1.5, loten: 1.4, solor: 1.5, gjovik: 1.2, roros: 1.3, agder: 1.3, valdres: 1.1, hardanger: 0.6 }),
+    faktor: tabell({ rena: 1.5, loten: 1.4, ringsaker: 1.3, solor: 1.5, gjovik: 1.2, roros: 1.3, agder: 1.3, valdres: 1.1, hardanger: 0.6 }),
   },
   {
     id: 'konsensus',
     tittel: 'Fellesskapet er sikre på Innlandet',
     forklaring: 'Bygger mest på de samme hintene som over (fly, default.no, terreng), så den teller lite for å unngå dobbelttelling.',
     standardPa: true,
-    faktor: tabell({ loten: 1.2, rena: 1.2, solor: 1.2, gjovik: 1.2, roros: 1.1, valdres: 1.1 }),
+    faktor: tabell({ loten: 1.2, rena: 1.2, ringsaker: 1.2, solor: 1.2, gjovik: 1.2, roros: 1.1, valdres: 1.1 }),
   },
   {
     id: 'gjovikvaer',
@@ -240,14 +251,14 @@ export const BEVIS: Bevis[] = [
     tittel: 'Rev og kråke: «Reven og kråka» (Prøysen)',
     forklaring: 'Alf Prøysen er fra Ringsaker, nabokommunen til Hamar og Løten.',
     standardPa: true,
-    faktor: tabell({ loten: 1.3, rena: 1.1 }),
+    faktor: tabell({ ringsaker: 1.5, loten: 1.3, rena: 1.1 }),
   },
   {
     id: 'ekorn',
-    tittel: 'Ekornet (Froland)',
-    forklaring: 'Froland har et sølvfarget ekorn på grønn bunn i kommunevåpenet (bekreftet).',
+    tittel: 'Ekornet (Froland, Tretopphyttene)',
+    forklaring: 'Froland har et ekorn i kommunevåpenet (bekreftet). Tretopphyttene i Ringsaker har et grønt ekorn som logo.',
     standardPa: true,
-    faktor: tabell({ agder: 1.3 }),
+    faktor: tabell({ agder: 1.3, ringsaker: 1.4 }),
   },
   {
     id: 'bjorneparken',
