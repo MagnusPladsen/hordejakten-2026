@@ -224,12 +224,12 @@ export const HINT: Hint[] = [
   },
   {
     id: 'utelukkingskart',
-    tittel: 'Utelukkingskart: ingen sopp og fjellbjørk',
+    tittel: 'Utelukkingskart: fjellbjørk',
     status: 'tolkning',
     kilde: 'Fellesskapet (kart i chatten)',
     dato: '23.09',
-    tekst: 'Fellesskapet har laget et kart over hva som er utelukket: rødt, rosa der det ikke er sopp (Anja: «masse sopp»), og lyseblått der det vokser fjellbjørk. Det som står igjen er stripa Hamar–Løten–Rena–Koppang og Ringsakfjellet/Rudshøgda.',
-    betydning: 'Utelukker Solør/Finnskogen, Trysil, Elverum sentrum, Gudbrandsdalen og Rendalen. Åpent: Rudshøgda og Rena nesten helt, Ringsaker 83 %, Løten 77 %. Vises som eget kartlag og teller i Teorier-fanen.',
+    tekst: 'Fellesskapet har laget et kart over hva som er utelukket: rødt, og lyseblått der det vokser fjellbjørk. Det som står igjen er stripa Hamar–Løten–Rena–Koppang, Ringsakfjellet/Rudshøgda og Gjøvik/Toten. (Det rosa «ingen sopp»-laget er tatt ut, det var ikke korrekt.)',
+    betydning: 'Utelukker Solør/Finnskogen, Trysil og Elverum sentrum. Åpent: Rudshøgda 100 %, Gjøvik 95 %, Rena 93 %, Ringsaker 83 %, Løten 77 %. Vises som eget kartlag og teller i Teorier-fanen.',
     pos: [61.1, 11.1],
     lag: ['utelukket'],
   },
@@ -1017,8 +1017,8 @@ export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: {
   },
   {
     tid: '23.09 kveld',
-    tittel: 'Utelukkingskart: bare Hamar–Løten–Rena–Koppang og Ringsakfjellet står igjen',
-    tekst: 'Fellesskapet har utelukket områder uten sopp (rosa) og med fjellbjørk (lyseblått). Solør, Finnskogen, Trysil og Elverum sentrum er ute. Nytt kartlag «Utelukket av fellesskapet» er på som standard.',
+    tittel: 'Utelukkingskart: Hamar–Løten–Rena–Koppang, Ringsakfjellet og Gjøvik står igjen',
+    tekst: 'Fellesskapet har utelukket områder med fjellbjørk (lyseblått). Solør, Finnskogen, Trysil og Elverum sentrum er ute. Nytt kartlag «Utelukket av fellesskapet» er på som standard.',
     hint: 'utelukkingskart',
   },
   {

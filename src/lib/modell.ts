@@ -31,7 +31,7 @@ export const FAKTORER: { id: FaktorId; navn: string; forklaring: string }[] = [
   { id: 'vei', navn: 'Nær bilvei', forklaring: '5–10 min gange fra bilen. Ruter langt fra vei trekkes ned.' },
   { id: 'skyfri', navn: 'Utelukk skyer og tåke', forklaring: 'Hun så klar himmel. 100 % = blått på Windy og tåka i Odal er helt utelukket.' },
   { id: 'solidag', navn: 'Sol i dag (satellitt)', forklaring: 'Anja hadde sol mens det var skyet nesten overalt. Klare områder får høyest poeng.' },
-  { id: 'utelukket', navn: 'Fellesskapets utelukkingskart', forklaring: 'Utelukker rødt, rosa (ingen sopp) og lyseblått (fjellbjørk) fra kartet i chatten.' },
+  { id: 'utelukket', navn: 'Fellesskapets utelukkingskart', forklaring: 'Utelukker rødt og lyseblått (fjellbjørk) fra kartet i chatten.' },
   { id: 'innlandet', navn: 'Innlandet fylke', forklaring: 'Fellesskapet er sikre på Innlandet.' },
   { id: 'bokstaver', navn: 'Bokstavene: Norheimsund', forklaring: 'Nær Norheimsund, som vervebokstavene kan stave.' },
   { id: 'retning', navn: '298°-linja fra Oslo', forklaring: 'Teori: 118° er retningen mot Oslo.' },
