@@ -343,7 +343,7 @@ export const HINT: Hint[] = [
     status: 'bekreftet',
     kilde: 'horde.no/secret/kodejakten (kildekoden)',
     tekst: 'Fire spill: «Kill the Bill» (skyt regninger), «Bill Runner» (hopp over regninger), «Flappy-Alf» og «Dartskiven». Figuren heter Alf, med ansiktet til Horde-mannen fra videoen, ikke Alf Prøysen. Når alle fire er klart, viser siden «Låsen er åpen: Dette er koden til den ene hengelåsen på kassen.» Koden ligger ikke i nettsiden, serveren gir den først når alle fire er godkjent.',
-    betydning: 'Gir én av de to kodene, ikke et sted. Tips til dartskiven, fra kildekoden: blå = pluss, gul = minus, rosa = gange, lilla = dele. Start med tallet i midten og regn deg utover, ring for ring. Du må ha fire riktige på rad. Hjelpeteksten er bare «Tips: Vær bedre».',
+    betydning: 'Serveren som gir koden er ikke skrudd på ennå: alle API-kall (start/verify) svarer «not_configured» (503) per 23.09. Ingen kan altså få en kode fra Kodejakten nå, uansett. Når den åpner: gir én av kodene, ikke et sted. Tips til dartskiven, fra kildekoden: blå = pluss, gul = minus, rosa = gange, lilla = dele. Start med tallet i midten og regn deg utover, ring for ring. Du må ha fire riktige på rad. Hjelpeteksten er bare «Tips: Vær bedre».',
     lenke: 'https://horde.no/secret/kodejakten',
   },
   {
@@ -885,6 +885,12 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '23.09',
+    tittel: 'Kodejakten er ikke aktiv ennå',
+    tekst: 'Vi sjekket API-et: serveren som gir koden svarer «not_configured» (503) på alle kall. Kodejakten-spillene laster, men ingen kan få en kode fra dem før Horde skrur på serveren.',
+    hint: 'kodejakten',
+  },
   {
     tid: '23.09 kveld',
     tittel: 'Døra har en elektronisk lås med 5 siffer',
