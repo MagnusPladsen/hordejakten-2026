@@ -303,7 +303,7 @@ export const HINT: Hint[] = [
     status: 'tolkning',
     kilde: 'Discord og chat',
     dato: '23.09',
-    tekst: 'De fleste som leter peker nå mot Innlandet: flyet over Løten, klar himmel på Østlandet, furumo og tømmerdrift, og default.no sin topp-kandidat i Rena/Åmot.',
+    tekst: 'De fleste som leter peker nå mot Innlandet: flyet over Løten, klar himmel på Østlandet, furumo og tømmerdrift, og default.no sin topp-kandidat i Rena/Åmot. Fra chatten: «Det er null tvil, været, sola, skogen og alt.»',
     betydning: 'Innlandet er egen teori og eget kartlag. Velg «Innlandet» i modellen for å se de beste rutene der.',
     lag: ['innlandet'],
   },
@@ -554,7 +554,7 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
 
 /** Hva folk i chatten og på Discord tror, kort oppsummert. `fokus` er et sted på kartet. */
 export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: LatLon; hint?: string[] }[] = [
-  { tekst: 'Innlandet', hvem: 'De fleste. Klar himmel på Østlandet, flyet over Løten, furumo og tømmerdrift.', hint: ['innlandet', 'fly', 'skyer'] },
+  { tekst: 'Innlandet', hvem: 'De fleste, og stadig flere er sikre: «Det er null tvil, været, sola, skogen og alt.» Klar himmel på Østlandet, flyet over Løten, furumo og tømmerdrift.', hint: ['innlandet', 'fly', 'skyer'] },
   { tekst: 'Digeråsen mellom Løten og Åmot', hvem: 'Flere sier det «er så klink her». Passer med lyden av flyet, ikke med pekingen.', fokus: 'digeras', hint: ['digeras', 'fly'] },
   { tekst: 'Løten og Elverum', hvem: 'Vår modell: der flyet var da Anja pekte rett opp.', pos: [60.87, 11.25], hint: ['fly'] },
   { tekst: 'Reven heter Benny', hvem: 'Bennyøy (Nome) ligger 3,4 km fra 118°-linja fra Bergen. Benningstad (Løten) er nær flyet. Trolig tilfeldig.', fokus: 'bennyoy', hint: ['benny', 'bergen118', 'dyr'] },
