@@ -8,6 +8,7 @@ import { Kart, type Bakgrunn, type KartApi } from '@/components/Kart'
 import { LagPanel } from '@/components/LagPanel'
 import { Legende } from '@/components/Legende'
 import { SpillPanel } from '@/components/SpillPanel'
+import { AnalysePanel } from '@/components/AnalysePanel'
 import { StreamPanel } from '@/components/StreamPanel'
 import { TavlePanel } from '@/components/TavlePanel'
 import { TeoriPanel } from '@/components/TeoriPanel'
@@ -45,6 +46,7 @@ export default function App() {
   const [flyData, setFlyData] = useState<FlyData | null>(null)
   const [innlandet, setInnlandet] = useState<GeoJSON.MultiPolygon | null>(null)
   const [utelukket, setUtelukket] = useState<[number, number, string][] | null>(null)
+  const [kommuner, setKommuner] = useState<GeoJSON.FeatureCollection | null>(null)
   const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['hintmarkorer', 'modell', 'teoriomrader', 'utelukket', 'utenfor']))
   const [vekter, setVekter] = useState<Vekter>(FORHAND[0].vekter)
   const [modus, setModus] = useState<Modus>('alt')
@@ -70,6 +72,10 @@ export default function App() {
     fetch(`${base}data/innlandet.json`)
       .then((r) => r.json())
       .then((d) => setInnlandet(d.geometry))
+      .catch(() => {})
+    fetch(`${base}data/kommunevurdering.json`)
+      .then((r) => r.json())
+      .then(setKommuner)
       .catch(() => {})
     fetch(`${base}data/utelukket.json`)
       .then((r) => r.json())
@@ -183,6 +189,7 @@ export default function App() {
         flyData={flyData}
         innlandet={innlandet}
         utelukket={utelukket}
+        kommuner={kommuner}
         kontekst={kontekst}
         prosent={prosent}
         resultat={resultat}
@@ -297,6 +304,16 @@ export default function App() {
           hint: <HintPanel onVisPaKart={visPaKart} onGaTil={gaTil} apneHint={apneHint} />,
           tavla: <TavlePanel />,
           spill: <SpillPanel />,
+          analyse: (
+            <AnalysePanel
+              onVisKommuner={() => {
+                veksle('kommuner', true)
+                if (!desktop) setHoyde('lav')
+                // Zoom til der de «usikre» (åpne) kommunene ligger: Innlandet og Telemark
+                setTimeout(() => kart.current?.flyTil([60.9, 10.3], 6), 80)
+              }}
+            />
+          ),
           stream: <StreamPanel />,
         }}
       />
