@@ -1,7 +1,7 @@
 // Teoriene om hvor kassen står, og hvor godt hvert hint passer med hver teori.
 // Prosentene regnes som i et enkelt Bayes-oppsett: forhåndsvekt × produktet av hint-faktorene,
 // normalisert til 100 %. En faktor over 1 betyr at hintet støtter teorien, under 1 at det taler imot.
-import { SKYDEKKE, SOL_I_DAG } from '@/data/innhold'
+import { SKYDEKKE, SOL_I_DAG, TAAKE } from '@/data/innhold'
 import { iPolygon, type LatLon } from '@/lib/geo'
 
 export type TeoriId = 'loten' | 'rena' | 'ringsaker' | 'solor' | 'gjovik' | 'roros' | 'valdres' | 'agder' | 'hardanger' | 'annet'
@@ -190,10 +190,10 @@ export const BEVIS: Bevis[] = [
   },
   {
     id: 'blatt',
-    tittel: 'Blått på Windy-kartet er utelukket',
+    tittel: 'Blått på Windy og tåka i Odal er utelukket',
     forklaring: 'Anja så klar himmel. Teorien trekkes ned etter hvor stor del av området som var blått (skyer eller nedbør).',
     standardPa: true,
-    faktor: (t) => (t.id === 'annet' ? 0.7 : 0.05 + 0.95 * (1 - andelInnenfor(t, SKYDEKKE))),
+    faktor: (t) => (t.id === 'annet' ? 0.7 : 0.05 + 0.95 * (1 - andelInnenfor(t, [...SKYDEKKE, ...TAAKE]))),
   },
   {
     id: 'solidag',
