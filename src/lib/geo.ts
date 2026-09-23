@@ -70,3 +70,29 @@ export function formaterTid(sek: number): string {
   const m = Math.round((sek % 3600) / 60)
   return m === 60 ? `${t + 1} t` : `${t} t ${m.toString().padStart(2, '0')} min`
 }
+
+/**
+ * Leser koordinater fra tekst: «61°10'43.84"N 11°15'50.13"E», «61.1788, 11.2639»,
+ * «61,1788 11,2639» eller en Google Maps-lenke. Gir null hvis det ikke ligger i Norge.
+ */
+export function lesKoordinater(tekst: string): LatLon | null {
+  const t = tekst.trim()
+  let tall: number[] = []
+  const dms = [...t.matchAll(/(\d+(?:[.,]\d+)?)\s*°\s*(?:(\d+(?:[.,]\d+)?)\s*['′’]\s*)?(?:(\d+(?:[.,]\d+)?)\s*["″”]?)?/g)]
+  if (dms.length >= 2) {
+    tall = dms.slice(0, 2).map((m) => {
+      const [g, mi, se] = [m[1], m[2], m[3]].map((x) => (x ? Number(x.replace(',', '.')) : 0))
+      return g + mi / 60 + se / 3600
+    })
+  } else {
+    const punktum = t.match(/-?\d+\.\d+/g)
+    const komma = t.match(/-?\d+,\d+/g)
+    const valgt = punktum && punktum.length >= 2 ? punktum : komma && komma.length >= 2 ? komma : null
+    if (valgt) tall = valgt.slice(0, 2).map((x) => Number(x.replace(',', '.')))
+  }
+  if (tall.length < 2) return null
+  let [a, b] = tall
+  // Tillat lon, lat i feil rekkefølge
+  if (a < 35 && b > 55) [a, b] = [b, a]
+  return a >= 57 && a <= 72 && b >= 4 && b <= 32 ? [a, b] : null
+}

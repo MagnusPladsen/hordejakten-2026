@@ -258,7 +258,20 @@ export default function App() {
               }
             />
           ),
-          lag: <LagPanel aktive={aktive} onVeksle={veksle} vekter={vekter} onVekter={setVekter} topp={topp} onGaTil={gaTil} />,
+          lag: (
+            <LagPanel
+              aktive={aktive}
+              onVeksle={veksle}
+              vekter={vekter}
+              onVekter={setVekter}
+              topp={topp}
+              onGaTil={gaTil}
+              onSjekkPunkt={(pos) => {
+                if (!desktop) setHoyde('lav')
+                kart.current?.visPunkt(pos)
+              }}
+            />
+          ),
           hint: <HintPanel onVisPaKart={visPaKart} />,
           tavla: <TavlePanel />,
           stream: <StreamPanel />,

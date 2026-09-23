@@ -25,7 +25,11 @@ export function stedsnavn(lat: number, lon: number): Promise<string | null> {
       })
       return rangert[0].stedsnavn[0]?.skrivemåte ?? null
     })
-    .catch(() => null)
+    .catch(() => {
+      // Ikke hold på feil, så neste klikk prøver igjen
+      cache.delete(nokkel)
+      return null
+    })
   cache.set(nokkel, svar)
   return svar
 }

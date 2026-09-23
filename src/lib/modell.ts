@@ -49,9 +49,10 @@ export const FORHAND: { id: string; navn: string; vekter: Vekter; lag?: LagId[] 
     vekter: { kjoretid: 0.8, timer: 7, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0 },
   },
   {
+    // Ser bort fra Windy-kartet, ellers blir hele Hardanger utelukket
     id: 'norheimsund',
     navn: 'Norheimsund',
-    vekter: { kjoretid: 0.6, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 1, innlandet: 0 },
+    vekter: { kjoretid: 0.6, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 0, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 1, innlandet: 0 },
     lag: ['teorier'],
   },
   {
