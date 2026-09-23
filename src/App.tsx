@@ -43,7 +43,7 @@ export default function App() {
   const [norge, setNorge] = useState<GeoJSON.MultiPolygon | null>(null)
   const [flyData, setFlyData] = useState<FlyData | null>(null)
   const [innlandet, setInnlandet] = useState<GeoJSON.MultiPolygon | null>(null)
-  const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['modell', 'teoriomrader', 'skydekke', 'solidag', 'utenfor']))
+  const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['hintmarkorer', 'modell', 'teoriomrader', 'skydekke', 'solidag', 'utenfor']))
   const [vekter, setVekter] = useState<Vekter>(FORHAND[0].vekter)
   const [modus, setModus] = useState<Modus>('alt')
   const [aktiveBevis, setAktiveBevis] = useState<Set<string>>(() => standardBevis('alt'))
@@ -52,6 +52,8 @@ export default function App() {
   const [hoyde, setHoyde] = useState<Hoyde>('halv')
   const [feltPos, setFeltPos] = useState<LatLon | null>(null)
   const [minPos, setMinPos] = useState<LatLon | null>(null)
+  // Hint som skal åpnes i Hint-fanen (fra en markør på kartet). Telleren gjør at samme hint kan åpnes flere ganger.
+  const [apneHint, setApneHint] = useState<{ id: string; n: number } | null>(null)
 
   useEffect(() => {
     const base = import.meta.env.BASE_URL
@@ -182,6 +184,11 @@ export default function App() {
         feltPos={feltPos}
         onFeltFlytt={setFeltPos}
         onPopup={() => !desktop && setHoyde('lav')}
+        onApneHint={(id) => {
+          setFane('hint')
+          if (!desktop) setHoyde('full')
+          setApneHint((a) => ({ id, n: (a?.n ?? 0) + 1 }))
+        }}
         minPos={minPos}
       />
 
@@ -279,7 +286,7 @@ export default function App() {
               }}
             />
           ),
-          hint: <HintPanel onVisPaKart={visPaKart} onGaTil={gaTil} />,
+          hint: <HintPanel onVisPaKart={visPaKart} onGaTil={gaTil} apneHint={apneHint} />,
           tavla: <TavlePanel />,
           stream: <StreamPanel />,
         }}

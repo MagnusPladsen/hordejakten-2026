@@ -9,6 +9,7 @@ import { PEKETID_EKTE, posisjon, type FlyData } from '@/lib/fly'
 import { FAKTORER, faktorer, klasse, type Kontekst, type Punkt, type Resultat, type Vekter } from '@/lib/modell'
 import { TEORIER_LISTE, type TeoriId } from '@/data/teorier'
 import { stedsnavn } from '@/lib/stedsnavn'
+import { KART_MARKORER, statusTekst } from '@/data/kartmarkorer'
 
 export type Bakgrunn = 'gra' | 'topo' | 'satellitt'
 
@@ -38,6 +39,8 @@ type Props = {
   onFeltFlytt: (pos: LatLon) => void
   /** Kalles før en info-popup åpnes, slik at panelet kan gjøre plass */
   onPopup: () => void
+  /** Åpner et hint i Hint-fanen */
+  onApneHint: (id: string) => void
   minPos: LatLon | null
 }
 
@@ -88,7 +91,7 @@ function kjoretidFarge(p: Punkt): string | null {
   return i < 0 ? null : FARGE.kjoretid[i]
 }
 
-export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, kontekst, prosent, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, onPopup, minPos }: Props) {
+export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, kontekst, prosent, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, onPopup, onApneHint, minPos }: Props) {
   const divRef = useRef<HTMLDivElement>(null)
   const kartRef = useRef<L.Map | null>(null)
   const flisRef = useRef<L.TileLayer | null>(null)
@@ -103,11 +106,13 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
   const siste = useRef({ punkter, resultat, vekter, kontekst })
   const onFeltFlyttRef = useRef(onFeltFlytt)
   const onPopupRef = useRef(onPopup)
+  const onApneHintRef = useRef(onApneHint)
   const mobilRef = useRef(polstring.venstre === 0)
   useLayoutEffect(() => {
     siste.current = { punkter, resultat, vekter, kontekst }
     onFeltFlyttRef.current = onFeltFlytt
     onPopupRef.current = onPopup
+    onApneHintRef.current = onApneHint
     mobilRef.current = polstring.venstre === 0
   })
 
@@ -163,7 +168,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
     tone()
 
     const g = Object.fromEntries(
-      (['modell', 'teoriomrader', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'solidag', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'hytter', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
+      (['modell', 'hintmarkorer', 'teoriomrader', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'solidag', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'hytter', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
         id,
         L.featureGroup(),
       ]),
@@ -237,6 +242,42 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
         .bindPopup(popupTekst(`Terrengtreff: ${t.navn}`, `Sterkt treff i default.no sitt terrengsøk (${t.omrade}): nær vei, oppover, furu og riktig relieff.`))
         .addTo(g.defaultno)
     }
+
+    // Hint på kartet: én markør per sted, med alt som hører til stedet
+    const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!)
+    for (const m of KART_MARKORER) {
+      const harHint = m.poster.some((p) => p.type === 'hint')
+      const nytt = m.poster.some((p) => p.nytt)
+      const klasse = `pin-hintmerke ${harHint ? '' : 'folk'} ${nytt ? 'nytt' : ''}`
+      const html = `<div class="pop"><h5>${m.poster.length > 1 ? `${m.poster.length} ting her` : esc(m.poster[0].tittel)}</h5>
+        ${m.poster
+          .map(
+            (p) => `<div class="pop-post">
+              ${m.poster.length > 1 ? `<p class="pop-post-tittel">${esc(p.tittel)}</p>` : ''}
+              <p class="pop-post-meta">${p.nytt ? '<span class="pop-nytt">Siste nytt</span> ' : ''}${esc(statusTekst(p.status))}</p>
+              <p>${esc(p.tekst)}</p>
+              ${p.hint ? `<button type="button" class="pop-knapp" data-hint="${esc(p.hint)}">Les hele hintet →</button>` : ''}
+            </div>`,
+          )
+          .join('')}</div>`
+      L.marker(m.pos, { icon: pin(klasse, m.poster.length > 1 ? String(m.poster.length) : '!', 26), zIndexOffset: nytt ? 600 : 400 })
+        .bindTooltip(m.poster[0].tittel, { direction: 'top', offset: [0, -14], className: 'etikett' })
+        .bindPopup(html, { maxWidth: 300 })
+        .addTo(g.hintmarkorer)
+    }
+    // Knappene i popupene er ren HTML, så klikket fanges her
+    kart.on('popupopen', (e: L.PopupEvent) => {
+      e.popup
+        .getElement()
+        ?.querySelectorAll<HTMLButtonElement>('[data-hint]')
+        .forEach(
+          (b) =>
+            (b.onclick = () => {
+              kart.closePopup()
+              onApneHintRef.current(b.dataset.hint!)
+            }),
+        )
+    })
 
     // Steder og teorier
     const leggTilSted = (s: Sted, gruppe: L.FeatureGroup) => {
