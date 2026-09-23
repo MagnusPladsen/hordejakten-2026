@@ -42,13 +42,14 @@ export type Hint = {
 export const HINT: Hint[] = [
   {
     id: 'reise',
-    tittel: 'Reisen: fra Oslo søndag kl. 04:00',
+    tittel: 'Reisen: fra Oslo kl. 04:00, sov nesten hele veien',
     status: 'bekreftet',
-    kilde: 'Tavla + Anja',
-    dato: '21.09',
-    tekst: 'Anja ble hentet i Oslo søndag 20.09 kl. 04:00. Hun tror hun sov ca. 7 timer i bilen og vet ikke hvor hun er. Kun bil, ingen ferge, usikker på tunneler. Streamen startet mandag 21.09 ca. 07:00.',
-    betydning: 'Gir en kjøretidsring rundt Oslo. Hun sov, så kjøretiden er usikker. Velg antatt kjøretid og slingringsmonn i modellen.',
+    kilde: 'Tavla + Børsen-intervju',
+    dato: '22.09',
+    tekst: 'Anja ble hentet i Oslo kl. 04:00 (søndag ifølge tavla). Vinduene i bilen var dekket til. Hun sov store deler av turen og «aner ikke hvor lenge de kjørte». Hun tror selv det var ca. 7 timer. Kun bil, ingen ferge.',
+    betydning: 'Kjøretiden er et svakt hint fordi hun sov. Modellen bruker 7 t ± 2 t som utgangspunkt. Endre det selv i modellen om du tror noe annet.',
     lag: ['kjoretid', 'modell'],
+    lenke: 'https://borsen.dagbladet.no/nyheter/anja-29-snakker-ut-absurd/85185489',
   },
   {
     id: 'bokstaver',
@@ -183,12 +184,12 @@ export const HINT: Hint[] = [
   },
   {
     id: 'skyer',
-    tittel: 'Klar himmel mens kysten var skyet',
+    tittel: 'Klar himmel: alt som er blått på Windy er utelukket',
     status: 'tolkning',
     kilde: 'Tavla (19:00 og 19:50) + Windy',
     dato: '21.09',
-    tekst: 'Anja skrev «INGEN SKYER NÅ» og «KLAR HIMMEL». Samme periode viser skykartet tett skydekke langs kysten fra Stad til Trøndelag.',
-    betydning: 'Skyede områder er mindre sannsynlige. Tidspunktet for skjermbildet er ukjent, så sonen er grovt tegnet.',
+    tekst: 'Anja skrev «INGEN SKYER NÅ» og «KLAR HIMMEL». På Windy-kartet for samme periode er hele Vestlandet, Sørlandskysten, Trøndelag og et bånd fra Lillehammer mot Sverige blått.',
+    betydning: 'Blå områder er utelukket. Det tar ut Vestlandet, også Norheimsund. Østlandet, Agder-innlandet og mesteparten av Innlandet er fortsatt med.',
     lag: ['skydekke'],
   },
   {
@@ -215,11 +216,30 @@ export const HINT: Hint[] = [
     id: 'terreng',
     tittel: 'Terrenget: kupert, lyng, fire store steiner',
     status: 'bekreftet',
-    kilde: 'Tavla',
+    kilde: 'Tavla + Børsen-intervju',
     dato: '21.09',
-    tekst: '5–10 min å gå fra bilen, oppover. Kupert terreng, mye lyng og furuskog. Fire store steiner, en presenning og mer åpen skog til høyre for henne.',
-    betydning: 'Leter du i felt: 400–800 m fra en skogsbilvei, oppover, på lyngdekt furumo.',
+    tekst: 'Ca. 5–10 min fra bilen, oppover. På siste etappe hadde hun sovemaske og headset og ble båret inn i skogen. Kupert terreng, mye lyng og furuskog. Fire store steiner, en presenning og mer åpen skog til høyre for henne.',
+    betydning: 'Hun ble båret, så avstanden er hennes følelse. Leter du i felt: 300–900 m fra en skogsbilvei, oppover, på lyngdekt furumo.',
     lag: ['felt'],
+  },
+  {
+    id: 'innlandet',
+    tittel: 'Fellesskapet er nå sikre på Innlandet',
+    status: 'tolkning',
+    kilde: 'Discord og chat',
+    dato: '23.09',
+    tekst: 'De fleste som leter peker nå mot Innlandet: flyet over Løten, klar himmel på Østlandet, furumo og tømmerdrift, og default.no sin topp-kandidat i Rena/Åmot.',
+    betydning: 'Innlandet er egen teori og eget kartlag. Velg «Innlandet» i modellen for å se de beste rutene der.',
+    lag: ['innlandet'],
+  },
+  {
+    id: 'plakat',
+    tittel: 'Plakat: «Plutselig tilbake!»',
+    status: 'usikker',
+    kilde: 'Stream',
+    dato: '23.09',
+    tekst: 'En tegning av kassen med pengebunker og to hengelåser, med teksten «Plutselig tilbake!». Den står lent mot en trevegg.',
+    betydning: 'Trolig en kampanjeplakat. Tegningen viser to låser på kassen, som stemmer med det vi vet. Ingen kjent stedsinfo.',
   },
   {
     id: 'hintvideo',
@@ -307,10 +327,14 @@ export const FLY_PUNKT = { pos: [60.8705, 11.2481] as LatLon, kallesignal: 'NOZ5
 /** Skyanalyse-kartet. Møtepunktet er lest av bildet, ±15 km. */
 export const SKYANALYSE = { senter: [58.7, 8.27] as LatLon, indreKm: 12, ytreKm: 45 }
 
-/** Grovt tegnet fra Windy-skjermbildet (ECMWF skydekke). Tidspunkt ukjent. */
+/**
+ * Blå områder på Windy-kartet (skyer/nedbør) samme periode som Anja så klar himmel.
+ * Tegnet for hånd ut fra skjermbildet, stedfestet med byene i bildet (feil under ca. 10 km).
+ * [0] = Vestlandet, Sørlandskysten og Trøndelag. [1] = båndet fra Lillehammer mot Sverige (mest usikkert).
+ */
 export const SKYDEKKE: LatLon[][] = [
-  [[62.3, 4.6], [62.4, 6.3], [62.7, 7.3], [62.95, 8.2], [63.2, 9.2], [63.1, 10.2], [63.0, 11.3], [63.3, 12.1], [64.0, 12.6], [65.0, 13.2], [66.0, 13.5], [66.0, 11.5], [65.0, 10.5], [64.2, 9.2], [63.6, 7.8], [63.0, 6.0], [62.5, 4.4]],
-  [[58.9, 5.1], [59.8, 4.6], [61.0, 4.3], [62.3, 4.6], [62.0, 4.95], [61.2, 4.85], [60.5, 4.95], [59.8, 5.15], [59.0, 5.45]],
+  [[63.685, 7.743], [63.766, 9.107], [63.966, 10.32], [64.119, 11.305], [63.953, 11.835], [63.618, 11.532], [63.347, 10.926], [63.074, 10.244], [62.833, 9.789], [62.449, 9.531], [62.061, 9.486], [61.704, 9.41], [61.379, 9.183], [61.087, 9.259], [60.867, 9.107], [60.607, 8.652], [60.533, 8.046], [60.346, 7.516], [60.044, 7.212], [59.664, 6.985], [59.279, 6.864], [58.889, 6.833], [58.574, 7.137], [58.336, 7.591], [58.177, 7.819], [58.017, 7.288], [58.257, 6.379], [58.653, 5.621], [59.356, 4.863], [60.421, 4.56], [61.452, 4.636], [62.309, 5.166], [63.074, 6.227], [63.483, 7.137]],
+  [[60.94, 10.092], [61.014, 10.547], [61.596, 11.229], [62.168, 11.835], [62.729, 12.366], [63.347, 12.82], [63.719, 12.896], [63.739, 12.563], [63.005, 12.108], [62.379, 11.608], [61.812, 11.002], [61.233, 10.32], [61.051, 9.941]],
 ]
 
 export const BOKSTAVER = ['N', 'O', 'R', 'H', 'E', 'I', 'M', 'S', 'U', 'D']
@@ -319,5 +343,5 @@ export const FAKTA = [
   { verdi: '1 116 897 kr', tekst: 'Premie' },
   { verdi: '45 sek', tekst: 'Forsinkelse på streamen' },
   { verdi: '3 låser', tekst: '2 på kassen, 1 på døra' },
-  { verdi: '5–10 min', tekst: 'Gange fra bilen, oppover' },
+  { verdi: '5–10 min', tekst: 'Fra bilen, båret oppover' },
 ]

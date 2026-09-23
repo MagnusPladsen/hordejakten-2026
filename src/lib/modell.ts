@@ -18,14 +18,16 @@ export type Vekter = {
   defaultno: number
   fly: number
   bokstaver: number
+  innlandet: number
 }
 
-export type FaktorId = 'kjoretid' | 'vei' | 'skyfri' | 'retning' | 'skyanalyse' | 'defaultno' | 'fly' | 'bokstaver'
+export type FaktorId = 'kjoretid' | 'vei' | 'skyfri' | 'retning' | 'skyanalyse' | 'defaultno' | 'fly' | 'bokstaver' | 'innlandet'
 
 export const FAKTORER: { id: FaktorId; navn: string; forklaring: string }[] = [
   { id: 'kjoretid', navn: 'Kjøretid fra Oslo', forklaring: 'Ruter nær valgt kjøretid får høyest poeng.' },
   { id: 'vei', navn: 'Nær bilvei', forklaring: '5–10 min gange fra bilen. Ruter langt fra vei trekkes ned.' },
-  { id: 'skyfri', navn: 'Klar himmel', forklaring: 'Trekker ned områder med tett skydekke.' },
+  { id: 'skyfri', navn: 'Utelukk blått på Windy', forklaring: 'Hun så klar himmel. 100 % = blå områder er helt utelukket.' },
+  { id: 'innlandet', navn: 'Innlandet fylke', forklaring: 'Fellesskapet er sikre på Innlandet.' },
   { id: 'bokstaver', navn: 'Bokstavene: Norheimsund', forklaring: 'Nær Norheimsund, som vervebokstavene kan stave.' },
   { id: 'retning', navn: '298°-linja fra Oslo', forklaring: 'Teori: 118° er retningen mot Oslo.' },
   { id: 'skyanalyse', navn: 'Skyanalyse (Agder)', forklaring: 'Fellesskapets sky- og flykart.' },
@@ -36,50 +38,58 @@ export const FAKTORER: { id: FaktorId; navn: string; forklaring: string }[] = [
 /** Ferdige teorier. `lag` slås på når teorien velges. */
 export const FORHAND: { id: string; navn: string; vekter: Vekter; lag?: LagId[] }[] = [
   {
+    id: 'innlandet',
+    navn: 'Innlandet',
+    vekter: { kjoretid: 0.4, timer: 5, slingring: 2.5, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.3, fly: 0.5, bokstaver: 0, innlandet: 1 },
+    lag: ['innlandet'],
+  },
+  {
     id: 'fakta',
     navn: 'Harde fakta',
-    vekter: { kjoretid: 1, timer: 7, slingring: 1.25, vei: 0.8, skyfri: 0.5, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0 },
+    vekter: { kjoretid: 0.8, timer: 7, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0 },
   },
   {
     id: 'norheimsund',
     navn: 'Norheimsund',
-    vekter: { kjoretid: 0.6, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 0.5, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 1 },
+    vekter: { kjoretid: 0.6, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 1, innlandet: 0 },
     lag: ['teorier'],
   },
   {
     id: 'retning',
     navn: 'Retningsteorien',
-    vekter: { kjoretid: 0.8, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 0.5, retning: 0.9, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0 },
+    vekter: { kjoretid: 0.8, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 1, retning: 0.9, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0 },
     lag: ['retning'],
   },
   {
     id: 'fly',
     navn: 'Flyet kl. 21:29',
-    vekter: { kjoretid: 0.4, timer: 5, slingring: 2, vei: 0.8, skyfri: 0.5, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 1, bokstaver: 0 },
+    vekter: { kjoretid: 0.4, timer: 5, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 1, bokstaver: 0, innlandet: 0 },
     lag: ['fly'],
   },
   {
     id: 'kort',
     navn: 'Kortere tur (3–5 t)',
-    vekter: { kjoretid: 1, timer: 4, slingring: 1, vei: 0.8, skyfri: 0.5, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.4, fly: 0, bokstaver: 0 },
+    vekter: { kjoretid: 1, timer: 4, slingring: 1, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.4, fly: 0, bokstaver: 0, innlandet: 0 },
   },
   {
     id: 'agder',
     navn: 'Agder-teorien',
-    vekter: { kjoretid: 0.5, timer: 4, slingring: 1.5, vei: 0.8, skyfri: 0.3, retning: 0, retningBegge: false, skyanalyse: 0.9, defaultno: 0, fly: 0, bokstaver: 0 },
+    vekter: { kjoretid: 0.5, timer: 4, slingring: 1.5, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0.9, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0 },
     lag: ['skyanalyse'],
   },
   {
     id: 'defaultno',
     navn: 'Som default.no',
-    vekter: { kjoretid: 0.3, timer: 3.5, slingring: 2, vei: 0.8, skyfri: 0.5, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 1, fly: 0, bokstaver: 0 },
+    vekter: { kjoretid: 0.3, timer: 3.5, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 1, fly: 0, bokstaver: 0, innlandet: 0 },
     lag: ['defaultno'],
   },
 ]
 
 const gauss = (x: number, sigma: number) => Math.exp(-0.5 * (x / sigma) ** 2)
 
-export function faktorer(p: Punkt, v: Vekter, flyPos: LatLon[] = []): Record<FaktorId, number> {
+export type Kontekst = { flyPos: LatLon[]; innlandet: LatLon[][] }
+
+export function faktorer(p: Punkt, v: Vekter, { flyPos, innlandet: innlandetRinger }: Kontekst): Record<FaktorId, number> {
   const pos: LatLon = [p.lat, p.lon]
 
   const kjoretid = p.sek == null ? 0 : gauss(p.sek / 3600 - v.timer, v.slingring)
@@ -104,7 +114,9 @@ export function faktorer(p: Punkt, v: Vekter, flyPos: LatLon[] = []): Record<Fak
   if (v.fly > 0) for (const f of flyPos) flyKm = Math.min(flyKm, avstand(pos, f))
   const fly = flyPos.length ? gauss(flyKm, 10) : 1
 
-  return { kjoretid, vei, skyfri, retning, skyanalyse, defaultno, fly, bokstaver }
+  const innlandet = innlandetRinger.length ? (innlandetRinger.some((r) => iPolygon(pos, r)) ? 1 : 0) : 1
+
+  return { kjoretid, vei, skyfri, retning, skyanalyse, defaultno, fly, bokstaver, innlandet }
 }
 
 export function poeng(f: Record<FaktorId, number>, v: Vekter): number {
@@ -122,10 +134,10 @@ export type Resultat = {
   andel: Float64Array
 }
 
-export function beregn(punkter: Punkt[], v: Vekter, flyPos: LatLon[] = []): Resultat {
+export function beregn(punkter: Punkt[], v: Vekter, ktx: Kontekst): Resultat {
   const n = punkter.length
   const s = new Float64Array(n)
-  for (let i = 0; i < n; i++) s[i] = poeng(faktorer(punkter[i], v, flyPos), v)
+  for (let i = 0; i < n; i++) s[i] = poeng(faktorer(punkter[i], v, ktx), v)
   const orden = Array.from({ length: n }, (_, i) => i).sort((a, b) => s[b] - s[a])
   const andel = new Float64Array(n)
   orden.forEach((idx, r) => (andel[idx] = r / n))

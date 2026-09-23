@@ -3,11 +3,12 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 
-export type Fane = 'lag' | 'hint' | 'tavla' | 'stream'
+export type Fane = 'teorier' | 'lag' | 'hint' | 'tavla' | 'stream'
 export type Hoyde = 'lav' | 'halv' | 'full'
 
 const FANER: { id: Fane; navn: string }[] = [
-  { id: 'lag', navn: 'Kartlag' },
+  { id: 'teorier', navn: 'Teorier' },
+  { id: 'lag', navn: 'Kart' },
   { id: 'hint', navn: 'Hint' },
   { id: 'tavla', navn: 'Tavla' },
   { id: 'stream', navn: 'Stream' },
@@ -117,9 +118,9 @@ export function Ark({ fane, onFane, hoyde, onHoyde, desktop, innhold, antallHint
               onClick={() => onHoyde(hoyde === 'lav' ? 'halv' : hoyde === 'halv' ? 'full' : 'lav')}
             />
           )}
-          <TabsList className="grid h-10 w-full grid-cols-4">
+          <TabsList className="grid h-10 w-full grid-cols-5">
             {FANER.map((f) => (
-              <TabsTrigger key={f.id} value={f.id} className="h-full text-[13px]">
+              <TabsTrigger key={f.id} value={f.id} className="h-full px-1 text-[12.5px]">
                 {f.navn}
                 {f.id === 'hint' && <span className="ml-1 font-mono text-[10px] text-primary">{antallHint}</span>}
               </TabsTrigger>

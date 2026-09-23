@@ -9,12 +9,14 @@ import { LagPanel } from '@/components/LagPanel'
 import { Legende } from '@/components/Legende'
 import { StreamPanel } from '@/components/StreamPanel'
 import { TavlePanel } from '@/components/TavlePanel'
+import { TeoriPanel } from '@/components/TeoriPanel'
 import { Toaster } from '@/components/ui/sonner'
 import { HINT, STEDER, STREAM, TEORIER, type Hint } from '@/data/innhold'
 import type { LagId } from '@/data/lag'
+import { BEVIS, sannsynligheter, type Teori } from '@/data/teorier'
 import { posisjonerRundtPeking, type FlyData } from '@/lib/fly'
 import type { LatLon } from '@/lib/geo'
-import { beregn, FORHAND, toppOmrader, type Punkt, type Vekter } from '@/lib/modell'
+import { beregn, FORHAND, toppOmrader, type Kontekst, type Punkt, type Vekter } from '@/lib/modell'
 import { cn } from '@/lib/utils'
 
 const BAKGRUNN_REKKE: Bakgrunn[] = ['gra', 'topo', 'satellitt']
@@ -40,10 +42,12 @@ export default function App() {
   const [punkter, setPunkter] = useState<Punkt[] | null>(null)
   const [norge, setNorge] = useState<GeoJSON.MultiPolygon | null>(null)
   const [flyData, setFlyData] = useState<FlyData | null>(null)
-  const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['modell', 'steder', 'utenfor']))
+  const [innlandet, setInnlandet] = useState<GeoJSON.MultiPolygon | null>(null)
+  const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['modell', 'teoriomrader', 'skydekke', 'utenfor']))
   const [vekter, setVekter] = useState<Vekter>(FORHAND[0].vekter)
+  const [aktiveBevis, setAktiveBevis] = useState<Set<string>>(() => new Set(BEVIS.filter((b) => b.standardPa).map((b) => b.id)))
   const [bakgrunn, setBakgrunn] = useState<Bakgrunn>('gra')
-  const [fane, setFane] = useState<Fane>('lag')
+  const [fane, setFane] = useState<Fane>('teorier')
   const [hoyde, setHoyde] = useState<Hoyde>('halv')
   const [feltPos, setFeltPos] = useState<LatLon | null>(null)
   const [minPos, setMinPos] = useState<LatLon | null>(null)
@@ -58,14 +62,25 @@ export default function App() {
       .then((r) => r.json())
       .then((d) => setNorge(d.geometry))
       .catch(() => {})
+    fetch(`${base}data/innlandet.json`)
+      .then((r) => r.json())
+      .then((d) => setInnlandet(d.geometry))
+      .catch(() => {})
     fetch(`${base}data/fly_2130.json`)
       .then((r) => r.json() as Promise<FlyData>)
       .then(setFlyData)
       .catch(() => {})
   }, [])
 
-  const flyPos = useMemo(() => (flyData ? posisjonerRundtPeking(flyData) : []), [flyData])
-  const resultat = useMemo(() => (punkter ? beregn(punkter, vekter, flyPos) : null), [punkter, vekter, flyPos])
+  const kontekst = useMemo<Kontekst>(
+    () => ({
+      flyPos: flyData ? posisjonerRundtPeking(flyData) : [],
+      innlandet: innlandet ? innlandet.coordinates.map((poly) => poly[0].map(([lon, lat]) => [lat, lon] as LatLon)) : [],
+    }),
+    [flyData, innlandet],
+  )
+  const resultat = useMemo(() => (punkter ? beregn(punkter, vekter, kontekst) : null), [punkter, vekter, kontekst])
+  const prosent = useMemo(() => sannsynligheter(aktiveBevis), [aktiveBevis])
   const topp = useMemo(() => (punkter && resultat ? toppOmrader(punkter, resultat).map((i) => punkter[i]) : []), [punkter, resultat])
 
   const veksle = useCallback((id: LagId, pa: boolean) => {
@@ -87,6 +102,21 @@ export default function App() {
         if (sted) kart.current?.flyTil(sted.pos, 9)
         else if (h.lag?.[0] && h.lag[0] !== 'felt') kart.current?.visLag(h.lag[0])
       }, 60)
+    },
+    [desktop, veksle],
+  )
+
+  const visTeori = useCallback(
+    (t: Teori) => {
+      if (!t.senter) return
+      veksle('teoriomrader', true)
+      const forhand = FORHAND.find((f) => f.id === t.forhand)
+      if (forhand) {
+        setVekter(forhand.vekter)
+        forhand.lag?.forEach((id) => veksle(id, true))
+      }
+      if (!desktop) setHoyde('lav')
+      kart.current?.flyTil(t.senter, 8)
     },
     [desktop, veksle],
   )
@@ -141,7 +171,9 @@ export default function App() {
         punkter={punkter}
         norge={norge}
         flyData={flyData}
-        flyPos={flyPos}
+        innlandet={innlandet}
+        kontekst={kontekst}
+        prosent={prosent}
         resultat={resultat}
         vekter={vekter}
         aktive={aktive}
@@ -211,6 +243,21 @@ export default function App() {
         desktop={desktop}
         antallHint={HINT.length}
         innhold={{
+          teorier: (
+            <TeoriPanel
+              prosent={prosent}
+              aktiveBevis={aktiveBevis}
+              onVisTeori={visTeori}
+              onVeksleBevis={(id, pa) =>
+                setAktiveBevis((a) => {
+                  const ny = new Set(a)
+                  if (pa) ny.add(id)
+                  else ny.delete(id)
+                  return ny
+                })
+              }
+            />
+          ),
           lag: <LagPanel aktive={aktive} onVeksle={veksle} vekter={vekter} onVekter={setVekter} topp={topp} onGaTil={gaTil} />,
           hint: <HintPanel onVisPaKart={visPaKart} />,
           tavla: <TavlePanel />,

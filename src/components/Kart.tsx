@@ -6,7 +6,8 @@ import { DEFAULTNO, FLY_PUNKT, OSLO, SKYANALYSE, SKYDEKKE, STEDER, TEORIER, type
 import { FARGE, KJORETID_KLASSER, type LagId } from '@/data/lag'
 import { avstand, destinasjon, formaterTid, sektor, storsirkel, type LatLon } from '@/lib/geo'
 import { PEKETID_EKTE, posisjon, type FlyData } from '@/lib/fly'
-import { FAKTORER, faktorer, klasse, type Punkt, type Resultat, type Vekter } from '@/lib/modell'
+import { FAKTORER, faktorer, klasse, type Kontekst, type Punkt, type Resultat, type Vekter } from '@/lib/modell'
+import { TEORIER_LISTE, type TeoriId } from '@/data/teorier'
 import { stedsnavn } from '@/lib/stedsnavn'
 
 export type Bakgrunn = 'gra' | 'topo' | 'satellitt'
@@ -24,7 +25,9 @@ type Props = {
   punkter: Punkt[] | null
   norge: GeoJSON.MultiPolygon | null
   flyData: FlyData | null
-  flyPos: LatLon[]
+  innlandet: GeoJSON.MultiPolygon | null
+  kontekst: Kontekst
+  prosent: Record<TeoriId, number>
   resultat: Resultat | null
   vekter: Vekter
   aktive: Set<LagId>
@@ -81,7 +84,7 @@ function kjoretidFarge(p: Punkt): string | null {
   return i < 0 ? null : FARGE.kjoretid[i]
 }
 
-export function Kart({ ref, polstring, punkter, norge, flyData, flyPos, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, onPopup, minPos }: Props) {
+export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, kontekst, prosent, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, onPopup, minPos }: Props) {
   const divRef = useRef<HTMLDivElement>(null)
   const kartRef = useRef<L.Map | null>(null)
   const flisRef = useRef<L.TileLayer | null>(null)
@@ -90,8 +93,8 @@ export function Kart({ ref, polstring, punkter, norge, flyData, flyPos, resultat
   const feltRef = useRef<{ markor: L.Marker; sektor: L.Polygon; pil: L.Polyline } | null>(null)
   const minPosRef = useRef<L.CircleMarker | null>(null)
   // Siste verdier for klikk-popupen, som lever utenfor React
-  const siste = useRef({ punkter, resultat, vekter, flyPos })
-  siste.current = { punkter, resultat, vekter, flyPos }
+  const siste = useRef({ punkter, resultat, vekter, kontekst })
+  siste.current = { punkter, resultat, vekter, kontekst }
   const onFeltFlyttRef = useRef(onFeltFlytt)
   onFeltFlyttRef.current = onFeltFlytt
   const onPopupRef = useRef(onPopup)
@@ -128,7 +131,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, flyPos, resultat
     kartRef.current = kart
 
     const g = Object.fromEntries(
-      (['modell', 'kjoretid', 'retning', 'skydekke', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
+      (['modell', 'teoriomrader', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
         id,
         L.featureGroup(),
       ]),
@@ -157,7 +160,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, flyPos, resultat
     // Skydekke
     for (const ring of SKYDEKKE) {
       L.polygon(ring, { color: FARGE.skydekke, weight: 1.5, dashArray: '4 5', fillColor: FARGE.skydekke, fillOpacity: 0.28 })
-        .bindPopup(popupTekst('Tett skydekke', 'Grovt tegnet fra Windy-skykartet. Anja så klar himmel, så dette området er mindre sannsynlig.'))
+        .bindPopup(popupTekst('Blått på Windy (utelukket)', 'Her var det skyer eller nedbør mens Anja så klar himmel. Tegnet for hånd, kantene er omtrentlige.'))
         .addTo(g.skydekke)
     }
 
@@ -191,7 +194,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, flyPos, resultat
 
     // Klikk på kartet: vis info om nærmeste rute
     kart.on('click', (e: L.LeafletMouseEvent) => {
-      const { punkter: pk, resultat: res, vekter: v, flyPos: fp } = siste.current
+      const { punkter: pk, resultat: res, vekter: v, kontekst: ktx } = siste.current
       if (!pk) return
       const klikk: LatLon = [e.latlng.lat, e.latlng.lng]
       let best = -1
@@ -205,7 +208,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, flyPos, resultat
       })
       if (best < 0 || bestKm > 12) return
       const p = pk[best]
-      const f = faktorer(p, v, fp)
+      const f = faktorer(p, v, ktx)
       const topp = res ? Math.max(0.1, res.andel[best] * 100) : null
       const rader = FAKTORER.filter((fk) => v[fk.id] > 0)
         .map((fk) => `<dt>${fk.navn}</dt><dd>${Math.round(f[fk.id] * 100)} %</dd>`)
@@ -320,6 +323,48 @@ export function Kart({ ref, polstring, punkter, norge, flyData, flyPos, resultat
       )
       .addTo(g.fly)
   }, [flyData])
+
+  // Innlandet fylke
+  useEffect(() => {
+    const g = grupper.current
+    if (!innlandet || !g) return
+    g.innlandet.clearLayers()
+    L.polygon(
+      innlandet.coordinates.map((poly) => poly.map((ring) => ring.map(([lon, lat]) => [lat, lon] as LatLon))),
+      { color: FARGE.innlandet, weight: 2.5, dashArray: '8 6', fillColor: FARGE.innlandet, fillOpacity: 0.05 },
+    )
+      .bindPopup(popupTekst('Innlandet fylke', 'Fellesskapet er nå sikre på at kassen står et sted her.'))
+      .addTo(g.innlandet)
+  }, [innlandet])
+
+  // Teori-områdene med prosent
+  useEffect(() => {
+    const g = grupper.current
+    if (!g) return
+    g.teoriomrader.clearLayers()
+    const maks = Math.max(...Object.values(prosent))
+    for (const t of TEORIER_LISTE) {
+      if (!t.senter) continue
+      const p = prosent[t.id]
+      L.circle(t.senter, {
+        radius: t.radiusKm * 1000,
+        color: t.farge,
+        weight: 1.5 + 3.5 * (p / maks),
+        fillColor: t.farge,
+        fillOpacity: 0.04 + 0.14 * (p / maks),
+      })
+        .bindPopup(popupTekst(`${t.navn}: ${Math.round(p)} %`, `${t.kort}. Se Teorier-fanen for hvilke hint som teller.`))
+        .addTo(g.teoriomrader)
+      L.marker(t.senter, {
+        icon: L.divIcon({
+          className: '',
+          html: `<div class="teori-merke" style="--f:${t.farge}"><b>${Math.round(p)}%</b><span>${t.etikett}</span></div>`,
+          iconSize: [0, 0],
+        }),
+        interactive: false,
+      }).addTo(g.teoriomrader)
+    }
+  }, [prosent])
 
   // Maske utenfor Norge
   useEffect(() => {
