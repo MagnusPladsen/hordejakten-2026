@@ -177,6 +177,16 @@ export const HINT: Hint[] = [
     fokus: 'froland',
   },
   {
+    id: 'dnflyceller',
+    tittel: 'default.no: klare celler i kveld + flyrute-filter',
+    status: 'tolkning',
+    kilde: 'default.no (23.09)',
+    dato: '23.09',
+    tekst: 'default.no sin nyeste analyse: klare celler i kveld er Finnskogen (8,5 °C), Koppang (8,2 °C), Trysil (6,1 °C) og halvskyet Meråker. «Sett + hørt fly»-testen deres beholder bare ca. 10 % av landet: vestsiden av Østerdalen (Elverum–Rena–Koppang under NOZ56U/NOZ9EG), Røros–Gauldal–Meråker-korridoren og Hallingdal.',
+    betydning: 'Peker mot vestre Østerdalen (Løten–Elverum–Rena–Koppang), som passer med begge flyene, klar himmel og furumo. Deres nr. 1 er nå Løten/Elverum-skogen, nr. 2 Rena–Åsta.',
+    lag: ['defaultno', 'fly'],
+  },
+  {
     id: 'lydtett',
     tittel: '«LYDTETT · SOL · VINDSTILLE» (17:49)',
     status: 'bekreftet',
@@ -633,13 +643,13 @@ export const TAAKE: LatLon[][] = [
   [[60.1, 11.05], [60.08, 11.4], [60.18, 11.75], [60.3, 11.85], [60.48, 11.75], [60.5, 11.4], [60.35, 11.15], [60.2, 11.0]],
 ]
 
-/** Toppkandidater fra default.no sin fusjonsmodell (22.09 kl. 16:42) */
+/** Toppkandidater fra default.no sin fusjonsmodell (22.09 kl. 16:42; klare celler i kveld 23.09) */
 export const DEFAULTNO: { nr: number; pos: LatLon; navn: string; p: string }[] = [
-  { nr: 1, pos: [61.45, 11.1], navn: 'Rena og Åmot (Østerdalen)', p: '4,2 % innen 10 km' },
-  { nr: 2, pos: [58.75, 9.3], navn: 'Risør og Gjerstad (Agder)', p: '2,2 % innen 10 km' },
-  { nr: 3, pos: [61.75, 8.4], navn: 'Lom og Jotunheimen (i det blå)', p: '1,4 % innen 10 km' },
-  { nr: 4, pos: [60.35, 11.2], navn: 'Nes og Eidsvoll', p: '1,2 % innen 10 km' },
-  { nr: 5, pos: [61.15, 10.9], navn: 'Ringsaker (Brøttum)', p: '1,1 % innen 10 km' },
+  { nr: 1, pos: [60.9, 11.2], navn: 'Løten og Elverum (skog)', p: 'Klar himmel, under flyet' },
+  { nr: 2, pos: [61.3, 11.2], navn: 'Rena og Åsta', p: 'Klar himmel, under flyet' },
+  { nr: 3, pos: [61.5, 11.0], navn: 'Koppang', p: '8,2 °C klart i kveld' },
+  { nr: 4, pos: [60.6, 12.35], navn: 'Finnskogen (Solør)', p: '8,5 °C klart i kveld' },
+  { nr: 5, pos: [61.3, 12.3], navn: 'Trysil', p: '6,1 °C klart i kveld' },
 ]
 
 /** Der NOZ56U var da Anja skrev «FLY» (ekte tid ca. 21:29:50) */
