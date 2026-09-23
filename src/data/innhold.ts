@@ -442,7 +442,7 @@ export const HINT: Hint[] = [
 ]
 
 /** Svar Anja har skrevet på tavla. Tider er streamtid (45 sek forsinket). */
-export const TAVLE: { t: string; tekst: string }[] = [
+export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: string }[] }[] = [
   { t: '21.09 18:31', tekst: 'INGEN FLY · INGEN SKYTING · OSLO, SØN KL 04.00 · CA 5–10 MIN Å GÅ FRA BIL' },
   { t: '21.09 18:36', tekst: 'INGEN FERGE · KUN BIL · VET IKKE ANG. TUNELLER' },
   { t: '21.09 18:38', tekst: 'TROR DET VAR OPPOVER · SISTE 5–10 MIN' },
@@ -463,7 +463,14 @@ export const TAVLE: { t: string; tekst: string }[] = [
   { t: '23.09', tekst: '118–120 GR ØST (retningen skiltet peker)' },
   { t: '23.09', tekst: 'SOLA VAR OPPE FØR 07' },
   { t: '23.09', tekst: '«+5» på genseren' },
-  { t: '23.09', tekst: 'SKISSE: et rektangel i midten (kassen?) med ord rundt. Ikke lesbart på bildet.' },
+  {
+    t: '23.09',
+    tekst: 'SKISSE av stedet. Beste lesning: «KAMERA» øverst, kassen i midten, «SKILT» til høyre. Ordet til venstre og nederst er ikke lesbart.',
+    bilder: [
+      { src: 'img/tavle-skisse.jpg', alt: 'Anja med tavla, original fra streamen' },
+      { src: 'img/tavle-skisse-forsterket.jpg', alt: 'Tavla forsterket i kontrast' },
+    ],
+  },
   { t: '23.09 09:33', tekst: 'DET GÅR FINT · TAKK SOM SPØR ♡' },
 ]
 
