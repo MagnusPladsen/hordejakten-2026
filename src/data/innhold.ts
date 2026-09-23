@@ -36,6 +36,8 @@ export type Hint = {
   lag?: LagId[]
   /** Sted (id fra STEDER/TEORIER) som kartet zoomer til */
   fokus?: string
+  /** Eget kartpunkt for hintet når det ikke har et `fokus`-sted */
+  pos?: LatLon
   lenke?: string
   kompass?: boolean
   anagram?: boolean
@@ -44,6 +46,7 @@ export type Hint = {
 export const HINT: Hint[] = [
   {
     id: 'solidag',
+    pos: [60.75, 11.85],
     tittel: 'Sol hos Anja, skyet over mesteparten av Norge',
     status: 'tolkning',
     kilde: 'Satellittbilde (fellesskapet)',
@@ -97,6 +100,7 @@ export const HINT: Hint[] = [
   },
   {
     id: 'taake',
+    pos: [60.3, 11.45],
     tittel: 'Tykk tåke i Odal og på Jessheim i morges',
     status: 'tolkning',
     kilde: 'Lokal i chatten (bor i Nord-Odal)',
@@ -117,6 +121,7 @@ export const HINT: Hint[] = [
   },
   {
     id: 'reise',
+    pos: [59.9139, 10.7522],
     tittel: 'Reisen: fra Oslo kl. 04:00, sov nesten hele veien',
     status: 'bekreftet',
     kilde: 'Tavla + Børsen-intervju',
@@ -178,6 +183,7 @@ export const HINT: Hint[] = [
   },
   {
     id: 'dnflyceller',
+    pos: [60.9, 11.2],
     tittel: 'default.no: klare celler i kveld + flyrute-filter',
     status: 'tolkning',
     kilde: 'default.no (23.09)',
@@ -188,6 +194,7 @@ export const HINT: Hint[] = [
   },
   {
     id: 'fjellmark',
+    pos: [61.1, 10.75],
     tittel: '«Typisk fjellmark», masse sopp, mose på steiner, ikke vann',
     status: 'bekreftet',
     kilde: 'Tavla',
@@ -244,6 +251,7 @@ export const HINT: Hint[] = [
   },
   {
     id: 'hytter',
+    pos: [60.9748, 10.9167],
     tittel: 'Utleide hytter i nærheten? (Tretopphyttene)',
     status: 'usikker',
     kilde: 'Bookingkalender på tretopphytter.no',
@@ -255,6 +263,7 @@ export const HINT: Hint[] = [
   },
   {
     id: 'bergen118',
+    pos: [60.3896, 5.3297],
     tittel: 'Horde-skiltet peker 118° fra Bergen?',
     status: 'tolkning',
     kilde: 'Chat',
@@ -357,6 +366,58 @@ export const HINT: Hint[] = [
     fokus: 'notteroy',
   },
   {
+    id: 'spill-dart',
+    tittel: 'Kodejakten, spill 4: slik løser du dartskiven',
+    status: 'bekreftet',
+    kilde: 'Kildekoden til Kodejakten',
+    dato: '23.09',
+    tekst: 'Fargene betyr: blå = pluss, gul = minus, rosa = gange, lilla = dele (lånt fra spillet Blue Prince). Start med tallet i midten, og gå utover én ring om gangen. Hvert farget felt peker på et tall (1–20) langs kanten, som brukes med ringens regnetegn. Svaret er alltid mellom 1 og 999.',
+    betydning: 'Du må ha fire riktige skiver på rad. Svarer du feil, får du en ny skive og starter på null. Gjelder når Horde skrur på serveren.',
+    lenke: 'https://horde.no/secret/kodejakten',
+  },
+  {
+    id: 'spill-alle',
+    tittel: 'Kodejakten: de fire spillene',
+    status: 'bekreftet',
+    kilde: 'Kildekoden til Kodejakten',
+    dato: '23.09',
+    tekst: '1) Kill the Bill: hold fingeren på skjermen for å flytte og skyte. Nivåer: Regningsbunken, Purringene og bossen Hovedkravet (1 116 897). 2) Bill Runner: tapp for å hoppe over regningene fram til kassen. 3) Flappy-Alf: tapp for å flakse gjennom regningsbunkene, åpningene blir mindre. 4) Dartskiven. Fremgangen lagres, så du kan ta pauser.',
+    betydning: 'Alle fire må klares i én økt. Da viser siden «Låsen er åpen: dette er koden til den ene hengelåsen på kassen». Hjelpeknappen sier bare «Tips: Vær bedre».',
+    lenke: 'https://horde.no/secret/kodejakten',
+  },
+  {
+    id: 'regel-kontor',
+    tittel: 'Horde: «Ingen på Hordekontoret vet hvor kassen er»',
+    status: 'bekreftet',
+    kilde: 'Jaktvettreglene (Horde)',
+    tekst: '«Ingen på Hordekontoret vet hvor kassen befinner seg. Det er kun de som er på stedet med Anja som vet noe. De får du ikke tak i.»',
+    betydning: 'Det nytter ikke å spørre Horde-ansatte. Hint om stedet kommer via appen, streamen og Anja.',
+  },
+  {
+    id: 'regel-jakt',
+    tittel: 'Horde: «Ikke kle deg ut som elg, hjort eller storfugl»',
+    status: 'bekreftet',
+    kilde: 'Jaktvettreglene (Horde)',
+    tekst: '«Ikke kle deg ut som elg, hjort eller storfugl. Det er jaktsesong.»',
+    betydning: 'Kassen står i skog der det jaktes. I Ringsaker er skogsfugljakta åpen 14.–24.09, og elgjakta starter fredag 25.09. Bruk synlige klær (oransje eller refleks).',
+  },
+  {
+    id: 'regel-konvolutt',
+    tittel: 'Vilkårene: konvolutt i kassen, ingen kontanter',
+    status: 'bekreftet',
+    kilde: 'Vilkår for Hordejakten 2026',
+    tekst: 'For å vinne må du låse opp alle låsene med kodene fra appen og «følge instruksjonene du finner i konvolutten i kassen». Boksen inneholder ikke fysiske kontanter. Flere kan finne kassen samtidig: Horde har et køsystem der man prøver kodelåsene etter tur.',
+    betydning: 'Premien utbetales via bankoverføring. Den som først åpner alle låsene, vinner. Å komme først fram garanterer ikke seier.',
+  },
+  {
+    id: 'regel-anja',
+    tittel: 'Horde: «Anja er på publikums lag»',
+    status: 'bekreftet',
+    kilde: 'Hordejakten, «Derfor gjør vi dette»',
+    tekst: '«Anja kan kommunisere med omverdenen fra første minutt, om enn litt kryptisk i starten. Hun får etterhvert flere hjelpemidler å kommunisere med. Anja er på publikums lag. Hun har ikke fått noen føringer fra Horde om hva hun kan, eller ikke kan si.»',
+    betydning: 'Tavla er den viktigste kilden: Anja svarer ærlig på det hun ser og hører. Stem inn nye hjelpemidler i appen, det gir henne flere måter å fortelle på.',
+  },
+  {
     id: 'kodejakten',
     tittel: 'Kodejakten: fire spill gir koden til én hengelås',
     status: 'bekreftet',
@@ -385,6 +446,7 @@ export const HINT: Hint[] = [
   },
   {
     id: 'skyanalyse',
+    pos: [58.7, 8.27],
     tittel: 'Skyanalyse-kartet (rødt, grønt, rosa og blått)',
     status: 'usikker',
     kilde: 'Fellesskapet',
@@ -395,6 +457,7 @@ export const HINT: Hint[] = [
   },
   {
     id: 'fly',
+    pos: [60.8705, 11.2481],
     tittel: 'Fly sett og hørt kl. 21:30',
     status: 'tolkning',
     kilde: 'Tavla («FLY») + ADS-B (adsb.lol via default.no)',
@@ -415,6 +478,7 @@ export const HINT: Hint[] = [
   },
   {
     id: 'innlandet',
+    pos: [61.25, 10.95],
     tittel: 'Fellesskapet er nå sikre på Innlandet',
     status: 'tolkning',
     kilde: 'Discord og chat',

@@ -2,6 +2,7 @@
 
 export type LagId =
   | 'modell'
+  | 'hintmarkorer'
   | 'teoriomrader'
   | 'innlandet'
   | 'kjoretid'
@@ -85,6 +86,20 @@ export const LAG: Lag[] = [
       { stil: 'fyll', farge: FARGE.modell[3], tekst: 'Passer litt (15–35 %)' },
     ],
     kilde: 'Egen modell. Kjøretider fra OSRM (OpenStreetMap).',
+  },
+  {
+    id: 'hintmarkorer',
+    navn: 'Hint på kartet',
+    kort: 'Alle hint og tips som peker på et sted',
+    merkelapp: 'fakta',
+    forklaring:
+      'En markør for hvert hint, tips og det folk sier som handler om et bestemt sted. Oransje = hint, lilla = det folk sier, rød kant = siste nytt. Tallet viser hvor mange ting som hører til stedet. Trykk på markøren for å lese, og «Les hele hintet» for å åpne hintkortet. Hint som ikke handler om et sted (for eksempel tallene på genseren) har ingen markør.',
+    tegn: [
+      { stil: 'prikk', farge: '#ea580c', tekst: 'Hint' },
+      { stil: 'prikk', farge: '#7c3aed', tekst: 'Det folk sier' },
+      { stil: 'ring', farge: '#e5007e', tekst: 'Siste nytt' },
+    ],
+    kilde: 'Hint-fanen og «Hva folk tror».',
   },
   {
     id: 'teoriomrader',
@@ -268,7 +283,7 @@ export const LAG_ETTER_ID = Object.fromEntries(LAG.map((l) => [l.id, l])) as Rec
 
 /** Lagene gruppert slik de vises i Kart-fanen */
 export const GRUPPER: { navn: string; forklaring: string; ider: LagId[] }[] = [
-  { navn: 'Hovedkart', forklaring: 'Hvor kassen mest sannsynlig står.', ider: ['modell', 'teoriomrader'] },
+  { navn: 'Hovedkart', forklaring: 'Hvor kassen mest sannsynlig står, og hvor hintene peker.', ider: ['hintmarkorer', 'modell', 'teoriomrader'] },
   { navn: 'Vær', forklaring: 'Anja har hatt klar himmel og sol. Her var det ikke det.', ider: ['skydekke', 'solidag'] },
   { navn: 'Fly, retning og kjøretid', forklaring: 'Flyet hun pekte på, 118°-linjene og hvor langt man kommer fra Oslo.', ider: ['fly', 'retning', 'kjoretid'] },
   { navn: 'Steder og teorier', forklaring: 'Stedene hintene og folk i chatten peker på.', ider: ['teorier', 'hytter', 'steder', 'defaultno', 'innlandet', 'skyanalyse'] },

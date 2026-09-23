@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Check, Crosshair, ExternalLink, MapPinned } from 'lucide-react'
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
@@ -24,7 +24,15 @@ const STATUSKANT: Record<Hint['status'], string> = {
   apen: 'border-l-fuchsia-400',
 }
 
-export function HintPanel({ onVisPaKart, onGaTil }: { onVisPaKart: (h: Hint) => void; onGaTil: (pos: LatLon, zoom?: number) => void }) {
+export function HintPanel({
+  onVisPaKart,
+  onGaTil,
+  apneHint,
+}: {
+  onVisPaKart: (h: Hint) => void
+  onGaTil: (pos: LatLon, zoom?: number) => void
+  apneHint?: { id: string; n: number } | null
+}) {
   const [filter, setFilter] = useState<(typeof FILTRE)[number]['id']>('alle')
   const [markert, setMarkert] = useState<string | null>(null)
   const tidtaker = useRef<number | undefined>(undefined)
@@ -38,6 +46,15 @@ export function HintPanel({ onVisPaKart, onGaTil }: { onVisPaKart: (h: Hint) => 
     window.clearTimeout(tidtaker.current)
     tidtaker.current = window.setTimeout(() => setMarkert(null), 2200)
   }
+
+  // Åpnet fra en markør på kartet: vent til fanen er tegnet, så hopp til kortet
+  useEffect(() => {
+    if (!apneHint) return
+    const t = window.setTimeout(() => gaTilHint(apneHint.id), 350)
+    return () => window.clearTimeout(t)
+    // gaTilHint er stabil nok; vi vil bare reagere på nye åpninger
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
+  }, [apneHint])
 
   return (
     <div className="space-y-4">

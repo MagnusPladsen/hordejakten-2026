@@ -236,7 +236,9 @@ function Intro() {
 
 /** Siste nytt: det nyeste står stort og tydelig, de eldre kort under */
 function SisteNytt() {
-  const [nyest, ...eldre] = SISTE_NYTT
+  const [alle, setAlle] = useState(false)
+  const [nyest, ...resten] = SISTE_NYTT
+  const eldre = alle ? resten : resten.slice(0, 3)
   if (!nyest) return null
   return (
     <section className="overflow-hidden rounded-2xl bg-[#e5007e] text-white shadow-lg shadow-fuchsia-900/20" aria-labelledby="siste-nytt">
@@ -267,6 +269,13 @@ function SisteNytt() {
               <span className="font-semibold">{n.tittel}.</span> <span className="text-fuchsia-100">{n.tekst}</span>
             </li>
           ))}
+          {resten.length > 3 && (
+            <li>
+              <button type="button" onClick={() => setAlle((a) => !a)} className="min-h-11 w-full px-4 text-left text-[13.5px] font-semibold underline underline-offset-2">
+                {alle ? 'Vis færre' : `Vis ${resten.length - 3} eldre`}
+              </button>
+            </li>
+          )}
         </ul>
       )}
     </section>
