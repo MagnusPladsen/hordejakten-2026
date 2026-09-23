@@ -455,6 +455,19 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
         { renderer, stroke: false, fillColor: farger[k] ?? '#dc2626', fillOpacity: k === 'R' ? 0.24 : 0.42, interactive: false },
       ).addTo(g.utelukket)
     }
+    // Bildet dekket bare Østlandet. Den rette kanten i vest er der bildet sluttet, ikke en grense i terrenget.
+    const lat = utelukket.map((c) => c[0])
+    const lon = utelukket.map((c) => c[1])
+    const [s, n, v] = [Math.min(...lat) - 0.025, Math.max(...lat) + 0.025, Math.min(...lon) - 0.05]
+    L.polyline(
+      [
+        [s, v],
+        [n, v],
+      ],
+      { color: '#7f1d1d', weight: 2, dashArray: '6 6', opacity: 0.8, interactive: false },
+    )
+      .bindTooltip('Fellesskapets kart slutter her. Vest for streken er ikke vurdert.', { permanent: true, direction: 'left', className: 'kant-etikett', offset: [-6, 0] })
+      .addTo(g.utelukket)
   }, [utelukket])
 
   // Kommunevurdering fra hordejakten.vercel.app

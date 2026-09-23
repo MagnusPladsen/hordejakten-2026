@@ -177,7 +177,7 @@ export const LAG: Lag[] = [
     kort: 'Fjellbjørk og annet',
     merkelapp: 'tolkning',
     forklaring:
-      'Kartet fellesskapet har laget 23.09. Rødt er utelukket, og lyseblått er utelukket fordi det vokser fjellbjørk der. Det som står igjen er stripa Hamar–Løten–Rena–Koppang, Ringsakfjellet/Rudshøgda og Gjøvik/Toten. Stedfestet fra et bilde, så kantene er omtrentlige (±10 km).',
+      'Kartet fellesskapet har laget 23.09. Rødt er utelukket, og lyseblått er utelukket fordi det vokser fjellbjørk der. Det som står igjen er stripa Hamar–Løten–Rena–Koppang, Ringsakfjellet/Rudshøgda og Gjøvik/Toten. Stedfestet fra et bilde, så kantene er omtrentlige (±10 km). Bildet dekket bare Østlandet: den rette, stiplede kanten i vest er der bildet slutter. Vest for den er ikke vurdert av fellesskapet, men er uansett langt unna de andre hintene.',
     tegn: [
       { stil: 'fyll', farge: '#b91c1c', tekst: 'Utelukket' },
       { stil: 'fyll', farge: '#22d3ee', tekst: 'Fjellbjørk' },
