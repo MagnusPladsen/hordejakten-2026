@@ -148,6 +148,17 @@ export const HINT: Hint[] = [
     kompass: true,
   },
   {
+    id: 'froland',
+    tittel: 'Froland er utelukket: været stemmer ikke',
+    status: 'tolkning',
+    kilde: 'Fellesskapet (værdata)',
+    dato: '23.09',
+    tekst: 'Været i Froland samsvarer ikke med det Anja har sett og skrevet.',
+    betydning: 'Froland og Agder-teorien trekkes kraftig ned. Ekornet i kommunevåpenet er ikke nok alene, ekorn finnes overalt.',
+    lag: ['teorier'],
+    fokus: 'froland',
+  },
+  {
     id: 'kamera41',
     tittel: 'Kameraet står 41° (nordøst)',
     status: 'bekreftet',
@@ -559,7 +570,7 @@ export const TEORIER: Sted[] = [
     type: 'teori',
     info: 'Vervebokstavene N O R H E I M S U D gir NORHEIMSUND med én N til. 6,5 t fra Oslo uten ferge, og ca. 1 t fra Horde i Bergen (5008).',
   },
-  { id: 'froland', navn: 'Froland (ekorn i kommunevåpenet)', pos: [58.53, 8.63], type: 'teori', info: 'Kommunevåpenet er et sølvfarget ekorn på grønn bunn (bekreftet). Skyanalysen peker også hit. Kjøretid fra Oslo ca. 3,5 t.' },
+  { id: 'froland', navn: 'Froland (utelukket)', pos: [58.53, 8.63], type: 'teori', utelukket: true, info: 'Utelukket: været i Froland samsvarer ikke med det Anja har sett. Kommunevåpenet har et ekorn, men ekorn finnes overalt.' },
   { id: 'lillehammer', navn: 'Lillehammer (ekorn-maskot)', pos: [61.115, 10.466], type: 'teori', info: 'Ubekreftet teori om ekorn som maskot. Ligger i det blå båndet på Windy-kartet, så det taler imot.' },
   { id: 'notteroy', navn: 'Nøtterøy (utelukket)', pos: [59.21, 10.42], type: 'teori', utelukket: true, info: 'Ordspill på «nøtt», men «Ikke en øy» og «ingen ferge» taler mot.' },
 ]
@@ -669,7 +680,7 @@ export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: Lat
   { tekst: 'Rena og Åmot', hvem: 'default.no sin toppkandidat.', pos: [61.45, 11.1], hint: ['innlandet'] },
   { tekst: 'Gjøvik', hvem: 'Én person: vær og sol passer.', fokus: 'gjovik', hint: ['skyer'] },
   { tekst: 'Norheimsund', hvem: 'Bokstavene, men mangler én N. HORDE MINUS går opp uten rest, og Hardanger var blått på Windy.', fokus: 'norheimsund', hint: ['bokstaver', 'skyer'] },
-  { tekst: 'Froland og Agder', hvem: 'Ekornet i kommunevåpenet og skyanalyse-kartet.', fokus: 'froland', hint: ['ekorn', 'dyr', 'skyanalyse'] },
+  { tekst: 'Froland er ute', hvem: 'Været samsvarer ikke med det Anja har sett. Ekornet og skyanalysen alene holder ikke.', fokus: 'froland', hint: ['froland', 'ekorn', 'skyanalyse'] },
   { tekst: 'Lillehammer', hvem: 'Ekorn-maskot. Ligger i det blå båndet på Windy.', fokus: 'lillehammer', hint: ['ekorn'] },
   {
     tekst: 'MINUS HORDE = JAKTEN',
