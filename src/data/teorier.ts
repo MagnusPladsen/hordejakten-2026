@@ -294,6 +294,15 @@ export const BEVIS: Bevis[] = [
     faktor: tabell({ gjovik: 1.5 }),
   },
   {
+    // Andel av teori-sirkelen som er grønn (ikke utelukket) i fellesskapets kart 23.09
+    id: 'folk_utelukket',
+    kilde: 'folk',
+    tittel: 'Fellesskapets utelukkingskart (ingen sopp, fjellbjørk)',
+    forklaring: 'Rødt, rosa (ingen sopp) og lyseblått (fjellbjørk) er utelukket. Åpent: Rudshøgda 100 %, Rena 93 %, Ringsaker 83 %, Løten 77 %, Gjøvik 44 %, Solør 18 %, Røros 14 %.',
+    standardPa: true,
+    faktor: tabell({ rudshogda: 1.0, rena: 0.94, ringsaker: 0.85, loten: 0.79, gjovik: 0.5, solor: 0.26, roros: 0.23, valdres: 0.14, agder: 0.13, hardanger: 0.1, annet: 0.5 }),
+  },
+  {
     id: 'folk_digeras',
     kilde: 'folk',
     tittel: 'Flere tipper Digeråsen (Løten/Åmot)',

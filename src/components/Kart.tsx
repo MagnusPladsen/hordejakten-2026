@@ -6,7 +6,7 @@ import { BERGEN, DEFAULTNO, DEFAULTNO_TERRENG, FLY_PUNKT, FLY_PUNKT2, HYTTER, OS
 import { FARGE, KJORETID_KLASSER, type LagId } from '@/data/lag'
 import { avstand, destinasjon, formaterTid, iPolygon, sektor, storsirkel, type LatLon } from '@/lib/geo'
 import { PEKETID_EKTE, posisjon, type FlyData } from '@/lib/fly'
-import { FAKTORER, faktorer, klasse, type Kontekst, type Punkt, type Resultat, type Vekter } from '@/lib/modell'
+import { FAKTORER, faktorer, klasse, utelukkNokkel, type Kontekst, type Punkt, type Resultat, type Vekter } from '@/lib/modell'
 import { TEORIER_LISTE, type TeoriId } from '@/data/teorier'
 import { stedsnavn } from '@/lib/stedsnavn'
 import { KART_MARKORER, statusTekst } from '@/data/kartmarkorer'
@@ -29,6 +29,7 @@ type Props = {
   norge: GeoJSON.MultiPolygon | null
   flyData: FlyData | null
   innlandet: GeoJSON.MultiPolygon | null
+  utelukket: [number, number, string][] | null
   kontekst: Kontekst
   prosent: Record<TeoriId, number>
   resultat: Resultat | null
@@ -91,7 +92,7 @@ function kjoretidFarge(p: Punkt): string | null {
   return i < 0 ? null : FARGE.kjoretid[i]
 }
 
-export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, kontekst, prosent, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, onPopup, onApneHint, minPos }: Props) {
+export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelukket, kontekst, prosent, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, onPopup, onApneHint, minPos }: Props) {
   const divRef = useRef<HTMLDivElement>(null)
   const kartRef = useRef<L.Map | null>(null)
   const flisRef = useRef<L.TileLayer | null>(null)
@@ -168,7 +169,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
     tone()
 
     const g = Object.fromEntries(
-      (['modell', 'hintmarkorer', 'teoriomrader', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'solidag', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'hytter', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
+      (['modell', 'hintmarkorer', 'teoriomrader', 'utelukket', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'solidag', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'hytter', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
         id,
         L.featureGroup(),
       ]),
@@ -314,6 +315,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
         SKYDEKKE.some((r) => iPolygon(klikk, r)) && 'Blått på Windy (utelukket)',
         SOL_I_DAG.some((r) => iPolygon(klikk, r)) && 'Klart på satellitt 23.09',
         TAAKE.some((r) => iPolygon(klikk, r)) && 'Tåke i morges (utelukket)',
+        ktx.utelukket?.has(utelukkNokkel(klikk[0], klikk[1])) && 'Utelukket av fellesskapet (sopp/fjellbjørk)',
         ktx.innlandet.some((r) => iPolygon(klikk, r)) && 'I Innlandet fylke',
         ...TEORIER_LISTE.filter((t) => t.senter && avstand(klikk, t.senter) <= t.radiusKm).map((t) => `Teori: ${t.navn}`),
       ].filter(Boolean)
@@ -428,6 +430,24 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
       L.circle(punkt.pos, { radius: 10000, color: FARGE.fly, weight: 2, dashArray: '5 5', fillOpacity: 0.08, interactive: false }).addTo(g.fly)
     }
   }, [flyData])
+
+  // Fellesskapets utelukkingskart
+  useEffect(() => {
+    const g = grupper.current
+    if (!utelukket || !g) return
+    g.utelukket.clearLayers()
+    const renderer = L.canvas({ padding: 0.3, pane: 'rutenett' })
+    const farger: Record<string, string> = { R: '#dc2626', M: '#d946ef', C: '#22d3ee' }
+    for (const [la, lo, k] of utelukket) {
+      L.rectangle(
+        [
+          [la - 0.025, lo - 0.05],
+          [la + 0.025, lo + 0.05],
+        ],
+        { renderer, stroke: false, fillColor: farger[k] ?? '#dc2626', fillOpacity: k === 'R' ? 0.16 : 0.42, interactive: false },
+      ).addTo(g.utelukket)
+    }
+  }, [utelukket])
 
   // Innlandet fylke
   useEffect(() => {
