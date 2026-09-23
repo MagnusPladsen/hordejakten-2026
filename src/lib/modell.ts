@@ -40,51 +40,59 @@ export const FAKTORER: { id: FaktorId; navn: string; forklaring: string }[] = [
 ]
 
 /** Ferdige teorier. `lag` slås på når teorien velges. */
-export const FORHAND: { id: string; navn: string; vekter: Vekter; lag?: LagId[] }[] = [
+export const FORHAND: { id: string; navn: string; beskrivelse: string; vekter: Vekter; lag?: LagId[] }[] = [
   {
     id: 'innlandet',
     navn: 'Innlandet',
+    beskrivelse: 'Bare Innlandet fylke, uten områdene som var blå på Windy.',
     vekter: { kjoretid: 0.4, timer: 5, slingring: 2.5, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.3, fly: 0.5, bokstaver: 0, innlandet: 1, solidag: 0.7, bergen: 0 },
     lag: ['innlandet'],
   },
   {
     id: 'fakta',
     navn: 'Harde fakta',
+    beskrivelse: 'Bare det vi vet: rundt 7 t kjøring, nær vei og klar himmel.',
     vekter: { kjoretid: 0.8, timer: 7, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0.7, bergen: 0 },
   },
   {
     // Ser bort fra Windy-kartet, ellers blir hele Hardanger utelukket
     id: 'norheimsund',
     navn: 'Norheimsund',
+    beskrivelse: 'Tester bokstav-teorien. Ser bort fra Windy-kartet.',
     vekter: { kjoretid: 0.6, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 0, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 1, innlandet: 0, solidag: 0, bergen: 0 },
     lag: ['teorier'],
   },
   {
     id: 'retning',
     navn: 'Retningsteorien',
+    beskrivelse: 'Tester at 118° på tavla peker fra kassen mot Oslo.',
     vekter: { kjoretid: 0.8, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 1, retning: 0.9, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0, bergen: 0 },
     lag: ['retning'],
   },
   {
     id: 'fly',
     navn: 'Flyet kl. 21:29',
+    beskrivelse: 'Nær flyene som var i lufta da Anja pekte rett opp.',
     vekter: { kjoretid: 0.4, timer: 5, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 1, bokstaver: 0, innlandet: 0, solidag: 0.7, bergen: 0 },
     lag: ['fly'],
   },
   {
     id: 'kort',
     navn: 'Kortere tur (3–5 t)',
+    beskrivelse: 'En kortere kjøretur, 3–5 t fra Oslo.',
     vekter: { kjoretid: 1, timer: 4, slingring: 1, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.4, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0, bergen: 0 },
   },
   {
     id: 'agder',
     navn: 'Agder-teorien',
+    beskrivelse: 'Skyanalysen og ekornet i Froland.',
     vekter: { kjoretid: 0.5, timer: 4, slingring: 1.5, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0.9, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0, bergen: 0 },
     lag: ['skyanalyse'],
   },
   {
     id: 'defaultno',
     navn: 'Som default.no',
+    beskrivelse: 'Nær default.no sine toppkandidater.',
     vekter: { kjoretid: 0.3, timer: 3.5, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 1, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0, bergen: 0 },
     lag: ['defaultno'],
   },

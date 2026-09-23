@@ -246,3 +246,12 @@ export const LAG: Lag[] = [
 ]
 
 export const LAG_ETTER_ID = Object.fromEntries(LAG.map((l) => [l.id, l])) as Record<LagId, Lag>
+
+/** Lagene gruppert slik de vises i Kart-fanen */
+export const GRUPPER: { navn: string; forklaring: string; ider: LagId[] }[] = [
+  { navn: 'Hovedkart', forklaring: 'Hvor kassen mest sannsynlig står.', ider: ['modell', 'teoriomrader'] },
+  { navn: 'Vær', forklaring: 'Anja har hatt klar himmel og sol. Her var det ikke det.', ider: ['skydekke', 'solidag'] },
+  { navn: 'Fly, retning og kjøretid', forklaring: 'Flyet hun pekte på, 118°-linjene og hvor langt man kommer fra Oslo.', ider: ['fly', 'retning', 'kjoretid'] },
+  { navn: 'Steder og teorier', forklaring: 'Stedene hintene og folk i chatten peker på.', ider: ['teorier', 'steder', 'defaultno', 'innlandet', 'skyanalyse'] },
+  { navn: 'Annet', forklaring: 'Verktøy og bakgrunn.', ider: ['felt', 'utenfor'] },
+]

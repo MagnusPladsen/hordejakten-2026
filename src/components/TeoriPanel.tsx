@@ -1,8 +1,10 @@
-import { ArrowDown, ArrowUp, Crosshair, Minus } from 'lucide-react'
+import { useState } from 'react'
+import { ArrowDown, ArrowUp, ChevronDown, Crosshair, X } from 'lucide-react'
 
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
-import { BEVIS, TEORIER_LISTE, type Teori, type TeoriId } from '@/data/teorier'
+import { BEVIS, TEORIER_LISTE, type Bevis, type Teori, type TeoriId } from '@/data/teorier'
 import { cn } from '@/lib/utils'
 
 type Props = {
@@ -12,101 +14,189 @@ type Props = {
   onVisTeori: (t: Teori) => void
 }
 
+const INTRO_NOKKEL = 'hordejakten-intro-lukket'
+
+/** Hvilke aktive hint som løfter og trekker ned en teori mest */
+function utslagFor(t: Teori, aktive: Bevis[]) {
+  const alle = aktive.map((b) => ({ b, f: b.faktor(t) })).filter(({ f }) => Math.abs(Math.log(f)) > 0.05)
+  const opp = alle.filter(({ f }) => f > 1).sort((a, b) => b.f - a.f)
+  const ned = alle.filter(({ f }) => f < 1).sort((a, b) => a.f - b.f)
+  return { opp, ned }
+}
+
+/** Kort versjon av hint-tittelen til «For/Mot»-linja */
+function kortTittel(b: Bevis) {
+  return b.tittel.replace(/\s*\(.*?\)\s*/g, ' ').split(': ')[0].trim()
+}
+
 export function TeoriPanel({ prosent, aktiveBevis, onVeksleBevis, onVisTeori }: Props) {
   const rangert = [...TEORIER_LISTE].sort((a, b) => prosent[b.id] - prosent[a.id])
+  const aktive = BEVIS.filter((b) => aktiveBevis.has(b.id))
+  const [apen, setApen] = useState<TeoriId | null>(null)
 
   return (
     <div className="space-y-4">
+      <Intro />
+
       <div>
-        <h2 className="text-xl font-semibold tracking-tight">Hvilken teori er mest sannsynlig?</h2>
+        <h2 className="text-xl font-semibold tracking-tight">Hvor står kassen?</h2>
         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-          Hvert hint gjør en teori mer eller mindre sannsynlig. Slå hint av og på under, så regnes prosentene ut på nytt.
+          Prosenten viser hvor godt hver teori passer med alle hintene samlet. Trykk på en teori for å se hvorfor.
         </p>
       </div>
 
       <div className="rounded-2xl border border-amber-200 bg-amber-50 p-3.5 text-[13px] leading-relaxed text-amber-900">
         <p className="font-semibold">Siste nytt fra chatten</p>
-        <p className="mt-0.5">Flere skal allerede være ved kassen og prøve koder. Se «Mulige koder» under Hint.</p>
+        <p className="mt-0.5">Flere skal allerede være ved kassen og prøve koder. Se «Mest sannsynlige koder» under Hint.</p>
       </div>
 
       <ol className="space-y-2">
         {rangert.map((t, i) => {
           const p = prosent[t.id]
+          const { opp, ned } = utslagFor(t, aktive)
+          const erApen = apen === t.id
           return (
-            <li key={t.id} className={cn('rounded-2xl border bg-card p-3.5', i === 0 && 'border-slate-300 shadow-sm')}>
-              <div className="flex items-center gap-3">
-                <span className="w-14 shrink-0 font-mono text-xl font-semibold tabular-nums" style={{ color: t.farge }}>
-                  {p < 1 ? '<1' : Math.round(p)}%
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-[14.5px] font-semibold">{t.navn}</p>
-                  <p className="truncate text-xs text-muted-foreground">
-                    {t.kort}
-                    {t.kjoretid != null && ` · ${t.kjoretid.toFixed(1).replace('.', ',')} t fra Oslo`}
-                  </p>
+            <li key={t.id} className={cn('rounded-2xl border bg-card', i === 0 && 'border-slate-300 shadow-sm')}>
+              <button type="button" className="w-full p-3.5 text-left" onClick={() => setApen(erApen ? null : t.id)} aria-expanded={erApen}>
+                <div className="flex items-center gap-3">
+                  <span className="w-14 shrink-0 font-mono text-xl font-semibold tabular-nums" style={{ color: t.farge }}>
+                    {p < 1 ? '<1' : Math.round(p)}%
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[14.5px] leading-snug font-semibold">{t.navn}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {t.kort}
+                      {t.kjoretid != null && ` · ${t.kjoretid.toFixed(1).replace('.', ',')} t fra Oslo`}
+                    </p>
+                  </div>
+                  <ChevronDown className={cn('size-4 shrink-0 text-muted-foreground transition-transform', erApen && 'rotate-180')} />
                 </div>
-                {t.senter && (
-                  <Button variant="outline" size="icon-sm" onClick={() => onVisTeori(t)} aria-label={`Vis ${t.navn} på kartet`}>
-                    <Crosshair />
-                  </Button>
+                <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-full rounded-full transition-[width] duration-500" style={{ width: `${Math.max(1, p)}%`, background: t.farge }} />
+                </div>
+                {!erApen && (opp.length > 0 || ned.length > 0) && (
+                  <p className="mt-2 text-[12px] leading-snug text-slate-600">
+                    {opp.length > 0 && (
+                      <>
+                        <span className="font-semibold text-emerald-700">For:</span> {opp.slice(0, 2).map(({ b }) => kortTittel(b)).join(', ')}
+                      </>
+                    )}
+                    {opp.length > 0 && ned.length > 0 && ' · '}
+                    {ned.length > 0 && (
+                      <>
+                        <span className="font-semibold text-rose-700">Mot:</span> {kortTittel(ned[0].b)}
+                      </>
+                    )}
+                  </p>
                 )}
-              </div>
-              <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-slate-100">
-                <div className="h-full rounded-full transition-[width] duration-500" style={{ width: `${Math.max(1, p)}%`, background: t.farge }} />
-              </div>
+              </button>
+              {erApen && (
+                <div className="border-t border-dashed px-3.5 pt-3 pb-3.5">
+                  {opp.length === 0 && ned.length === 0 && <p className="text-xs text-muted-foreground">Ingen av hintene som er på, sier noe spesielt om denne teorien.</p>}
+                  <ul className="space-y-1.5">
+                    {[...opp, ...ned].map(({ b, f }) => (
+                      <li key={b.id} className="flex items-start gap-2 text-[12.5px] leading-snug">
+                        {f > 1 ? <ArrowUp className="mt-0.5 size-3.5 shrink-0 text-emerald-600" /> : <ArrowDown className="mt-0.5 size-3.5 shrink-0 text-rose-600" />}
+                        <span className="min-w-0 flex-1">{b.tittel}</span>
+                        <span className={cn('shrink-0 font-mono text-[11.5px] font-semibold', f > 1 ? 'text-emerald-700' : 'text-rose-700')}>
+                          ×{f < 0.1 ? f.toFixed(2) : f.toFixed(1)}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  {t.senter && (
+                    <Button size="sm" variant="outline" className="mt-3" onClick={() => onVisTeori(t)}>
+                      <Crosshair /> Vis på kartet
+                    </Button>
+                  )}
+                </div>
+              )}
             </li>
           )
         })}
       </ol>
 
-      <div>
-        <p className="pt-2 text-[11px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">Hintene som teller</p>
-        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-          Pil opp betyr at hintet støtter teorien, pil ned at det taler imot. Vektene er skjønn, ikke fasit.
-        </p>
-      </div>
-      <div className="divide-y rounded-2xl border bg-card">
-        {BEVIS.map((b) => {
-          const pa = aktiveBevis.has(b.id)
-          const utslag = TEORIER_LISTE.filter((t) => t.id !== 'annet')
-            .map((t) => ({ t, f: b.faktor(t) }))
-            .filter(({ f }) => Math.abs(f - 1) > 0.05)
-          return (
-            <div key={b.id} className={cn('p-3.5 transition-opacity', !pa && 'opacity-55')}>
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="text-[13.5px] leading-snug font-semibold">{b.tittel}</p>
-                  <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{b.forklaring}</p>
-                </div>
-                <Switch checked={pa} onCheckedChange={(v) => onVeksleBevis(b.id, v)} aria-label={b.tittel} />
-              </div>
-              {utslag.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {utslag.map(({ t, f }) => {
-                    const Ikon = f > 1 ? ArrowUp : f < 1 ? ArrowDown : Minus
-                    return (
-                      <span
-                        key={t.id}
-                        className={cn(
-                          'inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-semibold ring-1',
-                          f > 1 ? 'bg-emerald-50 text-emerald-700 ring-emerald-200' : 'bg-rose-50 text-rose-700 ring-rose-200',
-                        )}
-                      >
-                        <Ikon className="size-3" />
-                        {t.etikett} ×{f < 0.1 ? f.toFixed(2) : f.toFixed(1)}
-                      </span>
-                    )
-                  })}
-                </div>
-              )}
+      <Accordion type="single" collapsible className="rounded-2xl border bg-card px-4">
+        <AccordionItem value="hint" className="border-none">
+          <AccordionTrigger className="py-3.5">
+            <span>
+              <span className="block text-[14px] font-semibold">Juster hvilke hint som teller</span>
+              <span className="block text-xs font-normal text-muted-foreground">
+                {aktive.length} av {BEVIS.length} hint er med. Slå av det du ikke tror på.
+              </span>
+            </span>
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="divide-y">
+              {BEVIS.map((b) => {
+                const pa = aktiveBevis.has(b.id)
+                return (
+                  <label key={b.id} className={cn('flex cursor-pointer items-start justify-between gap-3 py-3', !pa && 'opacity-60')}>
+                    <span className="min-w-0">
+                      <span className="block text-[13px] leading-snug font-semibold">{b.tittel}</span>
+                      <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">{b.forklaring}</span>
+                    </span>
+                    <Switch checked={pa} onCheckedChange={(v) => onVeksleBevis(b.id, v)} aria-label={b.tittel} />
+                  </label>
+                )
+              })}
             </div>
-          )
-        })}
-      </div>
-      <p className="text-xs leading-relaxed text-muted-foreground">
-        Slik regnes det: hver teori starter likt («Et helt annet sted» starter dobbelt så høyt fordi det dekker resten av landet). Så ganges den med faktoren for
-        hvert hint som er på, og alt skaleres til 100 %.
-      </p>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="metode" className="border-t">
+          <AccordionTrigger className="py-3.5 text-[14px] font-semibold">Hvordan regnes prosenten ut?</AccordionTrigger>
+          <AccordionContent className="space-y-2 text-[13px] leading-relaxed text-slate-600">
+            <p>Alle teoriene starter likt. «Et helt annet sted» starter dobbelt så høyt, fordi det dekker resten av landet.</p>
+            <p>
+              Hvert hint gir en faktor per teori. ×2 betyr at hintet gjør teorien dobbelt så sannsynlig, ×0,5 halvparten så sannsynlig. Faktorene ganges sammen, og alt
+              skaleres til 100 %.
+            </p>
+            <p>Faktorene er skjønn, ikke fasit. De viktigste er flyet Anja pekte på og været.</p>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </div>
+  )
+}
+
+/** Kort bruksanvisning første gang man åpner siden */
+function Intro() {
+  const [synlig, setSynlig] = useState(() => {
+    try {
+      return localStorage.getItem(INTRO_NOKKEL) !== '1'
+    } catch {
+      return true
+    }
+  })
+  if (!synlig) return null
+  const lukk = () => {
+    setSynlig(false)
+    try {
+      localStorage.setItem(INTRO_NOKKEL, '1')
+    } catch {
+      // Privat modus o.l.: introen vises igjen neste gang
+    }
+  }
+  return (
+    <div className="relative rounded-2xl bg-slate-900 p-4 pr-10 text-white">
+      <button type="button" onClick={lukk} className="absolute top-3 right-3 text-slate-400 hover:text-white" aria-label="Lukk">
+        <X className="size-4" />
+      </button>
+      <p className="text-[15px] font-semibold">Slik bruker du kartet</p>
+      <ol className="mt-2 space-y-1.5 text-[13px] leading-snug text-slate-200">
+        <li>
+          <b className="text-white">Teorier</b> viser hvor kassen mest sannsynlig står, i prosent.
+        </li>
+        <li>
+          <b className="text-white">Kart</b> lar deg velge hva du ser. Trykk på kartet for detaljer om et sted.
+        </li>
+        <li>
+          <b className="text-white">Hint</b> samler alle hint, koder og hva folk tror.
+        </li>
+      </ol>
+      <button type="button" onClick={lukk} className="mt-3 rounded-full bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-900">
+        Skjønner
+      </button>
     </div>
   )
 }
