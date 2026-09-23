@@ -70,19 +70,48 @@ function Tittel({ ikon: Ikon, tittel, tekst }: { ikon: typeof AudioLines; tittel
 
 export function AnalysePanel({ onVisKommuner }: { onVisKommuner: () => void }) {
   const [a, setA] = useState<Analyse | null>(null)
+  const [feil, setFeil] = useState(false)
+  const [forsok, setForsok] = useState(0)
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}data/analyse.json`)
-      .then((r) => r.json() as Promise<Analyse>)
+    // Gir opp etter 12 sek i stedet for å vise «Laster» for alltid
+    const avbryt = new AbortController()
+    const tidsfrist = window.setTimeout(() => avbryt.abort(), 12000)
+    let aktiv = true
+    setFeil(false)
+    fetch(new URL(`${import.meta.env.BASE_URL}data/analyse.json`, document.baseURI), { cache: forsok ? 'reload' : 'default', signal: avbryt.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error(String(r.status))
+        return r.json() as Promise<Analyse>
+      })
       .then(setA)
-      .catch(() => setA(null))
-  }, [])
+      .catch(() => {
+        if (aktiv) setFeil(true)
+      })
+      .finally(() => window.clearTimeout(tidsfrist))
+    return () => {
+      aktiv = false
+      window.clearTimeout(tidsfrist)
+      avbryt.abort()
+    }
+  }, [forsok])
 
-  if (!a) return <p className="text-sm text-muted-foreground">Laster analyser …</p>
+  if (!a)
+    return feil ? (
+      <div className="rounded-2xl border bg-card p-4 text-[14.5px]">
+        <p className="font-semibold">Fikk ikke lastet analysene</p>
+        <p className="mt-0.5 text-muted-foreground">Sjekk nettet og prøv igjen.</p>
+        <Button className="mt-3" variant="outline" onClick={() => setForsok((f) => f + 1)}>
+          Prøv igjen
+        </Button>
+      </div>
+    ) : (
+      <p className="text-sm text-muted-foreground">Laster analyser …</p>
+    )
   const maksTag = Math.max(...a.lydtyper.map((t) => t.antall))
 
   return (
-    <div className="avis space-y-4">
-      <div className="spenn">
+    <div className="max-w-3xl space-y-4">
+      <div>
         <h2 className="text-xl font-semibold tracking-tight">Analyse</h2>
         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
           Lyd, fugler, fly og kommunevurderinger fra andre som leter. Alt er hentet fra deres åpne sider, med kreditt under hver del.

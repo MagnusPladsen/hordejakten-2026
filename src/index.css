@@ -218,3 +218,6 @@
   .avis-liste { display: block; columns: 21rem; column-gap: 0.75rem; }
   .avis-liste > * { break-inside: avoid; margin-bottom: 0.75rem; }
 }
+
+.kant-etikett { background: #fff; border: 1px solid #fecaca; color: #7f1d1d; font-weight: 600; font-size: 12px; padding: 3px 8px; border-radius: 8px; box-shadow: none; }
+.kant-etikett::before { display: none; }
