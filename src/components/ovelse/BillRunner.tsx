@@ -1,15 +1,20 @@
-import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
+import { useCallback, useEffect, useId, useRef, useState, type CSSProperties } from 'react'
 
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import armFarSrc from '@/assets/kodejakten/alf-arm-far.webp'
+import armNearSrc from '@/assets/kodejakten/alf-arm-near.webp'
+import headSrc from '@/assets/kodejakten/alf-head.webp'
+import legBackSrc from '@/assets/kodejakten/alf-leg-back.webp'
+import legFrontSrc from '@/assets/kodejakten/alf-leg-front.webp'
+import torsoSrc from '@/assets/kodejakten/alf-torso.webp'
 
 /**
- * Øvingsversjon av spill 2, «Bill Runner». Fysikken, målene og kollisjonsregelen
- * er de samme som i det ekte spillet (LopAlf): scenen er 400 × 230 enheter,
- * farten øker lineært med avstanden fra SPEED_START til SPEED_AT_GOAL ved kassen,
- * og et hopp klarer en regning bare hvis hele regningen er under Alf mens han er
- * i lufta. Banen sendes av serveren i det ekte spillet, så her lages den med
- * samme regler som den evige delen av spillet, fra et fast frø: lik hver gang.
+ * Øvingsversjon av spill 2, «Bill Runner», bygd etter originalen (LopAlf,
+ * AlfFigur, Kasse, spillTema, SpillOverlay og SpillRamme). Scenen er 400 × 230
+ * enheter og skaleres til bredden; alt inni står i enheter, som i originalen.
+ *
+ * Fysikken og kollisjonsregelen er de samme som i det ekte spillet. Banen sendes
+ * av serveren i det ekte spillet, så her lages den med samme regler som den
+ * evige delen av spillet, fra et fast frø: lik hver gang.
  */
 
 // ---- Scenen (samme tall som i originalen) ----
@@ -20,7 +25,6 @@ const ALF_HEIGHT = 112
 /** Der kollisjonsboksen starter på scenen, og hvor mye figuren stikker ut til venstre. */
 const ALF_X = 70
 const ALF_FIGURE_OFFSET = 5
-const FIGURE_W = ALF_HEIGHT * 0.28764
 const JUMP_HEIGHT = 80
 const OBSTACLE_H = 34
 
@@ -33,8 +37,6 @@ const SCORE_UNIT = 5
 const MAX_FRAME_MS = 50
 const GROUND_TICK = 40
 const SKOG_PARALLAKSE = 0.28
-const STRIDE_MS = 420
-const HEAD_MS = 520
 
 // ---- Banen (serverens tall i det ekte spillet; tilnærmet her) ----
 /** Hvor langt ett hopp varer, i enheter løpt. */
@@ -53,26 +55,55 @@ const WIDTHS = [22, 40, 40, 58]
 const SEED = 0x5eed2
 const SPEED_GAIN = (SPEED_AT_GOAL - SPEED_START) / GOAL
 
-// ---- Kassen ----
-const KASSE_W = 48
-const KASSE_H = 40
-const HALO = 34
+// ---- Fargene fra Hordes palett (constants/colors) ----
+const C = {
+  WHITE_100: '#f2f2f2',
+  WHITE_80: '#D9D9D9',
+  TRUE_WHITE: '#FFFFFF',
+  BLACK_40: '#bdbdbd',
+  CORAL_100: '#FF5E32',
+  CORAL_120: '#F43906',
+  PEACH_100: '#FFD1BA',
+  ORANGE_100: '#ff9900',
+  YELLOW_100: '#FFD80E',
+  YELLOW_60: '#ffe456',
+  LIME_100: '#CAD58A',
+  DARK_GREEN_120: '#0B361C',
+  DARK_GREEN_100: '#014639',
+  DARK_GREEN_80: '#C9F1B4',
+}
 
-// ---- Farger (skumringen i spill 2) ----
-const ACCENT = '#FF5E57'
-const PEACH = '#FFB199'
-const YELLOW = '#FFD23F'
+/** Hex + alfa, som MUI sin `alpha`. */
+const alpha = (hex: string, a: number) => {
+  const n = parseInt(hex.slice(1, 7), 16)
+  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`
+}
+
+// ---- Temaet for spill 2: skumringen ----
+const ACCENT = C.CORAL_100
+const CABINET = '#190B16'
+const FIELD =
+  'linear-gradient(180deg, #2A1140 0%, #4A1743 30%, #8D2440 52%, #D8432F 70%, #FF7A3C 80%, #FFAE5C 85%, #FFAE5C 100%)'
 const SKOG_FARGE = '#1B0C1F'
 const BAKKE_FARGE = '#170A16'
-const SKY_STOPS: [number, string][] = [
-  [0, '#2A1140'],
-  [0.3, '#4A1743'],
-  [0.52, '#8D2440'],
-  [0.7, '#D8432F'],
-  [0.8, '#FF7A3C'],
-  [0.85, '#FFAE5C'],
-  [1, '#FFAE5C'],
-]
+
+/** Merkevarens display-snitt står først; mangler det, tar systemets tyngste over. */
+const DISPLAY_FONT = '"Erlik", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif'
+
+const TEKST = {
+  title: 'Bill Runner',
+  instruction: 'Tapp for å hoppe over regningene. Kom deg helt fram til kassen uten å snuble.',
+  solvedTitle: 'Alf kom seg til kassen!',
+  practice: 'Klart! Dette var bare øving – koden får du bare i det ekte spillet.',
+  tapToStart: 'Tapp for å starte',
+  tapToRetry: 'Au! Tapp for å prøve igjen',
+  paused: 'Pause – tapp for å fortsette',
+  attempt: 'Forsøk',
+  jump: 'Hopp',
+  score: 'Poeng',
+  best: 'Beste',
+  again: 'Spill igjen',
+}
 
 const BEST_KEY = 'ovelse-billrunner-beste'
 
@@ -85,9 +116,6 @@ type Run = {
   lastJump: number
   nextObstacle: number
   lastTimestamp: number | null
-  /** Klokka for beina: går bare når han løper på bakken. */
-  legT: number
-  headT: number
 }
 
 const freshRun = (): Run => ({
@@ -95,8 +123,6 @@ const freshRun = (): Run => ({
   lastJump: Number.NEGATIVE_INFINITY,
   nextObstacle: 0,
   lastTimestamp: null,
-  legT: 0,
-  headT: 0,
 })
 
 function mulberry32(seed: number) {
@@ -149,7 +175,7 @@ const writeBest = (best: number) => {
   }
 }
 
-// ---- Skogen: en flis som gjentas, trekanter i silhuett ----
+// ---- Skogen: en flis som gjentas (samme trær som spillTema.skogFlis) ----
 const SKOG_W = 180
 const SKOG_H = 52
 const TRAER = [
@@ -162,239 +188,232 @@ const TRAER = [
   { x: 136, w: 34, h: 45 },
   { x: 152, w: 26, h: 31 },
 ]
+const SKOG_PATH = [
+  ...TRAER.map(({ x, w, h }) => `M${x} ${SKOG_H}L${x + w / 2} ${SKOG_H - h}L${x + w} ${SKOG_H}Z`),
+  `M0 ${SKOG_H - 6}h${SKOG_W}v6H0Z`,
+].join('')
+/** Nok fliser til å dekke scenen også når de er forskjøvet en hel flis. */
+const SKOG_FLISER = Math.ceil(STAGE_W / SKOG_W) + 1
 
-let skogPath: Path2D | null = null
-const skog = () => {
-  if (skogPath) return skogPath
-  const p = new Path2D()
-  for (const { x, w, h } of TRAER) {
-    p.moveTo(x, SKOG_H)
-    p.lineTo(x + w / 2, SKOG_H - h)
-    p.lineTo(x + w, SKOG_H)
-    p.closePath()
-  }
-  p.rect(0, SKOG_H - 6, SKOG_W, 6)
-  skogPath = p
-  return p
+// ---- Alf-dukken (alfGeometry + AlfFigur) ----
+const FIGURE_ASPECT = 0.28764
+const NECK = { x: 0.48485, y: 0.31062 }
+const SHOULDER_NEAR = { x: 0.73278, y: 0.32647 }
+const SHOULDER_FAR = { x: 0.26446, y: 0.32647 }
+const HIP_BACK = { x: 0.39945, y: 0.58637 }
+const HIP_FRONT = { x: 0.72452, y: 0.58637 }
+const HIPS = { x: 0.4986, y: 0.63946 }
+const pct = (value: number) => `${Number((value * 100).toFixed(3))}%`
+const origin = (point: { x: number; y: number }) => `${pct(point.x)} ${pct(point.y)}`
+
+/** Ett fullt beinpar. */
+const STRIDE_MS = 420
+/** Med vilje ikke et multiplum av STRIDE_MS: hodet drifter i forhold til kroppen. */
+const HEAD_MS = 520
+const FAR_SIDE = 'brightness(0.78)'
+
+const swing = (degrees: number, sign: 1 | -1) =>
+  `0%, 100% { transform: rotate(${sign * degrees}deg); } 50% { transform: rotate(${-sign * degrees}deg); }`
+
+const KEYFRAMES = `
+@keyframes brAlfLegBack { ${swing(20, 1)} }
+@keyframes brAlfLegFront { ${swing(20, -1)} }
+@keyframes brAlfArmFar { ${swing(8, -1)} }
+@keyframes brAlfArmNear { ${swing(8, 1)} }
+@keyframes brAlfHead { 0%, 100% { transform: rotate(-5deg) translateY(0); } 50% { transform: rotate(5deg) translateY(-1.2%); } }
+@keyframes brAlfTorso { 0%, 100% { transform: rotate(-1.5deg); } 50% { transform: rotate(1.5deg); } }
+@keyframes brAlfBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3.5%); } }
+@media (prefers-reduced-motion: reduce) { .brAlfAnim { animation: none !important; } }
+`
+
+type PartProps = {
+  src: string
+  name: string
+  ms: number
+  pivot: { x: number; y: number }
+  far?: boolean
 }
 
-// ---- Tegning ----
+const Part = ({ src, name, ms, pivot, far }: PartProps) => (
+  <img
+    src={src}
+    alt=""
+    aria-hidden
+    draggable={false}
+    className="brAlfAnim"
+    style={{
+      position: 'absolute',
+      inset: 0,
+      width: '100%',
+      height: '100%',
+      maxWidth: 'none',
+      transformOrigin: origin(pivot),
+      willChange: 'transform',
+      filter: far ? FAR_SIDE : undefined,
+      animation: `${name} ${ms}ms ease-in-out infinite`,
+      animationPlayState: 'var(--alf-play, running)',
+    }}
+  />
+)
 
-function drawBackground(ctx: CanvasRenderingContext2D, k: number, distance: number) {
-  const sky = ctx.createLinearGradient(0, 0, 0, STAGE_H)
-  for (const [o, c] of SKY_STOPS) sky.addColorStop(o, c)
-  ctx.fillStyle = sky
-  ctx.fillRect(0, 0, STAGE_W, STAGE_H)
+/** Alf som løpende bobblehead-dukke: seks deler som roterer om hvert sitt dreiepunkt. */
+const AlfFigur = ({ height, running, fallen }: { height: number; running: boolean; fallen: boolean }) => (
+  <div
+    aria-hidden
+    style={
+      {
+        position: 'relative',
+        height: `${height}px`,
+        width: `${height * FIGURE_ASPECT}px`,
+        transformOrigin: '50% 100%',
+        transform: fallen ? 'rotate(-16deg) translateX(-6%)' : 'none',
+        transition: 'transform 220ms ease-out',
+        ...(running ? {} : { '--alf-play': 'paused' }),
+      } as CSSProperties
+    }
+  >
+    <div
+      className="brAlfAnim"
+      style={{
+        position: 'absolute',
+        inset: 0,
+        willChange: 'transform',
+        animation: `brAlfBob ${STRIDE_MS / 2}ms ease-in-out infinite`,
+        animationPlayState: 'var(--alf-play, running)',
+      }}
+    >
+      {/* Z-ordenen fra originalen: overkroppen øverst, den dekker skjøtene. */}
+      <Part src={legBackSrc} name="brAlfLegBack" ms={STRIDE_MS} pivot={HIP_BACK} far />
+      <Part src={legFrontSrc} name="brAlfLegFront" ms={STRIDE_MS} pivot={HIP_FRONT} />
+      <Part src={armFarSrc} name="brAlfArmFar" ms={STRIDE_MS} pivot={SHOULDER_FAR} far />
+      <Part src={armNearSrc} name="brAlfArmNear" ms={STRIDE_MS} pivot={SHOULDER_NEAR} />
+      <Part src={headSrc} name="brAlfHead" ms={HEAD_MS} pivot={NECK} />
+      <Part src={torsoSrc} name="brAlfTorso" ms={STRIDE_MS * 2} pivot={HIPS} />
+    </div>
+  </div>
+)
 
-  // Sola, som står stille bak skogen
-  const sx = 252 + 38
-  const sy = 106 + 38
-  const glow = ctx.createRadialGradient(sx, sy, 30, sx, sy, 38 + 24 + 40)
-  glow.addColorStop(0, 'rgba(255,94,87,0.45)')
-  glow.addColorStop(1, 'rgba(255,94,87,0)')
-  ctx.fillStyle = glow
-  ctx.fillRect(sx - 110, sy - 110, 220, 220)
-  const sun = ctx.createRadialGradient(sx, sy, 0, sx, sy, 38)
-  sun.addColorStop(0, '#FFE58C')
-  sun.addColorStop(0.55, '#FF8A3D')
-  sun.addColorStop(1, '#C9372C')
-  ctx.fillStyle = sun
-  ctx.beginPath()
-  ctx.arc(sx, sy, 38, 0, Math.PI * 2)
-  ctx.fill()
+// ---- Regningen: to ark med en rød betalingsfrist-stripe ----
+const Regning = ({ x, w }: Obstacle) => (
+  <div
+    style={{
+      position: 'absolute',
+      left: `${x}px`,
+      top: `${GROUND_Y - OBSTACLE_H}px`,
+      width: `${w}px`,
+      height: `${OBSTACLE_H}px`,
+    }}
+  >
+    <div
+      style={{
+        position: 'absolute',
+        inset: '0 0 3px 3px',
+        background: C.WHITE_80,
+        borderRadius: '2px',
+        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.45)',
+      }}
+    />
+    <div
+      style={{
+        position: 'absolute',
+        inset: '3px 3px 0 0',
+        background: C.TRUE_WHITE,
+        borderRadius: '2px',
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          left: '3px',
+          right: '3px',
+          top: '5px',
+          height: '4px',
+          background: C.CORAL_100,
+          borderRadius: '1px',
+        }}
+      />
+      <div style={{ position: 'absolute', left: '3px', right: '6px', top: '14px', height: '2px', background: C.BLACK_40 }} />
+      <div style={{ position: 'absolute', left: '3px', right: '10px', top: '20px', height: '2px', background: C.BLACK_40 }} />
+    </div>
+  </div>
+)
 
-  // Skogen ruller saktere enn bakken
-  const path = skog()
-  ctx.fillStyle = SKOG_FARGE
-  let off = -((distance * SKOG_PARALLAKSE) % SKOG_W)
-  for (; off < STAGE_W; off += SKOG_W) {
-    ctx.save()
-    ctx.translate(off, GROUND_Y - SKOG_H)
-    ctx.fill(path)
-    ctx.restore()
-  }
+// ---- Kassen Alf er på vei mot ----
+const KASSE_W = 48
+const KASSE_H = 40
+const HALO = 34
 
-  // Bakken
-  ctx.fillStyle = BAKKE_FARGE
-  ctx.fillRect(0, GROUND_Y, STAGE_W, STAGE_H - GROUND_Y)
-  ctx.save()
-  ctx.shadowColor = 'rgba(255,94,87,0.8)'
-  ctx.shadowBlur = 12 * k
-  ctx.fillStyle = ACCENT
-  ctx.fillRect(0, GROUND_Y, STAGE_W, 2)
-  ctx.restore()
-  ctx.fillStyle = 'rgba(255,94,87,0.45)'
-  for (let x = -(distance % GROUND_TICK); x < STAGE_W; x += GROUND_TICK) {
-    ctx.fillRect(x, GROUND_Y + 8, 10, 3)
-  }
+const Kasse = ({ x, ground }: { x: number; ground: number }) => {
+  const id = `kasseLys-${useId().replace(/:/g, '')}`
+  return (
+    <svg
+      viewBox={`${-HALO} ${-HALO} ${KASSE_W + HALO * 2} ${KASSE_H + HALO * 2}`}
+      width={KASSE_W + HALO * 2}
+      height={KASSE_H + HALO * 2}
+      style={{
+        position: 'absolute',
+        left: `${x - HALO}px`,
+        top: `${ground - KASSE_H - HALO}px`,
+        display: 'block',
+        pointerEvents: 'none',
+        maxWidth: 'none',
+      }}
+      aria-hidden
+    >
+      <defs>
+        <radialGradient id={id}>
+          <stop offset="0%" stopColor={C.YELLOW_100} stopOpacity={0.55} />
+          <stop offset="55%" stopColor={C.YELLOW_100} stopOpacity={0.14} />
+          <stop offset="100%" stopColor={C.YELLOW_100} stopOpacity={0} />
+        </radialGradient>
+      </defs>
+      <circle cx={KASSE_W / 2} cy={KASSE_H / 2} r={KASSE_W / 2 + HALO} fill={`url(#${id})`} />
+      <rect x={2} y={10} width={44} height={30} rx={4} fill={C.DARK_GREEN_100} stroke={C.LIME_100} strokeWidth={1.5} />
+      <rect x={0} y={6} width={48} height={10} rx={3} fill={C.YELLOW_100} />
+      <circle cx={24} cy={27} r={4} fill={C.YELLOW_100} />
+      <rect x={22.4} y={27} width={3.2} height={7} fill={C.YELLOW_100} />
+    </svg>
+  )
 }
 
-function drawBill(ctx: CanvasRenderingContext2D, k: number, left: number, w: number) {
-  const top = GROUND_Y - OBSTACLE_H
-  // Bakre ark
-  ctx.save()
-  ctx.shadowColor = 'rgba(0,0,0,0.45)'
-  ctx.shadowBlur = 6 * k
-  ctx.shadowOffsetY = 2 * k
-  ctx.fillStyle = '#E4DED6'
-  ctx.beginPath()
-  ctx.roundRect(left + 3, top, w - 3, OBSTACLE_H - 3, 2)
-  ctx.fill()
-  ctx.restore()
-  // Fremre ark
-  ctx.fillStyle = '#FFFFFF'
-  ctx.beginPath()
-  ctx.roundRect(left, top + 3, w - 3, OBSTACLE_H - 3, 2)
-  ctx.fill()
-  const inner = w - 3
-  ctx.fillStyle = ACCENT
-  ctx.fillRect(left + 3, top + 3 + 5, Math.max(0, inner - 6), 4)
-  ctx.fillStyle = '#A7A2A8'
-  ctx.fillRect(left + 3, top + 3 + 14, Math.max(0, inner - 9), 2)
-  ctx.fillRect(left + 3, top + 3 + 20, Math.max(0, inner - 13), 2)
+// ---- Teksten på brettet (SpillOverlay) ----
+const SpillOverlay = ({ text, color }: { text: string; color: string }) => {
+  if (!text) return null
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        pointerEvents: 'none',
+      }}
+    >
+      <p
+        className="text-[18px] sm:text-[20px]"
+        style={{
+          margin: 0,
+          maxWidth: '84%',
+          padding: '16px 32px',
+          borderRadius: '999px',
+          color: C.TRUE_WHITE,
+          textAlign: 'center',
+          fontWeight: 700,
+          lineHeight: 1.6,
+          background: alpha('#000000', 0.62),
+          border: `2px solid ${alpha(color, 0.85)}`,
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
+          boxShadow: `0 0 28px ${alpha(color, 0.4)}`,
+        }}
+      >
+        {text}
+      </p>
+    </div>
+  )
 }
-
-function drawKasse(ctx: CanvasRenderingContext2D, left: number) {
-  const top = GROUND_Y - KASSE_H
-  const cx = left + KASSE_W / 2
-  const cy = top + KASSE_H / 2
-  const r = KASSE_W / 2 + HALO
-  const halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, r)
-  halo.addColorStop(0, 'rgba(255,210,63,0.55)')
-  halo.addColorStop(0.55, 'rgba(255,210,63,0.14)')
-  halo.addColorStop(1, 'rgba(255,210,63,0)')
-  ctx.fillStyle = halo
-  ctx.beginPath()
-  ctx.arc(cx, cy, r, 0, Math.PI * 2)
-  ctx.fill()
-
-  ctx.fillStyle = '#123F2F'
-  ctx.strokeStyle = '#B6E24B'
-  ctx.lineWidth = 1.5
-  ctx.beginPath()
-  ctx.roundRect(left + 2, top + 10, 44, 30, 4)
-  ctx.fill()
-  ctx.stroke()
-  ctx.fillStyle = YELLOW
-  ctx.beginPath()
-  ctx.roundRect(left, top + 6, 48, 10, 3)
-  ctx.fill()
-  // Myntspor i lokket og et nøkkelhull
-  ctx.fillStyle = '#123F2F'
-  ctx.fillRect(left + 16, top + 10, 16, 2)
-  ctx.fillStyle = YELLOW
-  ctx.beginPath()
-  ctx.arc(cx, top + 27, 4, 0, Math.PI * 2)
-  ctx.fill()
-  ctx.fillRect(cx - 1.6, top + 27, 3.2, 7)
-}
-
-/** Alf som en enkel løper med stort, rundt hode. Figuren står i en boks på FIGURE_W × ALF_HEIGHT. */
-function drawAlf(
-  ctx: CanvasRenderingContext2D,
-  lift: number,
-  legT: number,
-  headT: number,
-  fallen: boolean,
-) {
-  const H = ALF_HEIGHT
-  const left = ALF_X - ALF_FIGURE_OFFSET
-  const bottom = GROUND_Y + lift
-  const cx = left + FIGURE_W / 2
-
-  ctx.save()
-  if (fallen) {
-    ctx.translate(cx, bottom)
-    ctx.rotate((-16 * Math.PI) / 180)
-    ctx.translate(-cx - FIGURE_W * 0.06, -bottom)
-  }
-  const stride = (legT % STRIDE_MS) / STRIDE_MS
-  const swing = Math.cos(stride * Math.PI * 2)
-  // Hoppet i kroppen: to ganger per steg
-  const bob = -((1 - Math.cos(stride * Math.PI * 4)) / 2) * 0.035 * H
-  const top = bottom - H + bob
-
-  const hipY = top + 0.6 * H
-  const shoulderY = top + 0.34 * H
-  const legLen = bottom - hipY - 2
-  const armLen = 0.26 * H
-
-  const limb = (x: number, y: number, len: number, deg: number, color: string, width: number) => {
-    const a = (deg * Math.PI) / 180
-    ctx.strokeStyle = color
-    ctx.lineWidth = width
-    ctx.lineCap = 'round'
-    ctx.beginPath()
-    ctx.moveTo(x, y)
-    ctx.lineTo(x + Math.sin(a) * len, y + Math.cos(a) * len)
-    ctx.stroke()
-  }
-
-  // Bortre bein og arm i skygge
-  limb(cx - 2, hipY, legLen, 22 * swing, '#1E1830', 7)
-  limb(cx - 3, shoulderY, armLen, -30 * swing, '#1F4C3E', 5)
-
-  // Overkroppen
-  ctx.fillStyle = '#2E7A5E'
-  ctx.beginPath()
-  ctx.roundRect(cx - 9, top + 0.3 * H, 18, 0.34 * H, 7)
-  ctx.fill()
-
-  // Nærmeste bein og arm
-  limb(cx + 2, hipY, legLen, -22 * swing, '#2B2340', 7)
-  limb(cx + 3, shoulderY, armLen, 30 * swing, '#3A9373', 5)
-
-  // Hodet vugger i sin egen takt
-  const wobble = Math.cos(((headT % HEAD_MS) / HEAD_MS) * Math.PI * 2) * 5
-  const headR = 15
-  const headY = top + 0.165 * H
-  ctx.save()
-  ctx.translate(cx, top + 0.31 * H)
-  ctx.rotate((wobble * Math.PI) / 180)
-  ctx.translate(-cx, -(top + 0.31 * H))
-  ctx.fillStyle = '#F1C7A0'
-  ctx.beginPath()
-  ctx.arc(cx, headY, headR, 0, Math.PI * 2)
-  ctx.fill()
-  // Håret
-  ctx.fillStyle = '#4A3526'
-  ctx.beginPath()
-  ctx.arc(cx, headY, headR, Math.PI * 1.05, Math.PI * 1.95)
-  ctx.closePath()
-  ctx.fill()
-  // Ansiktet ser framover (mot høyre)
-  ctx.fillStyle = '#1B0C1F'
-  ctx.beginPath()
-  ctx.arc(cx + 6, headY - 1, 1.8, 0, Math.PI * 2)
-  ctx.arc(cx - 1, headY - 1, 1.8, 0, Math.PI * 2)
-  ctx.fill()
-  ctx.strokeStyle = '#1B0C1F'
-  ctx.lineWidth = 1.4
-  ctx.beginPath()
-  if (fallen) ctx.arc(cx + 3, headY + 9, 3.5, Math.PI * 1.15, Math.PI * 1.85)
-  else ctx.arc(cx + 3, headY + 4, 4.5, Math.PI * 0.2, Math.PI * 0.8)
-  ctx.stroke()
-  ctx.restore()
-
-  ctx.restore()
-}
-
-function drawHud(ctx: CanvasRenderingContext2D, k: number, score: number, best: number) {
-  ctx.save()
-  ctx.textAlign = 'right'
-  ctx.textBaseline = 'top'
-  ctx.fillStyle = 'rgba(255,255,255,0.6)'
-  ctx.font = '600 10px ui-monospace, SFMono-Regular, Menlo, monospace'
-  ctx.fillText(`BESTE ${padScore(best)}`, STAGE_W - 16, 10)
-  ctx.shadowColor = 'rgba(255,210,63,0.55)'
-  ctx.shadowBlur = 12 * k
-  ctx.fillStyle = YELLOW
-  ctx.font = '900 26px ui-monospace, SFMono-Regular, Menlo, monospace'
-  ctx.fillText(padScore(score), STAGE_W - 16, 25)
-  ctx.restore()
-}
-
-// ---- Komponenten ----
 
 const isEditable = (el: EventTarget | null) =>
   el instanceof HTMLElement &&
@@ -403,59 +422,53 @@ const isEditable = (el: EventTarget | null) =>
 export function BillRunnerOvelse() {
   const [phase, setPhase] = useState<Phase>('ready')
   const [attempts, setAttempts] = useState(0)
+  const [best, setBest] = useState(0)
 
   const phaseRef = useRef<Phase>('ready')
   const runRef = useRef<Run>(freshRun())
   const bestRef = useRef(0)
   const frameRef = useRef<number | null>(null)
+  const viewportRef = useRef<HTMLDivElement>(null)
   const stageRef = useRef<HTMLDivElement>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const worldRef = useRef<HTMLDivElement>(null)
+  const alfRef = useRef<HTMLDivElement>(null)
+  const groundRef = useRef<HTMLDivElement>(null)
+  const skogRef = useRef<SVGGElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
+  const scoreRef = useRef<HTMLSpanElement>(null)
 
   const setPhaseBoth = useCallback((next: Phase) => {
     phaseRef.current = next
     setPhase(next)
   }, [])
 
+  /** Alt som endres hvert bilde skrives rett i DOM-en, ikke via React-state. */
   const paint = useCallback(() => {
-    const canvas = canvasRef.current
-    const ctx = canvas?.getContext('2d')
-    if (!canvas || !ctx || canvas.width === 0) return
     const run = runRef.current
-    const k = canvas.width / STAGE_W
-    ctx.setTransform(k, 0, 0, k, 0, 0)
-
-    drawBackground(ctx, k, run.distance)
-
-    // Verden flyttes mot venstre etter hvor langt han har løpt; Alf står stille.
-    const shift = ALF_X - run.distance
-    for (let i = Math.max(0, run.nextObstacle - 3); i < BANE.length; i++) {
-      const o = BANE[i]
-      const left = o.x + shift
-      if (left > STAGE_W) break
-      if (left + o.w < 0) continue
-      drawBill(ctx, k, left, o.w)
-    }
-    const kasseLeft = GOAL + shift
-    if (kasseLeft - HALO < STAGE_W) drawKasse(ctx, kasseLeft)
-
     const airborne = run.distance < run.lastJump + JUMP
     let lift = 0
     if (airborne) {
       const u = (run.distance - run.lastJump) / JUMP
       lift = -4 * JUMP_HEIGHT * u * (1 - u)
     }
-    drawAlf(ctx, lift, run.legT, run.headT, phaseRef.current === 'hit')
-    drawHud(ctx, k, scoreOf(run.distance), bestRef.current)
-
-    if (progressRef.current) {
-      progressRef.current.style.transform = `scaleX(${Math.min(1, run.distance / GOAL)})`
+    if (worldRef.current) worldRef.current.style.transform = `translateX(${-run.distance}px)`
+    if (alfRef.current) {
+      alfRef.current.style.transform = `translateY(${lift}px)`
+      // Beina står stille i svevet.
+      alfRef.current.style.setProperty('--alf-play', airborne ? 'paused' : 'running')
     }
+    if (groundRef.current) groundRef.current.style.backgroundPositionX = `${-(run.distance % GROUND_TICK)}px`
+    if (skogRef.current) {
+      skogRef.current.setAttribute('transform', `translate(${-((run.distance * SKOG_PARALLAKSE) % SKOG_W)} 0)`)
+    }
+    if (progressRef.current) progressRef.current.style.transform = `scaleX(${Math.min(1, run.distance / GOAL)})`
+    if (scoreRef.current) scoreRef.current.textContent = padScore(scoreOf(run.distance))
   }, [])
 
   const rememberBest = useCallback((score: number) => {
     if (score <= bestRef.current) return
     bestRef.current = score
+    setBest(score)
     writeBest(score)
   }, [])
 
@@ -464,15 +477,11 @@ export function BillRunnerOvelse() {
       frameRef.current = null
       if (phaseRef.current !== 'running') return
       const run = runRef.current
-      const dt =
-        run.lastTimestamp === null ? 0 : Math.min(MAX_FRAME_MS, timestamp - run.lastTimestamp)
+      const dt = run.lastTimestamp === null ? 0 : Math.min(MAX_FRAME_MS, timestamp - run.lastTimestamp)
       run.lastTimestamp = timestamp
 
       const speed = Math.min(SPEED_MAX, SPEED_START + SPEED_GAIN * run.distance)
       run.distance += (speed * dt) / 1000
-      run.headT += dt
-      // Beina står stille i svevet.
-      if (run.distance >= run.lastJump + JUMP) run.legT += dt
 
       // I det han når neste regning avgjøres det, med serverens regel.
       const obstacle = BANE[run.nextObstacle]
@@ -480,9 +489,8 @@ export function BillRunnerOvelse() {
         const s = run.lastJump
         const cleared = s + MARGIN <= obstacle.x - RUNNER && obstacle.x + obstacle.w <= s + JUMP - MARGIN
         if (!cleared) {
-          rememberBest(scoreOf(run.distance))
-          phaseRef.current = 'hit'
           paint()
+          rememberBest(scoreOf(run.distance))
           setPhaseBoth('hit')
           setAttempts((n) => n + 1)
           return
@@ -492,9 +500,8 @@ export function BillRunnerOvelse() {
 
       if (run.distance >= GOAL) {
         run.distance = GOAL
-        rememberBest(scoreOf(GOAL))
-        phaseRef.current = 'goal'
         paint()
+        rememberBest(scoreOf(GOAL))
         setPhaseBoth('goal')
         return
       }
@@ -512,15 +519,10 @@ export function BillRunnerOvelse() {
 
   const start = useCallback(() => {
     runRef.current = freshRun()
-    setPhaseBoth('running')
     paint()
+    setPhaseBoth('running')
     loop()
   }, [loop, paint, setPhaseBoth])
-
-  const restart = useCallback(() => {
-    start()
-    stageRef.current?.focus({ preventScroll: true })
-  }, [start])
 
   const tap = useCallback(() => {
     const current = phaseRef.current
@@ -542,34 +544,38 @@ export function BillRunnerOvelse() {
     }
   }, [loop, setPhaseBoth, start])
 
-  // Lerretet følger bredden, skarpt på høy DPI.
+  const playAgain = useCallback(() => {
+    start()
+    viewportRef.current?.focus({ preventScroll: true })
+  }, [start])
+
   useEffect(() => {
     bestRef.current = readBest()
+    setBest(bestRef.current)
+  }, [])
+
+  // Scenen er STAGE_W enheter bred og skaleres til visningens bredde.
+  useEffect(() => {
+    const viewport = viewportRef.current
     const stage = stageRef.current
-    const canvas = canvasRef.current
-    if (!stage || !canvas) return undefined
+    if (!viewport || !stage) return undefined
     const fit = () => {
-      const dpr = window.devicePixelRatio || 1
-      const w = stage.clientWidth
-      canvas.width = Math.max(1, Math.round(w * dpr))
-      canvas.height = Math.max(1, Math.round(((w * STAGE_H) / STAGE_W) * dpr))
-      paint()
+      stage.style.transform = `scale(${viewport.clientWidth / STAGE_W})`
     }
     fit()
     const observer = new ResizeObserver(fit)
-    observer.observe(stage)
+    observer.observe(viewport)
     return () => observer.disconnect()
-  }, [paint])
+  }, [])
 
   // Tastatur, fanebytte og opprydding.
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key !== ' ' && event.key !== 'ArrowUp') return
-      const onStage = event.target === stageRef.current
+      const onStage = event.target === viewportRef.current
       const live = phaseRef.current === 'running' || phaseRef.current === 'paused'
       if (!onStage && (!live || isEditable(event.target))) return
       event.preventDefault()
-      if (phaseRef.current === 'goal') return
       tap()
     }
     const onVisibility = () => {
@@ -589,87 +595,310 @@ export function BillRunnerOvelse() {
     }
   }, [setPhaseBoth, tap])
 
-  const stopTap = (event: ReactPointerEvent) => event.stopPropagation()
+  const overlay =
+    phase === 'ready' ? TEKST.tapToStart : phase === 'hit' ? TEKST.tapToRetry : phase === 'paused' ? TEKST.paused : ''
 
   return (
-    <div className="mx-auto flex w-full max-w-[520px] flex-col gap-2">
-      <div className="h-1 overflow-hidden rounded-full bg-black/35" aria-hidden>
-        <div
-          ref={progressRef}
-          className="h-full origin-left bg-[#FF5E57] shadow-[0_0_10px_#FF5E57]"
-          style={{ transform: 'scaleX(0)' }}
-        />
+    // Kabinettet (SpillRamme): en mørk flate i spillets farge, med lysstripe langs toppen.
+    <section
+      className="relative mx-auto flex w-full max-w-[520px] flex-col gap-5 overflow-hidden p-5 sm:p-7"
+      style={{
+        background: CABINET,
+        borderRadius: '20px',
+        border: `1px solid ${alpha(ACCENT, 0.28)}`,
+        boxShadow: `0 28px 70px -40px ${alpha(ACCENT, 0.9)}, inset 0 1px 0 ${alpha(C.TRUE_WHITE, 0.07)}`,
+      }}
+    >
+      <style>{KEYFRAMES}</style>
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '2px',
+          zIndex: 1,
+          background: `linear-gradient(90deg, transparent, ${ACCENT}, transparent)`,
+          opacity: 0.85,
+        }}
+      />
+
+      <div className="flex min-w-0 flex-col gap-1.5">
+        <div className="flex items-center gap-2.5">
+          <h2
+            style={{
+              margin: 0,
+              fontFamily: DISPLAY_FONT,
+              fontWeight: 900,
+              fontSize: '24px',
+              lineHeight: 1.33,
+              color: C.WHITE_100,
+            }}
+          >
+            {TEKST.title}
+          </h2>
+          <span
+            className="rounded-full px-2 py-0.5 text-[11px] font-bold tracking-[0.08em] uppercase"
+            style={{ color: ACCENT, border: `1px solid ${alpha(ACCENT, 0.5)}`, background: alpha(ACCENT, 0.12) }}
+          >
+            Øving
+          </span>
+        </div>
+        <p style={{ margin: 0, fontSize: '16px', lineHeight: 1.6, color: alpha(C.WHITE_100, 0.7) }}>
+          {TEKST.instruction}
+        </p>
       </div>
 
-      <div
-        ref={stageRef}
-        role="button"
-        tabIndex={0}
-        aria-label="Hopp"
-        onPointerDown={(event) => {
-          if (event.button !== 0) return
-          event.preventDefault()
-          stageRef.current?.focus({ preventScroll: true })
-          tap()
-        }}
-        className={cn(
-          'relative w-full cursor-pointer overflow-hidden rounded-2xl border border-[#FF5E57]/25 bg-[#2A1140] select-none',
-          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
-        )}
-        style={{
-          aspectRatio: `${STAGE_W} / ${STAGE_H}`,
-          touchAction: 'none',
-          WebkitTapHighlightColor: 'transparent',
-        }}
-      >
-        <canvas ref={canvasRef} className="absolute inset-0 block h-full w-full" aria-hidden />
+      <div className="flex flex-col gap-3">
+        <div
+          aria-hidden
+          style={{ height: '4px', borderRadius: '2px', background: alpha('#000000', 0.35), overflow: 'hidden' }}
+        >
+          <div
+            ref={progressRef}
+            style={{
+              height: '100%',
+              background: ACCENT,
+              transformOrigin: '0 50%',
+              transform: 'scaleX(0)',
+              boxShadow: `0 0 10px ${ACCENT}`,
+            }}
+          />
+        </div>
 
-        {(phase === 'ready' || phase === 'paused') && (
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <p
-              className="max-w-[84%] rounded-full border-2 border-[#FF5E57]/85 bg-black/60 px-6 py-3 text-center text-base font-bold text-white backdrop-blur-sm sm:text-lg"
-              style={{ boxShadow: '0 0 28px rgba(255,94,87,0.4)' }}
-            >
-              {phase === 'ready' ? 'Trykk for å starte' : 'Pause – trykk for å fortsette'}
-            </p>
-          </div>
-        )}
-
-        {phase === 'hit' && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-3">
-            <p
-              className="max-w-[84%] rounded-full border-2 bg-black/60 px-5 py-2 text-center text-sm font-bold text-white backdrop-blur-sm sm:text-base"
-              style={{ borderColor: PEACH, boxShadow: `0 0 28px ${PEACH}66` }}
-            >
-              Au! Alf snublet i en regning.
-            </p>
-            <Button size="lg" onPointerDown={stopTap} onClick={restart}>
-              Prøv igjen
-            </Button>
-          </div>
-        )}
-
-        {phase === 'goal' && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/35 p-3">
+        <div
+          ref={viewportRef}
+          role="button"
+          tabIndex={0}
+          aria-label={TEKST.jump}
+          onPointerDown={(event) => {
+            if (event.button !== 0) return
+            event.preventDefault()
+            viewportRef.current?.focus({ preventScroll: true })
+            tap()
+          }}
+          className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f2f2f2]"
+          style={{
+            position: 'relative',
+            width: '100%',
+            aspectRatio: `${STAGE_W} / ${STAGE_H}`,
+            overflow: 'hidden',
+            borderRadius: '16px',
+            background: FIELD,
+            border: `1px solid ${alpha(ACCENT, 0.25)}`,
+            cursor: 'pointer',
+            touchAction: 'none',
+            userSelect: 'none',
+            WebkitUserSelect: 'none',
+            WebkitTapHighlightColor: 'transparent',
+          }}
+        >
+          <div
+            ref={stageRef}
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: `${STAGE_W}px`,
+              height: `${STAGE_H}px`,
+              transformOrigin: '0 0',
+            }}
+          >
+            {/* Sola går ned bak skogen. Står stille: den er uendelig langt unna. */}
             <div
-              onPointerDown={stopTap}
-              className="flex max-w-[92%] cursor-default flex-col items-center gap-2.5 rounded-2xl border-2 border-[#FFD23F]/80 bg-black/70 px-4 py-3 text-center text-white backdrop-blur-sm"
-              style={{ boxShadow: '0 0 28px rgba(255,210,63,0.35)' }}
+              style={{
+                position: 'absolute',
+                left: '252px',
+                top: '106px',
+                width: '76px',
+                height: '76px',
+                borderRadius: '50%',
+                background: `radial-gradient(circle, ${C.YELLOW_60} 0%, ${C.ORANGE_100} 55%, ${C.CORAL_120} 100%)`,
+                boxShadow: `0 0 60px 24px ${alpha(C.CORAL_100, 0.45)}`,
+              }}
+            />
+            {/* Skogen, i silhuett og saktere enn bakken. Flisene står i én SVG som
+                skyves, ikke som CSS-bakgrunn: en skalert bakgrunnsflis blør bunnraden
+                inn som en tynn strek langs toppen. */}
+            <svg
+              aria-hidden
+              width={SKOG_W * SKOG_FLISER}
+              height={SKOG_H}
+              viewBox={`0 0 ${SKOG_W * SKOG_FLISER} ${SKOG_H}`}
+              style={{ position: 'absolute', left: 0, top: `${GROUND_Y - SKOG_H}px`, display: 'block', maxWidth: 'none' }}
             >
-              <p className="text-sm font-semibold leading-snug sm:text-base">
-                Klart! Dette var bare øving – koden får du bare i det ekte spillet.
+              <g ref={skogRef}>
+                {Array.from({ length: SKOG_FLISER }, (_, i) => (
+                  <path key={i} transform={`translate(${i * SKOG_W} 0)`} fill={SKOG_FARGE} d={SKOG_PATH} />
+                ))}
+              </g>
+            </svg>
+            {/* Bakken, med streker som ruller forbi */}
+            <div
+              style={{ position: 'absolute', left: 0, right: 0, top: `${GROUND_Y}px`, bottom: 0, background: BAKKE_FARGE }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                top: `${GROUND_Y}px`,
+                height: '2px',
+                background: ACCENT,
+                boxShadow: `0 0 12px ${alpha(ACCENT, 0.8)}`,
+              }}
+            />
+            <div
+              ref={groundRef}
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                top: `${GROUND_Y + 8}px`,
+                height: '3px',
+                backgroundImage: `repeating-linear-gradient(90deg, ${alpha(ACCENT, 0.45)} 0 10px, transparent 10px ${GROUND_TICK}px)`,
+              }}
+            />
+
+            {/* Verden flyttes mot venstre etter hvor langt han har løpt; Alf står stille. */}
+            <div
+              ref={worldRef}
+              style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: 0, willChange: 'transform' }}
+            >
+              {BANE.map(({ x, w }) => (
+                <Regning key={x} x={x + ALF_X} w={w} />
+              ))}
+              <Kasse x={GOAL + ALF_X} ground={GROUND_Y} />
+            </div>
+
+            <div
+              ref={alfRef}
+              style={{
+                position: 'absolute',
+                left: `${ALF_X - ALF_FIGURE_OFFSET}px`,
+                top: `${GROUND_Y - ALF_HEIGHT}px`,
+                willChange: 'transform',
+              }}
+            >
+              <AlfFigur height={ALF_HEIGHT} running={phase === 'running'} fallen={phase === 'hit'} />
+            </div>
+
+            {/* Poengtavla: gull, som kassen. */}
+            <div
+              aria-hidden
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '16px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-end',
+              }}
+            >
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: '16px',
+                  lineHeight: 1.6,
+                  color: alpha(C.WHITE_100, 0.6),
+                  letterSpacing: '0.1em',
+                  fontVariantNumeric: 'tabular-nums',
+                }}
+              >
+                {TEKST.best} {padScore(best)}
               </p>
-              <Button size="lg" onClick={restart}>
-                Spill igjen
-              </Button>
+              <p
+                style={{
+                  margin: 0,
+                  fontFamily: DISPLAY_FONT,
+                  fontWeight: 900,
+                  color: C.YELLOW_100,
+                  letterSpacing: '0.04em',
+                  textShadow: `0 0 12px ${alpha(C.YELLOW_100, 0.55)}`,
+                  fontVariantNumeric: 'tabular-nums',
+                  fontSize: '30px',
+                  lineHeight: 1,
+                }}
+              >
+                <span ref={scoreRef}>{padScore(0)}</span>
+              </p>
             </div>
           </div>
-        )}
+
+          <SpillOverlay text={overlay} color={phase === 'hit' ? C.PEACH_100 : ACCENT} />
+        </div>
+
+        <p
+          aria-live="polite"
+          style={{ margin: 0, minHeight: '26px', fontSize: '16px', lineHeight: 1.6, color: alpha(C.WHITE_100, 0.6) }}
+        >
+          {attempts > 0 ? `${TEKST.attempt} ${attempts + 1}` : ''}
+        </p>
       </div>
 
-      <p className="min-h-5 text-xs text-muted-foreground" aria-live="polite">
-        {attempts > 0 ? `Forsøk ${attempts + 1}` : 'Samme bane hver gang. Trykk, mellomrom eller pil opp for å hoppe.'}
-      </p>
-    </div>
+      {/* Gratulasjonen (GratulererModal), her over kabinettet i stedet for over hele siden. */}
+      {phase === 'goal' && (
+        <div
+          className="absolute inset-0 z-10 flex items-center justify-center overflow-y-auto p-3"
+          style={{ background: alpha(C.DARK_GREEN_120, 0.8) }}
+        >
+          <div
+            role="dialog"
+            aria-labelledby="billrunner-klart"
+            className="flex w-full max-w-[400px] flex-col gap-5 p-6 sm:p-7"
+            style={{
+              background: C.DARK_GREEN_100,
+              backgroundImage: `radial-gradient(120% 70% at 50% 0%, ${alpha(C.LIME_100, 0.22)} 0%, transparent 70%)`,
+              color: C.WHITE_100,
+              borderRadius: '20px',
+              border: `1px solid ${alpha(C.LIME_100, 0.5)}`,
+              boxShadow: `0 0 60px ${alpha(C.LIME_100, 0.25)}`,
+            }}
+          >
+            <div className="flex flex-col gap-1.5">
+              <h3
+                id="billrunner-klart"
+                style={{
+                  margin: 0,
+                  fontFamily: DISPLAY_FONT,
+                  fontWeight: 900,
+                  fontSize: '24px',
+                  lineHeight: 1.33,
+                  color: C.LIME_100,
+                }}
+              >
+                {TEKST.solvedTitle}
+              </h3>
+              <p style={{ margin: 0, fontSize: '16px', lineHeight: 1.6 }}>{TEKST.practice}</p>
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.6, color: alpha(C.WHITE_100, 0.75) }}>
+                {TEKST.score}
+              </p>
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: '32px',
+                  fontWeight: 600,
+                  lineHeight: 1.1,
+                  fontVariantNumeric: 'tabular-nums',
+                }}
+              >
+                {scoreOf(GOAL)}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={playAgain}
+              className="w-full cursor-pointer rounded-full bg-[#CAD58A] transition-colors hover:bg-[#C9F1B4] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f2f2f2]"
+              style={{ minHeight: '52px', fontWeight: 600, fontSize: '16px', color: C.DARK_GREEN_120 }}
+            >
+              {TEKST.again}
+            </button>
+          </div>
+        </div>
+      )}
+    </section>
   )
 }

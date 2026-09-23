@@ -1,13 +1,23 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import type { KeyboardEvent, PointerEvent as ReactPointerEvent } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
+import type {
+  CSSProperties,
+  KeyboardEvent,
+  PointerEvent as ReactPointerEvent,
+} from "react";
 
+import armFarSrc from "@/assets/kodejakten/alf-arm-far.webp";
+import armNearSrc from "@/assets/kodejakten/alf-arm-near.webp";
+import headSrc from "@/assets/kodejakten/alf-head.webp";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 /*
- * Øvingsversjon av spill 3, «Flappy-Alf». Spilløkken er en ny implementasjon
- * av reglene i det ekte spillet (FlyAlf.tsx): scenen er STAGE_W enheter bred,
- * Alf flyttes ett heltallssteg framover om gangen, og for hvert steg gjelder
+ * Øvingsversjon av spill 3, «Flappy-Alf». Utseendet er portert fra det ekte
+ * spillet (FlyAlf.tsx, AlfFlyger.tsx, Kasse.tsx, spillTema.ts, SpillRamme.tsx
+ * og SpillOverlay.tsx): samme DOM-oppbygging, mål, farger og tekster.
+ *
+ * Spilløkken er en ny implementasjon av reglene: scenen er STAGE_W enheter
+ * bred, Alf flyttes ett heltallssteg framover om gangen, og for hvert steg gjelder
  *   flaks (hvis tappet) → v = FLAP, så v = min(MAX_FALL, v + GRAVITY), y += v,
  *   taket stopper ham (y = RADIUS, v = 0), bakken og bunkene er dødelige.
  * Tiden styrer bare hvor mange steg som tas (SPEED enheter/s, maks 50 ms per bilde).
@@ -22,8 +32,6 @@ import { cn } from "@/lib/utils";
 // ── Fra klienten til det ekte spillet (samme tall) ──────────────────────────
 const STAGE_W = 400;
 const HEAD_HEIGHT = 40;
-const HEAD_ASPECT = ((0.9642 - 0.0496) * 0.28764) / (0.317 - 0.0095);
-const HEAD_WIDTH = HEAD_HEIGHT * HEAD_ASPECT;
 const ALF_X = 120;
 const SPEED = 200;
 const MAX_FRAME_MS = 50;
@@ -39,11 +47,6 @@ const STJERNE_PARALLAKSE = 0.08;
 const SKOG_PARALLAKSE = 0.35;
 const SKOG_H = 30;
 const SKOG_FARGE = "#080B22";
-const KASSE_W = 48;
-const KASSE_H = 40;
-const KASSE_HALO = 34;
-const FLAP_MS = 280;
-const FLAP_DEG = 28;
 
 // ── Fra serveren i det ekte spillet: anslått her ────────────────────────────
 const STAGE_H = 400;
@@ -61,18 +64,6 @@ const GAP_START = 150;
 const GAP_END = 100;
 const GOAL_AFTER_LAST = 260;
 const SEED = 0x4a1f;
-
-// ── Farger (nattehimmelen i spill 3) ─────────────────────────────────────────
-const ACCENT = "#8AB4FF";
-const YELLOW = "#FFD84D";
-const CORAL = "#FF6B5B";
-const SKY = "#CFE8FF";
-const FIELD = [
-  [0, "#05081C"],
-  [0.48, "#101A47"],
-  [0.78, "#1F2158"],
-  [1, "#2C2665"],
-] as const;
 
 type Pipe = { x: number; gap: number; h: number };
 type Phase = "ready" | "running" | "paused" | "hit" | "goal";
@@ -166,9 +157,73 @@ function step(run: Run): boolean {
   );
 }
 
-// ── Tegning ──────────────────────────────────────────────────────────────────
+// ── Farger og tema (Hordes COLORS og spillTema, spill 3) ────────────────────
 
-const STJERNE_FLIS = 200;
+const C = {
+  WHITE_100: "#f2f2f2",
+  WHITE_80: "#D9D9D9",
+  TRUE_WHITE: "#FFFFFF",
+  BLACK_40: "#bdbdbd",
+  CORAL: "#FF5E32",
+  YELLOW: "#FFD80E",
+  SKY: "#C8E9EC",
+  DARK_GREEN: "#014639",
+  LIME: "#CAD58A",
+  PEACH: "#FFD1BA",
+  ACCENT: "#8EA1FF", // BRIGHT_BLUE[60]
+  CABINET: "#080C1E",
+  FIELD:
+    "linear-gradient(180deg, #05081C 0%, #101A47 48%, #1F2158 78%, #2C2665 100%)",
+} as const;
+
+/** MUI sin alpha() for #RRGGBB. */
+const alpha = (hex: string, a: number) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
+};
+
+/** Merkevarens display-snitt finnes ikke her; nærmeste er en tung sans-serif. */
+const DISPLAY_FONT = "var(--font-heading, ui-sans-serif), system-ui, sans-serif";
+
+const COPY = {
+  title: "Flappy-Alf",
+  instruction:
+    "Tapp for å flakse Alf gjennom regningsbunkene frem til pengekassen.",
+  tapToStart: "Tapp for å starte",
+  tapToRetry: "Au! Tapp for å prøve igjen",
+  paused: "Pause – tapp for å fortsette",
+  attempt: "Forsøk",
+  flap: "Flaks",
+  best: "Beste",
+  solvedTitle: "Alf kom seg til kassen!",
+};
+
+// ── Stjerner og skog: samme fliser som spillTema.ts ─────────────────────────
+
+const SKOG_W = 180;
+const SKOG_TILE_H = 52;
+const TRAER = [
+  { x: 2, w: 28, h: 36 },
+  { x: 26, w: 22, h: 24 },
+  { x: 44, w: 36, h: 47 },
+  { x: 76, w: 24, h: 29 },
+  { x: 96, w: 30, h: 39 },
+  { x: 120, w: 20, h: 22 },
+  { x: 136, w: 34, h: 45 },
+  { x: 152, w: 26, h: 31 },
+];
+const SKOG_PATH = [
+  ...TRAER.map(
+    ({ x, w, h }) =>
+      `M${x} ${SKOG_TILE_H}L${x + w / 2} ${SKOG_TILE_H - h}L${x + w} ${SKOG_TILE_H}Z`,
+  ),
+  `M0 ${SKOG_TILE_H - 6}h${SKOG_W}v6H0Z`,
+].join("");
+const SKOG_BILDE = `url("data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="${SKOG_W}" height="${SKOG_TILE_H}" viewBox="0 0 ${SKOG_W} ${SKOG_TILE_H}"><path fill="${SKOG_FARGE}" d="${SKOG_PATH}"/></svg>`,
+)}")`;
+
+const STJERNE_FLIS_PX = 200;
 const STJERNER = [
   { x: 12, y: 22, r: 1.2, o: 0.9 },
   { x: 48, y: 64, r: 0.8, o: 0.5 },
@@ -185,258 +240,297 @@ const STJERNER = [
   { x: 92, y: 186, r: 0.8, o: 0.5 },
   { x: 128, y: 86, r: 0.7, o: 0.4 },
 ];
+const STJERNE_BILDE = `url("data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="${STJERNE_FLIS_PX}" height="${STJERNE_FLIS_PX}">${STJERNER.map(
+    (s) =>
+      `<circle cx="${s.x}" cy="${s.y}" r="${s.r}" fill="${C.TRUE_WHITE}" opacity="${s.o}"/>`,
+  ).join("")}</svg>`,
+)}")`;
 
-const SKOG_W = 180;
-const SKOG_TILE_H = 52;
-const TRAER = [
-  { x: 2, w: 28, h: 36 },
-  { x: 26, w: 22, h: 24 },
-  { x: 44, w: 36, h: 47 },
-  { x: 76, w: 24, h: 29 },
-  { x: 96, w: 30, h: 39 },
-  { x: 120, w: 20, h: 22 },
-  { x: 136, w: 34, h: 45 },
-  { x: 152, w: 26, h: 31 },
-];
+// ── Alf: hodet og armene som vinger (AlfFlyger.tsx + alfGeometry.ts) ────────
 
-const wrap = (value: number, size: number) => ((value % size) + size) % size;
+const FIGURE_ASPECT = 0.28764;
+const SHOULDER_NEAR = { x: 0.73278, y: 0.32647 };
+const SHOULDER_FAR = { x: 0.26446, y: 0.32647 };
+const HEAD_BOX = { left: 0.0496, top: 0.0095, right: 0.9642, bottom: 0.317 };
+const HEAD_W = HEAD_BOX.right - HEAD_BOX.left;
+const HEAD_H = HEAD_BOX.bottom - HEAD_BOX.top;
+const HEAD_ASPECT = (HEAD_W * FIGURE_ASPECT) / HEAD_H;
+const HEAD_WIDTH = HEAD_HEIGHT * HEAD_ASPECT;
+const WING_NEAR = { pivot: { x: 0.7, y: 0.25 }, rest: -75 };
+const WING_FAR = { pivot: { x: 0.27, y: 0.25 }, rest: 75 };
+const FLAP_MS = 280;
+const FLAP_DEG = 28;
+const FAR_SIDE = "brightness(0.78)";
 
-function drawSky(ctx: CanvasRenderingContext2D, distance: number) {
-  const g = ctx.createLinearGradient(0, 0, 0, STAGE_H);
-  for (const [stop, color] of FIELD) g.addColorStop(stop, color);
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, STAGE_W, STAGE_H);
+const pct = (value: number) => `${Number((value * 100).toFixed(3))}%`;
+const origin = (p: { x: number; y: number }) => `${pct(p.x)} ${pct(p.y)}`;
 
-  // Stjerner, nesten i ro
-  ctx.fillStyle = "#FFFFFF";
-  const sx = -wrap(distance * STJERNE_PARALLAKSE, STJERNE_FLIS);
-  for (let tx = sx; tx < STAGE_W; tx += STJERNE_FLIS) {
-    for (let ty = 0; ty < STAGE_H; ty += STJERNE_FLIS) {
-      for (const s of STJERNER) {
-        ctx.globalAlpha = s.o;
-        ctx.beginPath();
-        ctx.arc(tx + s.x, ty + s.y, s.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-  }
-  ctx.globalAlpha = 1;
+type WingDef = { pivot: { x: number; y: number }; rest: number };
 
-  // Månen står stille
-  ctx.save();
-  ctx.shadowColor = "rgba(207, 232, 255, 0.45)";
-  ctx.shadowBlur = 40;
-  ctx.fillStyle = SKY;
-  ctx.beginPath();
-  ctx.arc(STAGE_W - 58 - 22, 26 + 22, 22, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.restore();
+const wingPose = (shoulder: { x: number; y: number }, wing: WingDef) => {
+  const dx = (wing.pivot.x - shoulder.x) * 100;
+  const dy = (wing.pivot.y - shoulder.y) * 100;
+  return (degrees: number) => `translate(${dx}%, ${dy}%) rotate(${degrees}deg)`;
+};
 
-  // Skogen
-  ctx.fillStyle = SKOG_FARGE;
-  const k = SKOG_H / SKOG_TILE_H;
-  const top = STAGE_H - SKOG_H;
-  const fx = -wrap(distance * SKOG_PARALLAKSE, SKOG_W);
-  for (let tx = fx; tx < STAGE_W; tx += SKOG_W) {
-    ctx.beginPath();
-    for (const t of TRAER) {
-      ctx.moveTo(tx + t.x, top + SKOG_TILE_H * k);
-      ctx.lineTo(tx + t.x + t.w / 2, top + (SKOG_TILE_H - t.h) * k);
-      ctx.lineTo(tx + t.x + t.w, top + SKOG_TILE_H * k);
-      ctx.closePath();
-    }
-    ctx.rect(tx, top + (SKOG_TILE_H - 6) * k, SKOG_W + 0.5, 6 * k);
-    ctx.fill();
-  }
+const wingKeyframes = (
+  name: string,
+  shoulder: { x: number; y: number },
+  wing: WingDef,
+) => {
+  const pose = wingPose(shoulder, wing);
+  const up = Math.sign(wing.rest) * FLAP_DEG;
+  return `@keyframes ${name}{0%,100%{transform:${pose(wing.rest + up)}}50%{transform:${pose(wing.rest - up)}}}`;
+};
 
-  // Bakken
-  ctx.save();
-  ctx.shadowColor = "rgba(138, 180, 255, 0.8)";
-  ctx.shadowBlur = 12;
-  ctx.fillStyle = ACCENT;
-  ctx.fillRect(0, STAGE_H - 2, STAGE_W, 2);
-  ctx.restore();
+const ALF_CSS = [
+  wingKeyframes("ovelseAlfWingFar", SHOULDER_FAR, WING_FAR),
+  wingKeyframes("ovelseAlfWingNear", SHOULDER_NEAR, WING_NEAR),
+  "@media (prefers-reduced-motion: reduce){.ovelse-alf-wing{animation:none!important}}",
+].join("");
+
+function Wing({
+  src,
+  name,
+  shoulder,
+  wing,
+  far,
+  flapping,
+}: {
+  src: string;
+  name: string;
+  shoulder: { x: number; y: number };
+  wing: WingDef;
+  far?: boolean;
+  flapping: boolean;
+}) {
+  return (
+    <img
+      src={src}
+      alt=""
+      aria-hidden
+      draggable={false}
+      className="ovelse-alf-wing"
+      style={{
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        maxWidth: "none",
+        transformOrigin: origin(shoulder),
+        transform: wingPose(shoulder, wing)(wing.rest),
+        willChange: "transform",
+        filter: far ? FAR_SIDE : undefined,
+        animation: `${name} ${FLAP_MS}ms ease-in-out infinite`,
+        animationPlayState: flapping ? "running" : "paused",
+      }}
+    />
+  );
 }
 
-function roundRect(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  r: number,
-) {
-  ctx.beginPath();
-  ctx.roundRect(x, y, w, h, r);
-  ctx.fill();
+function AlfFlyger({ height, flapping }: { height: number; flapping: boolean }) {
+  return (
+    <div
+      aria-hidden
+      style={{
+        position: "relative",
+        height: `${height}px`,
+        width: `${height * HEAD_ASPECT}px`,
+      }}
+    >
+      {/* Lerretet ligger forskjøvet så hodets omriss fyller boksen */}
+      <div
+        style={{
+          position: "absolute",
+          left: `${(-HEAD_BOX.left / HEAD_W) * 100}%`,
+          top: `${(-HEAD_BOX.top / HEAD_H) * 100}%`,
+          width: `${100 / HEAD_W}%`,
+          height: `${100 / HEAD_H}%`,
+        }}
+      >
+        <Wing
+          src={armFarSrc}
+          name="ovelseAlfWingFar"
+          shoulder={SHOULDER_FAR}
+          wing={WING_FAR}
+          far
+          flapping={flapping}
+        />
+        <Wing
+          src={armNearSrc}
+          name="ovelseAlfWingNear"
+          shoulder={SHOULDER_NEAR}
+          wing={WING_NEAR}
+          flapping={flapping}
+        />
+        <img
+          src={headSrc}
+          alt=""
+          aria-hidden
+          draggable={false}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            maxWidth: "none",
+          }}
+        />
+      </div>
+    </div>
+  );
 }
 
-/** En stabel regninger, med den øverste (med frist-stripen) mot åpningen. */
-function drawStack(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  top: number,
-  h: number,
-  lip: "top" | "bottom",
-) {
-  if (h <= 0) return;
-  ctx.fillStyle = "#E4E2EC";
-  ctx.fillRect(x, top, PIPE_W, h);
-  ctx.fillStyle = "rgba(20, 22, 40, 0.28)";
-  for (let y = 8; y < h; y += 10) {
-    ctx.fillRect(x, top + y, PIPE_W, Math.min(2, h - y));
-  }
-  const shade = ctx.createLinearGradient(x + PIPE_W - 14, 0, x + PIPE_W, 0);
-  shade.addColorStop(0, "rgba(0,0,0,0)");
-  shade.addColorStop(1, "rgba(0,0,0,0.35)");
-  ctx.fillStyle = shade;
-  ctx.fillRect(x + PIPE_W - 14, top, 14, h);
+// ── Regningsbunkene (Stabel/Bunke i FlyAlf.tsx) ─────────────────────────────
 
-  const lipY = lip === "top" ? top : top + h - LIP_H;
-  ctx.fillStyle = "#FFFFFF";
-  roundRect(ctx, x - 3, lipY, PIPE_W + 6, LIP_H, 2);
-  ctx.fillStyle = CORAL;
-  roundRect(ctx, x - 3 + 5, lipY + 4, PIPE_W + 6 - 10, 4, 1);
+function Stabel({
+  x,
+  top,
+  h,
+  lip,
+}: {
+  x: number;
+  top: number;
+  h: number;
+  lip: "top" | "bottom";
+}) {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: `${x}px`,
+        top: `${top}px`,
+        width: `${PIPE_W}px`,
+        height: `${h}px`,
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundColor: C.WHITE_80,
+          backgroundImage: `repeating-linear-gradient(180deg, transparent 0 8px, ${C.BLACK_40} 8px 10px)`,
+          boxShadow: "inset -6px 0 12px rgba(0, 0, 0, 0.35)",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          left: "-3px",
+          right: "-3px",
+          [lip]: 0,
+          height: `${LIP_H}px`,
+          backgroundColor: C.TRUE_WHITE,
+          borderRadius: "2px",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            left: "5px",
+            right: "5px",
+            top: "4px",
+            height: "4px",
+            backgroundColor: C.CORAL,
+            borderRadius: "1px",
+          }}
+        />
+      </div>
+    </div>
+  );
 }
 
-function drawKasse(ctx: CanvasRenderingContext2D, x: number) {
-  const top = STAGE_H - 2 - KASSE_H;
-  const cx = x + KASSE_W / 2;
-  const cy = top + KASSE_H / 2;
-  const r = KASSE_W / 2 + KASSE_HALO;
-  const halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-  halo.addColorStop(0, "rgba(255, 216, 77, 0.55)");
-  halo.addColorStop(0.55, "rgba(255, 216, 77, 0.14)");
-  halo.addColorStop(1, "rgba(255, 216, 77, 0)");
-  ctx.fillStyle = halo;
-  ctx.beginPath();
-  ctx.arc(cx, cy, r, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = "#0B3B2E";
-  ctx.strokeStyle = "#C6F432";
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.roundRect(x + 2, top + 10, 44, 30, 4);
-  ctx.fill();
-  ctx.stroke();
-  ctx.fillStyle = YELLOW;
-  roundRect(ctx, x, top + 6, 48, 10, 3);
-  ctx.beginPath();
-  ctx.arc(x + 24, top + 27, 4, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillRect(x + 22.4, top + 27, 3.2, 7);
+function Bunke({ x, pipe }: { x: number; pipe: Pipe }) {
+  return (
+    <>
+      <Stabel x={x} top={0} h={pipe.gap} lip="bottom" />
+      <Stabel
+        x={x}
+        top={pipe.gap + pipe.h}
+        h={STAGE_H - pipe.gap - pipe.h}
+        lip="top"
+      />
+    </>
+  );
 }
 
-/** Alf: et rundt hode med to små vinger, rotert om midten av hodet. */
-function drawAlf(
-  ctx: CanvasRenderingContext2D,
-  y: number,
-  tilt: number,
-  wingPhase: number,
-) {
-  const w = HEAD_WIDTH;
-  const h = HEAD_HEIGHT;
-  ctx.save();
-  ctx.translate(ALF_X, y);
-  ctx.rotate((tilt * Math.PI) / 180);
+// ── Kassen (Kasse.tsx) ───────────────────────────────────────────────────────
 
-  const flap = Math.sin(wingPhase * Math.PI * 2) * FLAP_DEG;
-  const wing = (side: 1 | -1, color: string) => {
-    ctx.save();
-    ctx.translate(side * w * 0.3, h * 0.08);
-    ctx.rotate(((side * (-55 + flap)) * Math.PI) / 180);
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.ellipse(side * 12, 0, 13, 5.5, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  };
-  wing(-1, "#C9D6F5");
-  wing(1, "#F2F5FF");
+const KASSE_W = 48;
+const KASSE_H = 40;
+const HALO = 34;
 
-  // Hodet
-  ctx.fillStyle = "#F1C6A0";
-  ctx.beginPath();
-  ctx.ellipse(0, 0, w / 2, h / 2, 0, 0, Math.PI * 2);
-  ctx.fill();
-  // Håret
-  ctx.fillStyle = "#6B4A2E";
-  ctx.beginPath();
-  ctx.ellipse(0, -h * 0.2, w / 2, h * 0.32, 0, Math.PI, Math.PI * 2);
-  ctx.fill();
-  // Øret
-  ctx.fillStyle = "#E3AF86";
-  ctx.beginPath();
-  ctx.ellipse(-w * 0.44, h * 0.02, 3, 5, 0, 0, Math.PI * 2);
-  ctx.fill();
-  // Øyne mot høyre
-  ctx.fillStyle = "#FFFFFF";
-  ctx.beginPath();
-  ctx.ellipse(w * 0.22, -h * 0.04, 4.2, 4.8, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = "#1B1B2A";
-  ctx.beginPath();
-  ctx.arc(w * 0.26, -h * 0.03, 2.1, 0, Math.PI * 2);
-  ctx.fill();
-  // Smil
-  ctx.strokeStyle = "#8A3B2E";
-  ctx.lineWidth = 1.6;
-  ctx.lineCap = "round";
-  ctx.beginPath();
-  ctx.arc(w * 0.14, h * 0.14, 6, 0.15 * Math.PI, 0.7 * Math.PI);
-  ctx.stroke();
-  ctx.restore();
+function Kasse({ x, ground }: { x: number; ground: number }) {
+  const id = `kasseLys-${useId().replace(/:/g, "")}`;
+  return (
+    <svg
+      viewBox={`${-HALO} ${-HALO} ${KASSE_W + HALO * 2} ${KASSE_H + HALO * 2}`}
+      width={KASSE_W + HALO * 2}
+      height={KASSE_H + HALO * 2}
+      style={{
+        position: "absolute",
+        left: `${x - HALO}px`,
+        top: `${ground - KASSE_H - HALO}px`,
+        display: "block",
+        pointerEvents: "none",
+      }}
+      aria-hidden
+    >
+      <defs>
+        <radialGradient id={id}>
+          <stop offset="0%" stopColor={C.YELLOW} stopOpacity={0.55} />
+          <stop offset="55%" stopColor={C.YELLOW} stopOpacity={0.14} />
+          <stop offset="100%" stopColor={C.YELLOW} stopOpacity={0} />
+        </radialGradient>
+      </defs>
+      <circle
+        cx={KASSE_W / 2}
+        cy={KASSE_H / 2}
+        r={KASSE_W / 2 + HALO}
+        fill={`url(#${id})`}
+      />
+      <rect
+        x={2}
+        y={10}
+        width={44}
+        height={30}
+        rx={4}
+        fill={C.DARK_GREEN}
+        stroke={C.LIME}
+        strokeWidth={1.5}
+      />
+      <rect x={0} y={6} width={48} height={10} rx={3} fill={C.YELLOW} />
+      <circle cx={24} cy={27} r={4} fill={C.YELLOW} />
+      <rect x={22.4} y={27} width={3.2} height={7} fill={C.YELLOW} />
+    </svg>
+  );
 }
 
-function drawHud(ctx: CanvasRenderingContext2D, score: number, best: number) {
-  ctx.save();
-  ctx.textAlign = "center";
-  ctx.textBaseline = "top";
-  ctx.font = "900 38px ui-sans-serif, system-ui, sans-serif";
-  ctx.lineJoin = "round";
-  ctx.lineWidth = 5;
-  ctx.strokeStyle = "rgba(0,0,0,0.75)";
-  ctx.strokeText(String(score), STAGE_W / 2, 10);
-  ctx.shadowColor = "rgba(255, 216, 77, 0.5)";
-  ctx.shadowBlur = 18;
-  ctx.fillStyle = YELLOW;
-  ctx.fillText(String(score), STAGE_W / 2, 10);
-  ctx.restore();
+// ── Merkelappen midt på brettet (SpillOverlay.tsx) ──────────────────────────
 
-  ctx.save();
-  ctx.textAlign = "right";
-  ctx.textBaseline = "top";
-  ctx.font = "500 12px ui-sans-serif, system-ui, sans-serif";
-  ctx.fillStyle = "rgba(255,255,255,0.6)";
-  ctx.fillText(`Beste ${best}`, STAGE_W - 16, 14);
-  ctx.restore();
-}
-
-function drawScene(
-  ctx: CanvasRenderingContext2D,
-  run: Run,
-  crashed: boolean,
-  wingPhase: number,
-  best: number,
-) {
-  drawSky(ctx, run.distance);
-
-  const offset = ALF_X - run.distance;
-  for (const pipe of COURSE.pipes) {
-    const x = pipe.x + offset;
-    if (x > STAGE_W + 10 || x + PIPE_W < -10) continue;
-    drawStack(ctx, x, 0, pipe.gap, "bottom");
-    drawStack(ctx, x, pipe.gap + pipe.h, STAGE_H - pipe.gap - pipe.h, "top");
-  }
-  const kx = GOAL + offset;
-  if (kx < STAGE_W + KASSE_HALO && kx + KASSE_W > -KASSE_HALO) drawKasse(ctx, kx);
-
-  const tilt = crashed
-    ? TILT_HIT
-    : Math.max(TILT_MIN, Math.min(TILT_MAX, run.v * TILT_PER_V));
-  drawAlf(ctx, run.y, tilt, wingPhase);
-  drawHud(ctx, run.passed, best);
+function SpillOverlay({ text, color }: { text: string; color: string }) {
+  if (!text) return null;
+  return (
+    <div
+      className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center"
+      aria-live="polite"
+    >
+      <p
+        className="m-0 max-w-[84%] rounded-full px-8 py-4 text-center text-[18px] leading-[1.6] font-bold sm:text-[20px]"
+        style={{
+          color: C.TRUE_WHITE,
+          backgroundColor: "rgba(0, 0, 0, 0.62)",
+          border: `2px solid ${alpha(color, 0.85)}`,
+          backdropFilter: "blur(4px)",
+          WebkitBackdropFilter: "blur(4px)",
+          boxShadow: `0 0 28px ${alpha(color, 0.4)}`,
+        }}
+      >
+        {text}
+      </p>
+    </div>
+  );
 }
 
 // ── Komponenten ──────────────────────────────────────────────────────────────
@@ -459,39 +553,54 @@ const writeBest = (value: number) => {
   }
 };
 
+const alfTransform = (y: number, tilt: number) =>
+  `translateY(${y - HEAD_HEIGHT / 2}px) rotate(${tilt}deg)`;
+
 export function FlappyAlfOvelse() {
   const [phase, setPhase] = useState<Phase>("ready");
   const [attempts, setAttempts] = useState(0);
-  const [lastScore, setLastScore] = useState(0);
+  const [best, setBest] = useState(0);
 
   const phaseRef = useRef<Phase>("ready");
   const runRef = useRef<Run>(freshRun());
-  const crashedRef = useRef(false);
   const bestRef = useRef(0);
   const frameRef = useRef<number | null>(null);
-  const boxRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const worldRef = useRef<HTMLDivElement>(null);
+  const alfRef = useRef<HTMLDivElement>(null);
+  const stjernerRef = useRef<HTMLDivElement>(null);
+  const skogRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
-  const scaleRef = useRef(1);
+  const scoreRef = useRef<HTMLSpanElement>(null);
 
   const setPhaseBoth = useCallback((next: Phase) => {
     phaseRef.current = next;
     setPhase(next);
   }, []);
 
-  const paint = useCallback(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
-    if (!canvas || !ctx) return;
-    const run = runRef.current;
-    ctx.setTransform(scaleRef.current, 0, 0, scaleRef.current, 0, 0);
-    const wingPhase =
-      phaseRef.current === "running"
-        ? (performance.now() % FLAP_MS) / FLAP_MS
-        : 0;
-    drawScene(ctx, run, crashedRef.current, wingPhase, bestRef.current);
+  /** Samme som paint() i originalen: bare transformer, ingen React-rendering. */
+  const paint = useCallback((run: Run, crashed = false) => {
+    if (worldRef.current) {
+      worldRef.current.style.transform = `translateX(${-run.distance}px)`;
+    }
+    if (alfRef.current) {
+      const tilt = crashed
+        ? TILT_HIT
+        : Math.max(TILT_MIN, Math.min(TILT_MAX, run.v * TILT_PER_V));
+      alfRef.current.style.transform = alfTransform(run.y, tilt);
+    }
+    if (stjernerRef.current) {
+      stjernerRef.current.style.backgroundPositionX = `${-run.distance * STJERNE_PARALLAKSE}px`;
+    }
+    if (skogRef.current) {
+      skogRef.current.style.backgroundPositionX = `${-run.distance * SKOG_PARALLAKSE}px`;
+    }
     if (progressRef.current) {
       progressRef.current.style.transform = `scaleX(${Math.min(1, run.distance / GOAL)})`;
+    }
+    if (scoreRef.current) {
+      scoreRef.current.textContent = String(run.passed);
     }
   }, []);
 
@@ -505,6 +614,7 @@ export function FlappyAlfOvelse() {
   const rememberBest = useCallback((score: number) => {
     if (score <= bestRef.current) return;
     bestRef.current = score;
+    setBest(score);
     writeBest(score);
   }, []);
 
@@ -523,25 +633,22 @@ export function FlappyAlfOvelse() {
       while (run.x < Math.floor(run.distance)) {
         if (!step(run)) {
           run.distance = run.x;
-          crashedRef.current = true;
+          paint(run, true);
           rememberBest(run.passed);
-          setLastScore(run.passed);
           setAttempts((n) => n + 1);
           setPhaseBoth("hit");
-          paint();
           return;
         }
         if (run.x >= GOAL) {
           run.distance = GOAL;
+          paint(run);
           rememberBest(run.passed);
-          setLastScore(run.passed);
           setPhaseBoth("goal");
-          paint();
           return;
         }
       }
 
-      paint();
+      paint(run);
       frameRef.current = window.requestAnimationFrame(frame);
     },
     [paint, rememberBest, setPhaseBoth],
@@ -554,12 +661,11 @@ export function FlappyAlfOvelse() {
 
   const start = useCallback(() => {
     const run = freshRun();
-    // Starttappet er også det første flakset.
+    // Starttappet er også det første flakset, så han løfter i stedet for å falle.
     run.flapAt = 1;
     runRef.current = run;
-    crashedRef.current = false;
+    paint(run);
     setPhaseBoth("running");
-    paint();
     startLoop();
   }, [paint, setPhaseBoth, startLoop]);
 
@@ -577,39 +683,36 @@ export function FlappyAlfOvelse() {
     }
     if (current !== "running") return;
     const run = runRef.current;
-    // Ett flaks per steg, gjelder fra neste steg.
+    // Ett flaks per steg. Det gjelder fra neste steg.
     if (run.flapAt === null) run.flapAt = run.x + 1;
   }, [setPhaseBoth, start, startLoop]);
 
-  const restart = useCallback(() => {
-    if (phaseRef.current === "goal") setAttempts(0);
-    boxRef.current?.focus({ preventScroll: true });
+  const playAgain = useCallback(() => {
+    setAttempts(0);
+    viewportRef.current?.focus({ preventScroll: true });
     start();
   }, [start]);
 
-  // Skarp på høy DPI: lerretet følger bredden, scenen skaleres inn.
   useEffect(() => {
     bestRef.current = readBest();
-    const box = boxRef.current;
-    const canvas = canvasRef.current;
-    if (!box || !canvas) return undefined;
+    setBest(bestRef.current);
+  }, []);
+
+  // Scenen er STAGE_W enheter bred og skaleres til visningens bredde.
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    const stage = stageRef.current;
+    if (!viewport || !stage) return undefined;
     const fit = () => {
-      const cssW = box.clientWidth;
-      if (cssW <= 0) return;
-      const cssH = (cssW * STAGE_H) / STAGE_W;
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = Math.round(cssW * dpr);
-      canvas.height = Math.round(cssH * dpr);
-      scaleRef.current = (cssW * dpr) / STAGE_W;
-      paint();
+      stage.style.transform = `scale(${viewport.clientWidth / STAGE_W})`;
     };
     fit();
     const observer = new ResizeObserver(fit);
-    observer.observe(box);
+    observer.observe(viewport);
     return () => observer.disconnect();
-  }, [paint]);
+  }, []);
 
-  // Pause når fanen er skjult.
+  // Pause når fanen er skjult; rydd opp ved avmontering.
   useEffect(() => {
     const onVisibility = () => {
       if (document.hidden && phaseRef.current === "running") {
@@ -627,7 +730,7 @@ export function FlappyAlfOvelse() {
   const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (event.button !== 0) return;
     event.preventDefault();
-    boxRef.current?.focus({ preventScroll: true });
+    viewportRef.current?.focus({ preventScroll: true });
     tap();
   };
 
@@ -639,114 +742,275 @@ export function FlappyAlfOvelse() {
     }
   };
 
-  const stopBubble = (event: ReactPointerEvent) => event.stopPropagation();
+  const overlay =
+    phase === "ready"
+      ? COPY.tapToStart
+      : phase === "hit"
+        ? COPY.tapToRetry
+        : phase === "paused"
+          ? COPY.paused
+          : "";
+
+  const scoreStyle: CSSProperties = {
+    position: "absolute",
+    top: "10px",
+    left: 0,
+    right: 0,
+    margin: 0,
+    fontFamily: DISPLAY_FONT,
+    fontWeight: 900,
+    fontSize: "38px",
+    lineHeight: 1,
+    letterSpacing: "0.04em",
+    textAlign: "center",
+    color: C.YELLOW,
+    fontVariantNumeric: "tabular-nums",
+    pointerEvents: "none",
+    textShadow: `0 0 4px rgba(0, 0, 0, 0.9), 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 18px ${alpha(C.YELLOW, 0.5)}`,
+  };
 
   return (
-    <div className="mx-auto flex w-full max-w-[520px] flex-col gap-3">
+    // Kabinettet (SpillRamme.tsx), med spillets mørke tone og blå glød
+    <section
+      className="relative mx-auto flex w-full max-w-[520px] flex-col gap-5 overflow-hidden rounded-[20px] p-5 sm:p-7"
+      style={{
+        backgroundColor: C.CABINET,
+        border: `1px solid ${alpha(C.ACCENT, 0.28)}`,
+        boxShadow: `0 28px 70px -40px ${alpha(C.ACCENT, 0.9)}, inset 0 1px 0 rgba(255, 255, 255, 0.07)`,
+      }}
+    >
+      <style>{ALF_CSS}</style>
       <div
-        className="h-1 overflow-hidden rounded-full bg-black/35"
         aria-hidden
-      >
-        <div
-          ref={progressRef}
-          className="h-full origin-left"
-          style={{
-            transform: "scaleX(0)",
-            background: ACCENT,
-            boxShadow: `0 0 10px ${ACCENT}`,
-          }}
-        />
-      </div>
-
-      <div
-        ref={boxRef}
-        role="button"
-        tabIndex={0}
-        aria-label="Flaks"
-        onPointerDown={onPointerDown}
-        onKeyDown={onKeyDown}
-        onContextMenu={(e) => e.preventDefault()}
-        className={cn(
-          "relative w-full cursor-pointer overflow-hidden rounded-2xl border select-none",
-          "outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2",
-        )}
+        className="absolute top-0 right-0 left-0 z-[1] h-0.5"
         style={{
-          aspectRatio: `${STAGE_W} / ${STAGE_H}`,
-          touchAction: "none",
-          WebkitTapHighlightColor: "transparent",
-          WebkitUserSelect: "none",
-          borderColor: "rgba(138, 180, 255, 0.25)",
-          background: "#05081C",
+          background: `linear-gradient(90deg, transparent, ${C.ACCENT}, transparent)`,
+          opacity: 0.85,
         }}
-      >
-        <canvas
-          ref={canvasRef}
-          className="absolute inset-0 block h-full w-full"
-          aria-hidden
-        />
-
-        {(phase === "ready" || phase === "paused") && (
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/25">
-            <p
-              className="rounded-full bg-black/55 px-4 py-2 text-base font-semibold tracking-wide"
-              style={{ color: ACCENT }}
-            >
-              {phase === "ready"
-                ? "Trykk for å starte"
-                : "Pause – trykk for å fortsette"}
-            </p>
-          </div>
-        )}
-
-        {phase === "hit" && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/40 px-4 text-center">
-            <p className="text-lg font-bold text-[#FFB38A]">
-              Au! Alf traff en regningsbunke
-            </p>
-            <p className="text-sm text-white/75">
-              {lastScore} {lastScore === 1 ? "bunke" : "bunker"} passert av{" "}
-              {COURSE.pipes.length}
-            </p>
-            <Button
-              onPointerDown={stopBubble}
-              onClick={restart}
-              className="h-9 px-4"
-            >
-              Prøv igjen
-            </Button>
-          </div>
-        )}
-
-        {phase === "goal" && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/55 px-6 text-center">
-            <p className="text-lg font-bold" style={{ color: YELLOW }}>
-              Alf kom seg til kassen!
-            </p>
-            <p className="max-w-[34ch] text-sm text-white/85">
-              Klart! Dette var bare øving – koden får du bare i det ekte
-              spillet.
-            </p>
-            <Button
-              onPointerDown={stopBubble}
-              onClick={restart}
-              className="h-9 px-4"
-            >
-              Spill igjen
-            </Button>
-          </div>
-        )}
+      />
+      <div className="flex flex-col gap-1.5">
+        <h2
+          className="m-0 text-2xl leading-[1.33] font-black"
+          style={{ color: C.WHITE_100, fontFamily: DISPLAY_FONT }}
+        >
+          {COPY.title}
+        </h2>
+        <p
+          className="m-0 text-base leading-[1.6]"
+          style={{ color: alpha(C.WHITE_100, 0.7) }}
+        >
+          {COPY.instruction}
+        </p>
       </div>
 
-      <p
-        className="min-h-[1.25rem] text-sm text-muted-foreground"
-        aria-live="polite"
-      >
-        {phase === "goal"
-          ? `Klart på forsøk ${attempts + 1}`
-          : attempts > 0
-            ? `Forsøk ${attempts + 1}`
-            : "Trykk, klikk eller mellomrom for å flakse."}
-      </p>
-    </div>
+      <div className="flex flex-col gap-3">
+        <div
+          aria-hidden
+          className="h-1 overflow-hidden rounded-[2px]"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.35)" }}
+        >
+          <div
+            ref={progressRef}
+            className="h-full"
+            style={{
+              backgroundColor: C.ACCENT,
+              transformOrigin: "0 50%",
+              transform: "scaleX(0)",
+              boxShadow: `0 0 10px ${C.ACCENT}`,
+            }}
+          />
+        </div>
+
+        <div
+          ref={viewportRef}
+          role="button"
+          tabIndex={0}
+          aria-label={COPY.flap}
+          onPointerDown={onPointerDown}
+          onKeyDown={onKeyDown}
+          onContextMenu={(e) => e.preventDefault()}
+          className={cn(
+            "relative w-full cursor-pointer overflow-hidden rounded-2xl select-none",
+            "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f2f2f2]",
+          )}
+          style={{
+            aspectRatio: `${STAGE_W} / ${STAGE_H}`,
+            background: C.FIELD,
+            border: `1px solid ${alpha(C.ACCENT, 0.25)}`,
+            touchAction: "none",
+            WebkitUserSelect: "none",
+            WebkitTapHighlightColor: "transparent",
+          }}
+        >
+          <div
+            ref={stageRef}
+            style={{
+              position: "absolute",
+              left: 0,
+              top: 0,
+              width: `${STAGE_W}px`,
+              height: `${STAGE_H}px`,
+              transformOrigin: "0 0",
+            }}
+          >
+            {/* Stjernehimmelen, nesten i ro, og månen som står helt stille */}
+            <div
+              ref={stjernerRef}
+              style={{
+                position: "absolute",
+                inset: 0,
+                backgroundImage: STJERNE_BILDE,
+                backgroundRepeat: "repeat",
+                backgroundSize: `${STJERNE_FLIS_PX}px ${STJERNE_FLIS_PX}px`,
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                right: "58px",
+                top: "26px",
+                width: "44px",
+                height: "44px",
+                borderRadius: "50%",
+                backgroundColor: C.SKY,
+                boxShadow: `0 0 44px 14px ${alpha(C.SKY, 0.3)}`,
+              }}
+            />
+            {/* Skogen under ham */}
+            <div
+              ref={skogRef}
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: `${STAGE_H - SKOG_H}px`,
+                height: `${SKOG_H}px`,
+                backgroundImage: SKOG_BILDE,
+                backgroundRepeat: "repeat-x",
+                backgroundSize: `${SKOG_W}px ${SKOG_H}px`,
+                backgroundPosition: "0 bottom",
+              }}
+            />
+            {/* Bakken */}
+            <div
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: `${STAGE_H - 2}px`,
+                height: "2px",
+                backgroundColor: C.ACCENT,
+                boxShadow: `0 0 12px ${alpha(C.ACCENT, 0.8)}`,
+              }}
+            />
+
+            {/* Verden flyttes mot venstre; Alf står stille på scenen. */}
+            <div
+              ref={worldRef}
+              style={{
+                position: "absolute",
+                left: 0,
+                top: 0,
+                height: "100%",
+                width: 0,
+                willChange: "transform",
+              }}
+            >
+              {COURSE.pipes.map((pipe) => (
+                <Bunke key={pipe.x} x={pipe.x + ALF_X} pipe={pipe} />
+              ))}
+              <Kasse x={GOAL + ALF_X} ground={STAGE_H - 2} />
+            </div>
+
+            <div
+              ref={alfRef}
+              style={{
+                position: "absolute",
+                left: `${ALF_X - HEAD_WIDTH / 2}px`,
+                top: 0,
+                transformOrigin: "50% 50%",
+                transform: alfTransform(START_Y, 0),
+                willChange: "transform",
+              }}
+            >
+              <AlfFlyger height={HEAD_HEIGHT} flapping={phase === "running"} />
+            </div>
+
+            {/* Poeng midt oppe, som i originalen; beste i hjørnet */}
+            <p aria-hidden style={scoreStyle}>
+              <span ref={scoreRef}>0</span>
+            </p>
+            <p
+              aria-hidden
+              style={{
+                position: "absolute",
+                top: "12px",
+                right: "16px",
+                margin: 0,
+                fontSize: "16px",
+                lineHeight: 1.6,
+                color: alpha(C.WHITE_100, 0.6),
+                fontVariantNumeric: "tabular-nums",
+                letterSpacing: "0.1em",
+              }}
+            >
+              {COPY.best} {best}
+            </p>
+          </div>
+
+          <SpillOverlay
+            text={overlay}
+            color={phase === "hit" ? C.PEACH : C.ACCENT}
+          />
+
+          {phase === "goal" && (
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center p-4"
+              onPointerDown={(e) => e.stopPropagation()}
+            >
+              <div
+                className="flex max-w-[88%] flex-col items-center gap-3 rounded-3xl px-6 py-5 text-center"
+                style={{
+                  backgroundColor: "rgba(0, 0, 0, 0.62)",
+                  border: `2px solid ${alpha(C.ACCENT, 0.85)}`,
+                  backdropFilter: "blur(4px)",
+                  WebkitBackdropFilter: "blur(4px)",
+                  boxShadow: `0 0 28px ${alpha(C.ACCENT, 0.4)}`,
+                }}
+              >
+                <p
+                  className="m-0 text-xl leading-tight font-black"
+                  style={{ color: C.YELLOW, fontFamily: DISPLAY_FONT }}
+                >
+                  {COPY.solvedTitle}
+                </p>
+                <p
+                  className="m-0 text-sm leading-normal"
+                  style={{ color: alpha(C.WHITE_100, 0.85) }}
+                >
+                  Klart! Dette var bare øving – koden får du bare i det ekte
+                  spillet.
+                </p>
+                <Button
+                  onClick={playAgain}
+                  className="h-9 rounded-full px-5 font-bold"
+                  style={{ backgroundColor: C.ACCENT, color: "#05081C" }}
+                >
+                  Spill igjen
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <p
+          className="m-0 min-h-[26px] text-base leading-[1.6]"
+          style={{ color: alpha(C.WHITE_100, 0.6) }}
+          aria-live="polite"
+        >
+          {attempts > 0 ? `${COPY.attempt} ${attempts + 1}` : ""}
+        </p>
+      </div>
+    </section>
   );
 }
