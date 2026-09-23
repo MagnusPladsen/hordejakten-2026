@@ -283,8 +283,8 @@ export const BEVIS: Bevis[] = [
   },
   {
     id: 'retning',
-    tittel: '118° er retningen mot Oslo',
-    forklaring: 'Da ligger kassen på 298°-linja fra Oslo, gjennom Valdres. De fleste tror 118° gjelder parkeringen.',
+    tittel: 'Skiltet (118°) peker mot Oslo',
+    forklaring: 'Anja sier skiltet peker 118°. Peker det mot Oslo, ligger kassen på 298°-linja fra Oslo, gjennom Valdres. De fleste tror det heller viser veien inn.',
     standardPa: false,
     faktor: tabell({ valdres: 1.8 }),
   },
