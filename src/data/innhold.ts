@@ -329,11 +329,11 @@ export const HINT: Hint[] = [
   },
   {
     id: 'kodejakten',
-    tittel: 'Kodejakten (fire minispill)',
-    status: 'apen',
-    kilde: 'horde.no/secret/kodejakten',
-    tekst: 'Et spill med fire minispill som skal gi en firesifret kode til en av låsene når det åpner.',
-    betydning: 'Gir en kode, ikke et sted.',
+    tittel: 'Kodejakten: fire spill gir koden til én hengelås',
+    status: 'bekreftet',
+    kilde: 'horde.no/secret/kodejakten (kildekoden)',
+    tekst: 'Fire spill: «Kill the Bill» (skyt regninger), «Bill Runner» (hopp over regninger), «Flappy-Alf» og «Dartskiven». Figuren heter Alf, med ansiktet til Horde-mannen fra videoen, ikke Alf Prøysen. Når alle fire er klart, viser siden «Låsen er åpen: Dette er koden til den ene hengelåsen på kassen.» Koden ligger ikke i nettsiden, serveren gir den først når alle fire er godkjent.',
+    betydning: 'Gir én av de to kodene, ikke et sted. Tips til dartskiven, fra kildekoden: blå = pluss, gul = minus, rosa = gange, lilla = dele. Start med tallet i midten og regn deg utover, ring for ring. Du må ha fire riktige på rad. Hjelpeteksten er bare «Tips: Vær bedre».',
     lenke: 'https://horde.no/secret/kodejakten',
   },
   {
@@ -714,7 +714,7 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
   { kode: '072', kilde: '«Ho Ho Hint Hint»: siste sifre i premien fra 2024 (1 093 072 kr). Bare 3 siffer.', status: 'usikker', sjanse: 'lav', hint: ['hohoh'] },
   { kode: '500', kilde: '«Ho Ho Hint Hint»: poeng for å verve. Bare 3 siffer.', status: 'usikker', sjanse: 'lav', hint: ['hohoh'] },
   { kode: 'ord', kilde: 'Kredittskår-boksen tar imot ord («terje» ga 5008). Verdt å prøve: JAKTEN, MINUSHORDE, HORDEMINUS, NORHEIMSUND.', status: 'tolkning', sjanse: 'middels', hint: ['terje', 'bokstaver', 'dyr'] },
-  { kode: '????', kilde: 'Kodejakten (horde.no/secret/kodejakten): fire minispill gir én kode.', status: 'apen', sjanse: 'hoy', hint: ['kodejakten'] },
+  { kode: '????', kilde: 'Kodejakten gir koden til én hengelås når alle fire spill er klart (bekreftet i kildekoden). Dartskiven: blå +, gul −, rosa ×, lilla ÷. Kodejakten (horde.no/secret/kodejakten): fire minispill gir én kode.', status: 'apen', sjanse: 'hoy', hint: ['kodejakten'] },
 ]
 
 /** Hva folk i chatten og på Discord tror, kort oppsummert. `fokus` er et sted på kartet. */
