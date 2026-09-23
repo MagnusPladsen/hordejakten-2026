@@ -82,7 +82,7 @@ export const HINT: Hint[] = [
     kilde: 'Chat + Dagbladet-video',
     dato: '23.09',
     tekst: 'Tidlig om morgenen, da nattkameraet ble skrudd av, var det skyer og grått. Neste sekund var det plutselig sol og den «AI»-looken streamen har nå. I Dagbladet-videoen fra stedet er det mindre sol, og lyset faller ikke likt som på streamen.',
-    betydning: 'Kan bety at bildet er filtrert eller kunstig lyssatt. Da er hint som bygger på sol i bildet usikre: «Sol i dag» og solbanen (kamera mot 220°). Anjas egne ord («KLAR HIMMEL») påvirkes ikke. Lyden er allerede vist å være delvis avspilt på nytt, se default.no.',
+    betydning: 'Taler imot: default.no regnet ut kameraretningen fra sola alene (219–220°), og Anja skrev senere «KAMERA 41 ØST» (filmer mot ca. 221°). To uavhengige målinger stemmer, så sollyset ser ekte ut. Bildet kan likevel være filtrert i farger. Anjas egne ord («KLAR HIMMEL») påvirkes ikke. Lyden er allerede vist å være delvis avspilt på nytt, se default.no.',
   },
   {
     id: 'haslemoen',
@@ -142,10 +142,19 @@ export const HINT: Hint[] = [
     tittel: 'Horde-skiltet peker 118–120° mot kassen',
     status: 'bekreftet',
     kilde: 'Tavla («ØST CA 118 · RETNING SKILT») + kompasstegning',
-    tekst: 'Anja skrev at skiltet peker ca. 118° øst-sørøst, senere «118–120 gr øst». Skissen fra fellesskapet: skiltet står vest-nordvest for kassen og peker mot den, og kameraet står nord-nordøst og filmer mot ca. 208°. Korrigert for misvisning (kompass viser ca. 4° for lite på Østlandet) blir sann retning ca. 122–124°.',
+    tekst: 'Anja skrev at skiltet peker ca. 118° øst-sørøst, senere «118–120 gr øst». Skissen fra fellesskapet: skiltet står vest-nordvest for kassen og peker mot den, Anja skrev senere «KAMERA 41 ØST»: kameraet står ca. 41° (nordøst) fra kassen og filmer mot ca. 221°. Korrigert for misvisning (kompass viser ca. 4° for lite på Østlandet) blir sann retning ca. 122–124°.',
     betydning: 'Skiltet viser veien inn til kassen. Folk kommer altså fra vest-nordvest: fra bilen går du ca. 120° (øst-sørøst), 5–10 min oppover. Søkesektoren i kartet bruker dette. Andre teorier: en linje fra Oslo eller fra Horde i Bergen.',
     lag: ['retning'],
     kompass: true,
+  },
+  {
+    id: 'kamera41',
+    tittel: 'Kameraet står 41° (nordøst)',
+    status: 'bekreftet',
+    kilde: 'Tavla («KAMERA 41 ØST»)',
+    dato: '23.09',
+    tekst: 'Anja skrev «KAMERA 41 ØST». Kameraet står altså nordøst for kassen og filmer mot ca. 221° (sørvest).',
+    betydning: 'Stemmer nesten helt med default.no, som regnet ut kameraretningen fra sola alene (219–220°). Da er sollyset på streamen trolig ekte, og sol-hintene (soloppgang, sola i sør, sol i dag) blir mer til å stole på.',
   },
   {
     id: 'solmiddag',
@@ -463,6 +472,7 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
   { t: '23.09', tekst: '118–120 GR ØST (retningen skiltet peker)' },
   { t: '23.09', tekst: 'SOLA VAR OPPE FØR 07' },
   { t: '23.09', tekst: '«+5» på genseren' },
+  { t: '23.09', tekst: 'KAMERA 41 ØST' },
   {
     t: '23.09',
     tekst: 'SKISSE av stedet. Beste lesning: «KAMERA» øverst, kassen i midten, «SKILT» til høyre. Ordet til venstre og nederst er ikke lesbart.',
@@ -699,6 +709,6 @@ export const SIKRE_FAKTA: string[] = [
   'Kun bil, ingen ferge. De siste 5–10 min ble hun båret oppover med sovemaske og headset.',
   'Skog med furu, gran og mye bjørk, lyng og bærlyng. Fire store steiner. Kupert rundt.',
   'Klar himmel kvelden 21.09. Sola var oppe før kl. 07.',
-  'Horde-skiltet peker 118–120° mot kassen.',
+  'Horde-skiltet peker 118–120° mot kassen. Kameraet står ca. 41° (nordøst) fra kassen.',
   'Kassen har 2 kodelåser med 4 siffer. Appen ga 5008 som hint.',
 ]
