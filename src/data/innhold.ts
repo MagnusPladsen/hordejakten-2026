@@ -148,6 +148,24 @@ export const HINT: Hint[] = [
     kompass: true,
   },
   {
+    id: 'lyder',
+    tittel: 'Lyder på streamen: tog, klokker, skudd? (lav sikkerhet)',
+    status: 'usikker',
+    kilde: 'default.no (lydanalyse) + chat',
+    dato: '21.09',
+    tekst: 'default.no sin lydanalyse fant mulige tog (08:34, 11:29, 14:07), klokker (08:35, 14:00) og skudd (14:24, 14:54) den 21.09, alle med lav sikkerhet (0,33–0,51). I chatten sies det at Anja ikke hører tog, bil eller skyting.',
+    betydning: 'Trolig støy, ikke ekte lyder. Lyden er dessuten delvis avspilt på nytt. Anjas eget svar (ingen tog, bil eller skyting) teller mer: kassen står trolig et stille sted, ikke nær jernbane eller trafikkert vei.',
+  },
+  {
+    id: 'fugler',
+    tittel: 'Fuglelyder: sidensvans og furukorsnebb',
+    status: 'usikker',
+    kilde: 'default.no (BirdNET)',
+    dato: '21.09',
+    tekst: 'Fuglegjenkjenning fant granmeis, blåmeis, rødvingetrost, skjære og gråtrost, en flokk sidensvans kl. 07:36 og furukorsnebb.',
+    betydning: 'Furukorsnebb passer med gammel furuskog. Sidensvans er i september mest meldt i Nord-Norge, men kan være feilgjenkjenning. Sier lite om stedet.',
+  },
+  {
     id: 'froland',
     tittel: 'Froland er utelukket: været stemmer ikke',
     status: 'tolkning',
@@ -353,7 +371,7 @@ export const HINT: Hint[] = [
     kilde: 'Tavla + Børsen-intervju',
     dato: '21.09',
     tekst: 'Ca. 5–10 min fra bilen, oppover. På siste etappe hadde hun sovemaske og headset og ble båret inn i skogen. Kupert terreng, mye lyng og furuskog. Fire store steiner, en presenning og mer åpen skog til høyre for henne.',
-    betydning: 'Hun ble båret, så avstanden er hennes følelse. Leter du i felt: 300–900 m fra en skogsbilvei, oppover, på lyngdekt furumo.',
+    betydning: 'Hun hører ikke tog, bil eller skyting, og det var dugg på taket av kassen 07:00–09:40 (klar, fuktig natt). Hun ble båret, så avstanden er hennes følelse. Leter du i felt: 300–900 m fra en skogsbilvei, oppover, på lyngdekt furumo.',
     lag: ['felt'],
   },
   {
@@ -457,7 +475,7 @@ export const HINT: Hint[] = [
     status: 'usikker',
     kilde: 'Stream (via default.no)',
     tekst: 'Anja har kjent lukt av tømmer, hørt dunking og sett en lastet tømmerbil.',
-    betydning: 'Aktiv hogst i nærheten. Ferske hogstflater på satellittbilder kan hjelpe når du har et kandidatområde.',
+    betydning: 'Aktiv hogst i nærheten. default.no leter innen 800 m fra en hogstflate fra 2022 eller senere, eller 400 m fra en fra 2024–25 (Global Forest Watch). Se etter ferske hogstflater på satellittbilder i kandidatområdene.',
   },
 ]
 
@@ -602,6 +620,15 @@ export const DEFAULTNO: { nr: number; pos: LatLon; navn: string; p: string }[] =
 
 /** Der NOZ56U var da Anja skrev «FLY» (ekte tid ca. 21:29:50) */
 export const FLY_PUNKT = { pos: [60.8705, 11.2481] as LatLon, kallesignal: 'NOZ56U', hoydeFot: 23892 }
+/** Sterke terrengtreff fra default.no sitt «site finder» (vei, oppoverbakke, furu, relieff og solhorisont) */
+export const DEFAULTNO_TERRENG: { navn: string; pos: LatLon; omrade: string }[] = [
+  { navn: 'Birkebeinerveien', pos: [61.4495, 10.9752], omrade: 'Rena/Åmot' },
+  { navn: 'Gålaveien', pos: [61.4725, 10.9677], omrade: 'Rena/Åmot' },
+  { navn: 'Madsskardveien', pos: [61.4747, 11.0966], omrade: 'Rena/Åmot' },
+  { navn: 'Tolvmilskogen', pos: [60.69, 12.35], omrade: 'Solør' },
+  { navn: 'Kirkesjøvegen', pos: [60.358, 12.507], omrade: 'Solør/Finnskogen' },
+]
+
 /** Det andre flyet nær Anja 21:29: NOZ9EG sørover mot Gardermoen, over Ringsakfjellet (ca. 21:29:15, 23 500 fot) */
 export const FLY_PUNKT2 = { pos: [61.216, 10.896] as LatLon, kallesignal: 'NOZ9EG', hoydeFot: 23500 }
 
@@ -720,6 +747,7 @@ export const SIKRE_FAKTA: string[] = [
   'Kun bil, ingen ferge. De siste 5–10 min ble hun båret oppover med sovemaske og headset.',
   'Skog med furu, gran og mye bjørk, lyng og bærlyng. Fire store steiner. Kupert rundt.',
   'Klar himmel kvelden 21.09. Sola var oppe før kl. 07.',
+  'Stille sted: ingen fly på dagtid, ingen tog, bil eller skyting.',
   'Horde-skiltet peker 118–120° mot kassen. Kameraet står ca. 41° (nordøst) fra kassen.',
   'Kassen har 2 kodelåser med 4 siffer. Appen ga 5008 som hint.',
 ]
