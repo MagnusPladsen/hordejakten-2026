@@ -19,7 +19,13 @@ type Props = {
   onGaTil: (pos: LatLon, zoom?: number) => void
 }
 
+type Forhand = (typeof FORHAND)[number]
+
 export function LagPanel({ aktive, onVeksle, vekter, onVekter, topp, onGaTil }: Props) {
+  const velgForhand = (f: Forhand) => {
+    onVekter(f.vekter)
+    f.lag?.forEach((id) => onVeksle(id, true))
+  }
   const [apen, setApen] = useState<LagId | null>(null)
   const modell = LAG[0]
   return (
@@ -32,7 +38,7 @@ export function LagPanel({ aktive, onVeksle, vekter, onVekter, topp, onGaTil }: 
       </div>
 
       <LagKort lag={modell} pa={aktive.has('modell')} apen={apen === 'modell'} onVeksle={onVeksle} onApne={setApen}>
-        <Modell vekter={vekter} onVekter={onVekter} topp={topp} onGaTil={onGaTil} />
+        <Modell vekter={vekter} onVekter={onVekter} onForhand={velgForhand} topp={topp} onGaTil={onGaTil} />
       </LagKort>
 
       <div className="space-y-2">
@@ -102,7 +108,19 @@ function LagKort({
   )
 }
 
-function Modell({ vekter, onVekter, topp, onGaTil }: { vekter: Vekter; onVekter: (v: Vekter) => void; topp: Punkt[]; onGaTil: (pos: LatLon, zoom?: number) => void }) {
+function Modell({
+  vekter,
+  onVekter,
+  onForhand,
+  topp,
+  onGaTil,
+}: {
+  vekter: Vekter
+  onVekter: (v: Vekter) => void
+  onForhand: (f: Forhand) => void
+  topp: Punkt[]
+  onGaTil: (pos: LatLon, zoom?: number) => void
+}) {
   const aktivForhand = FORHAND.find((f) => JSON.stringify(f.vekter) === JSON.stringify(vekter))?.id
   const sett = (endring: Partial<Vekter>) => onVekter({ ...vekter, ...endring })
 
@@ -114,7 +132,7 @@ function Modell({ vekter, onVekter, topp, onGaTil }: { vekter: Vekter; onVekter:
           <button
             key={f.id}
             type="button"
-            onClick={() => onVekter(f.vekter)}
+            onClick={() => onForhand(f)}
             className={cn(
               'shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors',
               aktivForhand === f.id ? 'border-primary bg-primary text-primary-foreground' : 'bg-white text-slate-700 hover:bg-slate-50',

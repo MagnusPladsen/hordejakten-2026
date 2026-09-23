@@ -162,7 +162,7 @@ function Anagram() {
           </span>
         ))}
       </div>
-      <Input className="mt-3 bg-white font-mono uppercase" placeholder="Prøv et ord, f.eks. MINUS HORDE" value={ord} onChange={(e) => setOrd(e.target.value)} />
+      <Input className="mt-3 bg-white font-mono uppercase" placeholder="Prøv et ord, f.eks. NORHEIMSUND" value={ord} onChange={(e) => setOrd(e.target.value)} />
       {lengde > 0 && (
         <p className={cn('mt-2 text-xs font-medium', mangler.length ? 'text-rose-600' : 'text-emerald-700')}>
           {mangler.length
