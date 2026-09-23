@@ -242,6 +242,13 @@ export const BEVIS: Bevis[] = [
     faktor: tabell({ agder: 0.15 }),
   },
   {
+    id: 'fjellmark',
+    tittel: '«Typisk fjellmark» (Anja)',
+    forklaring: 'Høyereliggende skrinn skog og lyng. Passer Ringsakfjellet/Sjusjøen, åsene over Rena og Løten, og Røros. Passer dårlig med lavlandet ved Rudshøgda, Gjøvik og Solør.',
+    standardPa: true,
+    faktor: tabell({ ringsaker: 1.4, rena: 1.2, roros: 1.3, loten: 1.0, rudshogda: 0.6, gjovik: 0.7, solor: 0.8, agder: 0.8 }),
+  },
+  {
     id: 'bokstaver',
     tittel: 'Vervebokstavene = NORHEIMSUND?',
     forklaring: 'Bokstavene mangler én N for å bli NORHEIMSUND, mens HORDE MINUS går opp uten rest. Derfor teller det bare litt.',
