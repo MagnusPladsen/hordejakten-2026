@@ -4,7 +4,8 @@ import { Check, Crosshair, ExternalLink, MapPinned } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { BESTE_KODER, BOKSTAV_LESNINGER, BOKSTAVER, FOLK_TROR, HINT, KODER, SIKRE_FAKTA, SJANSE, STATUS, STEDER, TEORIER, type Hint } from '@/data/innhold'
+import { Bokstavord } from '@/components/Bokstavord'
+import { BESTE_KODER, BOKSTAVER, FOLK_TROR, HINT, KODER, SIKRE_FAKTA, SJANSE, STATUS, STEDER, TEORIER, type Hint } from '@/data/innhold'
 import type { LatLon } from '@/lib/geo'
 import { cn } from '@/lib/utils'
 
@@ -292,18 +293,10 @@ function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: numbe
         </AccordionItem>
         <AccordionItem value="bokstaver">
           <AccordionTrigger className="py-3.5">
-            <Tittel tittel="Bokstavene" tekst={`${BOKSTAVER.join(' ')}: hva kan de bety?`} />
+            <Tittel tittel="Bokstavene: alle ord og teorier" tekst={`${BOKSTAVER.join(' ')}: teorier, stedsnavn og alle ord de kan bli`} />
           </AccordionTrigger>
           <AccordionContent>
-        <ul className="divide-y">
-          {BOKSTAV_LESNINGER.map((b) => (
-            <li key={b.ord} className="py-2.5">
-              <p className="font-mono text-[15px] font-semibold tracking-wide">{b.ord}</p>
-              <p className="text-[13.5px] leading-snug text-slate-600">{b.forklaring}</p>
-              <HintLenker ider={b.hint} onHint={onHint} />
-            </li>
-          ))}
-        </ul>
+            <Bokstavord onGaTil={onGaTil} lenker={(ider) => <HintLenker ider={ider} onHint={onHint} />} />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="folk" className="border-none">

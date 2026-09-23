@@ -154,7 +154,7 @@ export const HINT: Hint[] = [
     kilde: 'default.no (lydanalyse) + chat',
     dato: '21.09',
     tekst: 'default.no sin lydanalyse fant mulige tog (08:34, 11:29, 14:07), klokker (08:35, 14:00) og skudd (14:24, 14:54) den 21.09, alle med lav sikkerhet (0,33–0,51). I chatten sies det at Anja ikke hører tog, bil eller skyting.',
-    betydning: 'Trolig støy, ikke ekte lyder. Lyden er dessuten delvis avspilt på nytt. Anjas eget svar (ingen tog, bil eller skyting) teller mer: kassen står trolig et stille sted, ikke nær jernbane eller trafikkert vei.',
+    betydning: 'Kan ikke brukes: lyden på streamen er trolig falsk og går i loop (default.no fant identiske lydbiter 22–48 t fra hverandre, og chatten sier det samme). Lyder fra streamen sier derfor ingenting om stedet. Anjas eget svar (ingen tog, bil eller skyting) teller mer: kassen står trolig et stille sted, ikke nær jernbane eller trafikkert vei.',
   },
   {
     id: 'fugler',
@@ -721,11 +721,100 @@ export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: Lat
 ]
 
 /** Mulige lesninger av vervebokstavene N O R H E I M S U D */
-export const BOKSTAV_LESNINGER: { ord: string; forklaring: string; hint: string[] }[] = [
-  { ord: 'HORDE MINUS', forklaring: 'Bruker nøyaktig alle ti bokstavene, uten rest. Ukjent hva det skal brukes til.', hint: ['bokstaver'] },
-  { ord: 'JAKTEN', forklaring: '«HORDEJAKTEN» minus «HORDE». Rev, and og kråke er jaktbare dyr, og ekorn ble før jaktet for kjøtt og pels i Innlandet. Prøv i kredittskår-boksen.', hint: ['bokstaver', 'dyr', 'and', 'terje'] },
-  { ord: 'NORHEIMSUND', forklaring: 'Mangler én N. Stedet var blått på Windy-kartet.', hint: ['bokstaver', 'skyer'] },
-  { ord: '69° nord / Tromsø', forklaring: 'TikTok-teori om «MINUS HORDE». Rundt 20 t fra Oslo.', hint: ['bokstaver'] },
+export type Lesning = {
+  ord: string
+  forklaring: string
+  hint: string[]
+  /** Hvor sterk lesningen er: bruker alle bokstaver, gir mening med andre hint osv. */
+  styrke: 'sterk' | 'middels' | 'svak'
+  /** Sted på kartet lesningen peker på */
+  pos?: LatLon
+}
+
+export const BOKSTAV_LESNINGER: Lesning[] = [
+  {
+    ord: 'HORDE MINUS',
+    styrke: 'sterk',
+    forklaring: 'Bruker nøyaktig alle ti bokstavene, uten rest. Ukjent hva det skal brukes til.',
+    hint: ['bokstaver'],
+  },
+  {
+    ord: 'MINUS 5 (dekod med −5)',
+    styrke: 'sterk',
+    forklaring: '«+5» står på genseren, og buksa er kodet med +5 (MT WI JO = HO RD EJ). «MINUS HORDE» kan være bruksanvisningen: trekk fra 5 for å dekode. HORDE +5 blir MTWIJ, som står på buksa.',
+    hint: ['bokstaver', 'pluss5', 'caesar'],
+  },
+  {
+    ord: 'JAKTEN',
+    styrke: 'middels',
+    forklaring: '«HORDEJAKTEN» minus «HORDE». Rev, and og kråke er jaktbare dyr, og ekorn ble før jaktet for kjøtt og pels i Innlandet. Prøv i kredittskår-boksen.',
+    hint: ['bokstaver', 'dyr', 'and', 'terje'],
+  },
+  {
+    ord: 'NORDHUE + MIS',
+    styrke: 'middels',
+    forklaring: 'Nordhue er et sted mellom Løten og Åmot, 14 km fra der NOZ56U var kl. 21:29. Bruker 7 av bokstavene, resten (M I S) er ikke et tydelig ord.',
+    hint: ['bokstaver', 'fly'],
+    pos: [60.994, 11.3382],
+  },
+  {
+    ord: 'SMERUD + OHIN',
+    styrke: 'svak',
+    forklaring: 'Smerud er et sted i Solør, like ved Haslemoen og Flisa-tipset. Resten (O H I N) gir ikke et ord.',
+    hint: ['bokstaver', 'haslemoen'],
+    pos: [60.65, 11.7833],
+  },
+  {
+    ord: 'DISEN + HUMOR',
+    styrke: 'svak',
+    forklaring: 'Bruker alle ti. Disen er et sted ved Hamar og Løten. «Humor» passer med tonen i Horde sine hint.',
+    hint: ['bokstaver'],
+    pos: [60.8, 11.08],
+  },
+  {
+    ord: 'OSHEIM + RUND',
+    styrke: 'svak',
+    forklaring: 'Bruker alle ti. Osheim ligger nord-øst i Rena/Åmot-området.',
+    hint: ['bokstaver'],
+    pos: [61.4282, 11.7075],
+  },
+  {
+    ord: 'NORDHEIM + SU',
+    styrke: 'svak',
+    forklaring: 'Nordheim er et vanlig gårdsnavn (169 steder i Norge), så det sier lite om hvor.',
+    hint: ['bokstaver'],
+  },
+  {
+    ord: 'NORHEIMSUND',
+    styrke: 'svak',
+    forklaring: 'Mangler én N. Stedet var blått på Windy-kartet.',
+    hint: ['bokstaver', 'skyer'],
+    pos: [60.3707, 6.1453],
+  },
+  {
+    ord: 'HINDU MORSE',
+    styrke: 'svak',
+    forklaring: 'Bruker alle ti. «Morse» kobler til morsekoden på buksa (PREMIE). Trolig tilfeldig.',
+    hint: ['bokstaver', 'morse'],
+  },
+  {
+    ord: 'HUNDRE + MISO / HODER MINUS',
+    styrke: 'svak',
+    forklaring: 'Tall-ord i bokstavene: HUNDRE (100) og MINUS. Kan være del av en kode, for eksempel minus 100.',
+    hint: ['bokstaver', 'koder'],
+  },
+  {
+    ord: 'HUS MINE ORD / DINE HUS MOR',
+    styrke: 'svak',
+    forklaring: 'De vanligste ordene som bruker alle ti. Gir ingen tydelig mening, så trolig tilfeldige.',
+    hint: ['bokstaver'],
+  },
+  {
+    ord: '69° nord / Tromsø',
+    styrke: 'svak',
+    forklaring: 'TikTok-teori om «MINUS HORDE». Rundt 20 t fra Oslo, så lite sannsynlig.',
+    hint: ['bokstaver'],
+  },
 ]
 
 /** Tretopphyttene i Ringsaker. `opptatt` gjelder 23.–27.09 ifølge bookingkalenderen. */
