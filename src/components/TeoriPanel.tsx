@@ -4,10 +4,12 @@ import { ArrowDown, ArrowUp, ChevronDown, Crosshair, X } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
-import { BEVIS, TEORIER_LISTE, type Bevis, type Teori, type TeoriId } from '@/data/teorier'
+import { BEVIS, TEORIER_LISTE, type Bevis, type Modus, type Teori, type TeoriId } from '@/data/teorier'
 import { cn } from '@/lib/utils'
 
 type Props = {
+  modus: Modus
+  onModus: (m: Modus) => void
   prosent: Record<TeoriId, number>
   aktiveBevis: Set<string>
   onVeksleBevis: (id: string, pa: boolean) => void
@@ -29,9 +31,10 @@ function kortTittel(b: Bevis) {
   return b.tittel.replace(/\s*\(.*?\)\s*/g, ' ').split(': ')[0].trim()
 }
 
-export function TeoriPanel({ prosent, aktiveBevis, onVeksleBevis, onVisTeori }: Props) {
+export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis, onVisTeori }: Props) {
   const rangert = [...TEORIER_LISTE].sort((a, b) => prosent[b.id] - prosent[a.id])
-  const aktive = BEVIS.filter((b) => aktiveBevis.has(b.id))
+  const iModus = BEVIS.filter((b) => modus === 'alt' || b.kilde !== 'folk')
+  const aktive = iModus.filter((b) => aktiveBevis.has(b.id))
   const [apen, setApen] = useState<TeoriId | null>(null)
 
   return (
@@ -42,6 +45,34 @@ export function TeoriPanel({ prosent, aktiveBevis, onVeksleBevis, onVisTeori }: 
         <h2 className="text-xl font-semibold tracking-tight">Hvor står kassen?</h2>
         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
           Prosenten viser hvor godt hver teori passer med alle hintene samlet. Trykk på en teori for å se hvorfor.
+        </p>
+      </div>
+
+      <div className="rounded-2xl border bg-card p-1.5">
+        <div className="grid grid-cols-2 gap-1" role="radiogroup" aria-label="Hva skal telle?">
+          {(
+            [
+              { id: 'alt', navn: 'Alt vi har', tekst: 'Hint + det folk sier' },
+              { id: 'hint', navn: 'Bare hint', tekst: 'Det vi har sett selv' },
+            ] as const
+          ).map((m) => (
+            <button
+              key={m.id}
+              type="button"
+              role="radio"
+              aria-checked={modus === m.id}
+              onClick={() => onModus(m.id)}
+              className={cn('rounded-xl px-3 py-2 text-left transition-colors', modus === m.id ? 'bg-slate-900 text-white' : 'hover:bg-slate-50')}
+            >
+              <span className="block text-[13.5px] font-semibold">{m.navn}</span>
+              <span className={cn('block text-[11.5px]', modus === m.id ? 'text-slate-300' : 'text-muted-foreground')}>{m.tekst}</span>
+            </button>
+          ))}
+        </div>
+        <p className="px-2 pt-2 pb-1 text-xs leading-relaxed text-muted-foreground">
+          {modus === 'alt'
+            ? 'Regner med alle hintene og det folk i chatten og på Discord mener, som tips om Digeråsen, Flisa og Tretopphyttene. Folkemeninger teller litt, ikke mye.'
+            : 'Regner bare med det vi har sett selv: tavla, streamen, appen, vær og flydata. Det folk i chatten mener, er ikke med.'}
         </p>
       </div>
 
@@ -122,18 +153,21 @@ export function TeoriPanel({ prosent, aktiveBevis, onVeksleBevis, onVisTeori }: 
             <span>
               <span className="block text-[14px] font-semibold">Juster hvilke hint som teller</span>
               <span className="block text-xs font-normal text-muted-foreground">
-                {aktive.length} av {BEVIS.length} hint er med. Slå av det du ikke tror på.
+                {aktive.length} av {iModus.length} er med. Slå av det du ikke tror på.
               </span>
             </span>
           </AccordionTrigger>
           <AccordionContent>
             <div className="divide-y">
-              {BEVIS.map((b) => {
+              {iModus.map((b) => {
                 const pa = aktiveBevis.has(b.id)
                 return (
                   <label key={b.id} className={cn('flex cursor-pointer items-start justify-between gap-3 py-3', !pa && 'opacity-60')}>
                     <span className="min-w-0">
-                      <span className="block text-[13px] leading-snug font-semibold">{b.tittel}</span>
+                      <span className="block text-[13px] leading-snug font-semibold">
+                        {b.tittel}
+                        {b.kilde === 'folk' && <span className="ml-1.5 rounded bg-violet-50 px-1 py-px text-[10px] font-semibold text-violet-700 ring-1 ring-violet-200">Folk sier</span>}
+                      </span>
                       <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">{b.forklaring}</span>
                     </span>
                     <Switch checked={pa} onCheckedChange={(v) => onVeksleBevis(b.id, v)} aria-label={b.tittel} />

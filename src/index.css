@@ -150,6 +150,8 @@
 .pin-teori { background: #f59e0b; color: #fff; border: 2px solid #fff; }
 .pin-teori.ut { background: #cbd5e1; color: #64748b; text-decoration: line-through; }
 .pin-nal { background: #0f172a; border: 3px solid #fff; }
+.pin-hytte { background: #d6a57a; border: 2px solid #fff; }
+.pin-hytte.hel { background: #92400e; border: 3px solid #fff; }
 .pin-felt { background: #16a34a; color: #fff; border: 3px solid #fff; font-size: 13px; }
 
 .km-merke {

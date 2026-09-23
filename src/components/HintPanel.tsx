@@ -118,15 +118,17 @@ export function HintPanel({ onVisPaKart, onGaTil }: { onVisPaKart: (h: Hint) => 
   )
 }
 
-/** Skisse av kassen sett ovenfra: kamera nordøst (ser mot ca. 220°), skiltet peker ca. 118° */
+/** Skisse av kassen sett ovenfra: kamera NNØ filmer mot ca. 208°, skiltet står VNV og peker 118–120° mot kassen */
 function Kompass() {
   const pil = (grader: number, r: number) => {
     const a = ((grader - 90) * Math.PI) / 180
     return [100 + r * Math.cos(a), 100 + r * Math.sin(a)]
   }
-  const [px, py] = pil(118, 78)
-  const [kx, ky] = pil(40, 70)
-  const [bx, by] = pil(298, 70)
+  const [kx, ky] = pil(25, 64)
+  const [kpx, kpy] = pil(25, 44)
+  const [sx, sy] = pil(298, 62)
+  const [spx, spy] = pil(298, 30)
+  const [bx, by] = pil(298, 80)
   return (
     <figure className="mt-3 rounded-xl bg-slate-50 p-3">
       <svg viewBox="0 0 200 200" className="mx-auto block w-full max-w-[230px]" role="img" aria-label="Kompass-skisse av kassen">
@@ -144,17 +146,25 @@ function Kompass() {
             </text>
           )
         })}
-        <line x1="100" y1="100" x2={bx} y2={by} stroke="#16a34a" strokeWidth="2" strokeDasharray="4 4" />
-        <line x1="100" y1="100" x2={kx} y2={ky} stroke="#0284c7" strokeWidth="2" strokeDasharray="3 3" />
+        <line x1={bx} y1={by} x2={sx} y2={sy} stroke="#16a34a" strokeWidth="2" strokeDasharray="4 4" />
+        <line x1={sx} y1={sy} x2={spx} y2={spy} stroke="#ea580c" strokeWidth="3" markerEnd="url(#pilspiss)" />
+        <rect x={sx - 7} y={sy - 4} width="14" height="8" rx="2" fill="#ea580c" />
+        <line x1={kx} y1={ky} x2={kpx} y2={kpy} stroke="#0284c7" strokeWidth="2" markerEnd="url(#pilspiss-bla)" />
         <circle cx={kx} cy={ky} r="5" fill="#0284c7" />
-        <line x1="100" y1="100" x2={px} y2={py} stroke="#ea580c" strokeWidth="3" />
-        <circle cx={px} cy={py} r="6" fill="#ea580c" />
         <rect x="88" y="90" width="24" height="20" rx="3" fill="#0f172a" transform="rotate(-17 100 100)" />
+        <defs>
+          <marker id="pilspiss" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+            <path d="M0 0 10 5 0 10z" fill="#ea580c" />
+          </marker>
+          <marker id="pilspiss-bla" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+            <path d="M0 0 10 5 0 10z" fill="#0284c7" />
+          </marker>
+        </defs>
       </svg>
       <figcaption className="mt-2 space-y-1 text-xs text-slate-600">
-        <p className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-orange-600" /> Skiltet peker ca. 118° (øst-sørøst), trolig mot veien inn</p>
-        <p className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-sky-600" /> Kameraet står nordøst og ser mot sørvest</p>
-        <p className="flex items-center gap-2"><span className="h-0.5 w-2.5 bg-green-600" /> Fra bilen: gå mot 298° (vest-nordvest), hvis skiltet viser veien inn</p>
+        <p className="flex items-center gap-2"><span className="size-2.5 rounded-sm bg-orange-600" /> Skiltet står vest-nordvest og peker 118–120° mot kassen</p>
+        <p className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-sky-600" /> Kameraet står nord-nordøst og filmer mot ca. 208°</p>
+        <p className="flex items-center gap-2"><span className="h-0.5 w-2.5 bg-green-600" /> Veien inn kommer trolig fra vest-nordvest</p>
       </figcaption>
     </figure>
   )

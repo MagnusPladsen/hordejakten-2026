@@ -13,7 +13,7 @@ import { TeoriPanel } from '@/components/TeoriPanel'
 import { Toaster } from '@/components/ui/sonner'
 import { HINT, STEDER, STREAM, TEORIER, type Hint } from '@/data/innhold'
 import type { LagId } from '@/data/lag'
-import { BEVIS, sannsynligheter, type Teori } from '@/data/teorier'
+import { sannsynligheter, standardBevis, type Modus, type Teori } from '@/data/teorier'
 import { posisjonerRundtPeking, type FlyData } from '@/lib/fly'
 import type { LatLon } from '@/lib/geo'
 import { beregn, FORHAND, toppOmrader, type Kontekst, type Punkt, type Vekter } from '@/lib/modell'
@@ -45,7 +45,8 @@ export default function App() {
   const [innlandet, setInnlandet] = useState<GeoJSON.MultiPolygon | null>(null)
   const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['modell', 'teoriomrader', 'skydekke', 'solidag', 'utenfor']))
   const [vekter, setVekter] = useState<Vekter>(FORHAND[0].vekter)
-  const [aktiveBevis, setAktiveBevis] = useState<Set<string>>(() => new Set(BEVIS.filter((b) => b.standardPa).map((b) => b.id)))
+  const [modus, setModus] = useState<Modus>('alt')
+  const [aktiveBevis, setAktiveBevis] = useState<Set<string>>(() => standardBevis('alt'))
   const [bakgrunn, setBakgrunn] = useState<Bakgrunn>('gra')
   const [fane, setFane] = useState<Fane>('teorier')
   const [hoyde, setHoyde] = useState<Hoyde>('halv')
@@ -151,7 +152,7 @@ export default function App() {
         setFeltPos(pos)
         kart.current?.flyTil(pos, 14)
       }
-      toast('Dra P-markøren til en parkering', { description: 'Det grønne feltet viser hvor kassen bør ligge: 298°, 300–900 m, oppover.' })
+      toast('Dra P-markøren til en parkering', { description: 'Det grønne feltet viser hvor kassen bør ligge: ca. 120° fra bilen, 300–900 m, oppover.' })
     }
   }
 
@@ -245,6 +246,11 @@ export default function App() {
         innhold={{
           teorier: (
             <TeoriPanel
+              modus={modus}
+              onModus={(m) => {
+                setModus(m)
+                setAktiveBevis(standardBevis(m))
+              }}
               prosent={prosent}
               aktiveBevis={aktiveBevis}
               onVisTeori={visTeori}

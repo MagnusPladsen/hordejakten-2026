@@ -139,13 +139,42 @@ export const HINT: Hint[] = [
   },
   {
     id: 'retning118',
-    tittel: 'Horde-skiltet peker 118–120° (øst-sørøst)',
+    tittel: 'Horde-skiltet peker 118–120° mot kassen',
     status: 'bekreftet',
     kilde: 'Tavla («ØST CA 118 · RETNING SKILT») + kompasstegning',
-    tekst: 'Anja skrev på tavla at skiltet peker ca. 118° øst-sørøst, og tegnet et kompass. Senere presiserte hun «118–120 gr øst». Det passer med bildet: kameraet står nordøst for kassen og ser mot sørvest, og skiltet peker mot venstre i bildet, altså sørøst.',
-    betydning: 'Retningen er bekreftet. Hva skiltet peker på er ikke det. Mest trolig: veien inn fra parkeringen. Da ligger kassen mot ca. 298–300° (vest-nordvest) fra bilen, 5–10 min oppover. «Mer åpen skog til høyre for meg» er også sørøst, og kan være veien eller en hogstflate. Andre teorier: en linje 118° fra Oslo eller fra Horde i Bergen.',
+    tekst: 'Anja skrev at skiltet peker ca. 118° øst-sørøst, senere «118–120 gr øst». Skissen fra fellesskapet: skiltet står vest-nordvest for kassen og peker mot den, og kameraet står nord-nordøst og filmer mot ca. 208°. Korrigert for misvisning (kompass viser ca. 4° for lite på Østlandet) blir sann retning ca. 122–124°.',
+    betydning: 'Skiltet viser veien inn til kassen. Folk kommer altså fra vest-nordvest: fra bilen går du ca. 120° (øst-sørøst), 5–10 min oppover. Søkesektoren i kartet bruker dette. Andre teorier: en linje fra Oslo eller fra Horde i Bergen.',
     lag: ['retning'],
     kompass: true,
+  },
+  {
+    id: 'solmiddag',
+    tittel: 'Sola i sør kl. 13:02–13:08 (lengdegrad ca. 11–12° øst)',
+    status: 'tolkning',
+    kilde: 'Solvinkel på streamen (fellesskapet)',
+    dato: '23.09',
+    tekst: 'Kl. 13:20 sto sola i ca. 184° og 28–31° over horisonten. Da sto den rett i sør ca. kl. 13:02–13:08. Det skjer bare rundt 11–12° øst: Østerdalen, Solør og Trysil. Høyden passer med 59–62° nord.',
+    betydning: 'Peker mot østlige Innlandet. Valdres (13:16), Agder (13:17) og Hardanger (13:28) passer dårlig. Bygger på sollyset i bildet, som noen mener kan være falskt.',
+  },
+  {
+    id: 'soloppgang',
+    tittel: 'Sola var oppe før kl. 07',
+    status: 'bekreftet',
+    kilde: 'Anja',
+    dato: '23.09',
+    tekst: 'Anja sa at sola var oppe før kl. 07.',
+    betydning: 'Soloppgang før 07:00 skjer bare øst for ca. 11° øst disse dagene: Solør 06:55, Løten, Rena og Røros 06:57–06:58, Ringsaker 06:59. Valdres (07:06), Agder (07:08) og Hardanger (07:18) er for sent. I skog kommer sola enda senere, så stedet ligger trolig langt øst.',
+  },
+  {
+    id: 'hytter',
+    tittel: 'Utleide hytter i nærheten? (Tretopphyttene)',
+    status: 'usikker',
+    kilde: 'Bookingkalender på tretopphytter.no',
+    dato: '23.09',
+    tekst: 'Tretopphyttene har 8 hytter i Ringsaker. Bjørkhytta (Danseråsen) er booket sammenhengende fra 23.09 til 11.10. Flere andre er opptatt 24.–27.09.',
+    betydning: 'Trolig ikke relevant. Horde er mer forsiktige med hytter i år, fordi folk fant bookingene sist. Anja har også sagt at hun var et sted uten vinduer og wifi, mens Tretopphyttene har store vinduer og takvinduer. Hyttene ligger som et eget kartlag for sikkerhets skyld.',
+    lag: ['hytter'],
+    lenke: 'https://tretopphytter.no/',
   },
   {
     id: 'bergen118',
@@ -228,7 +257,7 @@ export const HINT: Hint[] = [
     kilde: 'Stream',
     dato: '23.09',
     tekst: 'Foran kassen står et «Horde»-skilt båret av to hender. Det peker mot venstre i bildet, og Anja har bekreftet at det peker ca. 118° øst-sørøst.',
-    betydning: 'Skiltet kan vise veien inn. Håndsymbolene er ikke løst, og hendene ser ut til å ha endret stilling i løpet av 23.09, så de kan være et hint som oppdateres. To teorier fra Discord: fingrene er romertall (den første viser VII = 7), eller binærtall der hver finger opp er 1. Begge kan gi sifre til en kode.',
+    betydning: 'Skiltet står vest-nordvest for kassen og peker mot den, så det viser veien inn. Håndsymbolene er ikke løst, og hendene ser ut til å ha endret stilling i løpet av 23.09, så de kan være et hint som oppdateres. To teorier fra Discord: fingrene er romertall (den første viser VII = 7), eller binærtall der hver finger opp er 1. Begge kan gi sifre til en kode.',
   },
   {
     id: 'bjorneparken',
@@ -338,12 +367,21 @@ export const HINT: Hint[] = [
     betydning: 'Tyder på kaldt eller surt vær ute, men personen er trolig ikke ved kassen. Sier lite om stedet.',
   },
   {
+    id: 'vinduslos',
+    tittel: 'Pausestedet har ikke vinduer eller wifi',
+    status: 'bekreftet',
+    kilde: 'Anja',
+    dato: '23.09',
+    tekst: 'Anja har sagt at hun var et sted uten vinduer og uten wifi.',
+    betydning: 'Trolig en container, campingvogn, telt eller lignende nær kassen, ikke en hytte. Det passer med at Horde unngår hytter i år, og ikke med Tretopphyttene, som har store vinduer.',
+  },
+  {
     id: 'hytte',
     tittel: 'Ingen hytte i år, portabel do',
     status: 'tolkning',
     kilde: 'Anja + fellesskapet',
     dato: '23.09',
-    tekst: 'Anja har bekreftet at doen er portabel. Fellesskapet tror Horde har droppet hytte helt i år.',
+    tekst: 'Anja har bekreftet at doen er portabel. Fellesskapet tror Horde har droppet hytte helt i år, fordi folk fant bookingene i fjor.',
     betydning: 'Du trenger ikke lete etter en hytte eller et bygg. Se etter en åpen furumo nær en skogsbilvei, der et team kan bære inn utstyret.',
   },
   {
@@ -404,6 +442,7 @@ export const TAVLE: { t: string; tekst: string }[] = [
   { t: '23.09', tekst: 'LAST NED HORDE APPEN' },
   { t: '23.09', tekst: 'REVEN HETER BENNY' },
   { t: '23.09', tekst: '118–120 GR ØST (retningen skiltet peker)' },
+  { t: '23.09', tekst: 'SOLA VAR OPPE FØR 07' },
   { t: '23.09 09:33', tekst: 'DET GÅR FINT · TAKK SOM SPØR ♡' },
 ]
 
@@ -598,4 +637,16 @@ export const BOKSTAV_LESNINGER: { ord: string; forklaring: string; hint: string[
   { ord: 'JAKTEN', forklaring: '«HORDEJAKTEN» minus «HORDE». Rev, and og kråke er jaktbare dyr, og ekorn ble før jaktet for kjøtt og pels i Innlandet. Prøv i kredittskår-boksen.', hint: ['bokstaver', 'dyr', 'and', 'terje'] },
   { ord: 'NORHEIMSUND', forklaring: 'Mangler én N. Stedet var blått på Windy-kartet.', hint: ['bokstaver', 'skyer'] },
   { ord: '69° nord / Tromsø', forklaring: 'TikTok-teori om «MINUS HORDE». Rundt 20 t fra Oslo.', hint: ['bokstaver'] },
+]
+
+/** Tretopphyttene i Ringsaker. `opptatt` gjelder 23.–27.09 ifølge bookingkalenderen. */
+export const HYTTER: { navn: string; sted: string; pos: LatLon; opptatt: string; helePerioden?: boolean }[] = [
+  { navn: 'Bjørkhytta', sted: 'Danseråsen', pos: [60.9914, 10.8841], opptatt: 'Opptatt sammenhengende 23.09–11.10', helePerioden: true },
+  { navn: 'Granhytta', sted: 'Danseråsen', pos: [60.9902, 10.8866], opptatt: 'Opptatt 23.09 og 25.09–03.10' },
+  { navn: 'Utsiktsredet', sted: 'Danseråsvegen', pos: [60.9748, 10.9167], opptatt: 'Opptatt 24.–26.09' },
+  { navn: 'Himmelhytta', sted: 'Klufttjernet', pos: [60.9978, 10.8777], opptatt: 'Opptatt 24.–28.09' },
+  { navn: 'Furuhytta', sted: 'Sør-Mesna', pos: [61.0747, 10.8309], opptatt: 'Opptatt 23.–27.09' },
+  { navn: 'Forest View', sted: 'Høgbrennvegen', pos: [60.9811, 10.9401], opptatt: 'Opptatt 24., 26. og 27.09' },
+  { navn: 'Lerkhytta', sted: 'Veldre (ca.)', pos: [60.93, 10.9], opptatt: 'Opptatt 25.–27.09' },
+  { navn: 'Klatrehytta', sted: 'Helgøya', pos: [60.7388, 10.9798], opptatt: 'Opptatt 25.–27.09' },
 ]
