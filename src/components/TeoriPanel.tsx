@@ -14,7 +14,6 @@ type Props = {
 
 export function TeoriPanel({ prosent, aktiveBevis, onVeksleBevis, onVisTeori }: Props) {
   const rangert = [...TEORIER_LISTE].sort((a, b) => prosent[b.id] - prosent[a.id])
-  const kortnavn = (id: TeoriId) => TEORIER_LISTE.find((t) => t.id === id)!.navn.split(' (')[0].split(' og ')[0]
 
   return (
     <div className="space-y-4">
@@ -89,7 +88,7 @@ export function TeoriPanel({ prosent, aktiveBevis, onVeksleBevis, onVisTeori }: 
                         )}
                       >
                         <Ikon className="size-3" />
-                        {kortnavn(t.id)} ×{f < 0.1 ? f.toFixed(2) : f.toFixed(1)}
+                        {t.etikett} ×{f < 0.1 ? f.toFixed(2) : f.toFixed(1)}
                       </span>
                     )
                   })}

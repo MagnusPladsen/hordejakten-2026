@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
-import { ChevronDown, Crosshair } from 'lucide-react'
+import { ChevronDown, Crosshair, Search } from 'lucide-react'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { Slider } from '@/components/ui/slider'
 import { Tegnrute } from '@/components/Tegnrute'
 import { LAG, MERKELAPP, type Lag, type LagId } from '@/data/lag'
-import { formaterTid, type LatLon } from '@/lib/geo'
+import { formaterTid, lesKoordinater, type LatLon } from '@/lib/geo'
 import { FAKTORER, FORHAND, type Punkt, type Vekter } from '@/lib/modell'
 import { stedsnavn } from '@/lib/stedsnavn'
 import { cn } from '@/lib/utils'
@@ -17,11 +19,12 @@ type Props = {
   onVekter: (v: Vekter) => void
   topp: Punkt[]
   onGaTil: (pos: LatLon, zoom?: number) => void
+  onSjekkPunkt: (pos: LatLon) => void
 }
 
 type Forhand = (typeof FORHAND)[number]
 
-export function LagPanel({ aktive, onVeksle, vekter, onVekter, topp, onGaTil }: Props) {
+export function LagPanel({ aktive, onVeksle, vekter, onVekter, topp, onGaTil, onSjekkPunkt }: Props) {
   const velgForhand = (f: Forhand) => {
     onVekter(f.vekter)
     f.lag?.forEach((id) => onVeksle(id, true))
@@ -36,6 +39,8 @@ export function LagPanel({ aktive, onVeksle, vekter, onVekter, topp, onGaTil }: 
           Slå kartlag av og på. Trykk på et lag for å se hva fargene betyr. Trykk hvor som helst på kartet for kjøretid og detaljer.
         </p>
       </div>
+
+      <SjekkPunkt onSjekk={onSjekkPunkt} />
 
       <LagKort lag={modell} pa={aktive.has('modell')} apen={apen === 'modell'} onVeksle={onVeksle} onApne={setApen}>
         <Modell vekter={vekter} onVekter={onVekter} onForhand={velgForhand} topp={topp} onGaTil={onGaTil} />
@@ -216,4 +221,40 @@ function Stedsnavn({ lat, lon }: { lat: number; lon: number }) {
   }, [lat, lon])
   const tekst = navn === undefined ? 'Henter stedsnavn …' : navn ? `Nær ${navn}` : 'Område uten stedsnavn'
   return <span className="block truncate text-sm font-semibold">{tekst}</span>
+}
+
+/** Lim inn koordinater fra chatten og se hvordan punktet passer med hintene */
+function SjekkPunkt({ onSjekk }: { onSjekk: (pos: LatLon) => void }) {
+  const [tekst, setTekst] = useState('')
+  const [feil, setFeil] = useState(false)
+  const sjekk = (e: React.FormEvent) => {
+    e.preventDefault()
+    const pos = lesKoordinater(tekst)
+    setFeil(!pos)
+    if (pos) onSjekk(pos)
+  }
+  return (
+    <form onSubmit={sjekk} className="rounded-2xl border bg-card p-3.5">
+      <label htmlFor="sjekk-punkt" className="text-[13.5px] font-semibold">
+        Sjekk et punkt
+      </label>
+      <p className="text-xs text-muted-foreground">Lim inn koordinater eller en Google Maps-lenke.</p>
+      <div className="mt-2.5 flex gap-2">
+        <Input
+          id="sjekk-punkt"
+          className="font-mono text-sm"
+          placeholder={`61°10'43.8"N 11°15'50.1"E`}
+          value={tekst}
+          onChange={(e) => {
+            setTekst(e.target.value)
+            setFeil(false)
+          }}
+        />
+        <Button type="submit" aria-label="Sjekk punktet">
+          <Search />
+        </Button>
+      </div>
+      {feil && <p className="mt-2 text-xs font-medium text-rose-600">Fant ikke gyldige koordinater i Norge.</p>}
+    </form>
+  )
 }

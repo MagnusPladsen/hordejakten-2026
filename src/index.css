@@ -149,6 +149,7 @@
 .pin-tidligere b { transform: rotate(-45deg); font-size: 10px; }
 .pin-teori { background: #f59e0b; color: #fff; border: 2px solid #fff; }
 .pin-teori.ut { background: #cbd5e1; color: #64748b; text-decoration: line-through; }
+.pin-nal { background: #0f172a; border: 3px solid #fff; }
 .pin-felt { background: #16a34a; color: #fff; border: 3px solid #fff; font-size: 13px; }
 
 .km-merke {
@@ -170,6 +171,8 @@
 .pop dl { display: grid; grid-template-columns: 1fr auto; gap: 3px 14px; margin: 8px 0 0; }
 .pop dt { color: #64748b; }
 .pop dd { margin: 0; font-family: var(--font-mono); font-size: 12px; text-align: right; color: #0f172a; }
+.pop .pop-merk { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 3px; }
+.pop .pop-merk li { font-size: 12px; font-weight: 600; color: #334155; background: #f1f5f9; border-radius: 6px; padding: 3px 7px; }
 .pop .lenker { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
 .pop .lenker a {
   font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 8px; text-decoration: none;
