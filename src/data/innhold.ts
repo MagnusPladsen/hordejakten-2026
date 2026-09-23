@@ -129,11 +129,11 @@ export const HINT: Hint[] = [
   },
   {
     id: 'retning118',
-    tittel: 'Horde-skiltet peker 118° (øst-sørøst)',
+    tittel: 'Horde-skiltet peker 118–120° (øst-sørøst)',
     status: 'bekreftet',
     kilde: 'Tavla («ØST CA 118 · RETNING SKILT») + kompasstegning',
-    tekst: 'Anja skrev på tavla at skiltet peker ca. 118° øst-sørøst, og tegnet et kompass. Det passer med bildet: kameraet står nordøst for kassen og ser mot sørvest, og skiltet peker mot venstre i bildet, altså sørøst.',
-    betydning: 'Retningen er bekreftet. Hva skiltet peker på er ikke det. Mest trolig: veien inn fra parkeringen. Da ligger kassen mot ca. 298° (vest-nordvest) fra bilen, 5–10 min oppover. «Mer åpen skog til høyre for meg» er også sørøst, og kan være veien eller en hogstflate. Andre teorier: en linje 118° fra Oslo eller fra Horde i Bergen.',
+    tekst: 'Anja skrev på tavla at skiltet peker ca. 118° øst-sørøst, og tegnet et kompass. Senere presiserte hun «118–120 gr øst». Det passer med bildet: kameraet står nordøst for kassen og ser mot sørvest, og skiltet peker mot venstre i bildet, altså sørøst.',
+    betydning: 'Retningen er bekreftet. Hva skiltet peker på er ikke det. Mest trolig: veien inn fra parkeringen. Da ligger kassen mot ca. 298–300° (vest-nordvest) fra bilen, 5–10 min oppover. «Mer åpen skog til høyre for meg» er også sørøst, og kan være veien eller en hogstflate. Andre teorier: en linje 118° fra Oslo eller fra Horde i Bergen.',
     lag: ['retning'],
     kompass: true,
   },
@@ -393,6 +393,7 @@ export const TAVLE: { t: string; tekst: string }[] = [
   { t: 'Ukjent', tekst: 'VIL DERE SE EN BACKFLIP?' },
   { t: '23.09', tekst: 'LAST NED HORDE APPEN' },
   { t: '23.09', tekst: 'REVEN HETER BENNY' },
+  { t: '23.09', tekst: '118–120 GR ØST (retningen skiltet peker)' },
   { t: '23.09 09:33', tekst: 'DET GÅR FINT · TAKK SOM SPØR ♡' },
 ]
 
