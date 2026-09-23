@@ -21,7 +21,7 @@ export function TavlePanel() {
                 <div className="mt-2 grid grid-cols-2 gap-2">
                   {t.bilder.map((b) => (
                     <a key={b.src} href={`${import.meta.env.BASE_URL}${b.src}`} target="_blank" rel="noopener" className="block overflow-hidden rounded-lg border bg-slate-100">
-                      <img src={`${import.meta.env.BASE_URL}${b.src}`} alt={b.alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
+                      <img src={`${import.meta.env.BASE_URL}${b.src}`} alt={b.alt} loading="lazy" className="aspect-[4/3] w-full object-cover object-bottom" />
                       <span className="block px-2 py-1 text-[12px] text-slate-600">{b.alt}</span>
                     </a>
                   ))}
