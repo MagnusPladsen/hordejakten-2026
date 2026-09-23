@@ -129,14 +129,14 @@ export function HintPanel({ onVisPaKart, onGaTil }: { onVisPaKart: (h: Hint) => 
   )
 }
 
-/** Skisse av kassen sett ovenfra: kamera NNØ filmer mot ca. 208°, skiltet står VNV og peker 118–120° mot kassen */
+/** Skisse av kassen sett ovenfra: kamera 41° (NØ) filmer mot ca. 221°, skiltet står VNV og peker 118–120° mot kassen */
 function Kompass() {
   const pil = (grader: number, r: number) => {
     const a = ((grader - 90) * Math.PI) / 180
     return [100 + r * Math.cos(a), 100 + r * Math.sin(a)]
   }
-  const [kx, ky] = pil(25, 64)
-  const [kpx, kpy] = pil(25, 44)
+  const [kx, ky] = pil(41, 64)
+  const [kpx, kpy] = pil(41, 44)
   const [sx, sy] = pil(298, 62)
   const [spx, spy] = pil(298, 30)
   const [bx, by] = pil(298, 80)
@@ -174,7 +174,7 @@ function Kompass() {
       </svg>
       <figcaption className="mt-2 space-y-1 text-xs text-slate-600">
         <p className="flex items-center gap-2"><span className="size-2.5 rounded-sm bg-orange-600" /> Skiltet står vest-nordvest og peker 118–120° mot kassen</p>
-        <p className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-sky-600" /> Kameraet står nord-nordøst og filmer mot ca. 208°</p>
+        <p className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-sky-600" /> Kameraet står 41° (nordøst) og filmer mot ca. 221°</p>
         <p className="flex items-center gap-2"><span className="h-0.5 w-2.5 bg-green-600" /> Veien inn kommer trolig fra vest-nordvest</p>
       </figcaption>
     </figure>
