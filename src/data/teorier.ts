@@ -219,7 +219,7 @@ export const BEVIS: Bevis[] = [
     // Ringsaker 13:09, Gjøvik 13:10, Valdres 13:16, Agder 13:17, Hardanger 13:28
     id: 'solmiddag',
     tittel: 'Sola i sør kl. 13:02–13:08 (lengdegrad 11–12° øst)',
-    forklaring: 'Solvinkelen kl. 13:20 gir lengdegraden. Måleusikkerheten er noen minutter, så de østlige stedene passer like godt. Bygger på sollyset i bildet, som kan være falskt.',
+    forklaring: 'Solvinkelen kl. 13:20 gir lengdegraden. Måleusikkerheten er noen minutter, så de østlige stedene passer like godt. Sollyset ser ekte ut: kameraretningen fra sola stemmer med «KAMERA 41 ØST».',
     standardPa: true,
     faktor: tabell({ ringsaker: 0.95, gjovik: 0.9, valdres: 0.4, agder: 0.3, hardanger: 0.1, annet: 0.6 }),
   },
