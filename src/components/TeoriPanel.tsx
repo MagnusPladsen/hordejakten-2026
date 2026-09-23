@@ -24,6 +24,11 @@ export function TeoriPanel({ prosent, aktiveBevis, onVeksleBevis, onVisTeori }: 
         </p>
       </div>
 
+      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-3.5 text-[13px] leading-relaxed text-amber-900">
+        <p className="font-semibold">Siste nytt fra chatten</p>
+        <p className="mt-0.5">Flere skal allerede være ved kassen og prøve koder. Se «Mulige koder» under Hint.</p>
+      </div>
+
       <ol className="space-y-2">
         {rangert.map((t, i) => {
           const p = prosent[t.id]

@@ -41,6 +41,16 @@ export type Hint = {
 
 export const HINT: Hint[] = [
   {
+    id: 'vedkassen',
+    tittel: 'Folk skal være ved kassen og prøve koder',
+    status: 'usikker',
+    kilde: 'Chat',
+    dato: '23.09',
+    tekst: '«Flere som har prøvd seg på koden ved boksen nå by the way. Vi vet hvor det her er hen.»',
+    betydning: 'Stemmer det, er stedet funnet av noen, og kodene er nå det viktigste. Følg med på streamen: ser du folk komme inn i bildet, kommer de trolig fra parkeringen mot sørøst (118°).',
+    lenke: 'https://www.youtube.com/watch?v=EQHgfmZicc8',
+  },
+  {
     id: 'reise',
     tittel: 'Reisen: fra Oslo kl. 04:00, sov nesten hele veien',
     status: 'bekreftet',
