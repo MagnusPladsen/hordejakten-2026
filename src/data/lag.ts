@@ -8,6 +8,7 @@ export type LagId =
   | 'kjoretid'
   | 'retning'
   | 'skydekke'
+  | 'utelukket'
   | 'solidag'
   | 'skyanalyse'
   | 'defaultno'
@@ -170,6 +171,20 @@ export const LAG: Lag[] = [
     kilde: 'Windy.com, skjermbilde fra fellesskapet.',
   },
   {
+    id: 'utelukket',
+    navn: 'Utelukket av fellesskapet',
+    kort: 'Ingen sopp, fjellbjørk og annet',
+    merkelapp: 'tolkning',
+    forklaring:
+      'Kartet fellesskapet har laget 23.09. Rødt er utelukket, rosa er utelukket fordi det ikke er sopp der, og lyseblått fordi det vokser fjellbjørk der. Det som står igjen er stripa Hamar–Løten–Rena–Koppang og Ringsakfjellet/Rudshøgda. Stedfestet fra et bilde, så kantene er omtrentlige (±10 km).',
+    tegn: [
+      { stil: 'fyll', farge: '#dc2626', tekst: 'Utelukket' },
+      { stil: 'fyll', farge: '#d946ef', tekst: 'Ingen sopp' },
+      { stil: 'fyll', farge: '#22d3ee', tekst: 'Fjellbjørk' },
+    ],
+    kilde: 'Delt i chatten 23.09.',
+  },
+  {
     id: 'solidag',
     navn: 'Sol i dag (satellitt)',
     kort: 'Klart her, skyet nesten alle andre steder',
@@ -284,7 +299,7 @@ export const LAG_ETTER_ID = Object.fromEntries(LAG.map((l) => [l.id, l])) as Rec
 /** Lagene gruppert slik de vises i Kart-fanen */
 export const GRUPPER: { navn: string; forklaring: string; ider: LagId[] }[] = [
   { navn: 'Hovedkart', forklaring: 'Hvor kassen mest sannsynlig står, og hvor hintene peker.', ider: ['hintmarkorer', 'modell', 'teoriomrader'] },
-  { navn: 'Vær', forklaring: 'Anja har hatt klar himmel og sol. Her var det ikke det.', ider: ['skydekke', 'solidag'] },
+  { navn: 'Vær og terreng', forklaring: 'Anja har hatt klar himmel og sol, og ser sopp og vanlig skog. Her passer det ikke.', ider: ['utelukket', 'skydekke', 'solidag'] },
   { navn: 'Fly, retning og kjøretid', forklaring: 'Flyet hun pekte på, 118°-linjene og hvor langt man kommer fra Oslo.', ider: ['fly', 'retning', 'kjoretid'] },
   { navn: 'Steder og teorier', forklaring: 'Stedene hintene og folk i chatten peker på.', ider: ['teorier', 'hytter', 'steder', 'defaultno', 'innlandet', 'skyanalyse'] },
   { navn: 'Annet', forklaring: 'Verktøy og bakgrunn.', ider: ['felt', 'utenfor'] },

@@ -16,7 +16,7 @@ import type { LagId } from '@/data/lag'
 import { sannsynligheter, standardBevis, type Modus, type Teori } from '@/data/teorier'
 import { posisjonerRundtPeking, type FlyData } from '@/lib/fly'
 import type { LatLon } from '@/lib/geo'
-import { beregn, FORHAND, toppOmrader, type Kontekst, type Punkt, type Vekter } from '@/lib/modell'
+import { beregn, FORHAND, toppOmrader, utelukkNokkel, type Kontekst, type Punkt, type Vekter } from '@/lib/modell'
 import { cn } from '@/lib/utils'
 
 const BAKGRUNN_REKKE: Bakgrunn[] = ['gra', 'topo', 'satellitt']
@@ -43,7 +43,8 @@ export default function App() {
   const [norge, setNorge] = useState<GeoJSON.MultiPolygon | null>(null)
   const [flyData, setFlyData] = useState<FlyData | null>(null)
   const [innlandet, setInnlandet] = useState<GeoJSON.MultiPolygon | null>(null)
-  const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['hintmarkorer', 'modell', 'teoriomrader', 'skydekke', 'solidag', 'utenfor']))
+  const [utelukket, setUtelukket] = useState<[number, number, string][] | null>(null)
+  const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['hintmarkorer', 'modell', 'teoriomrader', 'utelukket', 'utenfor']))
   const [vekter, setVekter] = useState<Vekter>(FORHAND[0].vekter)
   const [modus, setModus] = useState<Modus>('alt')
   const [aktiveBevis, setAktiveBevis] = useState<Set<string>>(() => standardBevis('alt'))
@@ -69,6 +70,10 @@ export default function App() {
       .then((r) => r.json())
       .then((d) => setInnlandet(d.geometry))
       .catch(() => {})
+    fetch(`${base}data/utelukket.json`)
+      .then((r) => r.json())
+      .then((d) => setUtelukket(d.celler))
+      .catch(() => {})
     fetch(`${base}data/fly_2130.json`)
       .then((r) => r.json() as Promise<FlyData>)
       .then(setFlyData)
@@ -79,8 +84,9 @@ export default function App() {
     () => ({
       flyPos: flyData ? posisjonerRundtPeking(flyData) : [],
       innlandet: innlandet ? innlandet.coordinates.map((poly) => poly[0].map(([lon, lat]) => [lat, lon] as LatLon)) : [],
+      utelukket: new Set((utelukket ?? []).map(([la, lo]) => utelukkNokkel(la, lo))),
     }),
-    [flyData, innlandet],
+    [flyData, innlandet, utelukket],
   )
   const resultat = useMemo(() => (punkter ? beregn(punkter, vekter, kontekst) : null), [punkter, vekter, kontekst])
   const prosent = useMemo(() => sannsynligheter(aktiveBevis), [aktiveBevis])
@@ -175,6 +181,7 @@ export default function App() {
         norge={norge}
         flyData={flyData}
         innlandet={innlandet}
+        utelukket={utelukket}
         kontekst={kontekst}
         prosent={prosent}
         resultat={resultat}

@@ -213,6 +213,26 @@ export const HINT: Hint[] = [
     betydning: 'Uklart hva det svarer på. Kan være hvor langt hun går på pause (til stedet uten vinduer og wifi), eller et nytt anslag for turen inn, kortere enn de 5–10 min hun sa før (hun ble båret med sovemaske). Er det turen inn, står kassen bare 100–200 m fra bilveien.',
   },
   {
+    id: 'utelukkingskart',
+    tittel: 'Utelukkingskart: ingen sopp og fjellbjørk',
+    status: 'tolkning',
+    kilde: 'Fellesskapet (kart i chatten)',
+    dato: '23.09',
+    tekst: 'Fellesskapet har laget et kart over hva som er utelukket: rødt, rosa der det ikke er sopp (Anja: «masse sopp»), og lyseblått der det vokser fjellbjørk. Det som står igjen er stripa Hamar–Løten–Rena–Koppang og Ringsakfjellet/Rudshøgda.',
+    betydning: 'Utelukker Solør/Finnskogen, Trysil, Elverum sentrum, Gudbrandsdalen og Rendalen. Åpent: Rudshøgda og Rena nesten helt, Ringsaker 83 %, Løten 77 %. Vises som eget kartlag og teller i Teorier-fanen.',
+    pos: [61.1, 11.1],
+    lag: ['utelukket'],
+  },
+  {
+    id: 'powerbank',
+    tittel: 'Powerbank-hint? (Jaktvettregel 4 + Horde Rewards)',
+    status: 'usikker',
+    kilde: 'Jaktvettreglene + Horde Rewards',
+    dato: '23.09',
+    tekst: 'Jaktvettregel 4: «Ta med deg fulladet mobiltelefon … En powerbank i lommen kan være smart.» I Horde Rewards koster «Powerbank Xtorm FS5271 27000mAh» 10 000 poeng. Displayet på bildet viser 68 %.',
+    betydning: 'Noen tror tallene er koder: 5271 har 4 siffer (hengelås) og 27000 har 5 siffer (dørlåsen). Trolig tilfeldig: FS5271 er bare modellnummeret til en ekte powerbank. Verdt å prøve hvis du står ved kassen.',
+  },
+  {
     id: 'lydtett',
     tittel: '«LYDTETT · SOL · VINDSTILLE» (17:49)',
     status: 'bekreftet',
@@ -790,7 +810,7 @@ export const BESTE_KODER: { las: string; kode: string; hvorfor: string; sjanse: 
     kode: 'Ukjent',
     hvorfor: 'Anja skrev at døra har en elektronisk lås med 5 siffer. Ingen kjent kode har 5 siffer ennå.',
     sjanse: 'lav',
-    reserve: 'Kandidater med 5 siffer: 50085, 55285 (5008/5528 + «+5»), 07250 (072 + 500 kortet ned)',
+    reserve: 'Kandidater med 5 siffer: 27000 (powerbanken), 50085, 55285 (5008/5528 + «+5»), 07250',
   },
   {
     las: 'Lås 1',
@@ -816,6 +836,8 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
   { kode: '7…', kilde: 'Hendene under Horde-skiltet: romertall (første hånd VII = 7) eller binært.', status: 'tolkning', sjanse: 'lav', hint: ['skilt', 'koder'] },
   { kode: '5013', kilde: '5008 + 5, hvis «+5» på genseren skal legges til koden.', status: 'tolkning', sjanse: 'lav', hint: ['pluss5', 'terje'] },
   { kode: '0553', kilde: '5008 med +5 på hvert siffer (5→0, 0→5, 0→5, 8→3).', status: 'tolkning', sjanse: 'lav', hint: ['pluss5', 'terje'] },
+  { kode: '5271', kilde: 'Powerbank Xtorm FS5271 i Horde Rewards (jaktvettregel 4 nevner powerbank). Trolig bare et modellnummer.', status: 'usikker', sjanse: 'lav', hint: ['powerbank'] },
+  { kode: '27000', kilde: 'Samme powerbank, 27000 mAh. 5 siffer, som dørlåsen. Trolig tilfeldig.', status: 'usikker', sjanse: 'lav', hint: ['powerbank'] },
   { kode: '072', kilde: '«Ho Ho Hint Hint»: siste sifre i premien fra 2024 (1 093 072 kr). Bare 3 siffer.', status: 'usikker', sjanse: 'lav', hint: ['hohoh'] },
   { kode: '500', kilde: '«Ho Ho Hint Hint»: poeng for å verve. Bare 3 siffer.', status: 'usikker', sjanse: 'lav', hint: ['hohoh'] },
   { kode: 'ord', kilde: 'Kredittskår-boksen tar imot ord («terje» ga 5008). Verdt å prøve: JAKTEN, MINUSHORDE, HORDEMINUS, NORHEIMSUND.', status: 'tolkning', sjanse: 'middels', hint: ['terje', 'bokstaver', 'dyr'] },
@@ -972,6 +994,12 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '23.09 kveld',
+    tittel: 'Utelukkingskart: bare Hamar–Løten–Rena–Koppang og Ringsakfjellet står igjen',
+    tekst: 'Fellesskapet har utelukket områder uten sopp (rosa) og med fjellbjørk (lyseblått). Solør, Finnskogen, Trysil og Elverum sentrum er ute. Nytt kartlag «Utelukket av fellesskapet» er på som standard.',
+    hint: 'utelukkingskart',
+  },
   {
     tid: '23.09 kveld',
     tittel: 'Nye tavler: «Typisk fjellmark», masse sopp, ikke vann',
