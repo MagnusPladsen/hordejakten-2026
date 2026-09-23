@@ -294,10 +294,10 @@ export const BEVIS: Bevis[] = [
   {
     id: 'folk_tretopp',
     kilde: 'folk',
-    tittel: 'Flere mistenker Tretopphyttene',
-    forklaring: 'Ekorn-logoen, og NOZ9EG gikk 3 km unna kl. 21:31. Mange i chatten peker hit nå.',
+    tittel: 'Tretopphyttene er sjekket, uten funn',
+    forklaring: 'Mange mistenkte hyttene, men én i chatten har sjekket alle, også Prøysenstua, uten funn. Resten av Ringsaker (Sjusjøen–Brumunddal) er ikke sjekket.',
     standardPa: true,
-    faktor: tabell({ ringsaker: 1.3 }),
+    faktor: tabell({ ringsaker: 0.8 }),
   },
   {
     id: 'folk_ingenhytte',
