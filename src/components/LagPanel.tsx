@@ -28,8 +28,8 @@ type Forhand = (typeof FORHAND)[number]
 function Seksjon({ tittel, tekst, children }: { tittel: string; tekst?: string; children: React.ReactNode }) {
   return (
     <section className="rounded-2xl border bg-card p-4">
-      <h3 className="text-[15px] font-semibold">{tittel}</h3>
-      {tekst && <p className="mt-0.5 text-[13px] leading-relaxed text-muted-foreground">{tekst}</p>}
+      <h3 className="text-[16px] font-semibold">{tittel}</h3>
+      {tekst && <p className="mt-0.5 text-[14.5px] leading-relaxed text-muted-foreground">{tekst}</p>}
       <div className="mt-3">{children}</div>
     </section>
   )
@@ -57,7 +57,7 @@ export function LagPanel({ aktive, onVeksle, vekter, onVekter, topp, onGaTil, on
         <BesteOmrader topp={topp} onGaTil={onGaTil} />
         <Accordion type="single" collapsible className="mt-2 border-t">
           <AccordionItem value="avansert" className="border-none">
-            <AccordionTrigger className="text-[13px] text-muted-foreground">Avansert: bestem selv hvor mye hvert hint teller</AccordionTrigger>
+            <AccordionTrigger className="text-[14.5px] text-muted-foreground">Avansert: bestem selv hvor mye hvert hint teller</AccordionTrigger>
             <AccordionContent>
               <Vekting vekter={vekter} onVekter={onVekter} />
             </AccordionContent>
@@ -69,8 +69,8 @@ export function LagPanel({ aktive, onVeksle, vekter, onVekter, topp, onGaTil, on
         <div className="space-y-4">
           {GRUPPER.map((g) => (
             <div key={g.navn}>
-              <p className="text-[13px] font-semibold">{g.navn}</p>
-              <p className="text-xs text-muted-foreground">{g.forklaring}</p>
+              <p className="text-[14.5px] font-semibold">{g.navn}</p>
+              <p className="text-[13px] text-muted-foreground">{g.forklaring}</p>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {g.ider.map((id) => {
                   const l = LAG_ETTER_ID[id]
@@ -82,7 +82,7 @@ export function LagPanel({ aktive, onVeksle, vekter, onVekter, topp, onGaTil, on
                       aria-pressed={pa}
                       onClick={() => onVeksle(id, !pa)}
                       className={cn(
-                        'flex items-center gap-2 rounded-full border py-1.5 pr-3 pl-2 text-[12.5px] font-medium transition-colors',
+                        'flex min-h-11 items-center gap-1.5 rounded-full border py-2 pr-3 pl-2 text-[13.5px] font-medium transition-colors',
                         pa ? 'border-slate-900 bg-slate-900 text-white' : 'bg-white text-slate-700 hover:bg-slate-50',
                       )}
                     >
@@ -102,18 +102,18 @@ export function LagPanel({ aktive, onVeksle, vekter, onVekter, topp, onGaTil, on
           {synlige.map((l) => (
             <div key={l.id} className="py-3 first:pt-0 last:pb-0">
               <div className="flex items-center gap-2">
-                <p className="text-[13.5px] font-semibold">{l.navn}</p>
-                <span className={cn('rounded-md px-1.5 py-0.5 text-[10px] font-semibold ring-1', MERKELAPP[l.merkelapp].klasse)}>{MERKELAPP[l.merkelapp].tekst}</span>
+                <p className="text-[14.5px] font-semibold">{l.navn}</p>
+                <span className={cn('rounded-md px-1.5 py-0.5 text-[11px] font-semibold ring-1', MERKELAPP[l.merkelapp].klasse)}>{MERKELAPP[l.merkelapp].tekst}</span>
               </div>
               <ul className="mt-1.5 space-y-1">
                 {l.tegn.map((t) => (
-                  <li key={t.tekst} className="flex items-center gap-2.5 text-[12.5px]">
+                  <li key={t.tekst} className="flex items-center gap-2.5 text-[13.5px]">
                     <Tegnrute tegn={t} />
                     {t.tekst}
                   </li>
                 ))}
               </ul>
-              <p className="mt-1.5 text-[12.5px] leading-relaxed text-slate-600">{l.forklaring}</p>
+              <p className="mt-1.5 text-[13.5px] leading-relaxed text-slate-600">{l.forklaring}</p>
             </div>
           ))}
         </div>
@@ -149,18 +149,18 @@ function Teorivalg({ vekter, onForhand }: { vekter: Vekter; onForhand: (f: Forha
               {valgt && <span className="size-2 rounded-full bg-primary" />}
             </span>
             <span className="min-w-0">
-              <span className="block text-[13.5px] font-semibold">{f.navn}</span>
-              <span className="block text-xs leading-snug text-muted-foreground">{f.beskrivelse}</span>
+              <span className="block text-[14.5px] font-semibold">{f.navn}</span>
+              <span className="block text-[13px] leading-snug text-muted-foreground">{f.beskrivelse}</span>
             </span>
           </button>
         )
       })}
       {FORHAND.length > synlige.length || alle ? (
-        <button type="button" className="px-1 text-xs font-semibold text-primary" onClick={() => setAlle((a) => !a)}>
+        <button type="button" className="flex min-h-11 w-full items-center px-1 text-[14.5px] font-semibold text-primary" onClick={() => setAlle((a) => !a)}>
           {alle ? 'Vis færre' : `Vis ${FORHAND.length - synlige.length} flere`}
         </button>
       ) : null}
-      {!aktiv && <p className="px-1 text-xs text-muted-foreground">Egen vekting er i bruk (se Avansert).</p>}
+      {!aktiv && <p className="px-1 text-[13px] text-muted-foreground">Egen vekting er i bruk (se Avansert).</p>}
     </div>
   )
 }
@@ -170,8 +170,8 @@ function BesteOmrader({ topp, onGaTil }: { topp: Punkt[]; onGaTil: (pos: LatLon,
   if (!topp.length) return null
   return (
     <div className="mt-4">
-      <p className="text-[13px] font-semibold">Beste områder med dette fokuset</p>
-      <p className="text-xs text-muted-foreground">Trykk for å gå dit på kartet.</p>
+      <p className="text-[14.5px] font-semibold">Beste områder med dette fokuset</p>
+      <p className="text-[13px] text-muted-foreground">Trykk for å gå dit på kartet.</p>
       <ol className="mt-1 divide-y">
         {(alle ? topp : topp.slice(0, 3)).map((p, i) => (
           <li key={`${p.lat},${p.lon}`}>
@@ -179,7 +179,7 @@ function BesteOmrader({ topp, onGaTil }: { topp: Punkt[]; onGaTil: (pos: LatLon,
               <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-rose-800 font-mono text-xs font-bold text-white">{i + 1}</span>
               <span className="min-w-0 flex-1">
                 <Stedsnavn lat={p.lat} lon={p.lon} />
-                <span className="block text-[11.5px] text-muted-foreground">{p.sek == null ? 'Ukjent kjøretid' : `${formaterTid(p.sek)} fra Oslo`}</span>
+                <span className="block text-[12px] text-muted-foreground">{p.sek == null ? 'Ukjent kjøretid' : `${formaterTid(p.sek)} fra Oslo`}</span>
               </span>
               <Crosshair className="size-4 shrink-0 text-muted-foreground" />
             </button>
@@ -187,7 +187,7 @@ function BesteOmrader({ topp, onGaTil }: { topp: Punkt[]; onGaTil: (pos: LatLon,
         ))}
       </ol>
       {topp.length > 3 && (
-        <button type="button" className="text-xs font-semibold text-primary" onClick={() => setAlle((a) => !a)}>
+        <button type="button" className="flex min-h-11 w-full items-center text-[14.5px] font-semibold text-primary" onClick={() => setAlle((a) => !a)}>
           {alle ? 'Vis færre' : `Vis alle ${topp.length}`}
         </button>
       )}
@@ -199,17 +199,17 @@ function Vekting({ vekter, onVekter }: { vekter: Vekter; onVekter: (v: Vekter) =
   const sett = (endring: Partial<Vekter>) => onVekter({ ...vekter, ...endring })
   return (
     <div>
-      <p className="text-xs leading-relaxed text-muted-foreground">0 % betyr at hintet ikke teller. 100 % betyr at steder som ikke passer, blir helt utelukket.</p>
+      <p className="text-[13px] leading-relaxed text-muted-foreground">0 % betyr at hintet ikke teller. 100 % betyr at steder som ikke passer, blir helt utelukket.</p>
       <div className="mt-1 divide-y">
         {FAKTORER.map((f) => (
           <div key={f.id} className="py-3">
             <div className="flex items-baseline justify-between gap-2">
-              <label className="text-[13px] font-semibold" htmlFor={`vekt-${f.id}`}>
+              <label className="text-[14.5px] font-semibold" htmlFor={`vekt-${f.id}`}>
                 {f.navn}
               </label>
               <span className="font-mono text-xs text-primary">{Math.round(vekter[f.id] * 100)} %</span>
             </div>
-            <p className="text-xs text-muted-foreground">{f.forklaring}</p>
+            <p className="text-[13px] text-muted-foreground">{f.forklaring}</p>
             <Slider id={`vekt-${f.id}`} className="mt-2.5" min={0} max={100} step={5} value={[vekter[f.id] * 100]} onValueChange={([x]) => sett({ [f.id]: x / 100 })} />
             {f.id === 'kjoretid' && vekter.kjoretid > 0 && (
               <div className="mt-3 space-y-3 rounded-xl bg-slate-50 p-3">
@@ -268,10 +268,10 @@ function SjekkPunkt({ onSjekk }: { onSjekk: (pos: LatLon) => void }) {
   }
   return (
     <form onSubmit={sjekk} className="rounded-2xl border bg-card p-4">
-      <label htmlFor="sjekk-punkt" className="text-[15px] font-semibold">
+      <label htmlFor="sjekk-punkt" className="text-[16px] font-semibold">
         Sjekk et punkt
       </label>
-      <p className="mt-0.5 text-[13px] text-muted-foreground">Har noen delt koordinater? Lim dem inn, eller en Google Maps-lenke.</p>
+      <p className="mt-0.5 text-[14.5px] text-muted-foreground">Har noen delt koordinater? Lim dem inn, eller en Google Maps-lenke.</p>
       <div className="mt-2.5 flex gap-2">
         <Input
           id="sjekk-punkt"

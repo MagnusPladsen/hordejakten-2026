@@ -189,8 +189,8 @@ export default function App() {
         <div className="pointer-events-auto flex items-center gap-2.5 rounded-full border bg-white/95 py-1.5 pr-4 pl-1.5 shadow-lg shadow-black/5 backdrop-blur">
           <span className="grid size-8 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground">H</span>
           <div className="leading-tight">
-            <h1 className="text-[15px] font-semibold tracking-tight">Hordejakten 2026</h1>
-            <p className="text-[11px] text-muted-foreground">Hvor står kassen?</p>
+            <h1 className="text-[16px] font-semibold tracking-tight">Hordejakten 2026</h1>
+            <p className="text-[12px] text-muted-foreground" aria-live="polite">{punkter ? 'Hvor står kassen?' : 'Laster kartdata …'}</p>
           </div>
         </div>
         <a
@@ -206,6 +206,7 @@ export default function App() {
 
       <Legende
         aktive={aktive}
+        kompakt={!desktop}
         className={cn('fixed top-[calc(env(safe-area-inset-top)+4.5rem)] z-[999]', venstre)}
         onMer={() => {
           setFane('lag')

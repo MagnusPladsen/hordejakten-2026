@@ -60,6 +60,8 @@ const BAKGRUNNER: Record<Bakgrunn, { url: string; attribusjon: string }> = {
 const HALV_LAT = 0.05
 const HALV_LON = 0.1
 
+const roligBevegelse = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 const rutenett = (p: Punkt): L.LatLngBoundsExpression => [
   [p.lat - HALV_LAT, p.lon - HALV_LON],
   [p.lat + HALV_LAT, p.lon + HALV_LON],
@@ -109,13 +111,13 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
   })
 
   useImperativeHandle(ref, () => ({
-    flyTil: (pos, zoom = 9) => kartRef.current?.flyTo(pos, zoom, { duration: 0.8 }),
+    flyTil: (pos, zoom = 9) => kartRef.current?.flyTo(pos, zoom, { duration: 0.8, animate: !roligBevegelse() }),
     visLag: (id) => {
       const g = grupper.current?.[id]
       const kart = kartRef.current
       if (!g || !kart) return
       const b = g.getBounds()
-      if (b.isValid()) kart.flyToBounds(b, { padding: [40, 40], maxZoom: 10, duration: 0.8 })
+      if (b.isValid()) kart.flyToBounds(b, { padding: [40, 40], maxZoom: 10, duration: 0.8, animate: !roligBevegelse() })
     },
     sentrum: () => {
       const c = kartRef.current?.getCenter()
@@ -127,7 +129,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
       nalRef.current?.remove()
       nalRef.current = L.marker(pos, { icon: pin('pin-nal', '', 18), zIndexOffset: 900, interactive: false }).addTo(kart)
       kart.once('moveend', () => visInfoRef.current(L.latLng(pos[0], pos[1])))
-      kart.flyTo(pos, 11, { duration: 0.8 })
+      kart.flyTo(pos, 11, { duration: 0.8, animate: !roligBevegelse() })
     },
   }))
 
@@ -387,6 +389,13 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
     if (!g) return
     g.teoriomrader.clearLayers()
     const maks = Math.max(...Object.values(prosent))
+    // Bare de fire største får etikett, ellers overlapper de på oversiktskartet
+    const medEtikett = new Set(
+      TEORIER_LISTE.filter((t) => t.senter)
+        .sort((a, b) => prosent[b.id] - prosent[a.id])
+        .slice(0, 4)
+        .map((t) => t.id),
+    )
     for (const t of TEORIER_LISTE) {
       if (!t.senter) continue
       const p = prosent[t.id]
@@ -398,6 +407,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
         fillOpacity: 0.04 + 0.14 * (p / maks),
         interactive: false,
       }).addTo(g.teoriomrader)
+      if (!medEtikett.has(t.id)) continue
       L.marker(t.senter, {
         icon: L.divIcon({
           className: '',

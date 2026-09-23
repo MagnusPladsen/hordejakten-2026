@@ -16,7 +16,7 @@ export type Teori = {
   radiusKm: number
   /** Kjøretid fra Oslo til senteret (OSRM), timer */
   kjoretid: number | null
-  /** Forhåndsvekt før hintene. «Annet sted» dekker resten av landet og starter høyere. */
+  /** Forhåndsvekt før hintene. «Annet sted» dekker resten av landet og starter 4× høyere, fordi teori-sirklene er små. */
   prior: number
   farge: string
   /** Teorien i modellen som passer best */
@@ -136,7 +136,7 @@ export const TEORIER_LISTE: Teori[] = [
     senter: null,
     radiusKm: 0,
     kjoretid: null,
-    prior: 2,
+    prior: 4,
     farge: '#64748b',
   },
 ]
@@ -203,25 +203,25 @@ export const BEVIS: Bevis[] = [
     forklaring:
       'På satellitt 23.09 var det bare klart Kongsvinger–Rena mot Sverige, i deler av Vestfold og rundt Trondheim–Ålesund. Teorien løftes etter hvor stor del av området som var klart. Grovt tegnet fra en beskrivelse. Obs: noen mener sollyset på streamen kan være falskt. Tror du det, slå av dette hintet.',
     standardPa: true,
-    faktor: (t) => (t.id === 'annet' ? 0.5 : 0.2 + 1.8 * andelInnenfor(t, SOL_I_DAG)),
+    faktor: (t) => (t.id === 'annet' ? 0.6 : 0.4 + 1.2 * andelInnenfor(t, SOL_I_DAG)),
   },
   {
     // Soloppgang 22.09 (NOAA-formel, flat horisont): Solør 06:55, Røros 06:57, Løten/Rena 06:58, Ringsaker 06:59,
     // Gjøvik 07:00, Valdres 07:06, Agder 07:08, Hardanger 07:18
     id: 'soloppgang',
     tittel: 'Sola var oppe før kl. 07 (Anja)',
-    forklaring: 'Bare mulig øst for ca. 11° øst disse dagene. I skog kommer sola enda senere, så østligste steder passer best.',
+    forklaring: 'Bare mulig øst for ca. 11° øst disse dagene. Skiller ikke mellom de østlige stedene (1–4 min forskjell), men utelukker nesten vest.',
     standardPa: true,
-    faktor: tabell({ solor: 1.3, roros: 1.15, loten: 1.1, rena: 1.1, ringsaker: 1.0, gjovik: 0.9, valdres: 0.5, agder: 0.4, hardanger: 0.2, annet: 0.7 }),
+    faktor: tabell({ gjovik: 0.9, valdres: 0.5, agder: 0.4, hardanger: 0.2, annet: 0.7 }),
   },
   {
     // Sola rett i sør 13:02–13:08. Beregnet soltid-middag: Solør 13:05, Løten 13:07, Rena/Røros 13:08,
     // Ringsaker 13:09, Gjøvik 13:10, Valdres 13:16, Agder 13:17, Hardanger 13:28
     id: 'solmiddag',
     tittel: 'Sola i sør kl. 13:02–13:08 (lengdegrad 11–12° øst)',
-    forklaring: 'Solvinkelen kl. 13:20 gir lengdegraden. Bygger på sollyset i bildet, som kan være falskt.',
+    forklaring: 'Solvinkelen kl. 13:20 gir lengdegraden. Måleusikkerheten er noen minutter, så de østlige stedene passer like godt. Bygger på sollyset i bildet, som kan være falskt.',
     standardPa: true,
-    faktor: tabell({ solor: 1.3, loten: 1.2, rena: 1.2, roros: 1.2, ringsaker: 1.1, gjovik: 1.0, valdres: 0.5, agder: 0.4, hardanger: 0.3, annet: 0.7 }),
+    faktor: tabell({ ringsaker: 0.95, gjovik: 0.9, valdres: 0.4, agder: 0.3, hardanger: 0.1, annet: 0.6 }),
   },
   {
     id: 'bokstaver',
@@ -236,7 +236,7 @@ export const BEVIS: Bevis[] = [
     forklaring:
       'Hun pekte nesten rett opp. Flyet var i ca. 24 000 fot, så kassen står trolig innen ca. 5 km fra sporet der flyet var da: mellom Løten og Elverum. Det kan ha vært et annet fly.',
     standardPa: true,
-    faktor: tabell({ loten: 4, rena: 1.3, ringsaker: 1.2, solor: 0.7, gjovik: 0.8, roros: 0.7, valdres: 0.8, agder: 0.6, hardanger: 0.6, annet: 0.7 }),
+    faktor: tabell({ loten: 3, rena: 1.3, ringsaker: 1.2, solor: 0.7, gjovik: 0.8, roros: 0.7, valdres: 0.8, agder: 0.6, hardanger: 0.6, annet: 0.7 }),
   },
   {
     id: 'defaultno',

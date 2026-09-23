@@ -113,16 +113,18 @@ export function Ark({ fane, onFane, hoyde, onHoyde, desktop, innhold, antallHint
           {!desktop && (
             <button
               type="button"
-              className="mx-auto mb-2 block h-1.5 w-11 rounded-full bg-slate-300"
+              className="mx-auto -mt-1 mb-1 grid h-7 w-24 place-items-center"
               aria-label="Endre høyde på panelet"
               onClick={() => onHoyde(hoyde === 'lav' ? 'halv' : hoyde === 'halv' ? 'full' : 'lav')}
-            />
+            >
+              <span className="h-1.5 w-11 rounded-full bg-slate-300" />
+            </button>
           )}
-          <TabsList className="grid h-10 w-full grid-cols-5">
+          <TabsList className="grid h-11 w-full grid-cols-5">
             {FANER.map((f) => (
-              <TabsTrigger key={f.id} value={f.id} className="h-full px-1 text-[12.5px]">
+              <TabsTrigger key={f.id} value={f.id} className="h-full px-1 text-[13.5px]">
                 {f.navn}
-                {f.id === 'hint' && <span className="ml-1 font-mono text-[10px] text-primary">{antallHint}</span>}
+                {f.id === 'hint' && <span className="ml-1 font-mono text-[11px] text-primary">{antallHint}</span>}
               </TabsTrigger>
             ))}
           </TabsList>
