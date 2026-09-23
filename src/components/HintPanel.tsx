@@ -3,7 +3,7 @@ import { Crosshair, ExternalLink, MapPinned } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { BOKSTAV_LESNINGER, BOKSTAVER, FOLK_TROR, HINT, KODER, STATUS, STEDER, TEORIER, type Hint } from '@/data/innhold'
+import { BESTE_KODER, BOKSTAV_LESNINGER, BOKSTAVER, FOLK_TROR, HINT, KODER, SJANSE, STATUS, STEDER, TEORIER, type Hint } from '@/data/innhold'
 import type { LatLon } from '@/lib/geo'
 import { cn } from '@/lib/utils'
 
@@ -221,13 +221,30 @@ function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: numbe
   const posFor = (f: (typeof FOLK_TROR)[number]) => f.pos ?? [...STEDER, ...TEORIER].find((s) => s.id === f.fokus)?.pos
   return (
     <div className="space-y-3">
+      <section className="rounded-2xl border-2 border-primary/40 bg-card p-4">
+        <h3 className="text-[15px] font-semibold">Mest sannsynlige koder</h3>
+        <p className="mt-0.5 text-xs text-muted-foreground">Kassen har 2 kodelåser med 4 siffer. Vår beste gjetning:</p>
+        <div className="mt-3 grid grid-cols-2 gap-2">
+          {BESTE_KODER.map((b) => (
+            <div key={b.las} className="rounded-xl bg-slate-50 p-3">
+              <p className="text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">{b.las}</p>
+              <p className={cn('mt-1 font-mono font-bold tracking-wider', b.kode.length > 4 ? 'text-base' : 'text-2xl')}>{b.kode}</p>
+              <p className="mt-1.5 text-[12px] leading-snug text-slate-600">{b.hvorfor}</p>
+              {b.reserve && <p className="mt-1.5 text-[12px] leading-snug font-medium text-slate-800">Reserve: {b.reserve}</p>}
+            </div>
+          ))}
+        </div>
+      </section>
       <section className="rounded-2xl border bg-card p-4">
         <h3 className="text-[15px] font-semibold">Alle koder</h3>
-        <p className="mt-0.5 text-xs text-muted-foreground">2 hengelåser på kassen og 1 på døra, alle med 4 siffer.</p>
+        <p className="mt-0.5 text-xs text-muted-foreground">Sortert etter hvor sannsynlige de er.</p>
         <ul className="mt-3 divide-y">
-          {KODER.map((k) => (
+          {[...KODER].sort((a, b) => ['hoy', 'middels', 'lav'].indexOf(a.sjanse) - ['hoy', 'middels', 'lav'].indexOf(b.sjanse)).map((k) => (
             <li key={k.kode} className="flex items-start gap-3 py-2.5">
-              <span className="w-14 shrink-0 font-mono text-base font-semibold tracking-wider">{k.kode}</span>
+              <div className="w-14 shrink-0">
+                <p className="font-mono text-base font-semibold tracking-wider">{k.kode}</p>
+                <span className={cn('mt-1 inline-block rounded px-1 py-px text-[9.5px] font-bold tracking-wide uppercase', SJANSE[k.sjanse].klasse)}>{SJANSE[k.sjanse].tekst}</span>
+              </div>
               <div className="min-w-0 flex-1">
                 <p className="text-[13px] leading-snug text-slate-600">{k.kilde}</p>
                 <HintLenker ider={k.hint} onHint={onHint} />
