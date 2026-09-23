@@ -1,6 +1,7 @@
 // Sannsynlighetsmodellen: hver rute får en poengsum = produktet av faktorene.
 // En faktor med vekt w bidrar med (1 - w + w * f), så w = 0 betyr «ignorer hintet».
-import { DEFAULTNO, OSLO, SKYANALYSE, SKYDEKKE } from '@/data/innhold'
+import { DEFAULTNO, OSLO, SKYANALYSE, SKYDEKKE, TEORIER } from '@/data/innhold'
+import type { LagId } from '@/data/lag'
 import { avstand, iPolygon, tversAvstand, type LatLon } from '@/lib/geo'
 
 export type Punkt = { lat: number; lon: number; sek: number | null; meter: number | null; snap: number }
@@ -16,50 +17,63 @@ export type Vekter = {
   skyanalyse: number
   defaultno: number
   fly: number
+  bokstaver: number
 }
 
-export type FaktorId = 'kjoretid' | 'vei' | 'skyfri' | 'retning' | 'skyanalyse' | 'defaultno' | 'fly'
+export type FaktorId = 'kjoretid' | 'vei' | 'skyfri' | 'retning' | 'skyanalyse' | 'defaultno' | 'fly' | 'bokstaver'
 
 export const FAKTORER: { id: FaktorId; navn: string; forklaring: string }[] = [
   { id: 'kjoretid', navn: 'Kjøretid fra Oslo', forklaring: 'Ruter nær valgt kjøretid får høyest poeng.' },
   { id: 'vei', navn: 'Nær bilvei', forklaring: '5–10 min gange fra bilen. Ruter langt fra vei trekkes ned.' },
   { id: 'skyfri', navn: 'Klar himmel', forklaring: 'Trekker ned områder med tett skydekke.' },
+  { id: 'bokstaver', navn: 'Bokstavene: Norheimsund', forklaring: 'Nær Norheimsund, som vervebokstavene kan stave.' },
   { id: 'retning', navn: '298°-linja fra Oslo', forklaring: 'Teori: 118° er retningen mot Oslo.' },
   { id: 'skyanalyse', navn: 'Skyanalyse (Agder)', forklaring: 'Fellesskapets sky- og flykart.' },
   { id: 'fly', navn: 'Fly rett over kl. 21:29', forklaring: 'Nær sporet til et fly som var i lufta da Anja pekte opp.' },
   { id: 'defaultno', navn: 'default.no-kandidater', forklaring: 'Nær toppkandidatene deres.' },
 ]
 
-export const FORHAND: { id: string; navn: string; vekter: Vekter }[] = [
+/** Ferdige teorier. `lag` slås på når teorien velges. */
+export const FORHAND: { id: string; navn: string; vekter: Vekter; lag?: LagId[] }[] = [
   {
     id: 'fakta',
     navn: 'Harde fakta',
-    vekter: { kjoretid: 1, timer: 7, slingring: 1.25, vei: 0.8, skyfri: 0.5, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0 },
+    vekter: { kjoretid: 1, timer: 7, slingring: 1.25, vei: 0.8, skyfri: 0.5, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0 },
+  },
+  {
+    id: 'norheimsund',
+    navn: 'Norheimsund',
+    vekter: { kjoretid: 0.6, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 0.5, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 1 },
+    lag: ['teorier'],
   },
   {
     id: 'retning',
     navn: 'Retningsteorien',
-    vekter: { kjoretid: 0.8, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 0.5, retning: 0.9, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0 },
+    vekter: { kjoretid: 0.8, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 0.5, retning: 0.9, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0 },
+    lag: ['retning'],
   },
   {
     id: 'fly',
     navn: 'Flyet kl. 21:29',
-    vekter: { kjoretid: 0.4, timer: 5, slingring: 2, vei: 0.8, skyfri: 0.5, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 1 },
+    vekter: { kjoretid: 0.4, timer: 5, slingring: 2, vei: 0.8, skyfri: 0.5, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 1, bokstaver: 0 },
+    lag: ['fly'],
   },
   {
     id: 'kort',
     navn: 'Kortere tur (3–5 t)',
-    vekter: { kjoretid: 1, timer: 4, slingring: 1, vei: 0.8, skyfri: 0.5, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.4, fly: 0 },
+    vekter: { kjoretid: 1, timer: 4, slingring: 1, vei: 0.8, skyfri: 0.5, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.4, fly: 0, bokstaver: 0 },
   },
   {
     id: 'agder',
     navn: 'Agder-teorien',
-    vekter: { kjoretid: 0.5, timer: 4, slingring: 1.5, vei: 0.8, skyfri: 0.3, retning: 0, retningBegge: false, skyanalyse: 0.9, defaultno: 0, fly: 0 },
+    vekter: { kjoretid: 0.5, timer: 4, slingring: 1.5, vei: 0.8, skyfri: 0.3, retning: 0, retningBegge: false, skyanalyse: 0.9, defaultno: 0, fly: 0, bokstaver: 0 },
+    lag: ['skyanalyse'],
   },
   {
     id: 'defaultno',
     navn: 'Som default.no',
-    vekter: { kjoretid: 0.3, timer: 3.5, slingring: 2, vei: 0.8, skyfri: 0.5, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 1, fly: 0 },
+    vekter: { kjoretid: 0.3, timer: 3.5, slingring: 2, vei: 0.8, skyfri: 0.5, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 1, fly: 0, bokstaver: 0 },
+    lag: ['defaultno'],
   },
 ]
 
@@ -80,6 +94,8 @@ export function faktorer(p: Punkt, v: Vekter, flyPos: LatLon[] = []): Record<Fak
     retning = Math.max(retning, gauss(tvers, sigma))
   }
 
+  const norheimsund = TEORIER.find((t) => t.id === 'norheimsund')!
+  const bokstaver = gauss(avstand(pos, norheimsund.pos), 20)
   const skyanalyse = gauss(avstand(pos, SKYANALYSE.senter), 35)
   const defaultno = Math.max(...DEFAULTNO.map((k) => gauss(avstand(pos, k.pos), 25)))
 
@@ -88,7 +104,7 @@ export function faktorer(p: Punkt, v: Vekter, flyPos: LatLon[] = []): Record<Fak
   if (v.fly > 0) for (const f of flyPos) flyKm = Math.min(flyKm, avstand(pos, f))
   const fly = flyPos.length ? gauss(flyKm, 10) : 1
 
-  return { kjoretid, vei, skyfri, retning, skyanalyse, defaultno, fly }
+  return { kjoretid, vei, skyfri, retning, skyanalyse, defaultno, fly, bokstaver }
 }
 
 export function poeng(f: Record<FaktorId, number>, v: Vekter): number {

@@ -51,6 +51,17 @@ export const HINT: Hint[] = [
     lag: ['kjoretid', 'modell'],
   },
   {
+    id: 'bokstaver',
+    tittel: 'Bokstaver ved verving',
+    status: 'tolkning',
+    kilde: 'Horde-appen («Verv en venn»)',
+    tekst: 'Etter å ha vervet noen får man opp bokstaver. Bekreftet sett så langt, ikke i riktig rekkefølge: N O R H E I M S U D.',
+    betydning: 'Alle ti bokstavene finnes i NORHEIMSUND (Kvam i Hardanger), og bare én N mangler. Det er 6,5 t å kjøre fra Oslo uten ferge, som passer med «sov ca. 7 t». Horde holder også til i Bergen, ca. 1 t unna. Test egne ord under.',
+    lag: ['teorier'],
+    fokus: 'norheimsund',
+    anagram: true,
+  },
+  {
     id: 'retning118',
     tittel: '«ØST CA 118» på tavla',
     status: 'tolkning',
@@ -94,15 +105,6 @@ export const HINT: Hint[] = [
     dato: '23.09',
     tekst: 'Cæsar-chiffer med forskyvning 5: MT→HO, WI→RD, JO→EJ, FP→AK, YJ→TE … = HORDEJAKTEN@… (en e-postadresse).',
     betydning: 'En minikonkurranse (20 000 Horde-poeng til første løser). Sier ingenting om stedet.',
-  },
-  {
-    id: 'bokstaver',
-    tittel: 'Bokstaver ved verving',
-    status: 'apen',
-    kilde: 'Horde-appen («Verv en venn»)',
-    tekst: 'Etter å ha vervet noen får man opp bokstaver. Bekreftet sett så langt: I S N D O R U E M H. Flere kan komme.',
-    betydning: 'Trolig et anagram. «MINUS HORDE» er foreslått. Test egne ord under.',
-    anagram: true,
   },
   {
     id: 'dyr',
@@ -278,6 +280,13 @@ export const STEDER: Sted[] = [
 ]
 
 export const TEORIER: Sted[] = [
+  {
+    id: 'norheimsund',
+    navn: 'Norheimsund (bokstavene)',
+    pos: [60.3707, 6.1453],
+    type: 'teori',
+    info: 'Vervebokstavene N O R H E I M S U D gir NORHEIMSUND med én N til. 6,5 t fra Oslo uten ferge, og ca. 1 t fra Horde i Bergen (5008).',
+  },
   { id: 'froland', navn: 'Froland (ekorn i kommunevåpenet)', pos: [58.53, 8.63], type: 'teori', info: 'Ekorn-hintet og skyanalysen peker hit, men kjøretiden fra Oslo er bare ca. 4 t.' },
   { id: 'lillehammer', navn: 'Lillehammer (ekorn-maskot)', pos: [61.115, 10.466], type: 'teori', info: 'Ubekreftet teori om ekorn som maskot.' },
   { id: 'notteroy', navn: 'Nøtterøy (utelukket)', pos: [59.21, 10.42], type: 'teori', utelukket: true, info: 'Ordspill på «nøtt», men «Ikke en øy» og «ingen ferge» taler mot.' },
@@ -304,7 +313,7 @@ export const SKYDEKKE: LatLon[][] = [
   [[58.9, 5.1], [59.8, 4.6], [61.0, 4.3], [62.3, 4.6], [62.0, 4.95], [61.2, 4.85], [60.5, 4.95], [59.8, 5.15], [59.0, 5.45]],
 ]
 
-export const BOKSTAVER = ['I', 'S', 'N', 'D', 'O', 'R', 'U', 'E', 'M', 'H']
+export const BOKSTAVER = ['N', 'O', 'R', 'H', 'E', 'I', 'M', 'S', 'U', 'D']
 
 export const FAKTA = [
   { verdi: '1 116 897 kr', tekst: 'Premie' },

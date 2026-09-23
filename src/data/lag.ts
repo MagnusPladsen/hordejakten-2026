@@ -164,7 +164,7 @@ export const LAG: Lag[] = [
   {
     id: 'teorier',
     navn: 'Teorier fra fellesskapet',
-    kort: 'Froland, Lillehammer …',
+    kort: 'Norheimsund, Froland, Lillehammer …',
     merkelapp: 'teori',
     forklaring: 'Ubekreftede teorier som går rundt. Overstreket betyr at et annet hint taler imot.',
     tegn: [{ stil: 'prikk', farge: FARGE.teorier, tekst: 'Teori (ubekreftet)' }],
