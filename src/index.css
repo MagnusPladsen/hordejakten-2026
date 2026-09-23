@@ -143,7 +143,7 @@
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.25), 0 4px 10px rgb(0 0 0 / 0.18);
 }
 .pin-default { background: #111827; color: #fff; border: 2px solid #fff; }
-.pin-hint { background: #e5007e; border: 3px solid #fff; }
+.pin-hint { background: #dc2626; border: 3px solid #fff; }
 .pin-start { background: #fff; color: #111827; border: 3px solid #f97316; }
 .pin-tidligere { background: #64748b; color: #fff; border: 2px solid #fff; border-radius: 5px; transform: rotate(45deg); }
 .pin-tidligere b { transform: rotate(-45deg); font-size: 10px; }
@@ -152,11 +152,11 @@
 .pin-nal { background: #0f172a; border: 3px solid #fff; }
 .pin-hintmerke { background: #ea580c; color: #fff; border: 2.5px solid #fff; font-size: 12px; }
 .pin-hintmerke.folk { background: #7c3aed; }
-.pin-hintmerke.nytt { box-shadow: 0 0 0 3px #e5007e, 0 4px 10px rgb(0 0 0 / 0.25); }
+.pin-hintmerke.nytt { box-shadow: 0 0 0 3px #dc2626, 0 4px 10px rgb(0 0 0 / 0.25); }
 .pop .pop-post + .pop-post { margin-top: 10px; padding-top: 10px; border-top: 1px solid #e2e8f0; }
 .pop .pop-post-tittel { font-weight: 650; color: #0f172a; }
 .pop .pop-post-meta { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: #94a3b8; margin: 2px 0 3px; }
-.pop .pop-nytt { color: #e5007e; font-weight: 700; }
+.pop .pop-nytt { color: #dc2626; font-weight: 700; }
 .pop .pop-knapp { margin-top: 6px; min-height: 36px; padding: 0 10px; border-radius: 8px; border: 1px solid #fed7aa; background: #fff7ed; color: #9a3412; font-weight: 600; font-size: 12.5px; cursor: pointer; }
 .pin-terreng { background: #fff; border: 3px solid #111827; }
 .pin-hytte { background: #d6a57a; border: 2px solid #fff; }

@@ -212,7 +212,7 @@ export default function App() {
           href={STREAM.url}
           target="_blank"
           rel="noopener"
-          className="pointer-events-auto flex items-center gap-2 rounded-full bg-[#e5007e] px-3.5 py-2 text-xs font-bold tracking-wider text-white shadow-lg shadow-fuchsia-900/20"
+          className="pointer-events-auto flex items-center gap-2 rounded-full bg-[#dc2626] px-3.5 py-2 text-xs font-bold tracking-wider text-white shadow-lg shadow-red-900/20"
         >
           <span className="live-puls size-2 rounded-full bg-white" />
           LIVE

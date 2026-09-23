@@ -33,7 +33,7 @@ export const TEORIER_LISTE: Teori[] = [
     radiusKm: 20,
     kjoretid: 1.75,
     prior: 1,
-    farge: '#be123c',
+    farge: '#b91c1c',
     forhand: 'fly',
   },
   {
@@ -45,7 +45,7 @@ export const TEORIER_LISTE: Teori[] = [
     radiusKm: 35,
     kjoretid: 3.2,
     prior: 1,
-    farge: '#e11d48',
+    farge: '#ef4444',
     forhand: 'innlandet',
   },
   {
@@ -90,7 +90,7 @@ export const TEORIER_LISTE: Teori[] = [
     radiusKm: 25,
     kjoretid: 2.1,
     prior: 1,
-    farge: '#c026d3',
+    farge: '#7f1d1d',
   },
   {
     id: 'roros',

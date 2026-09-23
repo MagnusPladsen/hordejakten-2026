@@ -38,16 +38,16 @@ export type Lag = {
 }
 
 export const FARGE = {
-  modell: ['#9f1239', '#f43f5e', '#fb923c', '#fde68a'],
+  modell: ['#991b1b', '#ef4444', '#fb923c', '#fde68a'],
   kjoretid: ['#ccfbf1', '#99f6e4', '#5eead4', '#2dd4bf', '#0d9488', '#115e59'],
   langtFraVei: '#94a3b8',
   retning: '#7c3aed',
   skydekke: '#2563eb',
   solidag: '#eab308',
-  innlandet: '#e11d48',
+  innlandet: '#dc2626',
   skyanalyse: '#2563eb',
   defaultno: '#111827',
-  steder: '#e5007e',
+  steder: '#dc2626',
   tidligere: '#64748b',
   teorier: '#d97706',
   fly: '#0284c7',
@@ -98,7 +98,7 @@ export const LAG: Lag[] = [
     tegn: [
       { stil: 'prikk', farge: '#ea580c', tekst: 'Hint' },
       { stil: 'prikk', farge: '#7c3aed', tekst: 'Det folk sier' },
-      { stil: 'ring', farge: '#e5007e', tekst: 'Siste nytt' },
+      { stil: 'ring', farge: '#dc2626', tekst: 'Siste nytt' },
     ],
     kilde: 'Hint-fanen og «Hva folk tror».',
   },
@@ -110,7 +110,7 @@ export const LAG: Lag[] = [
     forklaring:
       'Hver sirkel er en teori om hvor kassen står. Prosenten er regnet ut fra hintene du har slått på i Teorier-fanen. Større tall og tykkere kant betyr mer sannsynlig.',
     tegn: [
-      { stil: 'ring', farge: '#e11d48', tekst: 'Teori-område med prosent' },
+      { stil: 'ring', farge: '#ef4444', tekst: 'Teori-område med prosent' },
     ],
     kilde: 'Teorier-fanen.',
   },
