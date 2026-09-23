@@ -7,6 +7,7 @@ import { HintPanel } from '@/components/HintPanel'
 import { Kart, type Bakgrunn, type KartApi } from '@/components/Kart'
 import { LagPanel } from '@/components/LagPanel'
 import { Legende } from '@/components/Legende'
+import { SpillPanel } from '@/components/SpillPanel'
 import { StreamPanel } from '@/components/StreamPanel'
 import { TavlePanel } from '@/components/TavlePanel'
 import { TeoriPanel } from '@/components/TeoriPanel'
@@ -295,6 +296,7 @@ export default function App() {
           ),
           hint: <HintPanel onVisPaKart={visPaKart} onGaTil={gaTil} apneHint={apneHint} />,
           tavla: <TavlePanel />,
+          spill: <SpillPanel />,
           stream: <StreamPanel />,
         }}
       />
