@@ -53,6 +53,17 @@ export const HINT: Hint[] = [
     lag: ['solidag'],
   },
   {
+    id: 'benny',
+    tittel: '«Reven heter Benny»',
+    status: 'usikker',
+    kilde: 'Tavla',
+    dato: '23.09',
+    tekst: 'Anja skrev at kosedyr-reven i boksen heter Benny.',
+    betydning: 'Kan være et navnehint. Bare ett stedsnavn i Norge starter med «Benny»: Bennyøy, en holme i Nome (Telemark), 3,4 km fra 118°-linja fra Horde i Bergen. I Løten finnes gården Benningstad, 10 km fra flyet. Begge kan være tilfeldigheter, og Bennyøy er en øy.',
+    lag: ['teorier', 'retning'],
+    fokus: 'bennyoy',
+  },
+  {
     id: 'tretopp',
     tittel: 'Tips: Tretopphyttene i Ringsaker',
     status: 'usikker',
@@ -381,6 +392,7 @@ export const TAVLE: { t: string; tekst: string }[] = [
   { t: 'Ukjent', tekst: 'ØST CA 118 · RETNING SKILT (skiltet peker ca. 118°)' },
   { t: 'Ukjent', tekst: 'VIL DERE SE EN BACKFLIP?' },
   { t: '23.09', tekst: 'LAST NED HORDE APPEN' },
+  { t: '23.09', tekst: 'REVEN HETER BENNY' },
   { t: '23.09 09:33', tekst: 'DET GÅR FINT · TAKK SOM SPØR ♡' },
 ]
 
@@ -409,6 +421,20 @@ export const TEORIER: Sted[] = [
     pos: [61.1788, 11.2639],
     type: 'teori',
     info: '61°10\'43.8"N 11°15\'50.1"E. Flere i chatten mener dette stemmer godt. Skog, 606 moh., 2 t 35 min fra Oslo, i kanten av det som var klart på satellitt 23.09. NOZ56U var rett over her kl. 21:32:50 (74°), da rumlingen var høyest. Men da Anja pekte opp (21:28:53 ekte tid) var flyet 45 km unna og bare 8° over horisonten.',
+  },
+  {
+    id: 'benningstad',
+    navn: 'Benningstad, Løten («Benny»?)',
+    pos: [60.7685, 11.3575],
+    type: 'teori',
+    info: 'Gårdsnavn i Løten som ligner «Benny». Ca. 10 km fra der flyet NOZ56U var kl. 21:28. Trolig bare en tilfeldighet.',
+  },
+  {
+    id: 'bennyoy',
+    navn: 'Bennyøy, Nome («Benny»?)',
+    pos: [59.2666, 9.1327],
+    type: 'teori',
+    info: 'Eneste stedsnavn i Norge som starter med «Benny». En holme i Nome, Telemark, bare 3,4 km fra 118°-linja fra Horde i Bergen. Men «Ikke en øy»-hintet taler imot.',
   },
   {
     id: 'tretopp',
@@ -531,6 +557,7 @@ export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: Lat
   { tekst: 'Innlandet', hvem: 'De fleste. Klar himmel på Østlandet, flyet over Løten, furumo og tømmerdrift.', hint: ['innlandet', 'fly', 'skyer'] },
   { tekst: 'Digeråsen mellom Løten og Åmot', hvem: 'Flere sier det «er så klink her». Passer med lyden av flyet, ikke med pekingen.', fokus: 'digeras', hint: ['digeras', 'fly'] },
   { tekst: 'Løten og Elverum', hvem: 'Vår modell: der flyet var da Anja pekte rett opp.', pos: [60.87, 11.25], hint: ['fly'] },
+  { tekst: 'Reven heter Benny', hvem: 'Bennyøy (Nome) ligger 3,4 km fra 118°-linja fra Bergen. Benningstad (Løten) er nær flyet. Trolig tilfeldig.', fokus: 'bennyoy', hint: ['benny', 'bergen118', 'dyr'] },
   { tekst: 'Tretopphyttene i Ringsaker', hvem: 'Ekorn-logo, Prøysens kommune. Men utenfor det klare området og 21 km fra flyet.', fokus: 'tretopp', hint: ['tretopp', 'ekorn', 'dyr'] },
   { tekst: 'Flisa og Haslemoen', hvem: 'Én person: «nær Rena, men mer mot Flisa». Nedlagt leir på Haslemoen.', fokus: 'haslemoen', hint: ['haslemoen', 'solidag'] },
   { tekst: 'Rena og Åmot', hvem: 'default.no sin toppkandidat.', pos: [61.45, 11.1], hint: ['innlandet'] },
