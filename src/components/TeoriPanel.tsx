@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { ArrowDown, ArrowUp, ChevronDown, Crosshair, X } from 'lucide-react'
+import { ArrowDown, ArrowUp, ChevronDown, Crosshair, ExternalLink, X } from 'lucide-react'
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
+import { SISTE_NYTT } from '@/data/innhold'
 import { BEVIS, TEORIER_LISTE, type Bevis, type Modus, type Teori, type TeoriId } from '@/data/teorier'
 import { cn } from '@/lib/utils'
 
@@ -39,6 +40,7 @@ export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis
 
   return (
     <div className="space-y-4">
+      <SisteNytt />
       <Intro />
 
       <div>
@@ -144,11 +146,6 @@ export function TeoriPanel({ modus, onModus, prosent, aktiveBevis, onVeksleBevis
       </ol>
       <p className="px-1 text-[13px] leading-relaxed text-muted-foreground">Prosentene er et anslag basert på skjønn, ikke fasit. Se «Hvordan regnes prosenten ut?» under.</p>
 
-      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-3.5 text-[14.5px] leading-relaxed text-amber-900">
-        <p className="font-semibold">Siste nytt fra chatten</p>
-        <p className="mt-0.5">Flere skal allerede være ved kassen og prøve koder. Se «Mest sannsynlige koder» under Hint.</p>
-      </div>
-
       <Accordion type="single" collapsible className="rounded-2xl border bg-card px-4">
         <AccordionItem value="hint" className="border-none">
           <AccordionTrigger className="py-3.5">
@@ -234,5 +231,44 @@ function Intro() {
         Skjønner
       </button>
     </div>
+  )
+}
+
+/** Siste nytt: det nyeste står stort og tydelig, de eldre kort under */
+function SisteNytt() {
+  const [nyest, ...eldre] = SISTE_NYTT
+  if (!nyest) return null
+  return (
+    <section className="overflow-hidden rounded-2xl bg-[#e5007e] text-white shadow-lg shadow-fuchsia-900/20" aria-labelledby="siste-nytt">
+      <div className="p-4">
+        <div className="flex items-center gap-2">
+          <span className="live-puls size-2 rounded-full bg-white" />
+          <p id="siste-nytt" className="text-[12px] font-bold tracking-[0.14em] uppercase">
+            Siste nytt · {nyest.tid}
+          </p>
+        </div>
+        <p className="mt-2 text-[17px] leading-snug font-semibold">{nyest.tittel}</p>
+        <p className="mt-1.5 text-[14.5px] leading-relaxed text-fuchsia-50">{nyest.tekst}</p>
+        {nyest.lenke && (
+          <a
+            href={nyest.lenke.url}
+            target="_blank"
+            rel="noopener"
+            className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-4 text-[14.5px] font-semibold text-[#9d0056]"
+          >
+            {nyest.lenke.tekst} <ExternalLink className="size-4" />
+          </a>
+        )}
+      </div>
+      {eldre.length > 0 && (
+        <ul className="divide-y divide-white/20 border-t border-white/20 bg-black/10">
+          {eldre.map((n) => (
+            <li key={n.tittel} className="px-4 py-2.5 text-[13.5px] leading-snug">
+              <span className="font-semibold">{n.tittel}.</span> <span className="text-fuchsia-100">{n.tekst}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
   )
 }

@@ -751,3 +751,19 @@ export const SIKRE_FAKTA: string[] = [
   'Horde-skiltet peker 118–120° mot kassen. Kameraet står ca. 41° (nordøst) fra kassen.',
   'Kassen har 2 kodelåser med 4 siffer. Appen ga 5008 som hint.',
 ]
+
+/** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
+export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '23.09 kl. 15:30',
+    tittel: 'Ny Horde-video med nye tall og bokstaver på genseren',
+    tekst: 'Horde har lagt ut «Hvordan går det med Anja?». Genseren viser nå «+5» på ryggen, sammen med tallene og bokstavene. Horde skriver selv: «Kjenner jeg dere riktig så vil dere overanalysere denne videoen».',
+    lenke: { tekst: 'Se videoen', url: 'https://www.youtube.com/shorts/1raIm3ANsAI' },
+    hint: 'pluss5',
+  },
+  {
+    tid: '23.09',
+    tittel: 'Folk skal være ved kassen og prøve koder',
+    tekst: 'Ifølge chatten har flere allerede prøvd kodene ved kassen. Se «Mest sannsynlige koder» under Hint.',
+  },
+]
