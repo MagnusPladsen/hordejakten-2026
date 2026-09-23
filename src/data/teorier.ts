@@ -108,7 +108,7 @@ export const TEORIER_LISTE: Teori[] = [
     id: 'agder',
     navn: 'Indre Agder',
     etikett: 'Agder',
-    kort: 'Froland, Gjerstad og Vegårshei',
+    kort: 'Gjerstad og Vegårshei (Froland er ute)',
     senter: [58.65, 8.8],
     radiusKm: 50,
     kjoretid: 3.5,
@@ -222,6 +222,13 @@ export const BEVIS: Bevis[] = [
     forklaring: 'Solvinkelen kl. 13:20 gir lengdegraden. Måleusikkerheten er noen minutter, så de østlige stedene passer like godt. Sollyset ser ekte ut: kameraretningen fra sola stemmer med «KAMERA 41 ØST».',
     standardPa: true,
     faktor: tabell({ ringsaker: 0.95, gjovik: 0.9, valdres: 0.4, agder: 0.3, hardanger: 0.1, annet: 0.6 }),
+  },
+  {
+    id: 'froland',
+    tittel: 'Været i Froland stemmer ikke',
+    forklaring: 'Fellesskapet har sjekket været i Froland, og det samsvarer ikke med det Anja har sett. Agder trekkes kraftig ned.',
+    standardPa: true,
+    faktor: tabell({ agder: 0.15 }),
   },
   {
     id: 'bokstaver',
