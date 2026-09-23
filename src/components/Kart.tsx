@@ -2,7 +2,7 @@ import { useEffect, useImperativeHandle, useLayoutEffect, useRef, type Ref } fro
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-import { BERGEN, DEFAULTNO, FLY_PUNKT, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, STEDER, TEORIER, type Sted } from '@/data/innhold'
+import { BERGEN, DEFAULTNO, FLY_PUNKT, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, STEDER, TAAKE, TEORIER, type Sted } from '@/data/innhold'
 import { FARGE, KJORETID_KLASSER, type LagId } from '@/data/lag'
 import { avstand, destinasjon, formaterTid, iPolygon, sektor, storsirkel, type LatLon } from '@/lib/geo'
 import { PEKETID_EKTE, posisjon, type FlyData } from '@/lib/fly'
@@ -187,6 +187,9 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
     for (const ring of SKYDEKKE) {
       L.polygon(ring, { color: FARGE.skydekke, weight: 1.5, dashArray: '4 5', fillColor: FARGE.skydekke, fillOpacity: 0.28, interactive: false }).addTo(g.skydekke)
     }
+    for (const ring of TAAKE) {
+      L.polygon(ring, { color: '#475569', weight: 1.5, dashArray: '2 4', fillColor: '#64748b', fillOpacity: 0.3, interactive: false }).addTo(g.skydekke)
+    }
 
     // Klart på satellitt 23.09. Trondheim–Ålesund er stiplet fordi det var blått på Windy tidligere.
     SOL_I_DAG.forEach((ring, i) => {
@@ -239,6 +242,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
       const merknader = [
         SKYDEKKE.some((r) => iPolygon(klikk, r)) && 'Blått på Windy (utelukket)',
         SOL_I_DAG.some((r) => iPolygon(klikk, r)) && 'Klart på satellitt 23.09',
+        TAAKE.some((r) => iPolygon(klikk, r)) && 'Tåke i morges (utelukket)',
         ktx.innlandet.some((r) => iPolygon(klikk, r)) && 'I Innlandet fylke',
         ...TEORIER_LISTE.filter((t) => t.senter && avstand(klikk, t.senter) <= t.radiusKm).map((t) => `Teori: ${t.navn}`),
       ].filter(Boolean)

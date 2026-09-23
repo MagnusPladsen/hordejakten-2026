@@ -140,12 +140,15 @@ export const LAG: Lag[] = [
   },
   {
     id: 'skydekke',
-    navn: 'Blått på Windy (utelukket)',
+    navn: 'Skyer og tåke (utelukket)',
     kort: 'Hun så klar himmel, her var det skyer',
     merkelapp: 'tolkning',
     forklaring:
       'Områdene som var blå på Windy-kartet samme periode som Anja skrev «KLAR HIMMEL». De er utelukket i sannsynlighetskartet. Tegnet for hånd fra skjermbildet, så kantene er omtrentlige (±10 km). Båndet fra Lillehammer mot Sverige er mest usikkert.',
-    tegn: [{ stil: 'rute', farge: FARGE.skydekke, tekst: 'Blått på Windy = utelukket' }],
+    tegn: [
+      { stil: 'rute', farge: FARGE.skydekke, tekst: 'Blått på Windy = utelukket' },
+      { stil: 'rute', farge: '#64748b', tekst: 'Tåke i morges 23.09 (Odal–Jessheim)' },
+    ],
     kilde: 'Windy.com, skjermbilde fra fellesskapet.',
   },
   {

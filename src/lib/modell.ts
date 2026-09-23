@@ -1,6 +1,6 @@
 // Sannsynlighetsmodellen: hver rute får en poengsum = produktet av faktorene.
 // En faktor med vekt w bidrar med (1 - w + w * f), så w = 0 betyr «ignorer hintet».
-import { BERGEN, DEFAULTNO, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, TEORIER } from '@/data/innhold'
+import { BERGEN, DEFAULTNO, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, TAAKE, TEORIER } from '@/data/innhold'
 import type { LagId } from '@/data/lag'
 import { avstand, iPolygon, tversAvstand, type LatLon } from '@/lib/geo'
 
@@ -28,7 +28,7 @@ export type FaktorId = 'kjoretid' | 'vei' | 'skyfri' | 'retning' | 'skyanalyse' 
 export const FAKTORER: { id: FaktorId; navn: string; forklaring: string }[] = [
   { id: 'kjoretid', navn: 'Kjøretid fra Oslo', forklaring: 'Ruter nær valgt kjøretid får høyest poeng.' },
   { id: 'vei', navn: 'Nær bilvei', forklaring: '5–10 min gange fra bilen. Ruter langt fra vei trekkes ned.' },
-  { id: 'skyfri', navn: 'Utelukk blått på Windy', forklaring: 'Hun så klar himmel. 100 % = blå områder er helt utelukket.' },
+  { id: 'skyfri', navn: 'Utelukk skyer og tåke', forklaring: 'Hun så klar himmel. 100 % = blått på Windy og tåka i Odal er helt utelukket.' },
   { id: 'solidag', navn: 'Sol i dag (satellitt)', forklaring: 'Anja hadde sol mens det var skyet nesten overalt. Klare områder får høyest poeng.' },
   { id: 'innlandet', navn: 'Innlandet fylke', forklaring: 'Fellesskapet er sikre på Innlandet.' },
   { id: 'bokstaver', navn: 'Bokstavene: Norheimsund', forklaring: 'Nær Norheimsund, som vervebokstavene kan stave.' },
@@ -107,7 +107,7 @@ export function faktorer(p: Punkt, v: Vekter, { flyPos, innlandet: innlandetRing
 
   const kjoretid = p.sek == null ? 0 : gauss(p.sek / 3600 - v.timer, v.slingring)
   const vei = p.snap <= 1500 ? 1 : Math.exp(-(p.snap - 1500) / 2000)
-  const skyfri = SKYDEKKE.some((ring) => iPolygon(pos, ring)) ? 0 : 1
+  const skyfri = [...SKYDEKKE, ...TAAKE].some((ring) => iPolygon(pos, ring)) ? 0 : 1
 
   let retning = 0
   for (const kurs of v.retningBegge ? [298, 118] : [298]) {

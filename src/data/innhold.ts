@@ -96,6 +96,16 @@ export const HINT: Hint[] = [
     fokus: 'haslemoen',
   },
   {
+    id: 'taake',
+    tittel: 'Tykk tåke i Odal og på Jessheim i morges',
+    status: 'tolkning',
+    kilde: 'Lokal i chatten (bor i Nord-Odal)',
+    dato: '23.09',
+    tekst: '«Det var tykk tåke her i dag tidlig, hele veien til Sør-Odal og Jessheim», mens det ikke var tåke hos Anja.',
+    betydning: 'Nord-Odal, Sør-Odal og området rundt Jessheim er utelukket. Tegnet grovt på kartet sammen med de blå Windy-områdene. Solør og Elverum ligger utenfor.',
+    lag: ['skydekke'],
+  },
+  {
     id: 'vedkassen',
     tittel: 'Folk skal være ved kassen og prøve koder',
     status: 'usikker',
@@ -481,6 +491,11 @@ export const SOL_I_DAG: LatLon[][] = [
   [[62.3, 5.9], [62.8, 6.2], [63.2, 8.0], [63.55, 10.0], [63.5, 10.7], [63.2, 10.6], [62.9, 9.0], [62.5, 7.2], [62.2, 6.3]],
 ]
 
+/** Tykk tåke morgenen 23.09 fra Nord-Odal til Sør-Odal og Jessheim (lokal melding), mens Anja ikke hadde tåke. Grovt tegnet. */
+export const TAAKE: LatLon[][] = [
+  [[60.1, 11.05], [60.08, 11.4], [60.18, 11.75], [60.3, 11.85], [60.48, 11.75], [60.5, 11.4], [60.35, 11.15], [60.2, 11.0]],
+]
+
 /** Toppkandidater fra default.no sin fusjonsmodell (22.09 kl. 16:42) */
 export const DEFAULTNO: { nr: number; pos: LatLon; navn: string; p: string }[] = [
   { nr: 1, pos: [61.45, 11.1], navn: 'Rena og Åmot (Østerdalen)', p: '4,2 % innen 10 km' },
@@ -570,6 +585,7 @@ export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: Lat
     tekst: 'MINUS HORDE = JAKTEN',
     hvem: '«HORDEJAKTEN» minus «HORDE» gir «JAKTEN». Rev, and og kråke er jaktbare dyr, så dyrene kan også handle om jakt. Prøv ordene i kredittskår-boksen i appen, der «terje» ga 5008.', hint: ['bokstaver', 'dyr', 'and'] },
   { tekst: '118° fra Bergen, gjennom Telemark', hvem: 'Anja sier skiltet peker 118°. Noen trekker linja fra Horde AS i Bergen (5008): Odda, Vinje, Seljord, Kragerø.', pos: [59.5, 8.46], hint: ['bergen118', 'terje', 'retning118'] },
+  { tekst: 'Ikke Odal eller Jessheim', hvem: 'Lokal: tykk tåke der i morges, mens Anja ikke hadde tåke.', pos: [60.3, 11.45], hint: ['taake'] },
   { tekst: 'Ikke Fredrikstad, Sarpsborg eller Halden', hvem: 'Overskyet der hele dagen, mens Anja hadde sol.', hint: ['solidag'] },
   { tekst: 'Tromsø (69° nord)', hvem: 'TikTok-teori om «MINUS HORDE». Rundt 20 t fra Oslo, så lite sannsynlig.', hint: ['bokstaver'] },
   { tekst: 'Noen er alt ved kassen', hvem: 'Chatten sier flere prøver koder der nå.', hint: ['vedkassen', 'koder'] },
