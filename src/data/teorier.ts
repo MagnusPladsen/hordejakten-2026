@@ -1,10 +1,10 @@
 // Teoriene om hvor kassen står, og hvor godt hvert hint passer med hver teori.
 // Prosentene regnes som i et enkelt Bayes-oppsett: forhåndsvekt × produktet av hint-faktorene,
 // normalisert til 100 %. En faktor over 1 betyr at hintet støtter teorien, under 1 at det taler imot.
-import { SKYDEKKE } from '@/data/innhold'
+import { SKYDEKKE, SOL_I_DAG } from '@/data/innhold'
 import { iPolygon, type LatLon } from '@/lib/geo'
 
-export type TeoriId = 'loten' | 'rena' | 'gjovik' | 'roros' | 'valdres' | 'agder' | 'hardanger' | 'annet'
+export type TeoriId = 'loten' | 'rena' | 'solor' | 'gjovik' | 'roros' | 'valdres' | 'agder' | 'hardanger' | 'annet'
 
 export type Teori = {
   id: TeoriId
@@ -47,6 +47,17 @@ export const TEORIER_LISTE: Teori[] = [
     prior: 1,
     farge: '#e11d48',
     forhand: 'innlandet',
+  },
+  {
+    id: 'solor',
+    navn: 'Flisa og Haslemoen (Solør)',
+    etikett: 'Solør',
+    kort: 'Furumo mot Finnskogen, nedlagt leir på Haslemoen',
+    senter: [60.64, 11.95],
+    radiusKm: 20,
+    kjoretid: 2.55,
+    prior: 1,
+    farge: '#ea580c',
   },
   {
     id: 'gjovik',
@@ -131,8 +142,8 @@ export type Bevis = {
 const gauss = (x: number, sigma: number) => Math.exp(-0.5 * (x / sigma) ** 2)
 const tabell = (verdier: Partial<Record<TeoriId, number>>) => (t: Teori) => verdier[t.id] ?? 1
 
-/** Andel av teori-området som ikke var blått på Windy (punkter i et rutenett innenfor sirkelen) */
-function andelKlart(t: Teori): number {
+/** Andel av teori-området som ligger innenfor de gitte polygonene (punkter i et rutenett innenfor sirkelen) */
+function andelInnenfor(t: Teori, ringer: LatLon[][]): number {
   if (!t.senter) return 1
   const [la, lo] = t.senter
   const dLat = t.radiusKm / 111
@@ -144,7 +155,7 @@ function andelKlart(t: Teori): number {
       if (i * i + j * j > 49) continue
       const p: LatLon = [la + (i / 7) * dLat, lo + (j / 7) * dLon]
       alle++
-      if (!SKYDEKKE.some((r) => iPolygon(p, r))) klart++
+      if (ringer.some((r) => iPolygon(p, r))) klart++
     }
   }
   return klart / alle
@@ -171,7 +182,15 @@ export const BEVIS: Bevis[] = [
     tittel: 'Blått på Windy-kartet er utelukket',
     forklaring: 'Anja så klar himmel. Teorien trekkes ned etter hvor stor del av området som var blått (skyer eller nedbør).',
     standardPa: true,
-    faktor: (t) => (t.id === 'annet' ? 0.7 : 0.05 + 0.95 * andelKlart(t)),
+    faktor: (t) => (t.id === 'annet' ? 0.7 : 0.05 + 0.95 * (1 - andelInnenfor(t, SKYDEKKE))),
+  },
+  {
+    id: 'solidag',
+    tittel: 'Sol i dag mens det var skyet nesten overalt',
+    forklaring:
+      'På satellitt 23.09 var det bare klart Kongsvinger–Rena mot Sverige, i deler av Vestfold og rundt Trondheim–Ålesund. Teorien løftes etter hvor stor del av området som var klart. Grovt tegnet fra en beskrivelse. Obs: noen mener sollyset på streamen kan være falskt. Tror du det, slå av dette hintet.',
+    standardPa: true,
+    faktor: (t) => (t.id === 'annet' ? 0.5 : 0.2 + 1.8 * andelInnenfor(t, SOL_I_DAG)),
   },
   {
     id: 'bokstaver',
@@ -186,7 +205,7 @@ export const BEVIS: Bevis[] = [
     forklaring:
       'Hun pekte nesten rett opp. Flyet var i ca. 24 000 fot, så kassen står trolig innen ca. 5 km fra sporet der flyet var da: mellom Løten og Elverum. Det kan ha vært et annet fly.',
     standardPa: true,
-    faktor: tabell({ loten: 4, rena: 1.3, gjovik: 0.8, roros: 0.7, valdres: 0.8, agder: 0.6, hardanger: 0.6, annet: 0.7 }),
+    faktor: tabell({ loten: 4, rena: 1.3, solor: 0.7, gjovik: 0.8, roros: 0.7, valdres: 0.8, agder: 0.6, hardanger: 0.6, annet: 0.7 }),
   },
   {
     id: 'defaultno',
@@ -200,14 +219,14 @@ export const BEVIS: Bevis[] = [
     tittel: 'Furumo, lyng, bærlyng og tømmerdrift',
     forklaring: 'Typisk for Østerdalen, Røros og indre Agder. Mindre typisk for Vestlandet.',
     standardPa: true,
-    faktor: tabell({ rena: 1.5, loten: 1.4, gjovik: 1.2, roros: 1.3, agder: 1.3, valdres: 1.1, hardanger: 0.6 }),
+    faktor: tabell({ rena: 1.5, loten: 1.4, solor: 1.5, gjovik: 1.2, roros: 1.3, agder: 1.3, valdres: 1.1, hardanger: 0.6 }),
   },
   {
     id: 'konsensus',
     tittel: 'Fellesskapet er sikre på Innlandet',
     forklaring: 'Bygger mest på de samme hintene som over (fly, default.no, terreng), så den teller lite for å unngå dobbelttelling.',
     standardPa: true,
-    faktor: tabell({ loten: 1.2, rena: 1.2, gjovik: 1.2, roros: 1.1, valdres: 1.1 }),
+    faktor: tabell({ loten: 1.2, rena: 1.2, solor: 1.2, gjovik: 1.2, roros: 1.1, valdres: 1.1 }),
   },
   {
     id: 'gjovikvaer',

@@ -2,7 +2,7 @@ import { useEffect, useImperativeHandle, useLayoutEffect, useRef, type Ref } fro
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-import { DEFAULTNO, FLY_PUNKT, OSLO, SKYANALYSE, SKYDEKKE, STEDER, TEORIER, type Sted } from '@/data/innhold'
+import { DEFAULTNO, FLY_PUNKT, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, STEDER, TEORIER, type Sted } from '@/data/innhold'
 import { FARGE, KJORETID_KLASSER, type LagId } from '@/data/lag'
 import { avstand, destinasjon, formaterTid, iPolygon, sektor, storsirkel, type LatLon } from '@/lib/geo'
 import { PEKETID_EKTE, posisjon, type FlyData } from '@/lib/fly'
@@ -153,7 +153,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
     tone()
 
     const g = Object.fromEntries(
-      (['modell', 'teoriomrader', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
+      (['modell', 'teoriomrader', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'solidag', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
         id,
         L.featureGroup(),
       ]),
@@ -183,6 +183,11 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
     for (const ring of SKYDEKKE) {
       L.polygon(ring, { color: FARGE.skydekke, weight: 1.5, dashArray: '4 5', fillColor: FARGE.skydekke, fillOpacity: 0.28, interactive: false }).addTo(g.skydekke)
     }
+
+    // Klart på satellitt 23.09. Trondheim–Ålesund er stiplet fordi det var blått på Windy tidligere.
+    SOL_I_DAG.forEach((ring, i) => {
+      L.polygon(ring, { color: '#ca8a04', weight: 2, dashArray: i === 0 ? undefined : '6 6', fillColor: FARGE.solidag, fillOpacity: 0.22, interactive: false }).addTo(g.solidag)
+    })
 
     // Skyanalyse (Agder)
     L.circle(SKYANALYSE.senter, { radius: SKYANALYSE.ytreKm * 1000, color: FARGE.skyanalyse, weight: 2, fillOpacity: 0.06, interactive: false }).addTo(g.skyanalyse)
@@ -229,6 +234,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
       const topp = res && !utelukket ? Math.max(0.1, res.andel[best] * 100) : null
       const merknader = [
         SKYDEKKE.some((r) => iPolygon(klikk, r)) && 'Blått på Windy (utelukket)',
+        SOL_I_DAG.some((r) => iPolygon(klikk, r)) && 'Klart på satellitt 23.09',
         ktx.innlandet.some((r) => iPolygon(klikk, r)) && 'I Innlandet fylke',
         ...TEORIER_LISTE.filter((t) => t.senter && avstand(klikk, t.senter) <= t.radiusKm).map((t) => `Teori: ${t.navn}`),
       ].filter(Boolean)

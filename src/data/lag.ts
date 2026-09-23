@@ -7,6 +7,7 @@ export type LagId =
   | 'kjoretid'
   | 'retning'
   | 'skydekke'
+  | 'solidag'
   | 'skyanalyse'
   | 'defaultno'
   | 'steder'
@@ -39,6 +40,7 @@ export const FARGE = {
   langtFraVei: '#94a3b8',
   retning: '#7c3aed',
   skydekke: '#2563eb',
+  solidag: '#eab308',
   innlandet: '#e11d48',
   skyanalyse: '#2563eb',
   defaultno: '#111827',
@@ -144,6 +146,16 @@ export const LAG: Lag[] = [
       'Områdene som var blå på Windy-kartet samme periode som Anja skrev «KLAR HIMMEL». De er utelukket i sannsynlighetskartet. Tegnet for hånd fra skjermbildet, så kantene er omtrentlige (±10 km). Båndet fra Lillehammer mot Sverige er mest usikkert.',
     tegn: [{ stil: 'rute', farge: FARGE.skydekke, tekst: 'Blått på Windy = utelukket' }],
     kilde: 'Windy.com, skjermbilde fra fellesskapet.',
+  },
+  {
+    id: 'solidag',
+    navn: 'Sol i dag (satellitt)',
+    kort: 'Klart her, skyet nesten alle andre steder',
+    merkelapp: 'tolkning',
+    forklaring:
+      'Områdene som var klare på satellittbildet 23.09 mens Anja hadde sol. Tegnet grovt ut fra en beskrivelse (Kongsvinger–Rena mot Sverige, deler av Vestfold, Trondheim–Ålesund), ikke fra selve bildet. Stiplet kant betyr usikker.',
+    tegn: [{ stil: 'rute', farge: FARGE.solidag, tekst: 'Klart på satellitt 23.09' }],
+    kilde: 'Satellittbilde, beskrevet av fellesskapet.',
   },
   {
     id: 'skyanalyse',

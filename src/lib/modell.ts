@@ -1,6 +1,6 @@
 // Sannsynlighetsmodellen: hver rute får en poengsum = produktet av faktorene.
 // En faktor med vekt w bidrar med (1 - w + w * f), så w = 0 betyr «ignorer hintet».
-import { DEFAULTNO, OSLO, SKYANALYSE, SKYDEKKE, TEORIER } from '@/data/innhold'
+import { DEFAULTNO, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, TEORIER } from '@/data/innhold'
 import type { LagId } from '@/data/lag'
 import { avstand, iPolygon, tversAvstand, type LatLon } from '@/lib/geo'
 
@@ -19,14 +19,16 @@ export type Vekter = {
   fly: number
   bokstaver: number
   innlandet: number
+  solidag: number
 }
 
-export type FaktorId = 'kjoretid' | 'vei' | 'skyfri' | 'retning' | 'skyanalyse' | 'defaultno' | 'fly' | 'bokstaver' | 'innlandet'
+export type FaktorId = 'kjoretid' | 'vei' | 'skyfri' | 'retning' | 'skyanalyse' | 'defaultno' | 'fly' | 'bokstaver' | 'innlandet' | 'solidag'
 
 export const FAKTORER: { id: FaktorId; navn: string; forklaring: string }[] = [
   { id: 'kjoretid', navn: 'Kjøretid fra Oslo', forklaring: 'Ruter nær valgt kjøretid får høyest poeng.' },
   { id: 'vei', navn: 'Nær bilvei', forklaring: '5–10 min gange fra bilen. Ruter langt fra vei trekkes ned.' },
   { id: 'skyfri', navn: 'Utelukk blått på Windy', forklaring: 'Hun så klar himmel. 100 % = blå områder er helt utelukket.' },
+  { id: 'solidag', navn: 'Sol i dag (satellitt)', forklaring: 'Anja hadde sol mens det var skyet nesten overalt. Klare områder får høyest poeng.' },
   { id: 'innlandet', navn: 'Innlandet fylke', forklaring: 'Fellesskapet er sikre på Innlandet.' },
   { id: 'bokstaver', navn: 'Bokstavene: Norheimsund', forklaring: 'Nær Norheimsund, som vervebokstavene kan stave.' },
   { id: 'retning', navn: '298°-linja fra Oslo', forklaring: 'Teori: 118° er retningen mot Oslo.' },
@@ -40,48 +42,48 @@ export const FORHAND: { id: string; navn: string; vekter: Vekter; lag?: LagId[] 
   {
     id: 'innlandet',
     navn: 'Innlandet',
-    vekter: { kjoretid: 0.4, timer: 5, slingring: 2.5, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.3, fly: 0.5, bokstaver: 0, innlandet: 1 },
+    vekter: { kjoretid: 0.4, timer: 5, slingring: 2.5, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.3, fly: 0.5, bokstaver: 0, innlandet: 1, solidag: 0.7 },
     lag: ['innlandet'],
   },
   {
     id: 'fakta',
     navn: 'Harde fakta',
-    vekter: { kjoretid: 0.8, timer: 7, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0 },
+    vekter: { kjoretid: 0.8, timer: 7, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0.7 },
   },
   {
     // Ser bort fra Windy-kartet, ellers blir hele Hardanger utelukket
     id: 'norheimsund',
     navn: 'Norheimsund',
-    vekter: { kjoretid: 0.6, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 0, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 1, innlandet: 0 },
+    vekter: { kjoretid: 0.6, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 0, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 1, innlandet: 0, solidag: 0 },
     lag: ['teorier'],
   },
   {
     id: 'retning',
     navn: 'Retningsteorien',
-    vekter: { kjoretid: 0.8, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 1, retning: 0.9, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0 },
+    vekter: { kjoretid: 0.8, timer: 7, slingring: 1.5, vei: 0.8, skyfri: 1, retning: 0.9, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0 },
     lag: ['retning'],
   },
   {
     id: 'fly',
     navn: 'Flyet kl. 21:29',
-    vekter: { kjoretid: 0.4, timer: 5, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 1, bokstaver: 0, innlandet: 0 },
+    vekter: { kjoretid: 0.4, timer: 5, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 1, bokstaver: 0, innlandet: 0, solidag: 0.7 },
     lag: ['fly'],
   },
   {
     id: 'kort',
     navn: 'Kortere tur (3–5 t)',
-    vekter: { kjoretid: 1, timer: 4, slingring: 1, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.4, fly: 0, bokstaver: 0, innlandet: 0 },
+    vekter: { kjoretid: 1, timer: 4, slingring: 1, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.4, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0 },
   },
   {
     id: 'agder',
     navn: 'Agder-teorien',
-    vekter: { kjoretid: 0.5, timer: 4, slingring: 1.5, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0.9, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0 },
+    vekter: { kjoretid: 0.5, timer: 4, slingring: 1.5, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0.9, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0 },
     lag: ['skyanalyse'],
   },
   {
     id: 'defaultno',
     navn: 'Som default.no',
-    vekter: { kjoretid: 0.3, timer: 3.5, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 1, fly: 0, bokstaver: 0, innlandet: 0 },
+    vekter: { kjoretid: 0.3, timer: 3.5, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 1, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0 },
     lag: ['defaultno'],
   },
 ]
@@ -115,9 +117,10 @@ export function faktorer(p: Punkt, v: Vekter, { flyPos, innlandet: innlandetRing
   if (v.fly > 0) for (const f of flyPos) flyKm = Math.min(flyKm, avstand(pos, f))
   const fly = flyPos.length ? gauss(flyKm, 10) : 1
 
+  const solidag = SOL_I_DAG.some((r) => iPolygon(pos, r)) ? 1 : 0
   const innlandet = innlandetRinger.length ? (innlandetRinger.some((r) => iPolygon(pos, r)) ? 1 : 0) : 1
 
-  return { kjoretid, vei, skyfri, retning, skyanalyse, defaultno, fly, bokstaver, innlandet }
+  return { kjoretid, vei, skyfri, retning, skyanalyse, defaultno, fly, bokstaver, innlandet, solidag }
 }
 
 export function poeng(f: Record<FaktorId, number>, v: Vekter): number {

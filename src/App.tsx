@@ -43,7 +43,7 @@ export default function App() {
   const [norge, setNorge] = useState<GeoJSON.MultiPolygon | null>(null)
   const [flyData, setFlyData] = useState<FlyData | null>(null)
   const [innlandet, setInnlandet] = useState<GeoJSON.MultiPolygon | null>(null)
-  const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['modell', 'teoriomrader', 'skydekke', 'utenfor']))
+  const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['modell', 'teoriomrader', 'skydekke', 'solidag', 'utenfor']))
   const [vekter, setVekter] = useState<Vekter>(FORHAND[0].vekter)
   const [aktiveBevis, setAktiveBevis] = useState<Set<string>>(() => new Set(BEVIS.filter((b) => b.standardPa).map((b) => b.id)))
   const [bakgrunn, setBakgrunn] = useState<Bakgrunn>('gra')
