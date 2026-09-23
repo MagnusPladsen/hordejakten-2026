@@ -187,6 +187,7 @@ export const LAG: Lag[] = [
     tegn: [
       { stil: 'prikk', farge: FARGE.defaultno, tekst: 'Kandidat (nummer = rangering)' },
       { stil: 'ring', farge: FARGE.defaultno, tekst: '10 km-radius' },
+      { stil: 'ring', farge: FARGE.defaultno, tekst: 'Terrengtreff (vei, furu, relieff)' },
     ],
     kilde: 'default.no, 22.09 kl. 16:42.',
   },

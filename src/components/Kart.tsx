@@ -2,7 +2,7 @@ import { useEffect, useImperativeHandle, useLayoutEffect, useRef, type Ref } fro
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-import { BERGEN, DEFAULTNO, FLY_PUNKT, FLY_PUNKT2, HYTTER, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, STEDER, TAAKE, TEORIER, type Sted } from '@/data/innhold'
+import { BERGEN, DEFAULTNO, DEFAULTNO_TERRENG, FLY_PUNKT, FLY_PUNKT2, HYTTER, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, STEDER, TAAKE, TEORIER, type Sted } from '@/data/innhold'
 import { FARGE, KJORETID_KLASSER, type LagId } from '@/data/lag'
 import { avstand, destinasjon, formaterTid, iPolygon, sektor, storsirkel, type LatLon } from '@/lib/geo'
 import { PEKETID_EKTE, posisjon, type FlyData } from '@/lib/fly'
@@ -228,6 +228,13 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, konte
       L.circle(k.pos, { radius: 10000, color: FARGE.defaultno, weight: 1.5, dashArray: '3 4', fillOpacity: 0.04, interactive: false }).addTo(g.defaultno)
       L.marker(k.pos, { icon: pin('pin-default', String(k.nr), 24) })
         .bindPopup(popupTekst(`#${k.nr} ${k.navn}`, `${k.p} i default.no sin modell.`))
+        .addTo(g.defaultno)
+    }
+
+    for (const t of DEFAULTNO_TERRENG) {
+      L.marker(t.pos, { icon: pin('pin-terreng', '', 14) })
+        .bindTooltip(`${t.navn} (${t.omrade})`, { direction: 'right', offset: [8, 0], className: 'etikett' })
+        .bindPopup(popupTekst(`Terrengtreff: ${t.navn}`, `Sterkt treff i default.no sitt terrengsøk (${t.omrade}): nær vei, oppover, furu og riktig relieff.`))
         .addTo(g.defaultno)
     }
 
