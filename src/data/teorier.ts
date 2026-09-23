@@ -297,10 +297,10 @@ export const BEVIS: Bevis[] = [
     // Andel av teori-sirkelen som er grønn (ikke utelukket) i fellesskapets kart 23.09
     id: 'folk_utelukket',
     kilde: 'folk',
-    tittel: 'Fellesskapets utelukkingskart (ingen sopp, fjellbjørk)',
-    forklaring: 'Rødt, rosa (ingen sopp) og lyseblått (fjellbjørk) er utelukket. Åpent: Rudshøgda 100 %, Rena 93 %, Ringsaker 83 %, Løten 77 %, Gjøvik 44 %, Solør 18 %, Røros 14 %.',
+    tittel: 'Fellesskapets utelukkingskart (fjellbjørk)',
+    forklaring: 'Rødt og lyseblått (fjellbjørk) er utelukket. Åpent: Rudshøgda 100 %, Gjøvik 95 %, Rena 93 %, Ringsaker 83 %, Løten 77 %, Røros 20 %, Solør 18 %.',
     standardPa: true,
-    faktor: tabell({ rudshogda: 1.0, rena: 0.94, ringsaker: 0.85, loten: 0.79, gjovik: 0.5, solor: 0.26, roros: 0.23, valdres: 0.14, agder: 0.13, hardanger: 0.1, annet: 0.5 }),
+    faktor: tabell({ rudshogda: 1.0, gjovik: 0.96, rena: 0.94, ringsaker: 0.85, loten: 0.79, roros: 0.28, solor: 0.26, valdres: 0.15, agder: 0.13, hardanger: 0.1, annet: 0.5 }),
   },
   {
     id: 'folk_digeras',

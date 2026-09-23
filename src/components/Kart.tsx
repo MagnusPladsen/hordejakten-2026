@@ -315,7 +315,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
         SKYDEKKE.some((r) => iPolygon(klikk, r)) && 'Blått på Windy (utelukket)',
         SOL_I_DAG.some((r) => iPolygon(klikk, r)) && 'Klart på satellitt 23.09',
         TAAKE.some((r) => iPolygon(klikk, r)) && 'Tåke i morges (utelukket)',
-        ktx.utelukket?.has(utelukkNokkel(klikk[0], klikk[1])) && 'Utelukket av fellesskapet (sopp/fjellbjørk)',
+        ktx.utelukket?.has(utelukkNokkel(klikk[0], klikk[1])) && 'Utelukket av fellesskapet (fjellbjørk/rødt)',
         ktx.innlandet.some((r) => iPolygon(klikk, r)) && 'I Innlandet fylke',
         ...TEORIER_LISTE.filter((t) => t.senter && avstand(klikk, t.senter) <= t.radiusKm).map((t) => `Teori: ${t.navn}`),
       ].filter(Boolean)
@@ -437,7 +437,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
     if (!utelukket || !g) return
     g.utelukket.clearLayers()
     const renderer = L.canvas({ padding: 0.3, pane: 'rutenett' })
-    const farger: Record<string, string> = { R: '#dc2626', M: '#d946ef', C: '#22d3ee' }
+    const farger: Record<string, string> = { R: '#dc2626', C: '#22d3ee' }
     for (const [la, lo, k] of utelukket) {
       L.rectangle(
         [
