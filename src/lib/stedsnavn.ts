@@ -12,7 +12,7 @@ export function stedsnavn(lat: number, lon: number): Promise<string | null> {
   const lagret = cache.get(nokkel)
   if (lagret) return lagret
 
-  const url = `https://ws.geonorge.no/stedsnavn/v1/punkt?nord=${lat}&ost=${lon}&koordsys=4258&radius=8000&treffPerSide=100&utkoordsys=4258`
+  const url = `https://ws.geonorge.no/stedsnavn/v1/punkt?nord=${lat}&ost=${lon}&koordsys=4258&radius=5000&treffPerSide=100&utkoordsys=4258`
   const svar = fetch(url)
     .then((r) => (r.ok ? (r.json() as Promise<Svar>) : null))
     .then((d) => {

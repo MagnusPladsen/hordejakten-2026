@@ -140,12 +140,12 @@ export const LAG: Lag[] = [
     kort: 'Toppruter i deres fusjonsmodell',
     merkelapp: 'beregnet',
     forklaring:
-      'De fem beste rutene i default.no sin modell (fly, vær, satellitt, fuglelyd, skog). Ringen er 10 km. Merk at flere ligger bare ca. 3,5 t fra Oslo.',
+      'De fem beste rutene i default.no sin modell (fly, vær, satellitt, fuglelyd, skog). Ringen er 10 km. Merk at nr. 1 bare er ca. 3,5 t fra Oslo, mens Anja tror hun sov ca. 7 t.',
     tegn: [
       { stil: 'prikk', farge: FARGE.defaultno, tekst: 'Kandidat (nummer = rangering)' },
       { stil: 'ring', farge: FARGE.defaultno, tekst: '10 km-radius' },
     ],
-    kilde: 'default.no, 22.09 kl. 12:41.',
+    kilde: 'default.no, 22.09 kl. 16:42.',
   },
   {
     id: 'steder',
@@ -172,16 +172,17 @@ export const LAG: Lag[] = [
   },
   {
     id: 'fly',
-    navn: 'Flyet kl. 21:30',
-    kort: 'Oslo–Bodø, sett og hørt',
+    navn: 'Fly i lufta kl. 21:29',
+    kort: 'Anja pekte rett opp og skrev «FLY»',
     merkelapp: 'tolkning',
     forklaring:
-      'Ruten Oslo lufthavn–Bodø. NOZ56U var i stigning og passerte ca. 21:29 ekte tid. Den tykke biten er et grovt anslag på hvor flyet var da, 100–200 km fra Gardermoen.',
+      'Sporene til alle 49 fly som var i lufta 21:28–21:34 (ekte tid). Prikkene viser hvor hvert fly var da Anja pekte opp. Kassen bør ligge nær et spor. Det tykke sporet er NOZ56U (Oslo–Bodø), beste treff hos default.no, og ringen er 10 km rundt der det var. Svake spor er fly under 3000 fot.',
     tegn: [
-      { stil: 'stiplet', farge: FARGE.fly, tekst: 'Flyrute Oslo–Bodø' },
-      { stil: 'linje', farge: FARGE.fly, tekst: 'Omtrent her kl. 21:29 (anslag)' },
+      { stil: 'linje', farge: FARGE.fly, tekst: 'Flyspor 21:28–21:34' },
+      { stil: 'prikk', farge: FARGE.fly, tekst: 'Posisjon da hun pekte opp' },
+      { stil: 'ring', farge: FARGE.fly, tekst: 'NOZ56U, 10 km' },
     ],
-    kilde: 'ADS-B via default.no, 45 sek forsinkelse.',
+    kilde: 'ADS-B fra adsb.lol (via default.no). Streamen er 45 sek forsinket.',
   },
   {
     id: 'felt',

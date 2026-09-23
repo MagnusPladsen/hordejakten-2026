@@ -1,0 +1,177 @@
+import { useMemo, useState } from 'react'
+import { ExternalLink, MapPinned } from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { BOKSTAVER, HINT, STATUS, type Hint } from '@/data/innhold'
+import { cn } from '@/lib/utils'
+
+const FILTRE = [
+  { id: 'alle', navn: 'Alle', test: () => true },
+  { id: 'sted', navn: 'Om stedet', test: (h: Hint) => !!h.lag?.length },
+  { id: 'apen', navn: 'Uløst', test: (h: Hint) => h.status === 'apen' || h.status === 'usikker' || h.status === 'tolkning' },
+  { id: 'lost', navn: 'Løst', test: (h: Hint) => h.status === 'lost' },
+] as const
+
+const STATUSKANT: Record<Hint['status'], string> = {
+  lost: 'border-l-emerald-400',
+  bekreftet: 'border-l-sky-400',
+  tolkning: 'border-l-amber-400',
+  usikker: 'border-l-slate-300',
+  apen: 'border-l-fuchsia-400',
+}
+
+export function HintPanel({ onVisPaKart }: { onVisPaKart: (h: Hint) => void }) {
+  const [filter, setFilter] = useState<(typeof FILTRE)[number]['id']>('alle')
+  const liste = HINT.filter(FILTRE.find((f) => f.id === filter)!.test)
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <h2 className="text-xl font-semibold tracking-tight">Alle hint</h2>
+        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+          Hva vi vet, og hva det betyr for hvor kassen kan stå. Hint med kartknapp slår på riktig kartlag.
+        </p>
+      </div>
+      <div className="flex flex-wrap gap-1.5">
+        {FILTRE.map((f) => (
+          <button
+            key={f.id}
+            type="button"
+            onClick={() => setFilter(f.id)}
+            className={cn(
+              'rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors',
+              filter === f.id ? 'border-slate-900 bg-slate-900 text-white' : 'bg-white text-slate-600 hover:bg-slate-50',
+            )}
+          >
+            {f.navn} <span className="opacity-60">{HINT.filter(f.test).length}</span>
+          </button>
+        ))}
+      </div>
+      <div className="space-y-2.5">
+        {liste.map((h) => (
+          <article key={h.id} className={cn('rounded-2xl border border-l-4 bg-card p-4', STATUSKANT[h.status])}>
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-[15px] leading-snug font-semibold">{h.tittel}</h3>
+              <span className={cn('shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-semibold ring-1', STATUS[h.status].klasse)}>{STATUS[h.status].tekst}</span>
+            </div>
+            <p className="mt-2 text-[13.5px] leading-relaxed text-slate-600">{h.tekst}</p>
+            <p className="mt-2 text-[13.5px] leading-relaxed">
+              <span className="font-semibold text-primary">Betyr: </span>
+              {h.betydning}
+            </p>
+            {h.kompass && <Kompass />}
+            {h.anagram && <Anagram />}
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+              <span className="font-mono text-[11px] text-muted-foreground">
+                {h.dato && `${h.dato} · `}
+                {h.kilde}
+              </span>
+              <div className="flex gap-1.5">
+                {h.lenke && (
+                  <Button asChild variant="outline" size="sm">
+                    <a href={h.lenke} target="_blank" rel="noopener">
+                      Åpne <ExternalLink />
+                    </a>
+                  </Button>
+                )}
+                {h.lag && (
+                  <Button size="sm" onClick={() => onVisPaKart(h)}>
+                    <MapPinned /> Vis på kartet
+                  </Button>
+                )}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/** Skisse av kassen sett ovenfra: kamera ca. 73°, parkering ca. 118° */
+function Kompass() {
+  const pil = (grader: number, r: number) => {
+    const a = ((grader - 90) * Math.PI) / 180
+    return [100 + r * Math.cos(a), 100 + r * Math.sin(a)]
+  }
+  const [px, py] = pil(118, 78)
+  const [kx, ky] = pil(73, 70)
+  const [bx, by] = pil(298, 70)
+  return (
+    <figure className="mt-3 rounded-xl bg-slate-50 p-3">
+      <svg viewBox="0 0 200 200" className="mx-auto block w-full max-w-[230px]" role="img" aria-label="Kompass-skisse av kassen">
+        <circle cx="100" cy="100" r="86" fill="#fff" stroke="#cbd5e1" />
+        {Array.from({ length: 36 }, (_, i) => {
+          const [x1, y1] = pil(i * 10, i % 9 === 0 ? 76 : 81)
+          const [x2, y2] = pil(i * 10, 86)
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#94a3b8" strokeWidth={i % 9 === 0 ? 1.6 : 0.8} />
+        })}
+        {[['N', 0], ['Ø', 90], ['S', 180], ['V', 270]].map(([t, g]) => {
+          const [x, y] = pil(g as number, 66)
+          return (
+            <text key={t} x={x} y={y + 4} textAnchor="middle" fontSize="12" fontWeight="700" fill="#0f172a">
+              {t}
+            </text>
+          )
+        })}
+        <line x1="100" y1="100" x2={bx} y2={by} stroke="#16a34a" strokeWidth="2" strokeDasharray="4 4" />
+        <line x1="100" y1="100" x2={kx} y2={ky} stroke="#0284c7" strokeWidth="2" strokeDasharray="3 3" />
+        <circle cx={kx} cy={ky} r="5" fill="#0284c7" />
+        <line x1="100" y1="100" x2={px} y2={py} stroke="#ea580c" strokeWidth="3" />
+        <circle cx={px} cy={py} r="6" fill="#ea580c" />
+        <rect x="88" y="90" width="24" height="20" rx="3" fill="#0f172a" transform="rotate(-17 100 100)" />
+      </svg>
+      <figcaption className="mt-2 space-y-1 text-xs text-slate-600">
+        <p className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-orange-600" /> Parkering ca. 118° (øst-sørøst)</p>
+        <p className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-sky-600" /> Kamera ca. 73°</p>
+        <p className="flex items-center gap-2"><span className="h-0.5 w-2.5 bg-green-600" /> Fra bilen: gå mot 298° (vest-nordvest)</p>
+      </figcaption>
+    </figure>
+  )
+}
+
+/** Sjekker om et ord kan lages av de bekreftede bokstavene (hver bokstav én gang) */
+function Anagram() {
+  const [ord, setOrd] = useState('')
+  const { brukt, mangler } = useMemo(() => {
+    const igjen = [...BOKSTAVER]
+    const brukt = new Set<number>()
+    const mangler: string[] = []
+    for (const tegn of ord.toUpperCase().replace(/[^A-ZÆØÅ]/g, '')) {
+      const i = igjen.findIndex((b, j) => b === tegn && !brukt.has(j))
+      if (i < 0) mangler.push(tegn)
+      else brukt.add(i)
+    }
+    return { brukt, mangler }
+  }, [ord])
+  const lengde = ord.replace(/[^A-Za-zÆØÅæøå]/g, '').length
+
+  return (
+    <div className="mt-3 rounded-xl bg-slate-50 p-3">
+      <div className="flex flex-wrap gap-1.5">
+        {BOKSTAVER.map((b, i) => (
+          <span
+            key={i}
+            className={cn(
+              'grid h-9 w-8 place-items-center rounded-lg border bg-white font-mono text-sm font-bold transition-colors',
+              brukt.has(i) && 'border-primary bg-primary text-primary-foreground',
+            )}
+          >
+            {b}
+          </span>
+        ))}
+      </div>
+      <Input className="mt-3 bg-white font-mono uppercase" placeholder="Prøv et ord, f.eks. MINUS HORDE" value={ord} onChange={(e) => setOrd(e.target.value)} />
+      {lengde > 0 && (
+        <p className={cn('mt-2 text-xs font-medium', mangler.length ? 'text-rose-600' : 'text-emerald-700')}>
+          {mangler.length
+            ? `Mangler: ${mangler.join(' ')} (kan komme i senere bokstaver)`
+            : lengde === BOKSTAVER.length
+              ? 'Bruker alle bokstavene!'
+              : `Går opp. ${BOKSTAVER.length - lengde} bokstaver til overs.`}
+        </p>
+      )}
+    </div>
+  )
+}

@@ -46,7 +46,7 @@ export const HINT: Hint[] = [
     status: 'bekreftet',
     kilde: 'Tavla + Anja',
     dato: '21.09',
-    tekst: 'Anja ble hentet i Oslo søndag 20.09 kl. 04:00. Hun tror hun sov ca. 7 timer i bilen og vet ikke hvor hun er. Kun bil, ingen ferge, usikker på tunneler.',
+    tekst: 'Anja ble hentet i Oslo søndag 20.09 kl. 04:00. Hun tror hun sov ca. 7 timer i bilen og vet ikke hvor hun er. Kun bil, ingen ferge, usikker på tunneler. Streamen startet mandag 21.09 ca. 07:00.',
     betydning: 'Gir en kjøretidsring rundt Oslo. Hun sov, så kjøretiden er usikker. Velg antatt kjøretid og slingringsmonn i modellen.',
     lag: ['kjoretid', 'modell'],
   },
@@ -203,10 +203,10 @@ export const HINT: Hint[] = [
     id: 'fly',
     tittel: 'Fly sett og hørt kl. 21:30',
     status: 'tolkning',
-    kilde: 'Tavla («FLY») + ADS-B (default.no)',
+    kilde: 'Tavla («FLY») + ADS-B (adsb.lol via default.no)',
     dato: '21.09',
-    tekst: 'Anja pekte opp og skrev «FLY» ca. 21:30 streamtid. Beste treff i flydataene er NOZ56U fra Oslo til Bodø, i stigning.',
-    betydning: 'Streamen er 45 sek forsinket (bekreftet), så ekte tid er ca. 21:29. Ruten Oslo–Bodø går nordover over Hedmark.',
+    tekst: 'Anja pekte rett opp kl. 21:29:38 og skrev «FLY» kl. 21:30 (streamtid). 49 fly var i lufta. Beste treff er NOZ56U (Oslo–Bodø), som var over Løten i ca. 24 000 fot.',
+    betydning: 'Kassen bør ligge nær sporet til et fly som var i lufta akkurat da. Streamen er 45 sek forsinket (bekreftet). NOZ56U-treffet peker mot Hedmark, bare ca. 2 t fra Oslo.',
     lag: ['fly'],
   },
   {
@@ -218,6 +218,24 @@ export const HINT: Hint[] = [
     tekst: '5–10 min å gå fra bilen, oppover. Kupert terreng, mye lyng og furuskog. Fire store steiner, en presenning og mer åpen skog til høyre for henne.',
     betydning: 'Leter du i felt: 400–800 m fra en skogsbilvei, oppover, på lyngdekt furumo.',
     lag: ['felt'],
+  },
+  {
+    id: 'hintvideo',
+    tittel: 'Offisiell hintvideo: «Trenger du et hint?»',
+    status: 'bekreftet',
+    kilde: 'YouTube H_-0LbPSu5s',
+    dato: '22.09',
+    tekst: 'Bare 0–3 s og 10–12 s viser selve stedet, resten er arkivbilder. Kassen står på en lav plattform i blåbær- og tyttebærlyng, med gule bjørker og høye furuer bak.',
+    betydning: 'Furumo med bjørk og bærlyng: typisk for Østlandet og indre Agder, mindre typisk for kysten.',
+    lenke: 'https://www.youtube.com/watch?v=H_-0LbPSu5s',
+  },
+  {
+    id: 'tommer',
+    tittel: 'Tømmerdrift i nærheten',
+    status: 'usikker',
+    kilde: 'Stream (via default.no)',
+    tekst: 'Anja har kjent lukt av tømmer, hørt dunking og sett en lastet tømmerbil.',
+    betydning: 'Aktiv hogst i nærheten. Ferske hogstflater på satellittbilder kan hjelpe når du har et kandidatområde.',
   },
 ]
 
@@ -265,14 +283,17 @@ export const TEORIER: Sted[] = [
   { id: 'notteroy', navn: 'Nøtterøy (utelukket)', pos: [59.21, 10.42], type: 'teori', utelukket: true, info: 'Ordspill på «nøtt», men «Ikke en øy» og «ingen ferge» taler mot.' },
 ]
 
-/** Toppkandidater fra default.no sin fusjonsmodell (22.09 kl. 12:41) */
+/** Toppkandidater fra default.no sin fusjonsmodell (22.09 kl. 16:42) */
 export const DEFAULTNO: { nr: number; pos: LatLon; navn: string; p: string }[] = [
-  { nr: 1, pos: [61.45, 11.0], navn: 'Østerdalen (Elverum)', p: '4,7 % innen 10 km' },
-  { nr: 2, pos: [61.1, 11.0], navn: 'Sør for Løten og Koppang', p: '3,1 % innen 10 km' },
-  { nr: 3, pos: [61.75, 8.4], navn: 'Indre Oppland', p: '2,2 % innen 10 km' },
-  { nr: 4, pos: [61.1, 11.6], navn: 'Østre Innlandet', p: '2,5 % innen 10 km' },
-  { nr: 5, pos: [60.9, 8.9], navn: 'Valdres og Hallingdal', p: '1,4 % innen 10 km' },
+  { nr: 1, pos: [61.45, 11.1], navn: 'Rena og Åmot (Østerdalen)', p: '4,2 % innen 10 km' },
+  { nr: 2, pos: [58.75, 9.3], navn: 'Gjerstad og Vegårshei (Agder)', p: '2,2 % innen 10 km' },
+  { nr: 3, pos: [61.75, 8.4], navn: 'Indre Oppland', p: '1,4 % innen 10 km' },
+  { nr: 4, pos: [60.35, 11.2], navn: 'Nes og Eidsvoll', p: '1,2 % innen 10 km' },
+  { nr: 5, pos: [61.15, 10.9], navn: 'Løten og Hamar', p: '1,1 % innen 10 km' },
 ]
+
+/** Der NOZ56U var da Anja skrev «FLY» (ekte tid ca. 21:29:50) */
+export const FLY_PUNKT = { pos: [60.8705, 11.2481] as LatLon, kallesignal: 'NOZ56U', hoydeFot: 23892 }
 
 /** Skyanalyse-kartet. Møtepunktet er lest av bildet, ±15 km. */
 export const SKYANALYSE = { senter: [58.7, 8.27] as LatLon, indreKm: 12, ytreKm: 45 }
@@ -282,9 +303,6 @@ export const SKYDEKKE: LatLon[][] = [
   [[62.3, 4.6], [62.4, 6.3], [62.7, 7.3], [62.95, 8.2], [63.2, 9.2], [63.1, 10.2], [63.0, 11.3], [63.3, 12.1], [64.0, 12.6], [65.0, 13.2], [66.0, 13.5], [66.0, 11.5], [65.0, 10.5], [64.2, 9.2], [63.6, 7.8], [63.0, 6.0], [62.5, 4.4]],
   [[58.9, 5.1], [59.8, 4.6], [61.0, 4.3], [62.3, 4.6], [62.0, 4.95], [61.2, 4.85], [60.5, 4.95], [59.8, 5.15], [59.0, 5.45]],
 ]
-
-/** Flyruten Oslo lufthavn → Bodø (NOZ56U ble sett ca. 21:30) */
-export const FLYRUTE = { fra: [60.1939, 11.1004] as LatLon, til: [67.2692, 14.3653] as LatLon }
 
 export const BOKSTAVER = ['I', 'S', 'N', 'D', 'O', 'R', 'U', 'E', 'M', 'H']
 
