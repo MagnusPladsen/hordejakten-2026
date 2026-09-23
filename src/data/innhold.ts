@@ -461,7 +461,7 @@ export const HINT: Hint[] = [
   },
 ]
 
-/** Svar Anja har skrevet på tavla. Tider er streamtid (45 sek forsinket). */
+/** Svar Anja har skrevet på tavla, i rekkefølgen de kom (nye legges nederst). Tider er streamtid (45 sek forsinket). */
 export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: string }[] }[] = [
   { t: '21.09 18:31', tekst: 'INGEN FLY · INGEN SKYTING · OSLO, SØN KL 04.00 · CA 5–10 MIN Å GÅ FRA BIL' },
   { t: '21.09 18:36', tekst: 'INGEN FERGE · KUN BIL · VET IKKE ANG. TUNELLER' },
@@ -478,12 +478,12 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
   { t: '21.09 21:30', tekst: 'FLY (pekte opp, litt mot sørøst)' },
   { t: 'Ukjent', tekst: 'ØST CA 118 · RETNING SKILT (skiltet peker ca. 118°)' },
   { t: 'Ukjent', tekst: 'VIL DERE SE EN BACKFLIP?' },
+  { t: '23.09 09:33', tekst: 'DET GÅR FINT · TAKK SOM SPØR ♡' },
   { t: '23.09', tekst: 'LAST NED HORDE APPEN' },
   { t: '23.09', tekst: 'REVEN HETER BENNY' },
   { t: '23.09', tekst: '118–120 GR ØST (retningen skiltet peker)' },
   { t: '23.09', tekst: 'SOLA VAR OPPE FØR 07' },
   { t: '23.09', tekst: '«+5» på genseren' },
-  { t: '23.09', tekst: 'KAMERA 41 ØST' },
   {
     t: '23.09',
     tekst: 'SKISSE av stedet. Beste lesning: «KAMERA» øverst, kassen i midten, «SKILT» til høyre. Ordet til venstre og nederst er ikke lesbart.',
@@ -492,7 +492,7 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
       { src: 'img/tavle-skisse-forsterket.jpg', alt: 'Tavla forsterket i kontrast' },
     ],
   },
-  { t: '23.09 09:33', tekst: 'DET GÅR FINT · TAKK SOM SPØR ♡' },
+  { t: '23.09', tekst: 'KAMERA 41 ØST' },
 ]
 
 export type Sted = {
