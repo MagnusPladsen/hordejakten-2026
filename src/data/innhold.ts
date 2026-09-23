@@ -177,6 +177,16 @@ export const HINT: Hint[] = [
     fokus: 'froland',
   },
   {
+    id: 'lydtett',
+    tittel: '«LYDTETT · SOL · VINDSTILLE» (17:49)',
+    status: 'bekreftet',
+    kilde: 'Tavla',
+    dato: '23.09',
+    tekst: 'Anja skrev kl. 17:49: «LYDTETT», «SOL» og «VINDSTILLE».',
+    betydning: 'Lydtett forklarer hvorfor hun ikke hører tog, bil eller skyting, og at lyden på streamen ikke kan brukes. Sol kl. 17:49 23.09 betyr at stedet ikke var overskyet på ettermiddagen, som passer med de klare områdene på satellitt (Kongsvinger–Rena). Vindstille gir et nytt værhint: sjekk vind fra værstasjoner kl. 17–18 i kandidatområdene.',
+    lag: ['solidag'],
+  },
+  {
     id: 'kamera41',
     tittel: 'Kameraet står 41° (nordøst)',
     status: 'bekreftet',
@@ -522,6 +532,7 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     ],
   },
   { t: '23.09', tekst: 'KAMERA 41 ØST' },
+  { t: '23.09 17:49', tekst: 'LYDTETT · SOL · VINDSTILLE' },
 ]
 
 export type Sted = {
@@ -849,13 +860,19 @@ export const SIKRE_FAKTA: string[] = [
   'Kun bil, ingen ferge. De siste 5–10 min ble hun båret oppover med sovemaske og headset.',
   'Skog med furu, gran og mye bjørk, lyng og bærlyng. Fire store steiner. Kupert rundt.',
   'Klar himmel kvelden 21.09. Sola var oppe før kl. 07.',
-  'Stille sted: ingen fly på dagtid, ingen tog, bil eller skyting.',
+  'Kassen er lydtett, så hun hører lite utenfra. Sol og vindstille kl. 17:49 den 23.09.',
   'Horde-skiltet peker 118–120° mot kassen. Kameraet står ca. 41° (nordøst) fra kassen.',
   'Kassen har 2 kodelåser med 4 siffer. Appen ga 5008 som hint.',
 ]
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '23.09 kl. 17:49',
+    tittel: 'Ny tavle: «LYDTETT · SOL · VINDSTILLE»',
+    tekst: 'Kassen er lydtett, så hun hører lite utenfra. Det var sol og vindstille kl. 17:49. Sammenlign med værstasjoner i kandidatområdene.',
+    hint: 'lydtett',
+  },
   {
     tid: '23.09 kveld',
     tittel: 'Mange leter nå ved Rudshøgda (Prøysen-teorien)',
