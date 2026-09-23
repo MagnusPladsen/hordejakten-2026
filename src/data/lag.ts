@@ -178,7 +178,7 @@ export const LAG: Lag[] = [
     forklaring:
       'Kartet fellesskapet har laget 23.09. Rødt er utelukket, og lyseblått er utelukket fordi det vokser fjellbjørk der. Det som står igjen er stripa Hamar–Løten–Rena–Koppang, Ringsakfjellet/Rudshøgda og Gjøvik/Toten. Stedfestet fra et bilde, så kantene er omtrentlige (±10 km).',
     tegn: [
-      { stil: 'fyll', farge: '#dc2626', tekst: 'Utelukket' },
+      { stil: 'fyll', farge: '#b91c1c', tekst: 'Utelukket' },
       { stil: 'fyll', farge: '#22d3ee', tekst: 'Fjellbjørk' },
     ],
     kilde: 'Delt i chatten 23.09.',
