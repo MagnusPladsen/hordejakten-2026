@@ -6,6 +6,7 @@ import type {
 } from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import hodeSrc from '@/assets/kodejakten/alf-head.webp'
 import {
   BOSS_KIND,
   COMBO_STEP,
@@ -39,21 +40,38 @@ const BEST_KEY = 'ovelse_invasjon_beste'
 
 // ── Farger ───────────────────────────────────────────────────────────────────
 
+// Samme verdier som originalens COLORS og spillTema (spill 1).
 const ROMMET = ['#0B2436', '#071528', '#02050D']
 const CABINET = '#04101A'
-const ACCENT = '#35D0BA'
-const GULL = '#FFD84A'
-const KORALL = '#FF6A55'
-const KORALL_DYP = '#D9432F'
+/** COLORS.TEAL[100], aksenten i spill 1. */
+const ACCENT = '#86EBFF'
+/** COLORS.WHITE[100], teksten rundt brettet. */
+const TEKST = '#F2F2F2'
+const GULL = '#FFD80E'
+const KORALL = '#FF5E32'
+const KORALL_DYP = '#F43906'
 const HVIT = '#FFFFFF'
-const SKROG = '#0F3B2C'
+const SKROG = '#014639'
 const PAPER = '#F7F5EE'
 const PAPER_SHADE = '#CFC9B8'
-const SKIN = '#F1C8A0'
-const HAIR = '#5A3A22'
-/** Regningenes stripe, etter type. */
-const STRIPES = [KORALL, '#FF9A3D', '#FF78A9']
-const FONT = "'Geist Variable', system-ui, sans-serif"
+/** Regningenes stripe, etter type: CORAL, ORANGE, PINK. */
+const STRIPES = [KORALL, '#FF9900', '#F7A1C6']
+/** Originalen tegner med Inter og Erlik; Geist tar over der de mangler. */
+const INTER = "Inter, 'Geist Variable', system-ui, sans-serif"
+const ERLIK = "Erlik, Inter, 'Geist Variable', system-ui, sans-serif"
+
+// Alfs hode, beskåret og plassert som i originalen (alfGeometry.ts).
+/** Lerretet alle Alf-delene er eksportert på: bredde delt på høyde. */
+const FIGURE_ASPECT = 0.28764
+/** Hodets omriss på lerretet, som andeler av bredde og høyde. */
+const HEAD_BOX = { left: 0.0496, top: 0.0095, right: 0.9642, bottom: 0.317 }
+const HEAD_W = HEAD_BOX.right - HEAD_BOX.left
+const HEAD_H = HEAD_BOX.bottom - HEAD_BOX.top
+const HEAD_ASPECT = (HEAD_W * FIGURE_ASPECT) / HEAD_H
+const HEAD_DRAW_H = 42
+const HEAD_DRAW_W = HEAD_DRAW_H * HEAD_ASPECT
+/** Hodet står midt på treffboksen, og henger like mye utenfor over som under. */
+const HEAD_TOP = SHIP.y + SHIP.h / 2 - HEAD_DRAW_H / 2
 
 const rgba = (hex: string, a: number) => {
   const n = parseInt(hex.slice(1), 16)
@@ -88,6 +106,7 @@ type View = {
   shake: number
   flash: number
   scale: number
+  head: HTMLImageElement | null
 }
 
 type Ui = {
@@ -242,11 +261,11 @@ const drawBoss = (ctx: CanvasRenderingContext2D, enemy: Enemy, tick: number) => 
   ctx.fillRect(x, y + 12, w, 6)
   ctx.textAlign = 'center'
   ctx.fillStyle = HVIT
-  ctx.font = `700 10px ${FONT}`
+  ctx.font = `700 10px ${INTER}`
   ctx.fillText('HOVEDKRAV', enemy.x, y + 13)
   ctx.fillStyle = '#17110B'
-  ctx.font = `800 17px ${FONT}`
-  ctx.fillText('1 116 897', enemy.x, y + 41)
+  ctx.font = `800 19px ${ERLIK}`
+  ctx.fillText('1 116 897', enemy.x, y + 42)
   ctx.fillStyle = 'rgba(20, 20, 20, 0.28)'
   ctx.fillRect(x + 14, y + 50, w - 28, 2)
   ctx.fillRect(x + 14, y + 56, w - 46, 2)
@@ -259,18 +278,20 @@ const drawBoss = (ctx: CanvasRenderingContext2D, enemy: Enemy, tick: number) => 
   ctx.restore()
 }
 
-/** Toppen av tegningen rundt skipet (hodet står midt på treffboksen). */
-const SHIP_TOP = SHIP.y + SHIP.h / 2 - 21
-
-const drawShip = (ctx: CanvasRenderingContext2D, run: Run) => {
+const drawShip = (
+  ctx: CanvasRenderingContext2D,
+  run: Run,
+  head: HTMLImageElement | null,
+) => {
   const { x } = run.ship
-  const top = SHIP_TOP
+  // Tegningen bygges rundt hodet, som står midt på treffboksen.
+  const top = HEAD_TOP
   const mercy = run.tick < run.ship.mercyUntil
   const blink = mercy && Math.floor(run.tick / 5) % 2 === 0
   ctx.save()
   if (blink) ctx.globalAlpha = 0.45
 
-  // Flammen
+  // Flammen, som flakker i takt med tikkene.
   const flame = 6 + (run.tick % 4) * 2
   const fire = ctx.createLinearGradient(x, top + 46, x, top + 46 + flame)
   fire.addColorStop(0, GULL)
@@ -294,8 +315,10 @@ const drawShip = (ctx: CanvasRenderingContext2D, run: Run) => {
   ctx.closePath()
   ctx.fill()
   ctx.stroke()
+  ctx.fillStyle = rgba(ACCENT, 0.9)
+  ctx.fillRect(x - 12, top + 35, 24, 2)
 
-  // Kuppelen
+  // Kuppelen over hodet
   ctx.fillStyle = rgba(ACCENT, 0.16)
   ctx.strokeStyle = rgba(ACCENT, 0.6)
   ctx.lineWidth = 1.2
@@ -305,48 +328,20 @@ const drawShip = (ctx: CanvasRenderingContext2D, run: Run) => {
   ctx.fill()
   ctx.stroke()
 
-  // Alf: et rundt hode med hår, ører og smil.
-  const cx = x
-  const cy = top + 20
-  ctx.fillStyle = SKIN
-  ctx.beginPath()
-  ctx.arc(cx - 15, cy + 2, 3.5, 0, Math.PI * 2)
-  ctx.arc(cx + 15, cy + 2, 3.5, 0, Math.PI * 2)
-  ctx.fill()
-  ctx.beginPath()
-  ctx.arc(cx, cy, 15, 0, Math.PI * 2)
-  ctx.fill()
-  ctx.fillStyle = HAIR
-  ctx.beginPath()
-  ctx.arc(cx, cy - 1, 15.5, Math.PI * 1.05, Math.PI * 1.95)
-  ctx.quadraticCurveTo(cx + 6, cy - 9, cx - 2, cy - 7)
-  ctx.quadraticCurveTo(cx - 9, cy - 6, cx - 15, cy - 4)
-  ctx.closePath()
-  ctx.fill()
-  ctx.fillStyle = '#1B1B1B'
-  ctx.beginPath()
-  ctx.arc(cx - 5, cy + 1, 1.8, 0, Math.PI * 2)
-  ctx.arc(cx + 5, cy + 1, 1.8, 0, Math.PI * 2)
-  ctx.fill()
-  ctx.strokeStyle = '#7A3B2A'
-  ctx.lineWidth = 1.4
-  ctx.lineCap = 'round'
-  ctx.beginPath()
-  ctx.arc(cx, cy + 5, 5, Math.PI * 0.15, Math.PI * 0.85)
-  ctx.stroke()
-  ctx.fillStyle = HAIR
-  ctx.fillRect(cx - 8, cy - 3.5, 5, 1.4)
-  ctx.fillRect(cx + 3, cy - 3.5, 5, 1.4)
-
-  // Skrogets forkant ligger foran haken.
-  ctx.fillStyle = SKROG
-  ctx.beginPath()
-  ctx.moveTo(x - 18, top + 35)
-  ctx.quadraticCurveTo(x, top + 45, x + 18, top + 35)
-  ctx.quadraticCurveTo(x, top + 48, x - 18, top + 35)
-  ctx.fill()
-  ctx.fillStyle = rgba(ACCENT, 0.9)
-  ctx.fillRect(x - 12, top + 39, 24, 2)
+  // Hodet, beskåret til omrisset sitt
+  if (head && head.complete && head.naturalWidth) {
+    ctx.drawImage(
+      head,
+      HEAD_BOX.left * head.naturalWidth,
+      HEAD_BOX.top * head.naturalHeight,
+      HEAD_W * head.naturalWidth,
+      HEAD_H * head.naturalHeight,
+      x - HEAD_DRAW_W / 2,
+      top,
+      HEAD_DRAW_W,
+      HEAD_DRAW_H,
+    )
+  }
   ctx.restore()
 
   // Fredningsringen etter et treff.
@@ -423,7 +418,7 @@ const draw = (ctx: CanvasRenderingContext2D, run: Run, view: View) => {
     }
     ctx.shadowBlur = 0
     ctx.fillStyle = '#08131F'
-    ctx.font = `800 12px ${FONT}`
+    ctx.font = `800 12px ${INTER}`
     ctx.textAlign = 'center'
     ctx.fillText(shield ? '+' : '»', cx, cy + 4)
     ctx.restore()
@@ -453,7 +448,7 @@ const draw = (ctx: CanvasRenderingContext2D, run: Run, view: View) => {
     ctx.restore()
   })
 
-  drawShip(ctx, run)
+  drawShip(ctx, run, view.head)
 
   view.particles.forEach((p) => {
     ctx.save()
@@ -469,7 +464,7 @@ const draw = (ctx: CanvasRenderingContext2D, run: Run, view: View) => {
     ctx.save()
     ctx.globalAlpha = Math.min(1, t.life * 2)
     ctx.fillStyle = t.color
-    ctx.font = `800 11px ${FONT}`
+    ctx.font = `800 11px ${INTER}`
     ctx.textAlign = 'center'
     ctx.shadowColor = 'rgba(0, 0, 0, 0.9)'
     ctx.shadowBlur = 6
@@ -597,7 +592,16 @@ export function RegningsinvasjonenOvelse() {
       shake: 0,
       flash: 0,
       scale: 1,
+      head: null,
     }
+
+    const image = new Image()
+    image.decoding = 'async'
+    image.onload = () => {
+      view.head = image
+      if (ctx) draw(ctx, run, view)
+    }
+    image.src = hodeSrc
 
     const syncUi = () => {
       const alive = run.enemies.filter((e) => e.alive).length
@@ -834,6 +838,7 @@ export function RegningsinvasjonenOvelse() {
     startLoop()
 
     return () => {
+      image.onload = null
       stopLoop()
       clearTimer()
       observer.disconnect()
@@ -845,236 +850,297 @@ export function RegningsinvasjonenOvelse() {
 
   const { phase } = ui
   const levelName = LEVEL_NAMES[ui.levelIndex] ?? ''
+  const bloom = `0 28px 70px -40px ${rgba(ACCENT, 0.9)}`
+  const glass = `inset 0 1px 0 ${rgba(HVIT, 0.07)}`
+  const overlay =
+    phase === 'klar'
+      ? 'Hold for å starte'
+      : phase === 'tapt'
+        ? 'Hold for å prøve igjen'
+        : phase === 'pause'
+          ? 'Hold for å fortsette'
+          : ''
+  const overlayText = (phase === 'nivåklart' && banner) || overlay
 
   return (
-    <div
-      className="mx-auto flex w-full max-w-[520px] flex-col gap-2.5 rounded-2xl border p-3 text-white sm:p-4"
+    // Kabinettet (SpillRamme i originalen)
+    <section
+      className="relative mx-auto flex w-full max-w-[520px] flex-col gap-5 overflow-hidden rounded-[20px] border p-5 sm:p-7"
       style={{
         backgroundColor: CABINET,
         borderColor: rgba(ACCENT, 0.28),
-        boxShadow: `0 28px 70px -40px ${rgba(ACCENT, 0.9)}`,
+        boxShadow: `${bloom}, ${glass}`,
+        color: TEKST,
       }}
     >
-      {/* HUD over brettet: nivå og skjold */}
-      <div className="flex items-center justify-between gap-3 text-sm">
-        <span className="font-semibold">
-          Nivå {ui.levelIndex + 1} · {levelName}
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="mr-1 text-white/65">Skjold</span>
-          {Array.from({ length: SHIP.shields }, (_, i) => (
-            <span
-              key={i}
-              aria-hidden
-              className="size-2.5 rounded-full border transition-colors"
-              style={{
-                backgroundColor: i < ui.shields ? ACCENT : 'transparent',
-                borderColor: rgba(ACCENT, i < ui.shields ? 1 : 0.35),
-                boxShadow: i < ui.shields ? `0 0 8px ${ACCENT}` : 'none',
-              }}
-            />
-          ))}
-          <span className="sr-only">{ui.shields} av 3</span>
-        </span>
-      </div>
-
       <div
-        className="h-1 overflow-hidden rounded-sm bg-black/35"
         aria-hidden
-      >
-        <div
-          className="h-full origin-left transition-transform duration-150"
-          style={{
-            backgroundColor: ACCENT,
-            transform: `scaleX(${ui.progress})`,
-            boxShadow: `0 0 10px ${ACCENT}`,
-          }}
-        />
+        className="absolute inset-x-0 top-0 z-[1] h-0.5 opacity-85"
+        style={{
+          background: `linear-gradient(90deg, transparent, ${ACCENT}, transparent)`,
+        }}
+      />
+      <div className="flex min-w-0 flex-col gap-1.5">
+        <div className="flex items-center gap-2.5">
+          <h2
+            className="m-0 text-2xl leading-[1.33] font-black"
+            style={{ fontFamily: ERLIK }}
+          >
+            Kill the Bill
+          </h2>
+          <span
+            className="rounded-full border px-2 py-0.5 text-xs font-bold tracking-[0.08em] uppercase"
+            style={{
+              color: ACCENT,
+              borderColor: rgba(ACCENT, 0.45),
+              backgroundColor: rgba(ACCENT, 0.1),
+            }}
+          >
+            Øving
+          </span>
+        </div>
+        <p
+          className="m-0 text-base leading-[1.6]"
+          style={{ color: rgba(TEKST, 0.7), fontFamily: INTER }}
+        >
+          Flytt en skytende Alf frem og tilbake ved å holde fingeren på
+          skjermen.
+        </p>
       </div>
 
-      <div className="relative">
-        <div
-          ref={wrapRef}
-          role="button"
-          tabIndex={0}
-          aria-label="Styr Alf og skyt. Hold nede for å flytte og skyte, eller bruk piltaster og mellomrom."
-          onPointerDown={(e) => controlsRef.current?.pointerDown(e)}
-          onPointerMove={(e) => controlsRef.current?.pointerMove(e)}
-          onPointerUp={(e) => controlsRef.current?.pointerUp(e)}
-          onPointerCancel={(e) => controlsRef.current?.pointerUp(e)}
-          onLostPointerCapture={(e) => controlsRef.current?.pointerUp(e)}
-          onKeyDown={(e) => controlsRef.current?.keyDown(e)}
-          onKeyUp={(e) => controlsRef.current?.keyUp(e)}
-          onContextMenu={(e) => e.preventDefault()}
-          className="relative w-full cursor-pointer touch-none overflow-hidden rounded-2xl border outline-none select-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-          style={{
-            aspectRatio: `${SCENE.w} / ${SCENE.h}`,
-            borderColor: rgba(ACCENT, 0.25),
-            backgroundColor: ROMMET[2],
-            WebkitTapHighlightColor: 'transparent',
-            WebkitTouchCallout: 'none',
-          }}
-        >
-          <canvas
-            ref={canvasRef}
-            className="block size-full touch-none"
-            style={{ touchAction: 'none' }}
-          />
+      <div className="flex flex-col gap-2.5" style={{ fontFamily: INTER }}>
+        {/* HUD: nivå og skjold */}
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-base leading-[1.6] font-bold">
+            Nivå {ui.levelIndex + 1} · {levelName}
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span
+              className="mr-1 text-base leading-[1.6]"
+              style={{ color: rgba(TEKST, 0.65) }}
+            >
+              Skjold
+            </span>
+            {Array.from({ length: SHIP.shields }, (_, i) => (
+              <span
+                key={i}
+                aria-hidden
+                className="size-2.5 rounded-full transition-colors duration-[180ms]"
+                style={{
+                  backgroundColor: i < ui.shields ? ACCENT : 'transparent',
+                  border: `1px solid ${rgba(ACCENT, i < ui.shields ? 1 : 0.35)}`,
+                  boxShadow: i < ui.shields ? `0 0 8px ${ACCENT}` : 'none',
+                }}
+              />
+            ))}
+            <span className="sr-only">{ui.shields} av 3</span>
+          </span>
+        </div>
 
-          {ui.boss && (
+        <div
+          aria-hidden
+          className="h-1 overflow-hidden rounded-[2px]"
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.35)' }}
+        >
+          <div
+            className="h-full origin-left"
+            style={{
+              backgroundColor: ACCENT,
+              transform: `scaleX(${ui.progress})`,
+              boxShadow: `0 0 10px ${ACCENT}`,
+            }}
+          />
+        </div>
+
+        {/* Brettet */}
+        <div className="relative">
+          <div
+            ref={wrapRef}
+            role="button"
+            tabIndex={0}
+            aria-label="Styr Alf og skyt"
+            onPointerDown={(e) => controlsRef.current?.pointerDown(e)}
+            onPointerMove={(e) => controlsRef.current?.pointerMove(e)}
+            onPointerUp={(e) => controlsRef.current?.pointerUp(e)}
+            onPointerCancel={(e) => controlsRef.current?.pointerUp(e)}
+            onLostPointerCapture={(e) => controlsRef.current?.pointerUp(e)}
+            onKeyDown={(e) => controlsRef.current?.keyDown(e)}
+            onKeyUp={(e) => controlsRef.current?.keyUp(e)}
+            onContextMenu={(e) => e.preventDefault()}
+            className="relative w-full cursor-pointer touch-none overflow-hidden rounded-2xl border outline-none select-none focus-visible:outline-2 focus-visible:outline-offset-2"
+            style={{
+              aspectRatio: `${SCENE.w} / ${SCENE.h}`,
+              borderColor: rgba(ACCENT, 0.25),
+              backgroundColor: ROMMET[2],
+              outlineColor: TEKST,
+              WebkitTapHighlightColor: 'transparent',
+              WebkitTouchCallout: 'none',
+            }}
+          >
+            <canvas
+              ref={canvasRef}
+              className="block size-full touch-none"
+              style={{ touchAction: 'none' }}
+            />
+
+            {/* Hovedkravets helse */}
+            {ui.boss && (
+              <div
+                aria-hidden
+                className="pointer-events-none absolute top-2.5 left-4 flex w-[45%] flex-col gap-1"
+              >
+                <span
+                  className="text-base leading-[1.6] tracking-[0.12em]"
+                  style={{ color: rgba(TEKST, 0.8) }}
+                >
+                  Hovedkrav
+                </span>
+                <div
+                  className="h-1.5 overflow-hidden rounded-[3px]"
+                  style={{ backgroundColor: 'rgba(0, 0, 0, 0.55)' }}
+                >
+                  <div
+                    className="h-full origin-left"
+                    style={{
+                      backgroundColor: KORALL,
+                      transform: `scaleX(${ui.bossFrac})`,
+                      boxShadow: `0 0 10px ${KORALL}`,
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Poengtavla */}
             <div
               aria-hidden
-              className="pointer-events-none absolute top-2.5 left-4 flex w-[45%] flex-col gap-1"
+              className="pointer-events-none absolute top-2.5 right-4 flex flex-col items-end"
             >
-              <span className="text-xs tracking-[0.12em] text-white/80">
-                Hovedkrav
-              </span>
-              <div className="h-1.5 overflow-hidden rounded-full bg-black/55">
-                <div
-                  className="h-full origin-left"
-                  style={{
-                    backgroundColor: KORALL,
-                    transform: `scaleX(${ui.bossFrac})`,
-                    boxShadow: `0 0 10px ${KORALL}`,
-                  }}
-                />
+              <p
+                className="m-0 text-base leading-[1.6] tracking-[0.1em] tabular-nums"
+                style={{ color: rgba(TEKST, 0.6) }}
+              >
+                Beste {padScore(Math.max(ui.best, ui.score))}
+              </p>
+              <div className="flex items-baseline gap-2">
+                <p className="m-0 text-xl leading-none" style={hud(KORALL)}>
+                  {ui.mult > 1 ? `×${ui.mult}` : ''}
+                </p>
+                <p className="m-0 text-[28px] leading-none" style={hud(GULL)}>
+                  {padScore(ui.score)}
+                </p>
+              </div>
+            </div>
+            <span className="sr-only" aria-live="off">
+              Poeng {ui.score}
+            </span>
+          </div>
+
+          {/* Overleggene ligger utenfor brettet i DOM-en og slipper berøringen
+              gjennom, som SpillOverlay: hele brettet er knappen. */}
+          {overlayText && (
+            <SpillOverlay
+              text={overlayText}
+              color={phase === 'tapt' ? KORALL : ACCENT}
+              banner={phase === 'nivåklart'}
+            >
+              {phase === 'tapt' && (
+                <Button
+                  className="pointer-events-auto h-9 rounded-full px-5 text-sm font-bold hover:opacity-90"
+                  style={{ backgroundColor: KORALL, color: CABINET }}
+                  onClick={() => controlsRef.current?.retry()}
+                >
+                  Prøv igjen
+                </Button>
+              )}
+            </SpillOverlay>
+          )}
+          {phase === 'ferdig' && (
+            <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-black/45">
+              <div
+                className="mx-4 flex max-w-[88%] flex-col items-center gap-3 rounded-3xl px-6 py-4 text-center text-white backdrop-blur-[4px]"
+                style={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.62)',
+                  border: `2px solid ${rgba(ACCENT, 0.85)}`,
+                  boxShadow: `0 0 28px ${rgba(ACCENT, 0.4)}`,
+                }}
+              >
+                <p className="m-0 text-lg leading-[1.4] font-bold sm:text-xl">
+                  Klart! Dette var bare øving – koden får du bare i det ekte
+                  spillet.
+                </p>
+                <p
+                  className="m-0 text-sm tabular-nums"
+                  style={{ color: rgba(TEKST, 0.7) }}
+                >
+                  Poeng: {ui.score.toLocaleString('nb-NO')}
+                </p>
+                <Button
+                  className="h-9 rounded-full px-5 text-sm font-bold hover:opacity-90"
+                  style={{ backgroundColor: ACCENT, color: CABINET }}
+                  onClick={() => controlsRef.current?.playAgain()}
+                >
+                  Spill igjen
+                </Button>
               </div>
             </div>
           )}
-
-          <div
-            aria-hidden
-            className="pointer-events-none absolute top-2 right-4 flex flex-col items-end"
-          >
-            <span className="text-[11px] tracking-widest text-white/60 tabular-nums">
-              Beste {padScore(Math.max(ui.best, ui.score))}
-            </span>
-            <span className="flex items-baseline gap-2">
-              {ui.mult > 1 && (
-                <span
-                  className="font-mono text-lg leading-none font-black tabular-nums"
-                  style={{ color: KORALL, textShadow: `0 0 12px ${rgba(KORALL, 0.55)}` }}
-                >
-                  ×{ui.mult}
-                </span>
-              )}
-              <span
-                className="font-mono text-2xl leading-none font-black tabular-nums"
-                style={{ color: GULL, textShadow: `0 0 12px ${rgba(GULL, 0.55)}` }}
-              >
-                {padScore(ui.score)}
-              </span>
-            </span>
-            <span className="sr-only">Poeng {ui.score}</span>
-          </div>
         </div>
 
-        {/* Overleggene står utenfor brettet i DOM-en, så knappene ikke også
-            trigger brettets egne trykk. Resten slipper berøringen gjennom. */}
-        {phase === 'klar' && (
-          <Overlay>
-            <Pill color={ACCENT}>Trykk for å starte</Pill>
-            <p className="max-w-[80%] text-center text-xs text-white/75 [text-shadow:0_1px_4px_#000]">
-              Hold fingeren eller musa nede for å styre og skyte. Tastatur:
-              piltaster og mellomrom.
-            </p>
-          </Overlay>
-        )}
-        {phase === 'pause' && (
-          <Overlay>
-            <Pill color={ACCENT}>Pause – trykk for å fortsette</Pill>
-          </Overlay>
-        )}
-        {phase === 'nivåklart' && banner && (
-          <Overlay>
-            <Pill color={ACCENT} banner>
-              {banner}
-            </Pill>
-          </Overlay>
-        )}
-        {phase === 'tapt' && (
-          <Overlay>
-            <Pill color={KORALL}>Regningene tok Alf</Pill>
-            <Button
-              className="pointer-events-auto"
-              onClick={() => controlsRef.current?.retry()}
-            >
-              Prøv igjen
-            </Button>
-          </Overlay>
-        )}
-        {phase === 'ferdig' && (
-          <Overlay className="pointer-events-auto bg-black/55 backdrop-blur-[2px]">
-            <div
-              className="mx-4 flex max-w-[88%] flex-col items-center gap-3 rounded-2xl border bg-black/70 px-5 py-4 text-center"
-              style={{
-                borderColor: rgba(ACCENT, 0.85),
-                boxShadow: `0 0 28px ${rgba(ACCENT, 0.4)}`,
-              }}
-            >
-              <p className="text-base font-semibold sm:text-lg">
-                Klart! Dette var bare øving – koden får du bare i det ekte
-                spillet.
-              </p>
-              <p className="text-sm text-white/70 tabular-nums">
-                Poeng: {ui.score.toLocaleString('nb-NO')}
-              </p>
-              <Button onClick={() => controlsRef.current?.playAgain()}>
-                Spill igjen
-              </Button>
-            </div>
-          </Overlay>
-        )}
+        <p
+          className="m-0 min-h-[26px] text-base leading-[1.6]"
+          style={{ color: rgba(TEKST, 0.6) }}
+          aria-live="polite"
+        >
+          {ui.attempts > 0 && phase !== 'ferdig'
+            ? `Forsøk ${ui.attempts + 1}`
+            : ''}
+        </p>
       </div>
-
-      <p className="min-h-5 text-xs text-white/60" aria-live="polite">
-        {ui.attempts > 0 && phase !== 'ferdig'
-          ? `Forsøk ${ui.attempts + 1}`
-          : 'Øvingsmodus – samme regler som det ekte spillet.'}
-      </p>
-    </div>
+    </section>
   )
 }
 
-function Overlay({
-  children,
-  className,
-}: {
-  children: ReactNode
-  className?: string
-}) {
-  return (
-    <div
-      className={cn(
-        'pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl',
-        className,
-      )}
-    >
-      {children}
-    </div>
-  )
-}
+/** Tallene i HUD-en (hudSx i originalen): displaysnitt med glød. */
+const hud = (color: string) => ({
+  fontFamily: ERLIK,
+  fontWeight: 900,
+  color,
+  letterSpacing: '0.04em',
+  textShadow: `0 0 12px ${rgba(color, 0.55)}`,
+  fontVariantNumeric: 'tabular-nums' as const,
+})
 
-function Pill({
-  children,
+/** Teksten midt på brettet (SpillOverlay i originalen). */
+function SpillOverlay({
+  text,
   color,
   banner = false,
+  children,
 }: {
-  children: ReactNode
+  text: ReactNode
   color: string
   banner?: boolean
+  children?: ReactNode
 }) {
   return (
-    <div
-      className={cn(
-        'max-w-[84%] rounded-full bg-black/60 text-center font-semibold text-white backdrop-blur-sm',
-        banner ? 'px-6 py-3 text-xl' : 'px-7 py-3 text-lg sm:text-xl',
-      )}
-      style={{
-        border: `${banner ? 1 : 2}px solid ${rgba(color, 0.85)}`,
-        boxShadow: `0 0 28px ${rgba(color, 0.4)}`,
-      }}
-    >
+    <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3">
+      <div
+        className={cn(
+          'max-w-[84%] rounded-full text-center text-white backdrop-blur-[4px]',
+          banner
+            ? 'px-6 py-3 text-2xl leading-[1.33] font-black'
+            : 'px-8 py-4 text-lg leading-[1.6] font-bold sm:text-xl',
+        )}
+        style={{
+          fontFamily: banner ? ERLIK : INTER,
+          backgroundColor: 'rgba(0, 0, 0, 0.62)',
+          border: `${banner ? 1 : 2}px solid ${rgba(color, 0.85)}`,
+          boxShadow: `0 0 28px ${rgba(color, 0.4)}`,
+        }}
+      >
+        {text}
+      </div>
       {children}
     </div>
   )
