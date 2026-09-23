@@ -70,7 +70,7 @@ export const HINT: Hint[] = [
     kilde: 'Chat',
     dato: '23.09',
     tekst: 'Tretopphyttene (Danseråsvegen 173, Brumunddal) har et ekorn som logo, i grønt. Noen mener det er hintet bak ekornet i appen.',
-    betydning: 'Knytter sammen ekornet og Prøysen (Ringsaker), og default.no har en kandidat i Ringsaker. Men stedet lå utenfor det klare området på satellitt 23.09, og flyet var 21 km unna (19°) da Anja pekte opp. Sammenlign med «Hint-hint»-ekornet i appen.',
+    betydning: 'Flere i chatten mistenker nå hyttene. Det andre flyet, NOZ9EG, passerte ca. 3 km fra Tretopphyttene kl. 21:31, og default.no har en kandidat i Ringsaker. Mot: Anja var et sted uten vinduer og wifi, og Horde unngår trolig hytter i år.',
     lag: ['teorier'],
     fokus: 'tretopp',
     lenke: 'https://tretopphytter.no/',
@@ -322,8 +322,8 @@ export const HINT: Hint[] = [
     status: 'tolkning',
     kilde: 'Tavla («FLY») + ADS-B (adsb.lol via default.no)',
     dato: '21.09',
-    tekst: 'Anja pekte rett opp kl. 21:29:38 og skrev «FLY» kl. 21:30 (streamtid). 49 fly var i lufta. Beste treff er NOZ56U (Oslo–Bodø), som var over Løten i ca. 24 000 fot.',
-    betydning: 'Kassen bør ligge nær sporet til et fly som var i lufta akkurat da. Streamen er 45 sek forsinket (bekreftet). NOZ56U-treffet peker mot Hedmark, bare ca. 2 t fra Oslo.',
+    tekst: 'Anja pekte rett opp kl. 21:29:38 og skrev «FLY» kl. 21:30 (streamtid). To fly var nær: NOZ56U nordover over Løten (ca. 24 000 fot), og NOZ9EG sørover over Ringsakfjellet ved Sjusjøen (ca. 23 500 fot). NOZ9EG passerte ca. 3 km fra Tretopphyttene kl. 21:31.',
+    betydning: 'Kassen står trolig under ett av de to sporene: Løten–Elverum eller Ringsaker (Sjusjøen–Brumunddal). Fellesskapet: «Eneste stedene det er sol i Norge nå + eneste stedene det fløy fly over hodet hennes 21:29.» Streamen er 45 sek forsinket.',
     lag: ['fly'],
   },
   {
@@ -522,6 +522,13 @@ export const TEORIER: Sted[] = [
     info: 'Noen tror det er nær Rena, men mer mot Flisa. Haslemoen har en nedlagt militærleir. Innenfor det som var klart på satellitt 23.09. Ca. 2,5 t fra Oslo. Flyet NOZ56U var ca. 40 km unna (10° over horisonten) da Anja pekte opp.',
   },
   {
+    id: 'nittedalen',
+    navn: 'Tips: Nittedalen',
+    pos: [60.07, 10.87],
+    type: 'teori',
+    info: 'Nevnt i chatten. Bare 37 min fra Oslo, 58 km fra begge flyene og utenfor det som var klart i dag. Passer dårlig.',
+  },
+  {
     id: 'gjovik',
     navn: 'Gjøvik (vær og sol passer)',
     pos: [60.795, 10.692],
@@ -567,6 +574,8 @@ export const DEFAULTNO: { nr: number; pos: LatLon; navn: string; p: string }[] =
 
 /** Der NOZ56U var da Anja skrev «FLY» (ekte tid ca. 21:29:50) */
 export const FLY_PUNKT = { pos: [60.8705, 11.2481] as LatLon, kallesignal: 'NOZ56U', hoydeFot: 23892 }
+/** Det andre flyet nær Anja 21:29: NOZ9EG sørover mot Gardermoen, over Ringsakfjellet (ca. 21:29:15, 23 500 fot) */
+export const FLY_PUNKT2 = { pos: [61.216, 10.896] as LatLon, kallesignal: 'NOZ9EG', hoydeFot: 23500 }
 
 /** Skyanalyse-kartet. Møtepunktet er lest av bildet, ±15 km. */
 export const SKYANALYSE = { senter: [58.7, 8.27] as LatLon, indreKm: 12, ytreKm: 45 }
@@ -636,7 +645,9 @@ export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: Lat
   { tekst: 'Digeråsen mellom Løten og Åmot', hvem: 'Flere sier det «er så klink her». Passer med lyden av flyet, ikke med pekingen.', fokus: 'digeras', hint: ['digeras', 'fly'] },
   { tekst: 'Løten og Elverum', hvem: 'Vår modell: der flyet var da Anja pekte rett opp.', pos: [60.87, 11.25], hint: ['fly'] },
   { tekst: 'Reven heter Benny', hvem: 'Bennyøy (Nome) ligger 3,4 km fra 118°-linja fra Bergen. Benningstad (Løten) er nær flyet. Trolig tilfeldig.', fokus: 'bennyoy', hint: ['benny', 'bergen118', 'dyr'] },
-  { tekst: 'Tretopphyttene i Ringsaker', hvem: 'Ekorn-logo, Prøysens kommune. Men utenfor det klare området og 21 km fra flyet.', fokus: 'tretopp', hint: ['tretopp', 'ekorn', 'dyr'] },
+  { tekst: 'Rundt de to flysporene', hvem: '«Eneste stedene det er sol i Norge nå + eneste stedene det fløy fly over hodet hennes 21:29.» Løten–Elverum (NOZ56U) og Ringsaker (NOZ9EG).', pos: [61.0, 11.05], hint: ['fly', 'solidag'] },
+  { tekst: 'Nittedalen', hvem: 'Nevnt i chatten. 37 min fra Oslo og langt fra flyene, så passer dårlig.', fokus: 'nittedalen' },
+  { tekst: 'Tretopphyttene i Ringsaker', hvem: 'Flere mistenker hyttene nå. NOZ9EG gikk 3 km unna kl. 21:31. Mot: stedet uten vinduer og wifi.', fokus: 'tretopp', hint: ['tretopp', 'ekorn', 'dyr'] },
   { tekst: 'Flisa og Haslemoen', hvem: 'Én person: «nær Rena, men mer mot Flisa». Nedlagt leir på Haslemoen.', fokus: 'haslemoen', hint: ['haslemoen', 'solidag'] },
   { tekst: 'Rena og Åmot', hvem: 'default.no sin toppkandidat.', pos: [61.45, 11.1], hint: ['innlandet'] },
   { tekst: 'Gjøvik', hvem: 'Én person: vær og sol passer.', fokus: 'gjovik', hint: ['skyer'] },
