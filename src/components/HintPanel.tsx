@@ -9,9 +9,9 @@ import { cn } from '@/lib/utils'
 
 const FILTRE = [
   { id: 'alle', navn: 'Alle', test: () => true },
+  { id: 'bekreftet', navn: 'Bekreftet', test: (h: Hint) => h.status === 'bekreftet' || h.status === 'lost' },
+  { id: 'ikke', navn: 'Ikke bekreftet', test: (h: Hint) => h.status === 'tolkning' || h.status === 'usikker' || h.status === 'apen' },
   { id: 'sted', navn: 'Om stedet', test: (h: Hint) => !!h.lag?.length },
-  { id: 'apen', navn: 'Uløst', test: (h: Hint) => h.status === 'apen' || h.status === 'usikker' || h.status === 'tolkning' },
-  { id: 'lost', navn: 'Løst', test: (h: Hint) => h.status === 'lost' },
 ] as const
 
 const STATUSKANT: Record<Hint['status'], string> = {
@@ -47,7 +47,7 @@ export function HintPanel({ onVisPaKart, onGaTil }: { onVisPaKart: (h: Hint) => 
       </div>
       <Oppsummering onGaTil={onGaTil} onHint={gaTilHint} />
       <p className="pt-2 text-[11px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">Alle hint</p>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="sticky -top-4 z-10 -mx-4 flex flex-wrap gap-1.5 border-b bg-background/95 px-4 py-2.5 backdrop-blur">
         {FILTRE.map((f) => (
           <button
             key={f.id}
