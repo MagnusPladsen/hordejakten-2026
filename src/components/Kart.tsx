@@ -136,8 +136,14 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
       const g = grupper.current?.[id]
       const kart = kartRef.current
       if (!g || !kart) return
-      const b = g.getBounds()
-      if (b.isValid()) kart.flyToBounds(b, { padding: [40, 40], maxZoom: 10, duration: 0.8, animate: !roligBevegelse() })
+      // Fliselag (f.eks. satellittbildet) har ingen grenser, og getBounds kaster da en feil
+      let b: L.LatLngBounds | null = null
+      try {
+        b = g.getBounds()
+      } catch {
+        b = null
+      }
+      if (b?.isValid()) kart.flyToBounds(b, { padding: [40, 40], maxZoom: 10, duration: 0.8, animate: !roligBevegelse() })
     },
     sentrum: () => {
       const c = kartRef.current?.getCenter()
