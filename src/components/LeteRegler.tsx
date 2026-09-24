@@ -3,32 +3,56 @@ import { ChevronDown, ExternalLink, TriangleAlert } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
-const DRONE: { tittel: string; tekst: string }[] = [
+type Kilde = { tekst: string; url: string }
+
+const DRONEREGLER = 'https://luftfartstilsynet.no/droner/droneregler/droneregler/'
+
+const DRONE: { tittel: string; tekst: string; kilde?: Kilde }[] = [
   {
-    tittel: 'Registrer deg som droneoperatør',
-    tekst: 'Veier dronen 250 g eller mer, eller har den kamera (og er ikke et leketøy), må du registrere deg hos Luftfartstilsynet på flydrone.no. Du får en operatør-ID som skal stå synlig på dronen.',
+    tittel: 'Registrer deg og merk dronen',
+    tekst: 'De aller fleste må registrere seg som droneoperatør på flydrone.no og betale et gebyr. Operatørnummeret skal stå på dronen. Unntak: droner under 250 g uten kamera, og droner som er CE-merket som leketøy.',
+    kilde: { tekst: 'Luftfartstilsynet: droneregler', url: DRONEREGLER },
   },
   {
-    tittel: 'Ta kompetansebeviset (A1/A3)',
-    tekst: 'For droner på 250 g eller mer må du ha bestått det gratis nettkurset og prøven A1/A3 på flydrone.no før du flyr. Tyngre droner nær folk krever i tillegg A2.',
+    tittel: 'Ta dronelappen (A1/A3)',
+    tekst: 'Du må bestå nettkurset og eksamen for A1/A3 på flydrone.no før du flyr. Er dronen under 250 g og har kamera, må du registrere deg, men trenger ikke kurs og eksamen. A2 krever en egen eksamen på trafikkstasjonen.',
+    kilde: { tekst: 'Luftfartstilsynet: droneregler', url: DRONEREGLER },
+  },
+  {
+    tittel: 'Du må være minst 16 år',
+    tekst: 'Unntak er leketøydroner og selvbygde droner under 250 g. Er du under 16 og har tatt kurs og eksamen, kan du fly med veiledning fra noen over 16 som også har det.',
+    kilde: { tekst: 'Luftfartstilsynet: åpen kategori', url: DRONEREGLER },
+  },
+  {
+    tittel: 'Ha ansvarsforsikring',
+    tekst: 'Alle droner må være ansvarsforsikret, unntatt droner under 250 g og leketøydroner.',
+    kilde: { tekst: 'Luftfartstilsynet: forsikring', url: `${DRONEREGLER}#forsikring` },
   },
   {
     tittel: 'Maks 120 m og alltid i synsvidde',
-    tekst: 'Du skal ikke fly høyere enn 120 m over bakken, og du skal alltid kunne se dronen med egne øyne. Å fly langt inn over skogen med bare skjermen å gå etter er ikke lov.',
+    tekst: 'Dronen skal være maks 120 m fra nærmeste punkt på bakken, og du skal hele tiden kunne se den selv. Flyr du med skjerm eller videobriller (FPV), må du ha en observatør ved siden av deg som ser dronen.',
+    kilde: { tekst: 'Luftfartstilsynet: åpen kategori', url: DRONEREGLER },
   },
   {
-    tittel: 'Sjekk om det er flyforbud der',
-    tekst: 'Nær flyplasser, over skytefelt og militære områder som Regionfelt Østlandet ved Rena, og i mange naturreservater er det forbudt eller krever tillatelse. Mange verneforskrifter forbyr lavtflyging under 300 m og start og landing, og det gjelder også droner. Sjekk kartet i appen Ninox Drone eller på flydrone.no før du letter.',
+    tittel: 'Vit hvor du ikke får fly',
+    tekst: 'Det er forbudt å fly nærmere enn 5 km fra en flyplass uten tillatelse fra tårnet, og over eller nær militære områder som Regionfelt Østlandet ved Rena. Hold deg også unna der politi, brannvesen eller redningstjeneste er i innsats.',
+    kilde: { tekst: 'Lovdata: forskrift om ubemannede luftfartøyer § 7', url: 'https://lovdata.no/forskrift/2024-11-01-2777/§7' },
+  },
+  {
+    tittel: 'Verneområder og dyreliv',
+    tekst: 'Droner er som hovedregel forbudt i nasjonalparker og mange naturreservater. Sjekk verneforskriften for området i Naturbase før du flyr. Å forstyrre dyrelivet unødig er alltid forbudt i naturreservater, og ellers skal unødig jaging av vilt unngås.',
+    kilde: { tekst: 'Miljødirektoratet: droner i naturen', url: 'https://www.miljodirektoratet.no/ansvarsomrader/vernet-natur/regler-for-droner-i-naturen/' },
   },
   {
     tittel: 'Personvern',
-    tekst: 'Ikke film eller legg ut folk som kan kjennes igjen uten at de sier ja, og ikke fly inn over hus, hytter og hager. Det gjelder også andre som leter.',
+    tekst: 'Ikke film folk i hjemmet eller hagen deres uten lov, og spør alltid før du legger ut bilder eller video der noen kan kjennes igjen. Det gjelder også andre som leter.',
+    kilde: { tekst: 'Datatilsynet: privat bruk av droner', url: 'https://www.datatilsynet.no/personvern-pa-ulike-omrader/overvaking-og-sporing/droner---hva-er-lov/privat-bruk-av-droner/' },
   },
 ]
 
 const LETING: string[] = [
-  'Det er jaktsesong. Elgjakta starter i mye av Innlandet i slutten av september. Gå med synlige klær (gjerne oransje), hold deg unna der det jaktes, og ikke skremm viltet.',
-  'Allemannsretten gjelder i utmark, men ikke på innmark, i hager eller ved hytter. Respekter bommer og private veier: du kan gå forbi en bom, men ikke kjøre.',
+  'Det er jaktsesong. Småviltjakta startet 10. september, og elgjakta starter 25. september der kommunen åpner for den (noen steder først 5. oktober). Gå med synlige klær (gjerne oransje), vis hensyn der det jaktes, og ikke skremm viltet.',
+  'Allemannsretten lar deg gå fritt i utmark. På innmark, som gårdstun, hustomter, hager, rundt hytter og på dyrket mark, gjelder den ikke. Er en privat vei stengt med bom eller skilt, kan du gå eller sykle forbi, men ikke kjøre.',
   'Kassen står ikke i farlig terreng. Ikke ta sjanser, si fra hvor du går, og ha med lys og varme klær.',
   'Vær grei mot Anja og andre som leter. Ikke rør eller flytt kassen hvis du finner den: følg Hordes regler.',
 ]
@@ -60,13 +84,21 @@ export function LeteRegler({ className }: { className?: string }) {
                   <span className="grid size-6 shrink-0 place-items-center rounded-full bg-amber-500 text-[12px] font-bold text-white">{i + 1}</span>
                   <span className="text-[14px] leading-relaxed text-slate-700">
                     <b className="text-slate-900">{r.tittel}.</b> {r.tekst}
+                    {r.kilde && (
+                      <a href={r.kilde.url} target="_blank" rel="noopener" className="mt-0.5 flex w-fit items-center gap-1 text-[12.5px] text-amber-800 underline underline-offset-2 hover:text-amber-950">
+                        Kilde: {r.kilde.tekst} <ExternalLink className="size-3" />
+                      </a>
+                    )}
                   </span>
                 </li>
               ))}
             </ol>
             <div className="mt-3 flex flex-wrap gap-2">
-              <a href="https://luftfartstilsynet.no/droner/" target="_blank" rel="noopener" className="inline-flex min-h-11 items-center gap-1.5 rounded-full border bg-white px-4 text-[14px] font-semibold text-slate-800 hover:bg-slate-50">
-                Luftfartstilsynet: droner <ExternalLink className="size-4" />
+              <a href={DRONEREGLER} target="_blank" rel="noopener" className="inline-flex min-h-11 items-center gap-1.5 rounded-full border bg-white px-4 text-[14px] font-semibold text-slate-800 hover:bg-slate-50">
+                Luftfartstilsynet: droneregler <ExternalLink className="size-4" />
+              </a>
+              <a href="https://training.caa.no/Hvor_kan_du_fly_drone_og_modellfly/" target="_blank" rel="noopener" className="inline-flex min-h-11 items-center gap-1.5 rounded-full border bg-white px-4 text-[14px] font-semibold text-slate-800 hover:bg-slate-50">
+                Hvor kan du fly drone? <ExternalLink className="size-4" />
               </a>
               <a href="https://flydrone.no" target="_blank" rel="noopener" className="inline-flex min-h-11 items-center gap-1.5 rounded-full border bg-white px-4 text-[14px] font-semibold text-slate-800 hover:bg-slate-50">
                 flydrone.no: registrering og kurs <ExternalLink className="size-4" />
@@ -85,7 +117,11 @@ export function LeteRegler({ className }: { className?: string }) {
             </ul>
           </div>
           <p className="text-[12.5px] leading-snug text-muted-foreground">
-            Dette er en kort oppsummering, ikke juridisk rådgivning. Reglene kan endre seg, så sjekk alltid Luftfartstilsynet før du flyr. Brudd kan gi bot.
+            Dette er en kort oppsummering, ikke juridisk rådgivning. Dronereglene er sjekket mot{' '}
+            <a href={DRONEREGLER} target="_blank" rel="noopener" className="underline underline-offset-2 hover:text-foreground">
+              Luftfartstilsynet
+            </a>{' '}
+            24.09.2026. Reglene kan endre seg, så sjekk alltid selv før du flyr. Brudd kan gi bot.
           </p>
         </div>
       )}
