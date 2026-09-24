@@ -10,6 +10,12 @@ export type LagId =
   | 'skydekke'
   | 'utelukket'
   | 'hoyde891'
+  | 'dn_hoyde'
+  | 'dn_vei'
+  | 'dn_plan'
+  | 'dn_avvist'
+  | 'dn_notater'
+  | 'coop'
   | 'fellesskap891'
   | 'kommuner'
   | 'solidag'
@@ -188,6 +194,66 @@ export const LAG: Lag[] = [
     kilde: 'Kartverket høydedata og OpenStreetMap. Tallet fra Horde AI i appen 24.09.',
   },
   {
+    id: 'dn_hoyde',
+    navn: 'default.no: 800–900 moh',
+    kort: 'Høydebåndet for 2,7 eiffeltårn',
+    merkelapp: 'beregnet',
+    forklaring: 'Terreng 800–900 moh (oransje) og 780–920 moh (gult) fra Kartverkets 100 m-modell, laget av default.no. 2,7 eiffeltårn er 810–891 m avhengig av om tårnet regnes som 300, 324 eller 330 m.',
+    tegn: [
+      { stil: 'fyll', farge: '#f97316', tekst: '800–900 moh' },
+      { stil: 'fyll', farge: '#facc15', tekst: '780–920 moh' },
+    ],
+    kilde: 'default.no/map.php, hentet 24.09 kl. 18:36. Takk til default.no.',
+  },
+  {
+    id: 'dn_vei',
+    navn: 'default.no: 800–900 m fra vei',
+    kort: 'Hvis 891 er en avstand',
+    merkelapp: 'beregnet',
+    forklaring: 'Den andre lesningen av 891: steder som ligger 800–900 m fra nærmeste vei. Rødt = alle kjørbare veier inkludert skogsbilvei og traktorvei (OpenStreetMap), gult = bare offentlig vei. Laget av default.no, uten fly- og skogfilter.',
+    tegn: [
+      { stil: 'fyll', farge: '#dc2626', tekst: 'Alle kjørbare veier' },
+      { stil: 'fyll', farge: '#facc15', tekst: 'Bare offentlig vei' },
+    ],
+    kilde: 'default.no/map.php, hentet 24.09. Takk til default.no.',
+  },
+  {
+    id: 'dn_plan',
+    navn: 'default.no: letestopp',
+    kort: '40 rangerte steder å sjekke',
+    merkelapp: 'tolkning',
+    forklaring: 'Letelista til default.no: 40 steder rangert etter hvor godt de passer (skog, furu, stigning, fly, lite hus). Trykk på et nummer for å se parkering, gangavstand og retning.',
+    tegn: [{ stil: 'prikk', farge: '#0f766e', tekst: 'Letestopp (nummer = rangering)' }],
+    kilde: 'default.no/map.php («plan», laget 24.09 kl. 17:04). Takk til default.no.',
+  },
+  {
+    id: 'dn_avvist',
+    navn: 'default.no: avviste områder',
+    kort: 'Sjekket og forkastet, med grunn',
+    merkelapp: 'tolkning',
+    forklaring: 'Områder default.no har sjekket og forkastet, for eksempel fordi flyene hun så ikke kan ha vært høyt nok der, eller fordi det regnet der mens glasset var tørt.',
+    tegn: [{ stil: 'prikk', farge: '#64748b', tekst: 'Avvist område' }],
+    kilde: 'default.no/map.php. Takk til default.no.',
+  },
+  {
+    id: 'dn_notater',
+    navn: 'default.no: feltnotater',
+    kort: 'Bommer, private veier og sjekkede steder',
+    merkelapp: 'fakta',
+    forklaring: 'Notater fra folk som har vært ute og lett: bommer, private veier og steder som er sjekket til fots.',
+    tegn: [{ stil: 'prikk', farge: '#1e293b', tekst: 'Feltnotat' }],
+    kilde: 'default.no/map.php. Takk til default.no.',
+  },
+  {
+    id: 'coop',
+    navn: 'Coop-butikker',
+    kort: '«Dressing fra Coop»',
+    merkelapp: 'fakta',
+    forklaring: 'Anja skrev at pizzadressingen var fra Coop. Kartet viser Coop-butikker i området (Extra, Prix, Mega, Obs). Coop finnes nesten overalt, så dette sier mest om hvor mannskapet kan ha handlet.',
+    tegn: [{ stil: 'prikk', farge: '#00843d', tekst: 'Coop-butikk' }],
+    kilde: 'OpenStreetMap via default.no. Takk til default.no.',
+  },
+  {
     id: 'fellesskap891',
     navn: 'Fellesskapets 800–900 moh-kart',
     kort: 'Høyde + fly + skog, utenfor skytefelt',
@@ -339,7 +405,8 @@ export const LAG_ETTER_ID = Object.fromEntries(LAG.map((l) => [l.id, l])) as Rec
 /** Lagene gruppert slik de vises i Kart-fanen */
 export const GRUPPER: { navn: string; forklaring: string; ider: LagId[] }[] = [
   { navn: 'Hovedkart', forklaring: 'Hvor kassen mest sannsynlig står, og hvor hintene peker.', ider: ['hintmarkorer', 'modell', 'teoriomrader'] },
-  { navn: 'Høyden (2,7 eiffeltårn)', forklaring: '810 eller 891 moh, nær vei.', ider: ['hoyde891', 'fellesskap891'] },
+  { navn: 'Høyden (2,7 eiffeltårn)', forklaring: '810 eller 891 moh, nær vei. Eller 891 m fra vei.', ider: ['hoyde891', 'fellesskap891', 'dn_hoyde', 'dn_vei'] },
+  { navn: 'Fra default.no', forklaring: 'Letestopp, avviste områder og feltnotater. Takk til default.no.', ider: ['dn_plan', 'dn_avvist', 'dn_notater', 'coop'] },
   { navn: 'Vær og terreng', forklaring: 'Anja har hatt klar himmel og sol, og ser vanlig skog. Her passer det ikke.', ider: ['utelukket', 'kommuner', 'skydekke', 'solidag'] },
   { navn: 'Fly, retning og kjøretid', forklaring: 'Flyet hun pekte på, 118°-linjene og hvor langt man kommer fra Oslo.', ider: ['fly', 'retning', 'kjoretid'] },
   { navn: 'Steder og teorier', forklaring: 'Stedene hintene og folk i chatten peker på.', ider: ['teorier', 'hytter', 'steder', 'defaultno', 'innlandet', 'skyanalyse'] },
