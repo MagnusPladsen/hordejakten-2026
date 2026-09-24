@@ -276,6 +276,7 @@ export default function App() {
 
       <Legende
         aktive={aktive}
+        onFjern={(id) => veksle(id, false)}
         kompakt={!desktop}
         stil={venstreStil}
         className={cn('fixed top-[calc(env(safe-area-inset-top)+4.5rem)] z-[999]', venstre)}
