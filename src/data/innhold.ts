@@ -750,6 +750,11 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     tekst: 'SKAL KLARE Å HOLDE UT TIL NOEN FINNER MEG',
     bilder: [{ src: 'img/tavle-holde-ut.jpg', alt: 'Anja i glassboksen med tavla: SKAL KLARE Å HOLDE UT TIL NOEN FINNER MEG' }],
   },
+  {
+    t: '24.09',
+    tekst: 'HJEMMELAGET PEPPERONIPIZZA · DRESSING FRA COOP · KNALLGODT',
+    bilder: [{ src: 'img/tavle-pizza-coop.jpg', alt: 'Tavla: HJEMMELAGET PEPPERONIPIZZA, DRESSING FRA COOP, KNALLGODT' }],
+  },
 ]
 
 export type Sted = {
@@ -1100,6 +1105,11 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '24.09',
+    tittel: 'Pizzaen kom: «Hjemmelaget pepperonipizza, dressing fra Coop, knallgodt»',
+    tekst: 'Maten er handlet på Coop. Det sier lite alene, for Coop finnes nesten overalt i Innlandet, men det passer med en Coop-butikk innen kort kjøring fra kassen. Nye tavler i dag: «Ingen pizza enda», «Hjelper veldig at jeg kan se det dere skriver», «Skal klare å holde ut til noen finner meg».',
+  },
   {
     tid: '24.09',
     tittel: 'Anja: «Hjelper veldig at jeg kan se det dere skriver <3»',
