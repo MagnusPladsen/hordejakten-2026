@@ -179,7 +179,7 @@ export const LAG: Lag[] = [
     kort: '2,7 eiffeltårn, høyst 900 m fra vei',
     merkelapp: 'beregnet',
     forklaring:
-      'Horde AI svarer «2,7 eiffeltårn stablet oppå hverandre» på HORDEMINUS. Eiffeltårnet er 300 m uten antenne og 330 m med, så det blir 810 eller 891 m (875 m med 324 m, høyden fra 2000 til 2022). Rutene viser skog og mark mellom 790 og 911 moh som ligger høyst 900 m fra en bilvei eller skogsbilvei, så man rekker å bære kassen dit på 5–10 min. Høyde fra Kartverket (1 m-modell) i et rutenett på ca. 500 m, veier fra OpenStreetMap.',
+      'Horde AI svarer «2,7 eiffeltårn stablet oppå hverandre» på HORDEMINUS. Eiffeltårnet er 300 m uten antenne og 330 m med, så det blir 810 eller 891 m (875 m med 324 m, høyden fra 2000 til 2022). Rutene viser skog og mark mellom 790 og 911 moh som ligger høyst 900 m fra en bilvei eller skogsbilvei, så man rekker å bære kassen dit på 5–10 min. Sterk farge betyr at veien ligger mot sørøst, slik Anja skrev («KOM FRA DEN VEIEN ←», ca. 130°). Svak farge betyr at det bare er vei i andre retninger. Høyde fra Kartverket (1 m-modell) i et rutenett på ca. 500 m, veier fra OpenStreetMap.',
     tegn: [
       { stil: 'rute', farge: '#6d28d9', tekst: 'Ca. 810 moh (790–830)' },
       { stil: 'rute', farge: '#a78bfa', tekst: '830–860 moh' },
