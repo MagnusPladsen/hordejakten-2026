@@ -3,7 +3,8 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
 import { BERGEN, DEFAULTNO, DEFAULTNO_TERRENG, FLY_PUNKT, FLY_PUNKT2, HYTTER, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, STEDER, TAAKE, TEORIER, type Sted } from '@/data/innhold'
-import { FARGE, KJORETID_KLASSER, type LagId } from '@/data/lag'
+import { FARGE, KJORETID_KLASSER, LAG, type LagId } from '@/data/lag'
+import { DN_LASTERE } from '@/lib/defaultno'
 import { avstand, destinasjon, formaterTid, iPolygon, sektor, storsirkel, type LatLon } from '@/lib/geo'
 import { PEKETID_EKTE, posisjon, type FlyData } from '@/lib/fly'
 import { FAKTORER, faktorer, klasse, utelukkNokkel, type Kontekst, type Punkt, type Resultat, type Vekter } from '@/lib/modell'
@@ -109,6 +110,8 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
   const feltRef = useRef<{ markor: L.Marker; sektor: L.Polygon; pil: L.Polyline } | null>(null)
   const minPosRef = useRef<L.CircleMarker | null>(null)
   const nalRef = useRef<L.Marker | null>(null)
+  // Tunge default.no-lag som allerede er hentet
+  const lastet = useRef(new Set<LagId>())
   const visInfoRef = useRef<(ll: L.LatLng) => void>(() => {})
   const ventendeRef = useRef<(() => void) | null>(null)
   // Siste verdier for klikk-popupen, som lever utenfor React
@@ -180,12 +183,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
     // Høydelagene har små ruter og skal synes godt også når man zoomer inn
     kart.createPane('hoyde').style.zIndex = '355'
 
-    const g = Object.fromEntries(
-      (['modell', 'hintmarkorer', 'teoriomrader', 'hoyde891', 'fellesskap891', 'dn_hoyde', 'dn_vei', 'dn_plan', 'dn_avvist', 'dn_notater', 'coop', 'utelukket', 'kommuner', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'solidag', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'hytter', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
-        id,
-        L.featureGroup(),
-      ]),
-    ) as Record<LagId, L.FeatureGroup>
+    const g = Object.fromEntries(LAG.map((l) => [l.id, L.featureGroup()])) as Record<LagId, L.FeatureGroup>
     grupper.current = g
 
     // Retning 298° / 118° fra Oslo
@@ -642,6 +640,12 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
     for (const [id, gruppe] of Object.entries(g) as [LagId, L.FeatureGroup][]) {
       if (aktive.has(id)) gruppe.addTo(kart)
       else gruppe.remove()
+      // default.no-lagene hentes først når de slås på
+      const last = DN_LASTERE[id]
+      if (last && aktive.has(id) && !lastet.current.has(id)) {
+        lastet.current.add(id)
+        last(gruppe).catch(() => lastet.current.delete(id))
+      }
     }
   }, [aktive])
 

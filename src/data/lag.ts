@@ -16,6 +16,35 @@ export type LagId =
   | 'dn_avvist'
   | 'dn_notater'
   | 'coop'
+  | 'dn_skytefelt'
+  | 'dn_hogst'
+  | 'dn_steder'
+  | 'dn_omrader'
+  | 'dn_gasoner'
+  | 'dn_leder'
+  | 'dn_baer'
+  | 'dn_baerfunn'
+  | 'dn_orrfugl'
+  | 'dn_storfugl'
+  | 'dn_pizza'
+  | 'dn_flyhendelser'
+  | 'dn_sjelden'
+  | 'dn_flylyd'
+  | 'dn_regn'
+  | 'dn_radar'
+  | 'dn_met'
+  | 'dn_vaer'
+  | 'dn_vegkamera'
+  | 'dn_satellitt'
+  | 'dn_fusjon'
+  | 'dn_fusjon_utenlyd'
+  | 'dn_fusjon_fly'
+  | 'dn_fusjon_flyskog'
+  | 'dn_fusjon_stille'
+  | 'dn_fusjon_stilleskog'
+  | 'dn_fusjon_utenmerker'
+  | 'dn_fusjon_utenfly'
+  | 'dn_fusjon_utenflylyd'
   | 'fellesskap891'
   | 'kommuner'
   | 'solidag'
@@ -254,6 +283,366 @@ export const LAG: Lag[] = [
     kilde: 'OpenStreetMap via default.no. Takk til default.no.',
   },
   {
+    id: 'dn_skytefelt',
+    navn: 'Skytefelt',
+    kort: '«INGEN SKYTING»',
+    merkelapp: 'fakta',
+    forklaring: 'Forsvarets skyte- og øvingsfelt i Innlandet, blant annet Rødsmoen, Regionfelt Østlandet og Terningmoen. Anja skrev «INGEN SKYTING», og man skal uansett ikke gå inn her. default.no regner feltene som utelukket.',
+    tegn: [{ stil: 'stiplet', farge: '#b91c1c', tekst: 'Skytefelt (ikke gå inn)' }],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. Feltene er fra Forsvarsbygg via Geonorge.',
+  },
+  {
+    id: 'dn_hogst',
+    navn: 'Hogst',
+    kort: '«Det har vært hogd der jeg gikk»',
+    merkelapp: 'fakta',
+    forklaring: 'Flater som er hogd de siste årene, i de 34 områdene default.no har sjekket. Anja skrev at det har vært hogd der hun gikk, så kassen kan stå nær en fersk hogstflate. Svart strek er jernbane (tømmertog). Stiplet ramme viser hvor det finnes data.',
+    tegn: [
+      { stil: 'fyll', farge: '#ffd23c', tekst: 'Hogd 2016 eller senere' },
+      { stil: 'fyll', farge: '#ff7814', tekst: 'Hogd 2022 eller senere' },
+      { stil: 'fyll', farge: '#e61414', tekst: 'Hogd 2024–25' },
+      { stil: 'linje', farge: '#282828', tekst: 'Jernbane' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. Hogstdata fra Global Forest Watch.',
+  },
+  {
+    id: 'dn_steder',
+    navn: 'Konkrete steder',
+    kort: 'Vei, 5–10 min opp, furu, riktig relieff',
+    merkelapp: 'beregnet',
+    forklaring: 'default.no sitt stedsøk: steder 5–10 min gange oppover fra vei, med furu, terreng som ligner bildet (sett mot ca. 219°) og riktig solhorisont. Grønne prikker er de 126 beste stedene. Trykk for vei, høyde og stigning.',
+    tegn: [
+      { stil: 'prikk', farge: '#16a34a', tekst: 'Konkret sted' },
+      { stil: 'fyll', farge: '#e62828', tekst: 'Sterkt treff' },
+      { stil: 'fyll', farge: '#fac828', tekst: 'Mulig treff' },
+      { stil: 'fyll', farge: '#286ee6', tekst: 'Riktig avstand fra vei' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no.',
+  },
+  {
+    id: 'dn_omrader',
+    navn: 'Søkeområder',
+    kort: '34 områder med andel av sannsynligheten',
+    merkelapp: 'beregnet',
+    forklaring: 'Områdene default.no har søkt gjennom, ca. 24 × 24 km. Sterkere farge betyr større andel av sannsynligheten i fusjonsmodellen. Stiplet kant er en hypotese som ikke kommer fra modellen. Trykk på nummeret for km² med sterke og mulige steder, furu og hogst.',
+    tegn: [{ stil: 'rute', farge: '#ea580c', tekst: 'Søkeområde (nummer = rangering)' }],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no.',
+  },
+  {
+    id: 'dn_gasoner',
+    navn: 'Gå-soner fra vei',
+    kort: 'Skog 200–700 m fra vei',
+    merkelapp: 'beregnet',
+    forklaring: 'Skog som ligger 200–700 m fra vei i seks områder, altså en kort gåtur inn. Rødt er målt fra ordentlig vei, blått fra alle veier inkludert traktorvei.',
+    tegn: [
+      { stil: 'fyll', farge: '#c81e1e', tekst: 'Fra ordentlig vei' },
+      { stil: 'fyll', farge: '#1e64dc', tekst: 'Fra alle veier' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no.',
+  },
+  {
+    id: 'dn_leder',
+    navn: 'Pilegrimsleder',
+    kort: '«INGEN STIER»',
+    merkelapp: 'fakta',
+    forklaring: 'Merkede pilegrimsleder mot Nidaros. Den tykke er Østerdalsleden (Rena–Tynset–Trondheim). Anja skrev «INGEN STIER», så kassen står neppe rett ved en merket led.',
+    tegn: [
+      { stil: 'linje', farge: '#f59e0b', tekst: 'Østerdalsleden' },
+      { stil: 'linje', farge: '#cc88aa', tekst: 'Andre pilegrimsleder' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. Ledene er fra OpenStreetMap.',
+  },
+  {
+    id: 'dn_baer',
+    navn: 'Tyttebær eller blåbær',
+    kort: 'Tørr lynghei eller blåbærskog',
+    merkelapp: 'beregnet',
+    forklaring: 'Andel tyttebær og røsslyng mot blåbær, ut fra funn i Artsdatabanken, glattet over ca. 12 km. Rødt er tørr furumo med tyttebær og lyng, blått er frodigere blåbærskog. Et svakt bevis i default.no sin modell.',
+    tegn: [
+      { stil: 'fyll', farge: 'rgb(230,60,26)', tekst: 'Mest tyttebær og lyng' },
+      { stil: 'fyll', farge: 'rgb(128,60,128)', tekst: 'Blandet' },
+      { stil: 'fyll', farge: 'rgb(26,60,230)', tekst: 'Mest blåbær' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. Funn fra Artsdatabanken via GBIF.',
+  },
+  {
+    id: 'dn_baerfunn',
+    navn: 'Bærfunn',
+    kort: 'Enkeltfunn av tyttebær og blåbær',
+    merkelapp: 'fakta',
+    forklaring: 'Registrerte funn av tyttebær og blåbær 2015–2026 i Innlandet (ca. 8 400 funn). Viser mest hvor folk har registrert, ikke nødvendigvis hvor det vokser mest.',
+    tegn: [
+      { stil: 'prikk', farge: '#cc0000', tekst: 'Tyttebær' },
+      { stil: 'prikk', farge: '#0066cc', tekst: 'Blåbær' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. Artsdatabanken via GBIF.',
+  },
+  {
+    id: 'dn_orrfugl',
+    navn: 'Orrfugl',
+    kort: 'Lyden 24.09 kan være orrfuglspill',
+    merkelapp: 'fakta',
+    forklaring: 'Hvor det er registrert orrfugl 2015–2026, i ruter på ca. 2 × 1 km. Sterkere farge betyr flere funn. default.no mener en lyd på streamen 24.09 kan være orrfugl som spiller.',
+    tegn: [{ stil: 'fyll', farge: '#cc0000', tekst: 'Orrfugl (sterkere = flere funn)' }],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. Artsdatabanken via GBIF.',
+  },
+  {
+    id: 'dn_storfugl',
+    navn: 'Storfugl',
+    kort: 'Funn av storfugl',
+    merkelapp: 'fakta',
+    forklaring: 'Hvor det er registrert storfugl 2015–2026, i ruter på ca. 2 × 1 km. Sterkere farge betyr flere funn.',
+    tegn: [{ stil: 'fyll', farge: '#7700aa', tekst: 'Storfugl (sterkere = flere funn)' }],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. Artsdatabanken via GBIF.',
+  },
+  {
+    id: 'dn_pizza',
+    navn: 'Pizzasteder',
+    kort: 'Pizza på tavla',
+    merkelapp: 'fakta',
+    forklaring: 'Pizzasteder og restauranter med pizza i området, fra OpenStreetMap. Sier mest om hvor mannskapet kan ha spist.',
+    tegn: [{ stil: 'prikk', farge: '#dd5500', tekst: 'Pizzasted' }],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. OpenStreetMap.',
+  },
+  {
+    id: 'dn_flyhendelser',
+    navn: 'Fly ved hendelsene',
+    kort: '21.09 21:30, 22.09 20:33 og 20:35',
+    merkelapp: 'fakta',
+    forklaring: 'Alle 253 fly som var i lufta de tre gangene Anja reagerte på fly. Fargen viser høyden: mørk = lavt, lys gul = høyt. Rosa prikk er der flyet var da hun reagerte, rød prikk er der det var rett før lyden var sterkest (bare 21.09).',
+    tegn: [
+      { stil: 'linje', farge: 'rgb(253,231,37)', tekst: 'Høyt fly (ca. 40 000 fot)' },
+      { stil: 'linje', farge: 'rgb(68,1,84)', tekst: 'Lavt fly' },
+      { stil: 'prikk', farge: '#d946ef', tekst: 'Der flyet var da hun reagerte' },
+      { stil: 'prikk', farge: '#ef4444', tekst: 'Rett før lyden toppet' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. ADS-B fra adsb.lol.',
+  },
+  {
+    id: 'dn_sjelden',
+    navn: 'Stille himmel',
+    kort: '«INGEN FLY» om dagen, fly 21:30',
+    merkelapp: 'beregnet',
+    forklaring: 'Anja skrev «INGEN FLY» kl. 18:31 21.09, men så et fly 21:30. Lyseblått er der få fly gikk over 40° over horisonten kl. 07–18:31, men der flyet 21:30 var høyt nok. Sterkere blått passer bedre. Tallene er de beste rutene i det sannsynlige området.',
+    tegn: [
+      { stil: 'fyll', farge: '#0ea5e9', tekst: 'Passer godt' },
+      { stil: 'fyll', farge: '#50c8ff', tekst: 'Passer litt' },
+      { stil: 'prikk', farge: '#0369a1', tekst: 'Beste ruter (nummer)' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. ADS-B fra adsb.lol.',
+  },
+  {
+    id: 'dn_flylyd',
+    navn: 'Flylyd-match',
+    kort: 'Hørte fly mot fly i lufta',
+    merkelapp: 'beregnet',
+    forklaring: 'default.no har sammenlignet 21 flylyder på streamen med flyene som var i lufta. Rødt er der lyden passer best med flyene. Obs: lyden kan være spilt av på nytt i loop, se Analyse-fanen.',
+    tegn: [
+      { stil: 'fyll', farge: '#ff1e14', tekst: 'Beste 2 %' },
+      { stil: 'fyll', farge: '#ff9614', tekst: 'Topp 15 %' },
+      { stil: 'fyll', farge: '#ffdc14', tekst: 'Topp 40 %' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no.',
+  },
+  {
+    id: 'dn_regn',
+    navn: 'Regn siden søndag',
+    kort: 'Kameraet har vært tørt',
+    merkelapp: 'fakta',
+    forklaring: 'Regn siden søndag 21.09 kl. 06:50, fra 831 værstasjoner og 76 radarbilder. Glasset foran kameraet har vært tørt hele tiden, så blå områder passer dårlig.',
+    tegn: [
+      { stil: 'fyll', farge: '#1c6fd6', tekst: 'Over 6 mm' },
+      { stil: 'fyll', farge: '#6ea3e6', tekst: '0,3–6 mm' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. Frost (MET) og radar.',
+  },
+  {
+    id: 'dn_radar',
+    navn: 'Nedbørsradar 24.09',
+    kort: 'Radarbilde kl. 18:35',
+    merkelapp: 'fakta',
+    forklaring: 'Nedbørsradaren fra MET 24.09 kl. 18:35, samme som på yr.no. Grønt er lett regn, gult og rødt er kraftig. Et øyeblikksbilde, ikke oppdatert.',
+    tegn: [
+      { stil: 'fyll', farge: '#3caa3c', tekst: 'Lett' },
+      { stil: 'fyll', farge: '#ffe600', tekst: 'Moderat' },
+      { stil: 'fyll', farge: '#dc1414', tekst: 'Kraftig' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. Radar fra MET.',
+  },
+  {
+    id: 'dn_met',
+    navn: 'MET-vær 24.09',
+    kort: 'Temperatur, skyer og regn kl. 18',
+    merkelapp: 'fakta',
+    forklaring: 'Været i 81 punkter 24.09 ca. kl. 18 fra MET. Blått regner, grått er mer enn 70 % skyer, gult er klarere.',
+    tegn: [
+      { stil: 'prikk', farge: '#2563eb', tekst: 'Regner' },
+      { stil: 'prikk', farge: '#a8a29e', tekst: 'Overskyet' },
+      { stil: 'prikk', farge: '#fde68a', tekst: 'Klarere' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. MET.',
+  },
+  {
+    id: 'dn_vaer',
+    navn: 'Værstasjoner',
+    kort: 'Dugg og regn mot kameraet',
+    merkelapp: 'beregnet',
+    forklaring: 'De 400 værstasjonene default.no sammenligner med kameraet: dugg ved daggry, regn om morgenen og hvor fort det blir varmt. Rødt ligner mest på det kameraet viser.',
+    tegn: [
+      { stil: 'prikk', farge: 'rgb(255,57,51)', tekst: 'Ligner mest' },
+      { stil: 'prikk', farge: 'rgb(80,207,151)', tekst: 'Ligner lite' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. Frost (MET).',
+  },
+  {
+    id: 'dn_vegkamera',
+    navn: 'Veikameraer',
+    kort: '533 kameraer med vær',
+    merkelapp: 'fakta',
+    forklaring: 'Statens vegvesens værstasjoner og kameraer. Blått hadde nedbør 24.09 ca. kl. 18:30, gult var tørt, grått måler ikke nedbør. Trykk for å åpne kamerabildet (det siste bildet, ikke fra 24.09).',
+    tegn: [
+      { stil: 'prikk', farge: '#2563eb', tekst: 'Nedbør' },
+      { stil: 'prikk', farge: '#f59e0b', tekst: 'Tørt' },
+      { stil: 'prikk', farge: '#94a3b8', tekst: 'Måler ikke nedbør' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. Statens vegvesen.',
+  },
+  {
+    id: 'dn_satellitt',
+    navn: 'Satellitt 21.09',
+    kort: 'Sentinel-2, 30 m',
+    merkelapp: 'fakta',
+    forklaring: 'Satellittbilde fra 21.09 (Sentinel-2 via NASA), den klareste dagen default.no fant (ca. 22 % skyer rundt Evenstad). Oppløsningen er 30 m, så enkelttrær synes ikke, men hogstflater og myr gjør det.',
+    tegn: [{ stil: 'fyll', farge: '#4d7c0f', tekst: 'Satellittbilde' }],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no. NASA GIBS (HLS).',
+  },
+  {
+    id: 'dn_fusjon',
+    navn: 'Fusjon: alt bevis',
+    kort: 'default.no sin hovedmodell',
+    merkelapp: 'beregnet',
+    forklaring: 'default.no sin hovedmodell for hele Norge: flyene hun så, «INGEN FLY», regn, vær, satellittskyer, skog, furu, bær, skytefelt og kjøretid, vektet sammen. Rutene er ca. 5 × 5 km. Rødt er de beste 2 %. Trykk på et nummer for hvor mye av sannsynligheten som ligger innen 10 og 25 km.',
+    tegn: [
+      { stil: 'fyll', farge: '#ff1e14', tekst: 'Beste 2 % av rutene' },
+      { stil: 'fyll', farge: '#ff9614', tekst: 'Topp 15 %' },
+      { stil: 'fyll', farge: '#ffdc14', tekst: 'Topp 40 %' },
+      { stil: 'prikk', farge: '#dc2626', tekst: 'Toppområder (nummer = rangering)' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no.',
+  },
+  {
+    id: 'dn_fusjon_utenlyd',
+    navn: 'Fusjon: uten lyd og sol',
+    kort: 'Bare det hun skrev og viste',
+    merkelapp: 'beregnet',
+    forklaring: 'default.no sin fusjonsmodell med bare noen av bevisene: de tre flyene hun så, INGEN FLY, regn, vær, skog og kjøretid, uten lyd og sol. Rutene er ca. 5 × 5 km. Fargen viser hvor godt ruta passer sammenlignet med resten av Norge.',
+    tegn: [
+      { stil: 'fyll', farge: '#ff1e14', tekst: 'Beste 2 % av rutene' },
+      { stil: 'fyll', farge: '#ff9614', tekst: 'Topp 15 %' },
+      { stil: 'fyll', farge: '#ffdc14', tekst: 'Topp 40 %' },
+      { stil: 'prikk', farge: '#dc2626', tekst: 'Toppområder (nummer = rangering)' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no.',
+  },
+  {
+    id: 'dn_fusjon_fly',
+    navn: 'Fusjon: bare flyene',
+    kort: 'De tre flyene hun så',
+    merkelapp: 'beregnet',
+    forklaring: 'default.no sin fusjonsmodell med bare noen av bevisene: bare de tre flyene hun så (21.09 21:30, 22.09 20:33 og 20:35). Rutene er ca. 5 × 5 km. Fargen viser hvor godt ruta passer sammenlignet med resten av Norge.',
+    tegn: [
+      { stil: 'fyll', farge: '#ff1e14', tekst: 'Beste 2 % av rutene' },
+      { stil: 'fyll', farge: '#ff9614', tekst: 'Topp 15 %' },
+      { stil: 'fyll', farge: '#ffdc14', tekst: 'Topp 40 %' },
+      { stil: 'prikk', farge: '#dc2626', tekst: 'Toppområder (nummer = rangering)' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no.',
+  },
+  {
+    id: 'dn_fusjon_flyskog',
+    navn: 'Fusjon: fly + skog',
+    kort: 'Flyene, skog, skyer og kjøretid',
+    merkelapp: 'beregnet',
+    forklaring: 'default.no sin fusjonsmodell med bare noen av bevisene: de tre flyene, skog, satellittskyer og kjøretid. Rutene er ca. 5 × 5 km. Fargen viser hvor godt ruta passer sammenlignet med resten av Norge.',
+    tegn: [
+      { stil: 'fyll', farge: '#ff1e14', tekst: 'Beste 2 % av rutene' },
+      { stil: 'fyll', farge: '#ff9614', tekst: 'Topp 15 %' },
+      { stil: 'fyll', farge: '#ffdc14', tekst: 'Topp 40 %' },
+      { stil: 'prikk', farge: '#dc2626', tekst: 'Toppområder (nummer = rangering)' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no.',
+  },
+  {
+    id: 'dn_fusjon_stille',
+    navn: 'Fusjon: fly + INGEN FLY',
+    kort: 'Flyene og stille dag',
+    merkelapp: 'beregnet',
+    forklaring: 'default.no sin fusjonsmodell med bare noen av bevisene: de tre flyene og «INGEN FLY» om dagen. Rutene er ca. 5 × 5 km. Fargen viser hvor godt ruta passer sammenlignet med resten av Norge.',
+    tegn: [
+      { stil: 'fyll', farge: '#ff1e14', tekst: 'Beste 2 % av rutene' },
+      { stil: 'fyll', farge: '#ff9614', tekst: 'Topp 15 %' },
+      { stil: 'fyll', farge: '#ffdc14', tekst: 'Topp 40 %' },
+      { stil: 'prikk', farge: '#dc2626', tekst: 'Toppområder (nummer = rangering)' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no.',
+  },
+  {
+    id: 'dn_fusjon_stilleskog',
+    navn: 'Fusjon: fly + INGEN FLY + skog',
+    kort: 'Uten regn og vær',
+    merkelapp: 'beregnet',
+    forklaring: 'default.no sin fusjonsmodell med bare noen av bevisene: de tre flyene, «INGEN FLY», skog, skyer og kjøretid, uten regn og vær. Rutene er ca. 5 × 5 km. Fargen viser hvor godt ruta passer sammenlignet med resten av Norge.',
+    tegn: [
+      { stil: 'fyll', farge: '#ff1e14', tekst: 'Beste 2 % av rutene' },
+      { stil: 'fyll', farge: '#ff9614', tekst: 'Topp 15 %' },
+      { stil: 'fyll', farge: '#ffdc14', tekst: 'Topp 40 %' },
+      { stil: 'prikk', farge: '#dc2626', tekst: 'Toppområder (nummer = rangering)' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no.',
+  },
+  {
+    id: 'dn_fusjon_utenmerker',
+    navn: 'Fusjon: uten flylyd-merking',
+    kort: 'Alt unntatt håndmerket lyd',
+    merkelapp: 'beregnet',
+    forklaring: 'default.no sin fusjonsmodell med bare noen av bevisene: alt unntatt flylydene folk har merket for hånd. Rutene er ca. 5 × 5 km. Fargen viser hvor godt ruta passer sammenlignet med resten av Norge.',
+    tegn: [
+      { stil: 'fyll', farge: '#ff1e14', tekst: 'Beste 2 % av rutene' },
+      { stil: 'fyll', farge: '#ff9614', tekst: 'Topp 15 %' },
+      { stil: 'fyll', farge: '#ffdc14', tekst: 'Topp 40 %' },
+      { stil: 'prikk', farge: '#dc2626', tekst: 'Toppområder (nummer = rangering)' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no.',
+  },
+  {
+    id: 'dn_fusjon_utenfly',
+    navn: 'Fusjon: uten fly',
+    kort: 'Regn, vær, skog og kjøretid',
+    merkelapp: 'beregnet',
+    forklaring: 'default.no sin fusjonsmodell med bare noen av bevisene: ingen flydata, bare regn, vær, skog, satellittskyer og kjøretid (nesten flatt). Rutene er ca. 5 × 5 km. Fargen viser hvor godt ruta passer sammenlignet med resten av Norge.',
+    tegn: [
+      { stil: 'fyll', farge: '#ff1e14', tekst: 'Beste 2 % av rutene' },
+      { stil: 'fyll', farge: '#ff9614', tekst: 'Topp 15 %' },
+      { stil: 'fyll', farge: '#ffdc14', tekst: 'Topp 40 %' },
+      { stil: 'prikk', farge: '#dc2626', tekst: 'Toppområder (nummer = rangering)' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no.',
+  },
+  {
+    id: 'dn_fusjon_utenflylyd',
+    navn: 'Fusjon: uten flylyd (eldre)',
+    kort: 'Eldre kjøring',
+    merkelapp: 'beregnet',
+    forklaring: 'default.no sin fusjonsmodell med bare noen av bevisene: alt unntatt flylyd, fra en eldre kjøring. Rutene er ca. 5 × 5 km. Fargen viser hvor godt ruta passer sammenlignet med resten av Norge.',
+    tegn: [
+      { stil: 'fyll', farge: '#ff1e14', tekst: 'Beste 2 % av rutene' },
+      { stil: 'fyll', farge: '#ff9614', tekst: 'Topp 15 %' },
+      { stil: 'fyll', farge: '#ffdc14', tekst: 'Topp 40 %' },
+      { stil: 'prikk', farge: '#dc2626', tekst: 'Toppområder (nummer = rangering)' },
+    ],
+    kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no.',
+  },
+  {
     id: 'fellesskap891',
     navn: 'Fellesskapets 800–900 moh-kart',
     kort: 'Høyde + fly + skog, utenfor skytefelt',
@@ -406,7 +795,10 @@ export const LAG_ETTER_ID = Object.fromEntries(LAG.map((l) => [l.id, l])) as Rec
 export const GRUPPER: { navn: string; forklaring: string; ider: LagId[] }[] = [
   { navn: 'Hovedkart', forklaring: 'Hvor kassen mest sannsynlig står, og hvor hintene peker.', ider: ['hintmarkorer', 'modell', 'teoriomrader'] },
   { navn: 'Høyden (2,7 eiffeltårn)', forklaring: '810 eller 891 moh, nær vei. Eller 891 m fra vei.', ider: ['hoyde891', 'fellesskap891', 'dn_hoyde', 'dn_vei'] },
-  { navn: 'Fra default.no', forklaring: 'Letestopp, avviste områder og feltnotater. Takk til default.no.', ider: ['dn_plan', 'dn_avvist', 'dn_notater', 'coop'] },
+  { navn: 'Fra default.no', forklaring: 'Letestopp, steder, avviste områder og feltnotater. Takk til default.no.', ider: ['dn_plan', 'dn_steder', 'dn_omrader', 'dn_avvist', 'dn_notater', 'coop', 'dn_pizza'] },
+  { navn: 'default.no: terreng og skog', forklaring: 'Skytefelt, hogst, stier, bær og fugl. Takk til default.no.', ider: ['dn_skytefelt', 'dn_hogst', 'dn_leder', 'dn_gasoner', 'dn_baer', 'dn_baerfunn', 'dn_orrfugl', 'dn_storfugl', 'dn_satellitt'] },
+  { navn: 'default.no: fly og vær', forklaring: 'Flyene hun så, stille himmel, regn og vær. Takk til default.no.', ider: ['dn_flyhendelser', 'dn_sjelden', 'dn_flylyd', 'dn_regn', 'dn_radar', 'dn_met', 'dn_vaer', 'dn_vegkamera'] },
+  { navn: 'default.no: modeller', forklaring: 'Fusjonsmodellen med ulike bevis slått av og på. Slå på én om gangen. Takk til default.no.', ider: ['dn_fusjon', 'dn_fusjon_utenlyd', 'dn_fusjon_fly', 'dn_fusjon_flyskog', 'dn_fusjon_stille', 'dn_fusjon_stilleskog', 'dn_fusjon_utenmerker', 'dn_fusjon_utenfly', 'dn_fusjon_utenflylyd'] },
   { navn: 'Vær og terreng', forklaring: 'Anja har hatt klar himmel og sol, og ser vanlig skog. Her passer det ikke.', ider: ['utelukket', 'kommuner', 'skydekke', 'solidag'] },
   { navn: 'Fly, retning og kjøretid', forklaring: 'Flyet hun pekte på, 118°-linjene og hvor langt man kommer fra Oslo.', ider: ['fly', 'retning', 'kjoretid'] },
   { navn: 'Steder og teorier', forklaring: 'Stedene hintene og folk i chatten peker på.', ider: ['teorier', 'hytter', 'steder', 'defaultno', 'innlandet', 'skyanalyse'] },
