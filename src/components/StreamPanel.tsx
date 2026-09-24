@@ -3,6 +3,7 @@ import { ExternalLink, MessageSquare, Play } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { DiscordKreditt } from '@/components/Discord'
+import { LeteRegler } from '@/components/LeteRegler'
 import { FAKTA, STREAM } from '@/data/innhold'
 
 export function StreamPanel() {
@@ -60,6 +61,7 @@ export function StreamPanel() {
         <p className="font-semibold">Jaktvett</p>
         <p className="mt-1">Kassen står ikke i farlig terreng. Ta trygge veivalg, respekter privat eiendom og vær grei mot Anja og andre som leter.</p>
       </div>
+      <LeteRegler className="spenn" />
       <DiscordKreditt kompakt className="spenn" />
       <p className="text-[13px] text-muted-foreground">
         Mer data: <a className="font-semibold text-primary" href="https://default.no" target="_blank" rel="noopener">default.no</a> ·{' '}
