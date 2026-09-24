@@ -133,8 +133,8 @@ export const HINT: Hint[] = [
   },
   {
     id: 'bokstaver',
-    tittel: 'Bokstaver ved verving',
-    status: 'tolkning',
+    tittel: 'Bokstaver ved verving = HORDE MINUS (løst)',
+    status: 'lost',
     kilde: 'Horde-appen («Verv en venn»)',
     tekst: 'Etter å ha vervet noen får man opp bokstaver. Bekreftet sett så langt, ikke i riktig rekkefølge: N O R H E I M S U D.',
     betydning: 'HORDE MINUS bruker nøyaktig alle ti bokstavene, uten rest, og nå er det bekreftet: skriver man «Hordeminus» til Horde AI, svarer den «2,7 eiffeltårn stablet oppå hverandre» (ca. 891 m, se eget hint). Én idé: «HORDEJAKTEN» minus «HORDE» = «JAKTEN», og dyrene (rev, and, kråke) er jaktbare. Prøv ordene i kredittskår-boksen i appen. NORHEIMSUND (Kvam i Hardanger) passer nesten, men mangler én N, og Hardanger var blått på Windy-kartet. Test egne ord under.',
