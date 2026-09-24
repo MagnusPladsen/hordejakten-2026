@@ -193,6 +193,25 @@ export const HINT: Hint[] = [
     lag: ['defaultno', 'fly'],
   },
   {
+    id: 'enkode',
+    tittel: 'Skiltnummer LD6788 i appen = «ENKODE»',
+    status: 'bekreftet',
+    kilde: 'Horde-appen',
+    dato: '24.09',
+    tekst: 'Gå til «Bil & hus» i appen og legg til kjøretøy med registreringsnummer LD6788. Da kommer «Du fant et hint! ENKODE». Funnet rett etter midnatt 24.09.',
+    betydning: 'Appen har lagt inn et eget svar for akkurat dette skiltnummeret, så LD6788 er med vilje. «ENKODE» (encode, eller «én kode») kan bety at skiltnummeret skal gjøres om til en kode. Den enkleste lesningen er at 6788 er koden til en hengelås (4 siffer). Det er ikke kjent hvor skiltnummeret kommer fra, eller om det er bilen som kjørte Anja. Tolkningen er usikker.',
+  },
+  {
+    id: 'frolandekorn',
+    tittel: '«FROLAND» i ord-boksen = «Ekornet kan klatre»',
+    status: 'bekreftet',
+    kilde: 'Horde-appen',
+    dato: '23.09',
+    tekst: 'Skriv FROLAND i ord-boksen under «Kredittskår» (samme boks som «terje»). Da kommer «Du fant et hint! Ekornet kan klatre». Funnet kl. 22:27.',
+    betydning: 'Horde har forutsett Froland-teorien (ekornet i kommunevåpenet) og lagt inn et eget svar. «Ekornet kan klatre» kan være et nikk om at ekornet (og kassen) er høyere opp, i skog eller i fjellet, eller at det skal videre. Det kan også bare være en fleip. Froland er fortsatt utelukket fordi været ikke stemmer. Svaret viser også at ord-boksen tar imot stedsnavn, så det er verdt å prøve navn som LØTEN, RENA, RINGSAKER og RUDSHØGDA.',
+    fokus: 'froland',
+  },
+  {
     id: 'skiltborte',
     tittel: '«Skiltet er borte, vet ikke hvor» (19:12)',
     status: 'bekreftet',
@@ -767,7 +786,7 @@ export const TEORIER: Sted[] = [
     type: 'teori',
     info: 'Vervebokstavene N O R H E I M S U D gir NORHEIMSUND med én N til. 6,5 t fra Oslo uten ferge, og ca. 1 t fra Horde i Bergen (5008).',
   },
-  { id: 'froland', navn: 'Froland (utelukket)', pos: [58.53, 8.63], type: 'teori', utelukket: true, info: 'Utelukket: været i Froland samsvarer ikke med det Anja har sett. Kommunevåpenet har et ekorn, men ekorn finnes overalt.' },
+  { id: 'froland', navn: 'Froland (lite sannsynlig)', pos: [58.53, 8.63], type: 'teori', utelukket: true, info: 'Været i Froland samsvarer ikke med det Anja har sett. Men appen har et eget svar når man skriver FROLAND: «Ekornet kan klatre» (23.09). Kommunevåpenet har et ekorn.' },
   { id: 'lillehammer', navn: 'Lillehammer (ekorn-maskot)', pos: [61.115, 10.466], type: 'teori', info: 'Ubekreftet teori om ekorn som maskot. Ligger i det blå båndet på Windy-kartet, så det taler imot.' },
   { id: 'notteroy', navn: 'Nøtterøy (utelukket)', pos: [59.21, 10.42], type: 'teori', utelukket: true, info: 'Ordspill på «nøtt», men «Ikke en øy» og «ingen ferge» taler mot.' },
 ]
@@ -855,20 +874,21 @@ export const BESTE_KODER: { las: string; kode: string; hvorfor: string; sjanse: 
     kode: '5008',
     hvorfor: 'Det eneste tallet appen selv kaller et hint («Du fant et hint!»), og det har 4 siffer.',
     sjanse: 'hoy',
-    reserve: '5528 hvis «00» skal byttes med 52 (kortstokken)',
+    reserve: '6788 (skiltnummeret LD6788 ga «ENKODE»), eller 5528 hvis «00» skal byttes med 52 (kortstokken)',
   },
   {
     las: 'Hengelås 2 (boksen)',
     kode: 'Kodejakten',
     hvorfor: 'Horde sier selv at Kodejakten gir koden til en av låsene. Koden er ikke kjent ennå.',
     sjanse: 'hoy',
-    reserve: 'Prøv 2188 og 5528 til Kodejakten-koden er kjent',
+    reserve: 'Prøv 6788, 2188 og 5528 til Kodejakten-koden er kjent',
   },
 ]
 
 /** Alle kodekandidater samlet. 3 låser: 2 hengelåser (4 siffer) på pengeboksen, 1 dørlås (5 siffer) for Anja. */
 export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjanse; hint: string[] }[] = [
   { kode: '5008', kilde: 'Kredittskår i appen + «terje». Også postnummeret til Horde AS i Bergen.', status: 'bekreftet', sjanse: 'hoy', hint: ['terje', 'koder'] },
+  { kode: '6788', kilde: 'Skiltnummeret LD6788 i «Bil & hus» ga «Du fant et hint! ENKODE» (24.09). Sifrene kan være koden.', status: 'tolkning', sjanse: 'middels', hint: ['enkode', 'koder'] },
   { kode: '5528', kilde: '5008 med 52 i stedet for 00: plakaten ser ut til å vise kortstokker, og en kortstokk har 52 kort.', status: 'tolkning', sjanse: 'middels', hint: ['plakat', 'koder'] },
   { kode: '2188', kilde: 'Nevnt i chatten. Ingen vet hvor den kommer fra.', status: 'usikker', sjanse: 'middels', hint: ['koder'] },
   { kode: '7…', kilde: 'Hendene under Horde-skiltet: romertall (første hånd VII = 7) eller binært.', status: 'tolkning', sjanse: 'lav', hint: ['skilt', 'koder'] },
@@ -878,7 +898,7 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
   { kode: '27000', kilde: 'Samme powerbank, 27000 mAh. 5 siffer, som dørlåsen. Trolig tilfeldig.', status: 'usikker', sjanse: 'lav', hint: ['powerbank'] },
   { kode: '072', kilde: '«Ho Ho Hint Hint»: siste sifre i premien fra 2024 (1 093 072 kr). Bare 3 siffer.', status: 'usikker', sjanse: 'lav', hint: ['hohoh'] },
   { kode: '500', kilde: '«Ho Ho Hint Hint»: poeng for å verve. Bare 3 siffer.', status: 'usikker', sjanse: 'lav', hint: ['hohoh'] },
-  { kode: 'ord', kilde: 'Kredittskår-boksen tar imot ord («terje» ga 5008). Verdt å prøve: JAKTEN, MINUSHORDE, HORDEMINUS, NORHEIMSUND.', status: 'tolkning', sjanse: 'middels', hint: ['terje', 'bokstaver', 'dyr'] },
+  { kode: 'ord', kilde: 'Kredittskår-boksen tar imot ord («terje» ga 5008, «FROLAND» ga «Ekornet kan klatre»), og «Bil & hus» tar imot skiltnummer (LD6788 ga «ENKODE»). Verdt å prøve: LØTEN, RENA, RINGSAKER, RUDSHØGDA, JAKTEN, MINUSHORDE, HORDEMINUS, NORHEIMSUND.', status: 'tolkning', sjanse: 'middels', hint: ['terje', 'frolandekorn', 'enkode', 'bokstaver', 'dyr'] },
   { kode: '????', kilde: 'Kodejakten gir koden til én hengelås når alle fire spill er klart (bekreftet i kildekoden). Dartskiven: blå +, gul −, rosa ×, lilla ÷. Kodejakten (horde.no/secret/kodejakten): fire minispill gir én kode.', status: 'apen', sjanse: 'hoy', hint: ['kodejakten'] },
 ]
 
@@ -896,7 +916,7 @@ export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: Lat
   { tekst: 'Rena og Åmot', hvem: 'default.no sin toppkandidat.', pos: [61.45, 11.1], hint: ['innlandet'] },
   { tekst: 'Gjøvik', hvem: 'Én person: vær og sol passer.', fokus: 'gjovik', hint: ['skyer'] },
   { tekst: 'Norheimsund', hvem: 'Bokstavene, men mangler én N. HORDE MINUS går opp uten rest, og Hardanger var blått på Windy.', fokus: 'norheimsund', hint: ['bokstaver', 'skyer'] },
-  { tekst: 'Froland er ute', hvem: 'Været samsvarer ikke med det Anja har sett. Ekornet og skyanalysen alene holder ikke.', fokus: 'froland', hint: ['froland', 'ekorn', 'skyanalyse'] },
+  { tekst: 'Froland er lite sannsynlig, men ikke helt ute', hvem: 'Været samsvarer ikke med det Anja har sett. Men appen svarer «Ekornet kan klatre» på FROLAND, så noen mener Froland er aktuelt igjen.', fokus: 'froland', hint: ['froland', 'frolandekorn', 'ekorn', 'skyanalyse'] },
   { tekst: 'Lillehammer', hvem: 'Ekorn-maskot. Ligger i det blå båndet på Windy.', fokus: 'lillehammer', hint: ['ekorn'] },
   {
     tekst: 'MINUS HORDE = JAKTEN',
@@ -1032,6 +1052,18 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '24.09 kl. 00:01',
+    tittel: 'Nytt app-hint: skiltnummer LD6788 gir «ENKODE»',
+    tekst: 'Legg til kjøretøy LD6788 under «Bil & hus» i appen, så kommer «Du fant et hint! ENKODE». Kan bety at 6788 er en kode til en hengelås. Lagt til som kodekandidat.',
+    hint: 'enkode',
+  },
+  {
+    tid: '23.09 kl. 22:27',
+    tittel: 'FROLAND i ord-boksen gir «Ekornet kan klatre»',
+    tekst: 'Horde har et eget svar for Froland-teorien. Froland er fortsatt utelukket på grunn av været, men ord-boksen tar altså imot stedsnavn. Prøv flere.',
+    hint: 'frolandekorn',
+  },
   {
     tid: '23.09 kl. 19:12',
     tittel: 'Horde-skiltet er fjernet',
