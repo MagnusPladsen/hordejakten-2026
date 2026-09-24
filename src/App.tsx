@@ -211,7 +211,7 @@ export default function App() {
         setFeltPos(pos)
         kart.current?.flyTil(pos, 14)
       }
-      toast('Dra P-markøren til en parkering', { description: 'Det grønne feltet viser hvor kassen bør ligge: ca. 120° fra bilen, 300–900 m, oppover.' })
+      toast('Dra P-markøren til en parkering', { description: 'Det grønne feltet viser hvor kassen bør ligge: ca. 300° (nordvest) fra bilen, 300–900 m, oppover.' })
     }
   }
 

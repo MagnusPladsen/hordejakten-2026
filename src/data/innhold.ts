@@ -193,6 +193,26 @@ export const HINT: Hint[] = [
     lag: ['defaultno', 'fly'],
   },
   {
+    id: 'komfra',
+    tittel: '«Kom fra den veien ←» og «ingen stier»',
+    status: 'bekreftet',
+    kilde: 'Tavla',
+    dato: '24.09',
+    tekst: 'Anja skrev «KOM FRA DEN VEIEN» med en pil mot venstre i bildet, og «INGEN STIER».',
+    betydning: 'Kameraet filmer mot ca. 221° (to uavhengige målinger), så venstre i bildet er ca. 130° (sørøst). Horde-skiltet pekte også mot venstre i bildet, 118–120°. Da ligger bilen og veien trolig sørøst for kassen, og man går mot nordvest (ca. 300°) og oppover fra bilen til kassen. «Ingen stier» betyr at de gikk rett gjennom skogen. Søkesektoren fra parkering på kartet er snudd til ca. 300°. Merk at dette snur den gamle tolkningen, der kassen lå mot 120° fra bilen.',
+    lag: ['felt'],
+  },
+  {
+    id: 'ingenhytte',
+    tittel: '«Ingen hytte i nærheten som jeg vet om eller ser» (17:20)',
+    status: 'bekreftet',
+    kilde: 'Tavla',
+    dato: '24.09',
+    tekst: 'Anja skrev kl. 17:20: «INGEN HYTTE I NÆRHETEN SOM JEG VET OM ELLER SER».',
+    betydning: 'Taler imot teorier om at kassen står ved en hytte eller et hyttefelt, som Tretopphyttene. Det passer med skog uten stier, 5–10 min fra en vei.',
+    fokus: 'tretopp',
+  },
+  {
     id: 'kodeniappen',
     tittel: 'Horde: «Hint til hva kodene kan være ligger i appen»',
     status: 'bekreftet',
@@ -755,6 +775,27 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     tekst: 'HJEMMELAGET PEPPERONIPIZZA · DRESSING FRA COOP · KNALLGODT',
     bilder: [{ src: 'img/tavle-pizza-coop.jpg', alt: 'Tavla: HJEMMELAGET PEPPERONIPIZZA, DRESSING FRA COOP, KNALLGODT' }],
   },
+  {
+    t: '24.09',
+    tekst: 'JEG HAR TROA PÅ DERE',
+    bilder: [{ src: 'img/tavle-troa-pa-dere.jpg', alt: 'Anja i glassboksen med tavla: JEG HAR TROA PÅ DERE' }],
+  },
+  {
+    t: '24.09',
+    tekst: 'KOM FRA DEN VEIEN ← (pil mot venstre i bildet) · INGEN STIER',
+    bilder: [{ src: 'img/tavle-kom-fra-den-veien.jpg', alt: 'Anja med tavla: KOM FRA DEN VEIEN, med pil mot venstre, og INGEN STIER' }],
+  },
+  {
+    t: '24.09 17:20',
+    tekst: 'INGEN HYTTE I NÆRHETEN SOM JEG VET OM ELLER SER',
+    bilder: [{ src: 'img/tavle-ingen-hytte.jpg', alt: 'Nattkamera 17:20: INGEN HYTTE I NÆRHETEN SOM JEG VET OM ELLER SER' }],
+  },
+  {
+    t: '24.09',
+    tekst: 'INGEN LYD I BOKSEN OVERHODET, JEG HAR KUN DERE Å UNDERHOLDE MEG. INGENTING ANNET',
+    bilder: [{ src: 'img/tavle-ingen-lyd.jpg', alt: 'Anja med tavla: INGEN LYD I BOKSEN OVERHODET' }],
+  },
+  { t: '24.09 18:07', tekst: 'MAMMA <3 (svar til chatten, som savner mamma og stemte på at Anja skal ringe mamma)' },
 ]
 
 export type Sted = {
@@ -1105,6 +1146,12 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '24.09 kveld',
+    tittel: '«Kom fra den veien ←» og «ingen stier»: bilen står trolig sørøst for kassen',
+    tekst: 'Pila peker mot venstre i bildet, som er ca. 130° siden kameraet filmer mot 221°. Fra bilen går man altså mot nordvest og oppover, uten sti. Søkesektoren fra parkering er snudd. Også nytt: «Ingen hytte i nærheten som jeg vet om eller ser».',
+    hint: 'komfra',
+  },
   {
     tid: '24.09',
     tittel: 'Pizzaen kom: «Hjemmelaget pepperonipizza, dressing fra Coop, knallgodt»',
