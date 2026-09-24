@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Slider } from '@/components/ui/slider'
 import { Switch } from '@/components/ui/switch'
+import { LeteRegler } from '@/components/LeteRegler'
 import { Tegnrute } from '@/components/Tegnrute'
 import { GRUPPER, LAG, LAG_ETTER_ID, MERKELAPP, type LagId } from '@/data/lag'
 import { formaterTid, lesKoordinater, type LatLon } from '@/lib/geo'
@@ -51,6 +52,8 @@ export function LagPanel({ aktive, onVeksle, vekter, onVekter, topp, onGaTil, on
           Velg hva kartet skal vektlegge og hva du vil se. Trykk hvor som helst på kartet for å se kjøretid, vær og hvor godt stedet passer.
         </p>
       </div>
+
+      <LeteRegler className="spenn" />
 
       <Seksjon tittel="Det røde sannsynlighetskartet" tekst="Rødt på kartet er der kassen passer best med hintene. Velg hva som skal telle. Mørkere rødt passer bedre.">
         <Teorivalg vekter={vekter} onForhand={velgForhand} />
