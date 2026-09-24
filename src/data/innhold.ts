@@ -1064,7 +1064,7 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
 export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: LatLon; hint?: string[] }[] = [
   {
     tekst: 'Topp på 891 moh ved Kroktjennet i Hemmeldalen (Åmot)',
-    hvem: 'HORDE MINUS → 2,7 eiffeltårn → 891 m. Det finnes en topp på ca. 891 moh nordvest for Kroktjennet, vest for Rena. Hemmeldalen er et naturreservat med skog, myr og mye dyre- og fugleliv, og verneforskriften nevner ande- og vadefugler spesielt (passer med and-hintet). Hemmeldalen-setrene ligger sørøst for toppen, som passer med «kom fra den veien ←». Mot: det er et naturreservat med strenge regler, toppen er åpent område og ikke skog, og det er uklart om det går bilvei nær nok.',
+    hvem: 'HORDE MINUS → 2,7 eiffeltårn → 891 m. Det finnes en topp på ca. 891 moh nordvest for Kroktjennet, vest for Rena. Hemmeldalen er et naturreservat med skog, myr og mye dyre- og fugleliv, og verneforskriften nevner ande- og vadefugler spesielt (passer med and-hintet). Hemmeldalen-setrene ligger sørøst for toppen, som passer med «kom fra den veien ←». Mot: det er et naturreservat med strenge regler, toppen er åpent område og ikke skog, og det går ingen bilvei innen 900 m (OpenStreetMap). Da rekker man ikke å bære kassen dit på 5–10 min.',
     fokus: 'kroktjennet',
     hint: ['eiffel', 'and', 'komfra'],
   },
