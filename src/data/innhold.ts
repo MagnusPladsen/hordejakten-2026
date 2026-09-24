@@ -814,8 +814,8 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     bilder: [{ src: 'img/tavle-kom-fra-den-veien.jpg', alt: 'Anja med tavla: KOM FRA DEN VEIEN, med pil mot venstre, og INGEN STIER' }],
   },
   {
-    t: '24.09 17:20',
-    tekst: 'INGEN HYTTE I NÆRHETEN SOM JEG VET OM ELLER SER',
+    t: '24.09',
+    tekst: '(kl. 17:20) INGEN HYTTE I NÆRHETEN SOM JEG VET OM ELLER SER',
     bilder: [{ src: 'img/tavle-ingen-hytte.jpg', alt: 'Nattkamera 17:20: INGEN HYTTE I NÆRHETEN SOM JEG VET OM ELLER SER' }],
   },
   {
@@ -824,8 +824,8 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     bilder: [{ src: 'img/tavle-ingen-lyd.jpg', alt: 'Anja med tavla: INGEN LYD I BOKSEN OVERHODET' }],
   },
   {
-    t: '24.09 18:07',
-    tekst: 'MAMMA <3 (svar til chatten, som savner mamma og stemte på at Anja skal ringe mamma)',
+    t: '24.09',
+    tekst: '(kl. 18:07) MAMMA <3 (svar til chatten, som savner mamma og stemte på at Anja skal ringe mamma)',
     bilder: [{ src: 'img/tavle-mamma.jpg', alt: 'Nattkamera 18:07: Anja med tavla MAMMA og et hjerte' }],
   },
   {
@@ -834,12 +834,12 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     bilder: [{ src: 'img/tavle-graver.jpg', alt: 'Anja med tavla: GRÅVÆR HELE DAGEN' }],
   },
   {
-    t: '24.09 08:24',
-    tekst: '5 SIFFER · GANSKE SIKKER (om dørlåsen)',
+    t: '24.09',
+    tekst: '(kl. 08:24) 5 SIFFER · GANSKE SIKKER (om dørlåsen)',
     bilder: [{ src: 'img/tavle-5-siffer.jpg', alt: 'Nattkamera 08:24: 5 SIFFER, GANSKE SIKKER' }],
   },
   {
-    t: '23.09',
+    t: '24.09',
     tekst: '2x HENGELÅS 4 TALL · 1x KODELÅS 5–6 TALL · TROR 5',
     bilder: [{ src: 'img/tavle-laser.jpg', alt: 'Tavla: 2x HENGELÅS 4 TALL, 1x KODELÅS 5-6 TALL, TROR 5' }],
   },
