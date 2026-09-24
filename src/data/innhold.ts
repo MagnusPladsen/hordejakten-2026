@@ -240,6 +240,15 @@ export const HINT: Hint[] = [
     betydning: 'Bekrefter at bokstavene N O R H E I M S U D skal bli HORDE MINUS. Eiffeltårnet er 300 m uten antenne og 330 m med. 2,7 × 300 = 810 m og 2,7 × 330 = 891 m, så begge er like aktuelle. Mest trolig står kassen ca. 810 eller 891 moh. Det kan også være en avstand, for eksempel fra bilveien, eller en kode: 0810 og 0891 har 4 siffer som hengelåsene. Slå på «810–891 moh nær vei» på kartet for å se steder i den høyden som er høyst 900 m fra vei.',
   },
   {
+    id: 'soldater',
+    tittel: 'Video «Ingen har funnet Anja enda..»: soldater, drone og tåke',
+    status: 'usikker',
+    kilde: 'HordeApp på YouTube',
+    dato: '24.09',
+    tekst: 'Videoen viser soldater i kamputstyr og en drone i tåke. Teksten sier: «men i år har de også plassert en kvinne i en boks med en livestream».',
+    betydning: 'Trolig bare stemning, der «jakten» vises som en militær leteaksjon. Noen vil koble det til Rena leir og Regionfelt Østlandet i Åmot, men Anja skrev «INGEN SKYTING», og skytefeltene er utelukket på fellesskapets kart. Sannsynligvis samme video som globus-bildet fra Facebook. Teller ikke i modellen.',
+  },
+  {
     id: 'globus',
     tittel: 'Facebook-video: globus med Brunei og Malaysia',
     status: 'usikker',
