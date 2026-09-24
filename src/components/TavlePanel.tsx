@@ -13,7 +13,7 @@ export function TavlePanel() {
       <div className="spenn">
         <h2 className="text-xl font-semibold tracking-tight">Tavla</h2>
         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-          Alt Anja har skrevet på tavla som sier noe om stedet. Tidene er streamtid, som ligger 45 sek bak.
+          Alt Anja har skrevet på tavla som sier noe om stedet. Tidene er streamtid, som ligger 45 sek bak. Tavlene fra 24.09 er merket med dato, ikke klokkeslett, og står ikke i riktig rekkefølge innbyrdes.
         </p>
       </div>
       <div className="spenn flex items-center justify-between gap-3">
