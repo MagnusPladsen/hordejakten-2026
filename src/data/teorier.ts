@@ -242,6 +242,13 @@ export const BEVIS: Bevis[] = [
     faktor: tabell({ agder: 0.15 }),
   },
   {
+    id: 'frolandekorn',
+    tittel: 'Appen svarer på «FROLAND» («Ekornet kan klatre»)',
+    forklaring: 'Horde har lagt inn et eget svar når man skriver FROLAND i ord-boksen. Det viser at de har tenkt på Froland, men det kan like gjerne være en fleip mot en populær feil teori. Teller en del, men mindre enn at været ikke stemmer. Gir andre stedsnavn ikke noe svar, bør dette telle mye mer.',
+    standardPa: true,
+    faktor: tabell({ agder: 2.5 }),
+  },
+  {
     id: 'fjellmark',
     tittel: '«Typisk fjellmark» (Anja)',
     forklaring: 'Høyereliggende skrinn skog og lyng. Passer Ringsakfjellet/Sjusjøen, åsene over Rena og Løten, og Røros. Passer dårlig med lavlandet ved Rudshøgda, Gjøvik og Solør.',
