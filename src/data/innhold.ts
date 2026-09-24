@@ -823,6 +823,11 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     tekst: 'GRÅVÆR HELE DAGEN',
     bilder: [{ src: 'img/tavle-graver.jpg', alt: 'Anja med tavla: GRÅVÆR HELE DAGEN' }],
   },
+  {
+    t: '24.09 08:24',
+    tekst: '5 SIFFER · GANSKE SIKKER (om dørlåsen)',
+    bilder: [{ src: 'img/tavle-5-siffer.jpg', alt: 'Nattkamera 08:24: 5 SIFFER, GANSKE SIKKER' }],
+  },
 ]
 
 export type Sted = {
