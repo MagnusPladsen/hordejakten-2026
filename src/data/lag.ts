@@ -304,12 +304,12 @@ export const LAG: Lag[] = [
     kort: 'For deg som leter i felt',
     merkelapp: 'tolkning',
     forklaring:
-      'Plasser markøren på en parkering eller skogsbilvei. Skiltet står vest-nordvest for kassen og peker 118–120° mot den. Kommer du fra bilen, ligger kassen altså mot ca. 120° (±20°), 300–900 m unna, oppover. Dra markøren for å flytte den.',
+      'Plasser markøren på en parkering eller skogsbilvei. Anja skrev «KOM FRA DEN VEIEN» med pil mot venstre i bildet, som er ca. 130° (sørøst) fra kassen. Skiltet pekte samme vei (118–120°). Fra bilen ligger kassen altså mot ca. 300° (±25°, nordvest), 300–900 m unna, oppover og uten sti. Dra markøren for å flytte den.',
     tegn: [
       { stil: 'rute', farge: FARGE.felt, tekst: 'Søkesektor (300–900 m)' },
       { stil: 'prikk', farge: FARGE.felt, tekst: 'Parkering (dra meg)' },
     ],
-    kilde: 'Tavla («ØST CA 118 · RETNING SKILT», 5–10 min gange).',
+    kilde: 'Tavla («KOM FRA DEN VEIEN ←», «ØST CA 118 · RETNING SKILT», 5–10 min gange).',
   },
   {
     id: 'hytter',

@@ -605,15 +605,15 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
       return
     }
     const tegn = (pos: LatLon) => ({
-      sektor: sektor(pos, 120, 20, 0.3, 0.9),
-      pil: [pos, destinasjon(pos, 120, 0.6)] as LatLon[],
+      sektor: sektor(pos, 300, 25, 0.3, 0.9),
+      pil: [pos, destinasjon(pos, 300, 0.6)] as LatLon[],
     })
     const { sektor: s, pil } = tegn(feltPos)
     if (!feltRef.current) {
       const sek = L.polygon(s, { color: FARGE.felt, weight: 2, fillOpacity: 0.22 }).addTo(g.felt)
       const p = L.polyline(pil, { color: FARGE.felt, weight: 2, dashArray: '4 6' }).addTo(g.felt)
       const m = L.marker(feltPos, { draggable: true, icon: pin('pin-felt', 'P', 30), zIndexOffset: 1000 })
-        .bindPopup(popupTekst('Parkering', 'Dra meg til en parkering eller skogsbilvei. Grønt felt = der kassen bør ligge (ca. 120° ±20°, 300–900 m, oppover).'))
+        .bindPopup(popupTekst('Parkering', 'Dra meg til en parkering eller skogsbilvei. Grønt felt = der kassen bør ligge (ca. 300° ±25°, altså nordvest, 300–900 m, oppover, uten sti).'))
         .addTo(g.felt)
       m.on('drag', () => {
         const ll = m.getLatLng()
