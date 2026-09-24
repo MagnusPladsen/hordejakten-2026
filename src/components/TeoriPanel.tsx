@@ -25,6 +25,7 @@ import {
   type Teori,
   type TeoriId,
 } from "@/data/teorier";
+import { DiscordKreditt } from "@/components/Discord";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -74,6 +75,7 @@ export function TeoriPanel({
   return (
     <div className="space-y-4">
       <SisteNytt />
+      <DiscordKreditt className="spenn" />
       <Intro />
 
       <div className="grid gap-4 @[46rem]:grid-cols-2 @[46rem]:items-center">

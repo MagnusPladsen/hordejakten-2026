@@ -2,6 +2,7 @@ import { AudioLines, Bird, CloudRain, ExternalLink, Map as MapIcon, Plane, Satel
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
+import { DISCORD_URL } from '@/components/Discord'
 import { cn } from '@/lib/utils'
 import analyseData from '@/data/analyse.json'
 import merData from '@/data/defaultno_mer.json'
@@ -86,6 +87,12 @@ export function AnalysePanel({ onVisKommuner }: { onVisKommuner: () => void }) {
       <div className="rounded-2xl border bg-card p-4 text-[13.5px] leading-relaxed">
         <p className="font-semibold">Takk til</p>
         <ul className="mt-1 space-y-1 text-slate-600">
+          <li>
+            <a href={DISCORD_URL} target="_blank" rel="noopener" className="font-semibold text-primary underline underline-offset-2">
+              Discord-gruppa «Hordejakten 2026»
+            </a>{' '}
+            for det meste av det vi vet: hint, tavlebilder, koder, kart og teorier. Bli med!
+          </li>
           <li>
             <a href="https://default.no" target="_blank" rel="noopener" className="font-semibold text-primary underline underline-offset-2">
               default.no
