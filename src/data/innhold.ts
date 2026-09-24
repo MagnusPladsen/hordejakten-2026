@@ -193,6 +193,15 @@ export const HINT: Hint[] = [
     lag: ['defaultno', 'fly'],
   },
   {
+    id: 'kodeniappen',
+    tittel: 'Horde: «Hint til hva kodene kan være ligger i appen»',
+    status: 'bekreftet',
+    kilde: 'Horde i kommentarfeltet',
+    dato: '24.09',
+    tekst: 'En bruker spurte hvordan man finner koden på låsene. Horde svarte: «Hint til hva kodene kan være ligger i appen 💙».',
+    betydning: 'Bekrefter at kodene skal finnes i appen. Det styrker kodene som kommer fra appen: 5008 (kredittskår + «terje»), 6788 (skiltnummeret LD6788 ga «ENKODE») og 0891/0810 (HORDEMINUS i Horde AI). Kodejakten ligger også i appens univers. Tall fra chatten eller plakaten teller mindre.',
+  },
+  {
     id: 'eiffel',
     tittel: 'HORDEMINUS i Horde AI = «2,7 eiffeltårn stablet oppå hverandre»',
     status: 'bekreftet',
@@ -726,6 +735,11 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     tekst: 'SKILTET ER BORTE · VET IKKE HVOR',
     bilder: [{ src: 'img/tavle-1912-skilt-borte.jpg', alt: 'Tavla kl. 19:12: SKILTET ER BORTE, VET IKKE HVOR' }],
   },
+  {
+    t: '24.09',
+    tekst: 'INGEN PIZZA ENDA',
+    bilder: [{ src: 'img/tavle-ingen-pizza.jpg', alt: 'Anja i glassboksen med tavla: INGEN PIZZA ENDA' }],
+  },
 ]
 
 export type Sted = {
@@ -905,8 +919,11 @@ export const BESTE_KODER: { las: string; kode: string; hvorfor: string; sjanse: 
 
 /** Alle kodekandidater samlet. 3 låser: 2 hengelåser (4 siffer) på pengeboksen, 1 dørlås (5 siffer) for Anja. */
 export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjanse; hint: string[] }[] = [
-  { kode: '5008', kilde: 'Kredittskår i appen + «terje». Også postnummeret til Horde AS i Bergen.', status: 'bekreftet', sjanse: 'hoy', hint: ['terje', 'koder'] },
-  { kode: '0891', kilde: 'HORDEMINUS i Horde AI: «2,7 eiffeltårn» = 2,7 × 330 m (med antenne) = 891. Med 0 foran blir det 4 siffer, som en hengelås. Kan også være høyden (891 moh), eller begge deler.', status: 'tolkning', sjanse: 'middels', hint: ['eiffel', 'koder'] },
+  { kode: '5008', kilde: 'Kredittskår i appen + «terje». Også postnummeret til Horde AS i Bergen. Horde sier kodehintene ligger i appen.', status: 'bekreftet', sjanse: 'hoy', hint: ['terje', 'koder', 'kodeniappen'] },
+  { kode: '0891', kilde: 'HORDEMINUS i Horde AI: «2,7 eiffeltårn» = 2,7 × 330 m (med antenne) = 891. Med 0 foran blir det 4 siffer, som en hengelås. Kan også være høyden (891 moh), eller begge deler.', status: 'tolkning', sjanse: 'middels', hint: ['eiffel', 'koder', 'kodeniappen'] },
+  { kode: '8915', kilde: '891 med «+5» fra genseren satt bak (891 og 5). 4 siffer.', status: 'tolkning', sjanse: 'lav', hint: ['eiffel', 'pluss5'] },
+  { kode: '0896', kilde: '891 + 5 = 896, med 0 foran.', status: 'tolkning', sjanse: 'lav', hint: ['eiffel', 'pluss5'] },
+  { kode: '8105', kilde: '810 (uten antenne) med «+5» bak.', status: 'tolkning', sjanse: 'lav', hint: ['eiffel', 'pluss5'] },
   { kode: '0810', kilde: 'Samme hint, men med Eiffeltårnet uten antenne: 2,7 × 300 m = 810.', status: 'tolkning', sjanse: 'middels', hint: ['eiffel', 'koder'] },
   { kode: '6788', kilde: 'Skiltnummeret LD6788 i «Bil & hus» ga «Du fant et hint! ENKODE» (24.09). Sifrene kan være koden.', status: 'tolkning', sjanse: 'middels', hint: ['enkode', 'koder'] },
   { kode: '5528', kilde: '5008 med 52 i stedet for 00: plakaten ser ut til å vise kortstokker, og en kortstokk har 52 kort.', status: 'tolkning', sjanse: 'middels', hint: ['plakat', 'koder'] },
@@ -1068,10 +1085,17 @@ export const SIKRE_FAKTA: string[] = [
   'Kassen er lydtett, så hun hører lite utenfra. Sol og vindstille kl. 17:49 den 23.09.',
   'Horde-skiltet peker 118–120° mot kassen. Kameraet står ca. 41° (nordøst) fra kassen.',
   '3 låser: 2 hengelåser med 4 siffer på pengeboksen, og 1 elektronisk lås med 5 siffer på døra for Anja. Appen ga 5008 som hint.',
+  'Horde har svart i kommentarfeltet at hint til hva kodene kan være, ligger i appen.',
 ]
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '24.09 kveld',
+    tittel: 'Horde: hint til kodene ligger i appen',
+    tekst: 'Horde svarte i kommentarfeltet: «Hint til hva kodene kan være ligger i appen». Det styrker 5008, 6788 og 0891/0810. Se Hint-fanen for alle koder.',
+    hint: 'kodeniappen',
+  },
   {
     tid: '24.09 kl. 17:54',
     tittel: 'HORDEMINUS løst: «2,7 eiffeltårn stablet oppå hverandre» = 810 eller 891 m',

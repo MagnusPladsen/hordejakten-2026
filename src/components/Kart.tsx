@@ -30,6 +30,8 @@ type Props = {
   flyData: FlyData | null
   innlandet: GeoJSON.MultiPolygon | null
   utelukket: [number, number, string][] | null
+  hoyde891: Hoyde891 | null
+  fellesskap891: [number, number][] | null
   kommuner: GeoJSON.FeatureCollection | null
   kontekst: Kontekst
   prosent: Record<TeoriId, number>
@@ -95,7 +97,10 @@ function kjoretidFarge(p: Punkt): string | null {
   return i < 0 ? null : FARGE.kjoretid[i]
 }
 
-export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelukket, kommuner, kontekst, prosent, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, onPopup, onApneHint, onKartBruk, minPos }: Props) {
+/** Punkter mellom 790 og 911 moh nær vei: [lat, lon, moh, meter til vei] */
+export type Hoyde891 = { dlat: number; dlon: number; punkter: [number, number, number, number][] }
+
+export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelukket, hoyde891, fellesskap891, kommuner, kontekst, prosent, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, onPopup, onApneHint, onKartBruk, minPos }: Props) {
   const divRef = useRef<HTMLDivElement>(null)
   const kartRef = useRef<L.Map | null>(null)
   const flisRef = useRef<L.TileLayer | null>(null)
@@ -172,9 +177,11 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
     const tone = () => (rutePane.style.opacity = String(kart.getZoom() >= 9 ? 0.35 : kart.getZoom() >= 8 ? 0.65 : 1))
     kart.on('zoomend', tone)
     tone()
+    // Høydelagene har små ruter og skal synes godt også når man zoomer inn
+    kart.createPane('hoyde').style.zIndex = '355'
 
     const g = Object.fromEntries(
-      (['modell', 'hintmarkorer', 'teoriomrader', 'utelukket', 'kommuner', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'solidag', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'hytter', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
+      (['modell', 'hintmarkorer', 'teoriomrader', 'hoyde891', 'fellesskap891', 'utelukket', 'kommuner', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'solidag', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'hytter', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
         id,
         L.featureGroup(),
       ]),
@@ -456,6 +463,42 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
       ).addTo(g.utelukket)
     }
   }, [utelukket])
+
+  // 810–891 moh nær vei (2,7 eiffeltårn)
+  useEffect(() => {
+    const g = grupper.current
+    if (!hoyde891 || !g) return
+    g.hoyde891.clearLayers()
+    const renderer = L.canvas({ padding: 0.3, pane: 'hoyde' })
+    const [hla, hlo] = [hoyde891.dlat / 2, hoyde891.dlon / 2]
+    for (const [la, lo, z] of hoyde891.punkter) {
+      const farge = z < 830 ? '#6d28d9' : z < 860 ? '#a78bfa' : '#1d4ed8'
+      L.rectangle(
+        [
+          [la - hla, lo - hlo],
+          [la + hla, lo + hlo],
+        ],
+        { renderer, stroke: false, fillColor: farge, fillOpacity: 0.55, interactive: false },
+      ).addTo(g.hoyde891)
+    }
+  }, [hoyde891])
+
+  // Fellesskapets 800–900 moh-kart
+  useEffect(() => {
+    const g = grupper.current
+    if (!fellesskap891 || !g) return
+    g.fellesskap891.clearLayers()
+    const renderer = L.canvas({ padding: 0.3, pane: 'hoyde' })
+    for (const [la, lo] of fellesskap891) {
+      L.rectangle(
+        [
+          [la - 0.0025, lo - 0.005],
+          [la + 0.0025, lo + 0.005],
+        ],
+        { renderer, stroke: false, fillColor: '#e11d1d', fillOpacity: 0.45, interactive: false },
+      ).addTo(g.fellesskap891)
+    }
+  }, [fellesskap891])
 
   // Kommunevurdering fra hordejakten.vercel.app
   useEffect(() => {
