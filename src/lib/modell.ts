@@ -38,7 +38,7 @@ export const FAKTORER: { id: FaktorId; navn: string; forklaring: string }[] = [
   { id: 'bergen', navn: '118°-linja fra Bergen', forklaring: 'Teori: Horde-skiltet peker 118° fra Horde AS i Bergen, gjennom Telemark.' },
   { id: 'skyanalyse', navn: 'Skyanalyse (Agder)', forklaring: 'Fellesskapets sky- og flykart.' },
   { id: 'fly', navn: 'Fly rett over kl. 21:29', forklaring: 'Nær sporet til et fly som var i lufta da Anja pekte opp.' },
-  { id: 'defaultno', navn: 'default.no-kandidater', forklaring: 'Nær toppkandidatene deres.' },
+  { id: 'defaultno', navn: 'default.no-kandidater', forklaring: 'Nær toppkandidatene til default.no. Takk til default.no.' },
 ]
 
 /** Ferdige teorier. `lag` slås på når teorien velges. */
