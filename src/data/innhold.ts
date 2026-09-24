@@ -828,6 +828,7 @@ export type Sted = {
 export const STEDER: Sted[] = [
   { id: 'oslo', navn: 'Oslo (start)', pos: OSLO, type: 'start', info: 'Anja ble hentet her søndag 20.09 kl. 04:00.' },
   { id: 'horde', navn: 'Horde AS, 5008 Bergen', pos: [60.3896, 5.3297], type: 'hint', info: 'Koden 5008 er postnummeret til Horde AS (Lars Hilles gate 20A).' },
+  { id: 'kroktjennet', navn: 'Topp ca. 891 moh ved Kroktjennet, Åmot', pos: [61.2405, 11.01], type: 'hint', info: 'Tips fra fellesskapet: et punkt på 891 moh nordvest for Kroktjennet (Hemmeldalen, vest for Rena). Kartverket gir ca. 887 moh her, åpent område. Ligger inne i Hemmeldalen naturreservat, der det er strenge regler for inngrep.' },
   { id: 'bjorneparken', navn: 'Bjørneparken, Flå (ca.)', pos: [60.426, 9.464], type: 'hint', info: 'Reklamefargene til Horde ligner Bjørneparken sine.' },
   { id: 'proysen', navn: 'Prøysenstua, Rudshøgda', pos: [60.912, 10.8076], type: 'hint', info: 'Alf Prøysens barndomshjem. Dyrene i boksen (rev, kråke, ekorn) er figurer fra Prøysens «Sirkus Mikkelikski». Én i chatten har sjekket stua, men skogen rundt er ikke sjekket.' },
   { id: 'proysenstjerna', navn: 'Prøysenstjerna (ca.)', pos: [60.9115, 10.806], type: 'hint', info: '27 m høy stjerne i granskogen bak Prøysenstua, laget til Prøysen-jubileet i 2014 etter hans julevers om stjerna.' },
@@ -1015,6 +1016,12 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
 
 /** Hva folk i chatten og på Discord tror, kort oppsummert. `fokus` er et sted på kartet. */
 export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: LatLon; hint?: string[] }[] = [
+  {
+    tekst: 'Topp på 891 moh ved Kroktjennet i Hemmeldalen (Åmot)',
+    hvem: 'HORDE MINUS → 2,7 eiffeltårn → 891 m. Det finnes en topp på ca. 891 moh nordvest for Kroktjennet, vest for Rena. Hemmeldalen er et naturreservat med skog, myr og mye dyre- og fugleliv, og verneforskriften nevner ande- og vadefugler spesielt (passer med and-hintet). Hemmeldalen-setrene ligger sørøst for toppen, som passer med «kom fra den veien ←». Mot: det er et naturreservat med strenge regler, toppen er åpent område og ikke skog, og det er uklart om det går bilvei nær nok.',
+    fokus: 'kroktjennet',
+    hint: ['eiffel', 'and', 'komfra'],
+  },
   { tekst: 'Innlandet', hvem: 'De fleste, og stadig flere er sikre: «Det er null tvil, været, sola, skogen og alt.» Klar himmel på Østlandet, flyet over Løten, furumo og tømmerdrift.', hint: ['innlandet', 'fly', 'skyer'] },
   { tekst: 'Digeråsen mellom Løten og Åmot', hvem: 'Flere sier det «er så klink her». Passer med lyden av flyet, ikke med pekingen.', fokus: 'digeras', hint: ['digeras', 'fly'] },
   { tekst: 'Løten og Elverum', hvem: 'Vår modell: der flyet var da Anja pekte rett opp.', pos: [60.87, 11.25], hint: ['fly'] },
@@ -1164,6 +1171,12 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '24.09 kveld',
+    tittel: 'Spor: topp på ca. 891 moh ved Kroktjennet i Hemmeldalen (Åmot)',
+    tekst: 'Vest for Rena, inne i det røde området på fellesskapets 800–900 moh-kart. Hemmeldalen-setrene ligger sørøst for toppen, som passer med «kom fra den veien ←». Men toppen ligger inne i Hemmeldalen naturreservat og er åpent område, ikke skog. Se markøren på kartet.',
+    hint: 'eiffel',
+  },
   {
     tid: '24.09 kveld',
     tittel: '«Kom fra den veien ←» og «ingen stier»: bilen står trolig sørøst for kassen',

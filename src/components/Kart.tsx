@@ -97,8 +97,8 @@ function kjoretidFarge(p: Punkt): string | null {
   return i < 0 ? null : FARGE.kjoretid[i]
 }
 
-/** Punkter mellom 790 og 911 moh nær vei: [lat, lon, moh, meter til vei] */
-export type Hoyde891 = { dlat: number; dlon: number; punkter: [number, number, number, number][] }
+/** Punkter mellom 790 og 911 moh nær vei: [lat, lon, moh, meter til vei, vei mot sørøst (0/1)] */
+export type Hoyde891 = { dlat: number; dlon: number; punkter: [number, number, number, number, number][] }
 
 export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelukket, hoyde891, fellesskap891, kommuner, kontekst, prosent, resultat, vekter, aktive, bakgrunn, feltPos, onFeltFlytt, onPopup, onApneHint, onKartBruk, minPos }: Props) {
   const divRef = useRef<HTMLDivElement>(null)
@@ -471,14 +471,15 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
     g.hoyde891.clearLayers()
     const renderer = L.canvas({ padding: 0.3, pane: 'hoyde' })
     const [hla, hlo] = [hoyde891.dlat / 2, hoyde891.dlon / 2]
-    for (const [la, lo, z] of hoyde891.punkter) {
+    for (const [la, lo, z, , so] of hoyde891.punkter) {
       const farge = z < 830 ? '#6d28d9' : z < 860 ? '#a78bfa' : '#1d4ed8'
       L.rectangle(
         [
           [la - hla, lo - hlo],
           [la + hla, lo + hlo],
         ],
-        { renderer, stroke: false, fillColor: farge, fillOpacity: 0.55, interactive: false },
+        // Sterk farge der det går vei mot sørøst («kom fra den veien ←»), svak ellers
+        { renderer, stroke: false, fillColor: farge, fillOpacity: so ? 0.7 : 0.2, interactive: false },
       ).addTo(g.hoyde891)
     }
   }, [hoyde891])
