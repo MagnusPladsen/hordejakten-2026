@@ -242,6 +242,14 @@ export const BEVIS: Bevis[] = [
     faktor: tabell({ agder: 0.15 }),
   },
   {
+    id: 'regn1105',
+    kilde: 'folk',
+    tittel: 'Regn hos Anja og i Rena kl. 11:05 (24.09)',
+    forklaring: 'Anja sa at det regnet kl. 11:05, og ifølge fellesskapet regnet det i Rena da. Regnbyger dekker ofte store områder, så det teller litt.',
+    standardPa: true,
+    faktor: tabell({ rena: 1.4, loten: 1.1, rudshogda: 1.05, ringsaker: 1.05 }),
+  },
+  {
     id: 'frolandekorn',
     tittel: 'Appen svarer på «FROLAND» («Ekornet kan klatre»)',
     forklaring: 'Horde har lagt inn et eget svar når man skriver FROLAND i ord-boksen. Det viser at de har tenkt på Froland, men det kan like gjerne være en fleip mot en populær feil teori. Teller en del, men mindre enn at været ikke stemmer. Gir andre stedsnavn ikke noe svar, bør dette telle mye mer.',

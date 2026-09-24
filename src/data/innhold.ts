@@ -203,6 +203,16 @@ export const HINT: Hint[] = [
     lag: ['felt'],
   },
   {
+    id: 'regn1105',
+    tittel: 'Regn hos Anja kl. 11:05, og regn i Rena samtidig',
+    status: 'tolkning',
+    kilde: 'Tavla + værdata (fra fellesskapet)',
+    dato: '24.09',
+    tekst: 'Anja sa at det regnet kl. 11:05 den 24.09. Ifølge fellesskapet regnet det i Rena akkurat da.',
+    betydning: 'Passer med Rena og Åmot. Regnbyger dekker ofte store områder, så det utelukker ikke steder i nærheten. Ikke sjekket mot radar her: da trengs regnradar for akkurat 11:05. Streamen ligger 45 sek bak.',
+    pos: [61.133, 11.367],
+  },
+  {
     id: 'graver',
     tittel: '«Gråvær hele dagen» (24.09)',
     status: 'bekreftet',
@@ -849,6 +859,7 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     bilder: [{ src: 'img/tavle-hogd.jpg', alt: 'Tavla: DET HAR VÆRT HOGD TIDLIGERE DER JEG GIKK, GIKK DEN VEIEN, med pil mot høyre' }],
   },
   { t: '24.09', tekst: 'SÅ INGENTING SOM IKKE HØRER TIL I EN SKOG I GÅR · PS! HÅPER PÅ PEPPERONIPIZZA' },
+  { t: '24.09', tekst: '(kl. 11:05) Anja sa at det regnet' },
 ]
 
 export type Sted = {
@@ -1207,6 +1218,12 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '24.09 kl. 11:05',
+    tittel: 'Anja sa det regnet, og da regnet det i Rena',
+    tekst: 'Regn hos Anja kl. 11:05 stemmer med regn i Rena samtidig, ifølge fellesskapet. Styrker Rena og Åmot litt.',
+    hint: 'regn1105',
+  },
   {
     tid: '24.09 kveld',
     tittel: '«Det har vært hogd der jeg gikk» med pil →: hun gikk gjennom et gammelt hogstfelt',
