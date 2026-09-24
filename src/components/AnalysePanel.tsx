@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
 import { AudioLines, Bird, ExternalLink, Map as MapIcon, Plane, ShieldCheck } from 'lucide-react'
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import analyseData from '@/data/analyse.json'
 
 type Analyse = {
   kreditering: { defaultno: string; vercel: string }
@@ -69,44 +69,8 @@ function Tittel({ ikon: Ikon, tittel, tekst }: { ikon: typeof AudioLines; tittel
 }
 
 export function AnalysePanel({ onVisKommuner }: { onVisKommuner: () => void }) {
-  const [a, setA] = useState<Analyse | null>(null)
-  const [feil, setFeil] = useState(false)
-  const [forsok, setForsok] = useState(0)
-  useEffect(() => {
-    // Gir opp etter 12 sek i stedet for å vise «Laster» for alltid
-    const avbryt = new AbortController()
-    const tidsfrist = window.setTimeout(() => avbryt.abort(), 12000)
-    let aktiv = true
-    setFeil(false)
-    fetch(new URL(`${import.meta.env.BASE_URL}data/analyse.json`, document.baseURI), { cache: forsok ? 'reload' : 'default', signal: avbryt.signal })
-      .then((r) => {
-        if (!r.ok) throw new Error(String(r.status))
-        return r.json() as Promise<Analyse>
-      })
-      .then(setA)
-      .catch(() => {
-        if (aktiv) setFeil(true)
-      })
-      .finally(() => window.clearTimeout(tidsfrist))
-    return () => {
-      aktiv = false
-      window.clearTimeout(tidsfrist)
-      avbryt.abort()
-    }
-  }, [forsok])
-
-  if (!a)
-    return feil ? (
-      <div className="rounded-2xl border bg-card p-4 text-[14.5px]">
-        <p className="font-semibold">Fikk ikke lastet analysene</p>
-        <p className="mt-0.5 text-muted-foreground">Sjekk nettet og prøv igjen.</p>
-        <Button className="mt-3" variant="outline" onClick={() => setForsok((f) => f + 1)}>
-          Prøv igjen
-        </Button>
-      </div>
-    ) : (
-      <p className="text-sm text-muted-foreground">Laster analyser …</p>
-    )
+  // Dataen er bygget inn i appen, så fanen virker selv om nettet er ustabilt
+  const a = analyseData as unknown as Analyse
   const maksTag = Math.max(...a.lydtyper.map((t) => t.antall))
 
   return (
