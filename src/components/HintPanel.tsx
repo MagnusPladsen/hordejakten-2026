@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Bokstavord } from '@/components/Bokstavord'
 import { BESTE_KODER, BOKSTAVER, FOLK_TROR, HINT, KODER, SIKRE_FAKTA, SJANSE, STATUS, STEDER, TEORIER, type Hint } from '@/data/innhold'
 import type { LatLon } from '@/lib/geo'
+import { DiscordKreditt } from '@/components/Discord'
 import { cn } from '@/lib/utils'
 
 const FILTRE = [
@@ -85,6 +86,7 @@ export function HintPanel({
             </span>
           ))}
         </div>
+      <DiscordKreditt kompakt className="spenn" />
         <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
           Bekreftet betyr at vi vet at det er sagt eller sett. Hva det betyr kan likevel være tolkning. Tolkning er noens forklaring, Usikker er rykter, og Uløst er ikke knekt ennå.
         </p>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { ArrowDownUp } from 'lucide-react'
 
+import { DiscordKreditt } from '@/components/Discord'
 import { TAVLE } from '@/data/innhold'
 
 export function TavlePanel() {
@@ -16,6 +17,7 @@ export function TavlePanel() {
           Alt Anja har skrevet på tavla som sier noe om stedet. Tidene er streamtid, som ligger 45 sek bak. Tavlene fra 24.09 er merket med dato, ikke klokkeslett, og står ikke i riktig rekkefølge innbyrdes.
         </p>
       </div>
+      <DiscordKreditt kompakt className="spenn" />
       <div className="spenn flex items-center justify-between gap-3">
         <p className="text-[13px] text-muted-foreground">
           {TAVLE.length} svar · {nyesteForst ? 'nyeste først' : 'eldste først'}
