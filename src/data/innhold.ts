@@ -236,7 +236,7 @@ export const HINT: Hint[] = [
     status: 'bekreftet',
     kilde: 'Horde AI i appen',
     dato: '24.09',
-    tekst: 'Skriv «Hordeminus» til Horde AI i appen. Svaret er «2,7 eiffeltårn stablet oppå hverandre». Spør man hva det betyr, svarer den at det bare er frasen den har fått beskjed om å bruke for akkurat det ordet.',
+    tekst: 'Skriv «Hordeminus» til Horde AI i appen. Svaret er «2,7 eiffeltårn stablet oppå hverandre». Spør man hva det betyr, svarer den at det bare er frasen den har fått beskjed om å bruke for akkurat det ordet. Ber man den oppsummere, regner den selv ut 891 m (330 m) eller ca. 875 m (324 m, høyden 2000–2022) og sier at den ikke vet noe om hvor boksen er. Det er altså bare chatboten som regner, ikke et nytt hint.',
     betydning: 'Bekrefter at bokstavene N O R H E I M S U D skal bli HORDE MINUS. Eiffeltårnet er 300 m uten antenne og 330 m med. 2,7 × 300 = 810 m og 2,7 × 330 = 891 m, så begge er like aktuelle. Mest trolig står kassen ca. 810 eller 891 moh. Det kan også være en avstand, for eksempel fra bilveien, eller en kode: 0810 og 0891 har 4 siffer som hengelåsene. Slå på «810–891 moh nær vei» på kartet for å se steder i den høyden som er høyst 900 m fra vei.',
   },
   {
