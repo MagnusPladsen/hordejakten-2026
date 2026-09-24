@@ -1202,6 +1202,7 @@ export const SIKRE_FAKTA: string[] = [
   'Horde-skiltet peker 118–120° mot kassen. Kameraet står ca. 41° (nordøst) fra kassen.',
   '3 låser: 2 hengelåser med 4 siffer på pengeboksen, og 1 elektronisk lås med 5 siffer på døra for Anja. Appen ga 5008 som hint.',
   'Horde har svart i kommentarfeltet at hint til hva kodene kan være, ligger i appen.',
+  'Horde AI har et forhåndslaget svar på HORDEMINUS: «2,7 eiffeltårn stablet oppå hverandre». Eiffeltårnet er 300 m uten antenne og 330 m med, så 2,7 tårn er 810 eller 891 m. HORDE MINUS er de ti bokstavene fra «Verv en venn» (N O R H E I M S U D) stokket om.',
 ]
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
