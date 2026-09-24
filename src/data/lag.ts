@@ -9,6 +9,8 @@ export type LagId =
   | 'retning'
   | 'skydekke'
   | 'utelukket'
+  | 'hoyde891'
+  | 'fellesskap891'
   | 'kommuner'
   | 'solidag'
   | 'skyanalyse'
@@ -172,6 +174,30 @@ export const LAG: Lag[] = [
     kilde: 'Windy.com, skjermbilde fra fellesskapet.',
   },
   {
+    id: 'hoyde891',
+    navn: '810–891 moh nær vei',
+    kort: '2,7 eiffeltårn, høyst 900 m fra vei',
+    merkelapp: 'beregnet',
+    forklaring:
+      'Horde AI svarer «2,7 eiffeltårn stablet oppå hverandre» på HORDEMINUS. Eiffeltårnet er 300 m uten antenne og 330 m med, så det blir 810 eller 891 m (875 m med 324 m, høyden fra 2000 til 2022). Rutene viser skog og mark mellom 790 og 911 moh som ligger høyst 900 m fra en bilvei eller skogsbilvei, så man rekker å bære kassen dit på 5–10 min. Høyde fra Kartverket (1 m-modell) i et rutenett på ca. 500 m, veier fra OpenStreetMap.',
+    tegn: [
+      { stil: 'rute', farge: '#6d28d9', tekst: 'Ca. 810 moh (790–830)' },
+      { stil: 'rute', farge: '#a78bfa', tekst: '830–860 moh' },
+      { stil: 'rute', farge: '#1d4ed8', tekst: 'Ca. 875–891 moh (860–911)' },
+    ],
+    kilde: 'Kartverket høydedata og OpenStreetMap. Tallet fra Horde AI i appen 24.09.',
+  },
+  {
+    id: 'fellesskap891',
+    navn: 'Fellesskapets 800–900 moh-kart',
+    kort: 'Høyde + fly + skog, utenfor skytefelt',
+    merkelapp: 'tolkning',
+    forklaring:
+      'Kartet noen i fellesskapet laget 24.09: 800–900 moh, der flyene Anja så passer over, med skog og utenfor skytefelt. Det meste ligger vest for Rena, mellom Rena og Evenstad/Koppang. Stedfestet fra bildet, ca. ±500 m.',
+    tegn: [{ stil: 'fyll', farge: '#e11d1d', tekst: 'Passer med høyde, fly og skog' }],
+    kilde: 'Delt i chatten 24.09.',
+  },
+  {
     id: 'utelukket',
     navn: 'Utelukket av fellesskapet',
     kort: 'Fjellbjørk og annet',
@@ -313,6 +339,7 @@ export const LAG_ETTER_ID = Object.fromEntries(LAG.map((l) => [l.id, l])) as Rec
 /** Lagene gruppert slik de vises i Kart-fanen */
 export const GRUPPER: { navn: string; forklaring: string; ider: LagId[] }[] = [
   { navn: 'Hovedkart', forklaring: 'Hvor kassen mest sannsynlig står, og hvor hintene peker.', ider: ['hintmarkorer', 'modell', 'teoriomrader'] },
+  { navn: 'Høyden (2,7 eiffeltårn)', forklaring: '810 eller 891 moh, nær vei.', ider: ['hoyde891', 'fellesskap891'] },
   { navn: 'Vær og terreng', forklaring: 'Anja har hatt klar himmel og sol, og ser vanlig skog. Her passer det ikke.', ider: ['utelukket', 'kommuner', 'skydekke', 'solidag'] },
   { navn: 'Fly, retning og kjøretid', forklaring: 'Flyet hun pekte på, 118°-linjene og hvor langt man kommer fra Oslo.', ider: ['fly', 'retning', 'kjoretid'] },
   { navn: 'Steder og teorier', forklaring: 'Stedene hintene og folk i chatten peker på.', ider: ['teorier', 'hytter', 'steder', 'defaultno', 'innlandet', 'skyanalyse'] },

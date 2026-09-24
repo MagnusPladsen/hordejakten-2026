@@ -4,7 +4,7 @@ import { toast } from 'sonner'
 
 import { Ark, type Fane, type Hoyde } from '@/components/Ark'
 import { HintPanel } from '@/components/HintPanel'
-import { Kart, type Bakgrunn, type KartApi } from '@/components/Kart'
+import { Kart, type Hoyde891, type Bakgrunn, type KartApi } from '@/components/Kart'
 import { LagPanel } from '@/components/LagPanel'
 import { Legende } from '@/components/Legende'
 import { SpillPanel } from '@/components/SpillPanel'
@@ -46,8 +46,10 @@ export default function App() {
   const [flyData, setFlyData] = useState<FlyData | null>(null)
   const [innlandet, setInnlandet] = useState<GeoJSON.MultiPolygon | null>(null)
   const [utelukket, setUtelukket] = useState<[number, number, string][] | null>(null)
+  const [hoyde891, setHoyde891] = useState<Hoyde891 | null>(null)
+  const [fellesskap891, setFellesskap891] = useState<[number, number][] | null>(null)
   const [kommuner, setKommuner] = useState<GeoJSON.FeatureCollection | null>(null)
-  const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['hintmarkorer', 'modell', 'teoriomrader', 'utelukket', 'utenfor']))
+  const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['hintmarkorer', 'modell', 'teoriomrader', 'hoyde891', 'utelukket', 'utenfor']))
   const [vekter, setVekter] = useState<Vekter>(FORHAND[0].vekter)
   const [modus, setModus] = useState<Modus>('alt')
   const [aktiveBevis, setAktiveBevis] = useState<Set<string>>(() => standardBevis('alt'))
@@ -102,6 +104,14 @@ export default function App() {
     fetch(`${base}data/utelukket.json`)
       .then((r) => r.json())
       .then((d) => setUtelukket(d.celler))
+      .catch(() => {})
+    fetch(`${base}data/hoyde891.json`)
+      .then((r) => r.json() as Promise<Hoyde891>)
+      .then(setHoyde891)
+      .catch(() => {})
+    fetch(`${base}data/fellesskap891.json`)
+      .then((r) => r.json())
+      .then((d) => setFellesskap891(d.celler))
       .catch(() => {})
     fetch(`${base}data/fly_2130.json`)
       .then((r) => r.json() as Promise<FlyData>)
@@ -225,6 +235,8 @@ export default function App() {
         flyData={flyData}
         innlandet={innlandet}
         utelukket={utelukket}
+        hoyde891={hoyde891}
+        fellesskap891={fellesskap891}
         kommuner={kommuner}
         kontekst={kontekst}
         prosent={prosent}
