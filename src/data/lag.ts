@@ -324,7 +324,7 @@ export const LAG: Lag[] = [
     navn: 'Søkeområder',
     kort: '34 områder med andel av sannsynligheten',
     merkelapp: 'beregnet',
-    forklaring: 'Områdene default.no har søkt gjennom, ca. 24 × 24 km. Sterkere farge betyr større andel av sannsynligheten i fusjonsmodellen. Stiplet kant er en hypotese som ikke kommer fra modellen. Trykk på nummeret for km² med sterke og mulige steder, furu og hogst.',
+    forklaring: 'Områdene default.no har søkt gjennom, ca. 24 × 24 km. Tykkere kant betyr større andel av sannsynligheten i fusjonsmodellen. Stiplet kant er en hypotese som ikke kommer fra modellen. Trykk på nummeret for km² med sterke og mulige steder, furu og hogst.',
     tegn: [{ stil: 'rute', farge: '#ea580c', tekst: 'Søkeområde (nummer = rangering)' }],
     kilde: 'default.no/map.php (hentet 24.09 kl. 18:36). Takk til default.no.',
   },

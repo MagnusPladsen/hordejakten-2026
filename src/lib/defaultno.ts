@@ -140,7 +140,7 @@ export const DN_LASTERE: Partial<Record<LagId, Laster>> = {
     const d = await hent<{ retning: number; omrader: { rank: number; b: L.LatLngBoundsExpression }[]; steder: Sted[] }>('steder.json')
     if (!d) return
     for (const a of d.omrader) {
-      L.imageOverlay(`${BASE}steder/sites_${String(a.rank).padStart(2, '0')}.png`, a.b, { opacity: 0.75, interactive: false, pane: 'hoyde' }).addTo(g)
+      L.imageOverlay(`${BASE}steder/sites_${String(a.rank).padStart(2, '0')}.png`, a.b, { opacity: 0.6, interactive: false, pane: 'hoyde' }).addTo(g)
     }
     d.steder.forEach((s, k) => {
       punkt(
@@ -164,8 +164,8 @@ export const DN_LASTERE: Partial<Record<LagId, Laster>> = {
         `Område ${a.rank}${a.ekstra ? ' (hypotese)' : ''}`,
         `<dl><dt>Andel av sannsynligheten</dt><dd>${pst(a.p)}</dd><dt>Sterke steder</dt><dd>${tall(a.sterk, 1)} km²</dd><dt>Mulige steder</dt><dd>${tall(a.mulig, 1)} km²</dd>${a.furu != null ? `<dt>Furu</dt><dd>${tall(a.furu)} km²</dd>` : ''}${a.hogd22 != null ? `<dt>Hogd 2022+</dt><dd>${tall(a.hogd22, 1)} km²</dd>` : ''}${a.hogd24 != null ? `<dt>Hogd 2024+</dt><dd>${tall(a.hogd24, 1)} km²</dd>` : ''}</dl>${a.ekstra ? '<p>Hypotese: ikke fra fusjonsmodellen.</p>' : ''}`,
       )
-      // Flaten er gjennomklikkbar, så trykk i kartet fortsatt viser info om ruta. Nummeret har popupen.
-      L.rectangle(a.b, { color: '#7c2d12', weight: 1.5, dashArray: a.ekstra ? '4 5' : undefined, fillColor: '#ea580c', fillOpacity: 0.04 + 0.3 * (a.p / maks), interactive: false }).addTo(g)
+      // Bare kant, siden områdene overlapper. Nummeret har popupen, så trykk i kartet viser fortsatt info om ruta.
+      L.rectangle(a.b, { color: '#c2410c', weight: 1 + 3 * (a.p / maks), dashArray: a.ekstra ? '4 5' : undefined, fill: false, interactive: false }).addTo(g)
       nummer([a.lat, a.lon], String(a.rank), '#7c2d12', html, a.rank > 99 ? 28 : 22).addTo(g)
     }
   },
