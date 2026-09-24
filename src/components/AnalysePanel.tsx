@@ -1,9 +1,10 @@
-import { AudioLines, Bird, ExternalLink, Map as MapIcon, Plane, ShieldCheck } from 'lucide-react'
+import { AudioLines, Bird, CloudRain, ExternalLink, Map as MapIcon, Plane, Satellite, ShieldCheck, Sun, Trees } from 'lucide-react'
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import analyseData from '@/data/analyse.json'
+import merData from '@/data/defaultno_mer.json'
 
 type Analyse = {
   kreditering: { defaultno: string; vercel: string }
@@ -243,6 +244,206 @@ export function AnalysePanel({ onVisKommuner }: { onVisKommuner: () => void }) {
               Merk: «minst 7 timer» er ikke sikkert. Anja sa til Børsen at hun sov og ikke vet hvor lenge de kjørte.
             </p>
             <Kilde tekst="Bekreftet-lista på hordejakten.vercel.app." url="https://hordejakten.vercel.app/#bekreftet" navn="hordejakten.vercel.app" />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
+      <MerFraDefaultno />
+    </div>
+  )
+}
+
+const MER_KILDE = `Fra default.no/map.php, hentet ${merData.hentet}. Takk til default.no.`
+const klokke = (t: string | null) => (t ? t.slice(11, 16) : '')
+const dato = (t: string) => `${t.slice(8, 10)}.${t.slice(5, 7)}`
+const nb = (x: number | null | undefined, des = 0) => (x == null ? '–' : x.toLocaleString('nb-NO', { maximumFractionDigits: des }))
+
+function Tabell({ hode, rader }: { hode: string[]; rader: (string | number)[][] }) {
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-[13px]">
+        <thead>
+          <tr className="border-b text-left text-[12px] text-muted-foreground">
+            {hode.map((h) => (
+              <th key={h} className="py-1.5 pr-3 font-semibold">
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className="divide-y font-mono text-[12.5px]">
+          {rader.map((r, i) => (
+            <tr key={i}>
+              {r.map((c, j) => (
+                <td key={j} className="py-1.5 pr-3 align-top">
+                  {c}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+/** Tekstdata fra default.no/map.php som ikke passer på kartet */
+function MerFraDefaultno() {
+  const m = merData
+  const radarTid = `${m.radar.tid.slice(6, 8)}.${m.radar.tid.slice(4, 6)} kl. ${String(Number(m.radar.tid.slice(9, 11)) + 2).padStart(2, '0')}:${m.radar.tid.slice(11, 13)}`
+  const kilde = <Kilde tekst={MER_KILDE} url="https://default.no/map.php" navn="default.no/map.php" />
+  const timer = Object.keys(m.vaer.sol).sort()
+  const maksSol = Math.max(...Object.values(m.vaer.sol))
+  const maksSving = Math.max(...Object.values(m.vaer.sving))
+
+  return (
+    <div className="space-y-2">
+      <div>
+        <h3 className="text-[17px] font-semibold tracking-tight">Mer fra default.no</h3>
+        <p className="mt-0.5 text-[13.5px] text-muted-foreground">Tall og lister fra kartet til default.no. Kartlagene finner du i Kart-fanen.</p>
+      </div>
+      <Accordion type="multiple" className="rounded-2xl border bg-card px-4">
+        <AccordionItem value="observasjoner">
+          <AccordionTrigger className="py-3.5">
+            <Tittel ikon={Plane} tittel="Flyene Anja reagerte på" tekst="Tre hendelser, med tid på streamen" />
+          </AccordionTrigger>
+          <AccordionContent className="space-y-3">
+            <ul className="space-y-2">
+              {m.observasjoner.fly.map((f, i) => (
+                <li key={f.tid} className="rounded-xl bg-slate-50 p-3 text-[13.5px] leading-snug">
+                  <p className="font-mono font-semibold">
+                    {dato(f.tid)} kl. {klokke(f.tid)}
+                    {f.til ? `–${klokke(f.til)}` : ''}
+                  </p>
+                  <p className="mt-1 text-slate-700">{f.tekst}</p>
+                  <p className="mt-1 text-[12.5px] text-muted-foreground">
+                    Flyet må ha vært minst {f.grad}° over horisonten. {m.observasjoner.lost[i]?.fly} fly sjekket, {m.observasjoner.lost[i]?.ruter} ruter passer.
+                  </p>
+                </li>
+              ))}
+            </ul>
+            {kilde}
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="sol">
+          <AccordionTrigger className="py-3.5">
+            <Tittel ikon={Sun} tittel="Sola og kameraet" tekst={`Kameraet peker ca. ${Math.round(m.solbane.rader[0].heading)}°`} />
+          </AccordionTrigger>
+          <AccordionContent className="space-y-3">
+            <p className="text-[13.5px] font-semibold">Solhøyde 21.09</p>
+            <Tabell hode={['Tid', 'Sol', 'Hva']} rader={m.observasjoner.sol.map((o) => [klokke(o.tid), `${nb(o.grad, 1)}° ±${nb(o.tol, 1)}`, o.tekst])} />
+            <p className="text-[13.5px] leading-relaxed text-slate-700">
+              default.no har fulgt sola i bildet {m.solbane.vindu[0].slice(11)}–{m.solbane.vindu[1].slice(11)} ({m.solbane.punkter} bilder). Det passer best med ca. {nb(m.solbane.beste, 1)}° nord, men forskjellen
+              mellom breddegradene er liten, så dette er et svakt bevis.
+            </p>
+            <Tabell hode={['Breddegrad', 'Avvik', 'Retning']} rader={m.solbane.rader.map((r) => [`${r.lat}° N`, nb(r.rms, 2), `${nb(r.heading, 1)}°`])} />
+            {kilde}
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="vaer">
+          <AccordionTrigger className="py-3.5">
+            <Tittel ikon={CloudRain} tittel="Været rundt kassen" tekst={`Radar ${radarTid}: ${m.radar.vate.length ? `regn ved ${m.radar.vate.length} stopp` : 'tørt ved alle letestopp'}`} />
+          </AccordionTrigger>
+          <AccordionContent className="space-y-3 text-[13.5px] leading-relaxed text-slate-700">
+            <p className="font-semibold text-foreground">Radar {radarTid} (mm/t)</p>
+            <Tabell hode={['Område', 'Regn']} rader={Object.entries(m.radar.regioner).map(([n, v]) => [n.replace('boksen', 'Kassen'), v ? nb(v, 1) : 'tørt'])} />
+            <p>
+              Regn siden søndag 21.09: {m.regn.vate} av {m.regn.stasjoner} værstasjoner har fått regn ({m.regn.radar} radarbilder). Glasset foran kameraet har vært tørt, så kassen står der det
+              har vært tørt.
+            </p>
+            <p>
+              MET kl. {klokke(m.met.updated)} 24.09: {m.met.n_raining_now} av {m.met.n_ok} punkter regner, {nb(m.met.temp_min, 1)}–{nb(m.met.temp_max, 1)} °C. Veikameraer kl. {m.vegkamera.tid.slice(11, 16)}:{' '}
+              {m.vegkamera.regn} av {m.vegkamera.maler} stasjoner som måler, har nedbør.
+            </p>
+            <p className="font-semibold text-foreground">Kameraet 24.09 time for time</p>
+            <p className="text-[12.5px] text-muted-foreground">
+              Lys = hvor lyst bildet er (de lyseste pikslene). Bevegelse = hvor mye trærne svaier. Dugg om morgenen: {m.vaer.dugg ? 'ja' : 'nei'}.
+            </p>
+            <ul className="space-y-1">
+              {timer.map((t) => (
+                <li key={t} className="grid grid-cols-[2rem_1fr_1fr] items-center gap-2 font-mono text-[12px]">
+                  <span>{t}</span>
+                  <span className="h-2 overflow-hidden rounded-full bg-slate-100" title={`Lys ${m.vaer.sol[t as keyof typeof m.vaer.sol]}`}>
+                    <span className="block h-full rounded-full bg-amber-400" style={{ width: `${(100 * m.vaer.sol[t as keyof typeof m.vaer.sol]) / maksSol}%` }} />
+                  </span>
+                  <span className="h-2 overflow-hidden rounded-full bg-slate-100" title={`Bevegelse ${m.vaer.sving[t as keyof typeof m.vaer.sving]}`}>
+                    <span className="block h-full rounded-full bg-emerald-500" style={{ width: `${(100 * m.vaer.sving[t as keyof typeof m.vaer.sving]) / maksSving}%` }} />
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="flex gap-4 text-[12px] text-muted-foreground">
+              <span className="flex items-center gap-1.5">
+                <span className="size-2.5 rounded-full bg-amber-400" /> Lys
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="size-2.5 rounded-full bg-emerald-500" /> Bevegelse
+              </span>
+            </p>
+            <p className="font-semibold text-foreground">Værstasjonene som ligner mest på kameraet</p>
+            <Tabell hode={['Stasjon', 'Høyde', 'Likhet']} rader={m.vaer.beste.map((s) => [s.navn, s.moh != null ? `${nb(s.moh)} moh` : '–', nb(s.score, 2)])} />
+            {kilde}
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="satellitt">
+          <AccordionTrigger className="py-3.5">
+            <Tittel ikon={Satellite} tittel="Satellittbilder rundt Evenstad" tekst={`${m.hls.datoer.length} bilder, klarest 21.09`} />
+          </AccordionTrigger>
+          <AccordionContent className="space-y-3">
+            <p className="text-[13.5px] leading-relaxed text-slate-700">
+              Bilder med 30 m oppløsning (Sentinel-2 og Landsat via NASA) rundt {m.hls.senter.join(', ')}. Sortert med minst skyer først. Det klareste finnes som kartlag («Satellitt 21.09»).
+            </p>
+            <Tabell
+              hode={['Dato', 'Satellitt', 'Skyer', 'Dekning']}
+              rader={[...m.hls.datoer]
+                .sort((a, b) => a.cloud_share - b.cloud_share)
+                .slice(0, 12)
+                .map((d) => [dato(d.date), d.sat === 'S2' ? 'Sentinel-2' : d.sat, `${Math.round(d.cloud_share * 100)} %`, `${Math.round(d.coverage * 100)} %`])}
+            />
+            {kilde}
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="stille">
+          <AccordionTrigger className="py-3.5">
+            <Tittel ikon={Plane} tittel="Stille himmel og flylyd" tekst={`${m.sjelden.antall} fly sjekket mot «INGEN FLY»`} />
+          </AccordionTrigger>
+          <AccordionContent className="space-y-3 text-[13.5px] leading-relaxed text-slate-700">
+            <p>
+              Anja skrev «INGEN FLY» kl. 18:31 21.09. Tabellen viser rutene med færrest fly over {m.sjelden.grad}° kl. 07–18:31, der flyet 21:30 likevel var høyt nok.
+            </p>
+            <Tabell hode={['Rute', 'Fly om dagen', 'Fly 21:30', 'Fly 20:28']} rader={m.sjelden.topp.map((t) => [`${t.lat}, ${t.lon}`, t.dag, `${Math.round(t.e2130)}°`, `${Math.round(t.e2028)}°`])} />
+            <p>
+              Flylyd-match: {m.flylyd.hendelser.length} flylyder på streamen sammenlignet med flyene i lufta. Beste rute er {m.flylyd.best.lat}, {m.flylyd.best.lon}, der{' '}
+              {nb(m.flylyd.best.heard)} av {nb(m.flylyd.best.passes)} fly ble hørt. Lyden kan være spilt av på nytt, så dette er usikkert.
+            </p>
+            <Tabell
+              hode={['Tid', 'Nærmeste fly', 'Avstand', 'Høyde']}
+              rader={m.flylyd.hendelser.map((h) => [`${dato(h.tid)} ${klokke(h.tid)}`, h.fly ?? '–', h.km != null ? `${nb(h.km, 1)} km` : '–', h.grad != null ? `${nb(h.grad, 1)}°` : '–'])}
+            />
+            {kilde}
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="skog" className="border-none">
+          <AccordionTrigger className="py-3.5">
+            <Tittel ikon={Trees} tittel="Fugl og gå-soner ved letestoppene" tekst="Orrfugl nær stoppene og skog nær vei" />
+          </AccordionTrigger>
+          <AccordionContent className="space-y-3 text-[13.5px] leading-relaxed text-slate-700">
+            <p>
+              Orrfugl og storfugl innen 1,5 km fra letestoppene til default.no. Totalt {nb(m.fugl.n_orr)} orrfugl- og {nb(m.fugl.n_stor)} storfuglfunn i Norge siden 2015
+              {m.fugl.n_orr_2026 != null ? `, ${m.fugl.n_orr_2026} orrfugl i 2026` : ''}.
+            </p>
+            <Tabell
+              hode={['Stopp', 'Orrfugl', 'Storfugl', 'Nærmeste orrfugl']}
+              rader={m.fugl.per_stopp.map((s) => [s.rank, `${s.orrfugl_1500m} (${s.orrfugl_birds} fugler)`, s.storfugl_1500m, `${nb(s.nearest_orr_m)} m`])}
+            />
+            <p>Gå-soner: skog 200–700 m fra vei i seks områder.</p>
+            <Tabell hode={['Nr.', 'Sted', 'Vei', 'Skog i sonen', 'Areal']} rader={m.gasoner.map((g) => [g.rank, `${g.lat}, ${g.lon}`, `${nb(g.vei_km)} km`, `${Math.round(g.skog * 100)} %`, `${nb(g.km2, 1)} km²`])} />
+            {kilde}
           </AccordionContent>
         </AccordionItem>
       </Accordion>
