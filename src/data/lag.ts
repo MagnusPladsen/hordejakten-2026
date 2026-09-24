@@ -76,7 +76,7 @@ export type Lag = {
 }
 
 export const FARGE = {
-  modell: ['#991b1b', '#ef4444', '#fb923c', '#fde68a'],
+  modell: ['#7f1d1d', '#f97316', '#facc15', '#fef3c7'],
   kjoretid: ['#ccfbf1', '#99f6e4', '#5eead4', '#2dd4bf', '#0d9488', '#115e59'],
   langtFraVei: '#94a3b8',
   retning: '#7c3aed',

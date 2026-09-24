@@ -417,7 +417,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
     if (!resultat) return
     modellRuter.current.forEach((r, i) => {
       const k = klasse(resultat.relativ[i])
-      r.setStyle(k < 0 ? { fillOpacity: 0 } : { fillColor: FARGE.modell[k], fillOpacity: [0.72, 0.62, 0.5, 0.38][k] })
+      r.setStyle(k < 0 ? { fillOpacity: 0 } : { fillColor: FARGE.modell[k], fillOpacity: [0.75, 0.62, 0.52, 0.45][k] })
     })
   }, [resultat])
 
