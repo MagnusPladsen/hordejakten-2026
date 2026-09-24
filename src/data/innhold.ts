@@ -740,6 +740,7 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     tekst: 'INGEN PIZZA ENDA',
     bilder: [{ src: 'img/tavle-ingen-pizza.jpg', alt: 'Anja i glassboksen med tavla: INGEN PIZZA ENDA' }],
   },
+  { t: '24.09', tekst: 'HJELPER VELDIG AT JEG KAN SE DET DERE SKRIVER <3' },
 ]
 
 export type Sted = {
@@ -1090,6 +1091,11 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '24.09',
+    tittel: 'Anja: «Hjelper veldig at jeg kan se det dere skriver <3»',
+    tekst: 'Hun kan lese det chatten skriver. Spørsmål i chatten kan altså nå henne, og svarene kommer på tavla. Tidligere tavler: «INGEN PIZZA ENDA».',
+  },
   {
     tid: '24.09 kveld',
     tittel: 'Horde: hint til kodene ligger i appen',
