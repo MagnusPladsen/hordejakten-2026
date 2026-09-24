@@ -220,7 +220,7 @@ export const LAG: Lag[] = [
       { stil: 'rute', farge: '#a78bfa', tekst: '830–860 moh' },
       { stil: 'rute', farge: '#1d4ed8', tekst: 'Ca. 875–891 moh (860–911)' },
     ],
-    kilde: 'Kartverket høydedata og OpenStreetMap. Tallet fra Horde AI i appen 24.09.',
+    kilde: 'Høydedata © Kartverket (terrengmodell 1 m). Veier © OpenStreetMap-bidragsytere. Tallet fra Horde AI i appen 24.09.',
   },
   {
     id: 'dn_hoyde',
