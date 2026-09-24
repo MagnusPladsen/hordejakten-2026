@@ -199,7 +199,7 @@ export const HINT: Hint[] = [
     kilde: 'Horde AI i appen',
     dato: '24.09',
     tekst: 'Skriv «Hordeminus» til Horde AI i appen. Svaret er «2,7 eiffeltårn stablet oppå hverandre». Spør man hva det betyr, svarer den at det bare er frasen den har fått beskjed om å bruke for akkurat det ordet.',
-    betydning: 'Bekrefter at bokstavene N O R H E I M S U D skal bli HORDE MINUS. Eiffeltårnet er 330 m i dag, og 2,7 × 330 = 891 m. Mest trolig betyr det at kassen står ca. 891 moh. Eldre høyder gir 875 m (324 m) eller 810 m (300 m uten antenne). Det kan også være 891 m fra noe, for eksempel fra bilveien, eller en kode: 0891 har 4 siffer som hengelåsene. Slå på «Ca. 891 moh nær vei» på kartet for å se steder som er ca. 891 moh og høyst 900 m fra vei.',
+    betydning: 'Bekrefter at bokstavene N O R H E I M S U D skal bli HORDE MINUS. Eiffeltårnet er 300 m uten antenne og 330 m med. 2,7 × 300 = 810 m og 2,7 × 330 = 891 m, så begge er like aktuelle. Mest trolig står kassen ca. 810 eller 891 moh. Det kan også være en avstand, for eksempel fra bilveien, eller en kode: 0810 og 0891 har 4 siffer som hengelåsene. Slå på «810–891 moh nær vei» på kartet for å se steder i den høyden som er høyst 900 m fra vei.',
   },
   {
     id: 'globus',
@@ -885,28 +885,29 @@ export const BESTE_KODER: { las: string; kode: string; hvorfor: string; sjanse: 
     kode: 'Ukjent',
     hvorfor: 'Anja skrev at døra har en elektronisk lås med 5 siffer. Ingen kjent kode har 5 siffer ennå.',
     sjanse: 'lav',
-    reserve: 'Kandidater med 5 siffer: 00891 (2,7 eiffeltårn), 27000 (powerbanken), 50085, 55285 (5008/5528 + «+5»), 07250',
+    reserve: 'Kandidater med 5 siffer: 00891 eller 00810 (2,7 eiffeltårn), 27000 (powerbanken), 50085, 55285 (5008/5528 + «+5»), 07250',
   },
   {
     las: 'Hengelås 1 (boksen)',
     kode: '5008',
     hvorfor: 'Det eneste tallet appen selv kaller et hint («Du fant et hint!»), og det har 4 siffer.',
     sjanse: 'hoy',
-    reserve: '0891 (2,7 eiffeltårn), 6788 (skiltnummeret LD6788 ga «ENKODE»), eller 5528 hvis «00» skal byttes med 52 (kortstokken)',
+    reserve: '0891 eller 0810 (2,7 eiffeltårn), 6788 (skiltnummeret LD6788 ga «ENKODE»), eller 5528 hvis «00» skal byttes med 52 (kortstokken)',
   },
   {
     las: 'Hengelås 2 (boksen)',
     kode: 'Kodejakten',
     hvorfor: 'Horde sier selv at Kodejakten gir koden til en av låsene. Koden er ikke kjent ennå.',
     sjanse: 'hoy',
-    reserve: 'Prøv 0891, 6788, 2188 og 5528 til Kodejakten-koden er kjent',
+    reserve: 'Prøv 0891, 0810, 6788, 2188 og 5528 til Kodejakten-koden er kjent',
   },
 ]
 
 /** Alle kodekandidater samlet. 3 låser: 2 hengelåser (4 siffer) på pengeboksen, 1 dørlås (5 siffer) for Anja. */
 export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjanse; hint: string[] }[] = [
   { kode: '5008', kilde: 'Kredittskår i appen + «terje». Også postnummeret til Horde AS i Bergen.', status: 'bekreftet', sjanse: 'hoy', hint: ['terje', 'koder'] },
-  { kode: '0891', kilde: 'HORDEMINUS i Horde AI: «2,7 eiffeltårn» = 2,7 × 330 m = 891. Med 0 foran blir det 4 siffer, som en hengelås. Kan også være høyden (891 moh), eller begge deler.', status: 'tolkning', sjanse: 'middels', hint: ['eiffel', 'koder'] },
+  { kode: '0891', kilde: 'HORDEMINUS i Horde AI: «2,7 eiffeltårn» = 2,7 × 330 m (med antenne) = 891. Med 0 foran blir det 4 siffer, som en hengelås. Kan også være høyden (891 moh), eller begge deler.', status: 'tolkning', sjanse: 'middels', hint: ['eiffel', 'koder'] },
+  { kode: '0810', kilde: 'Samme hint, men med Eiffeltårnet uten antenne: 2,7 × 300 m = 810.', status: 'tolkning', sjanse: 'middels', hint: ['eiffel', 'koder'] },
   { kode: '6788', kilde: 'Skiltnummeret LD6788 i «Bil & hus» ga «Du fant et hint! ENKODE» (24.09). Sifrene kan være koden.', status: 'tolkning', sjanse: 'middels', hint: ['enkode', 'koder'] },
   { kode: '5528', kilde: '5008 med 52 i stedet for 00: plakaten ser ut til å vise kortstokker, og en kortstokk har 52 kort.', status: 'tolkning', sjanse: 'middels', hint: ['plakat', 'koder'] },
   { kode: '2188', kilde: 'Nevnt i chatten. Ingen vet hvor den kommer fra.', status: 'usikker', sjanse: 'middels', hint: ['koder'] },
@@ -1073,8 +1074,8 @@ export const SIKRE_FAKTA: string[] = [
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
   {
     tid: '24.09 kl. 17:54',
-    tittel: 'HORDEMINUS løst: «2,7 eiffeltårn stablet oppå hverandre» = ca. 891 m',
-    tekst: 'Horde AI i appen svarer dette på «Hordeminus». Eiffeltårnet er 330 m, så 2,7 tårn er 891 m. Trolig høyden over havet der kassen står. Nytt kartlag viser steder som er ca. 891 moh og høyst 900 m fra vei.',
+    tittel: 'HORDEMINUS løst: «2,7 eiffeltårn stablet oppå hverandre» = 810 eller 891 m',
+    tekst: 'Horde AI i appen svarer dette på «Hordeminus». Eiffeltårnet er 300 m uten antenne og 330 m med, så 2,7 tårn er 810 eller 891 m. Trolig høyden over havet der kassen står. Nye kartlag viser steder i den høyden nær vei, og fellesskapets 800–900 moh-kart.',
     hint: 'eiffel',
   },
   {
