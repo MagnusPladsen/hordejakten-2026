@@ -1,12 +1,27 @@
 import { useState } from 'react'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, X } from 'lucide-react'
 
 import { LAG, type LagId } from '@/data/lag'
 import { Tegnrute } from '@/components/Tegnrute'
 import { cn } from '@/lib/utils'
 
 /** Flytende «Hva ser jeg?»-boks med tegnforklaring for lagene som er på */
-export function Legende({ aktive, onMer, kompakt, className, stil }: { aktive: Set<LagId>; onMer: () => void; kompakt?: boolean; className?: string; stil?: React.CSSProperties }) {
+/** Liten ×-knapp som skjuler laget. Synlig ved hover på PC, alltid synlig på mobil (ingen hover der). */
+function Fjern({ navn, onFjern }: { navn: string; onFjern: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onFjern}
+      aria-label={`Skjul «${navn}» fra kartet`}
+      title="Skjul fra kartet"
+      className="-my-1 ml-auto grid size-7 shrink-0 place-items-center rounded-full text-slate-400 opacity-0 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
+    >
+      <X className="size-3.5" />
+    </button>
+  )
+}
+
+export function Legende({ aktive, onMer, onFjern, kompakt, className, stil }: { aktive: Set<LagId>; onMer: () => void; onFjern: (id: LagId) => void; kompakt?: boolean; className?: string; stil?: React.CSSProperties }) {
   const [apen, setApen] = useState(false)
   const synlige = LAG.filter((l) => aktive.has(l.id) && l.id !== 'utenfor')
 
@@ -23,9 +38,10 @@ export function Legende({ aktive, onMer, kompakt, className, stil }: { aktive: S
         {!apen && (
           <ul className="space-y-1.5">
             {synlige.map((l) => (
-              <li key={l.id} className="flex items-center gap-2 text-xs font-medium">
+              <li key={l.id} className="group flex items-center gap-2 text-xs font-medium">
                 <Tegnrute tegn={l.tegn[0]} />
                 <span className="truncate">{l.navn}</span>
+                <Fjern navn={l.navn} onFjern={() => onFjern(l.id)} />
               </li>
             ))}
           </ul>
@@ -33,8 +49,11 @@ export function Legende({ aktive, onMer, kompakt, className, stil }: { aktive: S
         {apen && (
           <div className="space-y-3">
             {synlige.map((l) => (
-              <div key={l.id}>
-                <p className="text-xs font-semibold">{l.navn}</p>
+              <div key={l.id} className="group">
+                <div className="flex items-center gap-2">
+                  <p className="text-xs font-semibold">{l.navn}</p>
+                  <Fjern navn={l.navn} onFjern={() => onFjern(l.id)} />
+                </div>
                 <ul className="mt-1 space-y-1">
                   {l.tegn.map((t) => (
                     <li key={t.tekst} className="flex items-center gap-2 text-[12px] leading-tight text-slate-600">
