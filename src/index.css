@@ -219,3 +219,6 @@
   .avis-liste > * { break-inside: avoid; margin-bottom: 0.75rem; }
 }
 
+
+.pin-plan { background: #0f766e; color: #fff; font: 700 11px/1 var(--font-sans, system-ui); display: grid; place-items: center; border: 2px solid #fff; border-radius: 999px; box-shadow: 0 1px 4px rgb(0 0 0 / 0.35); }
+.pop .kilde { margin-top: 4px; font-size: 11px; color: #64748b; }

@@ -1,0 +1,110 @@
+{
+ "areas": [
+  {
+   "name": "Froland (Agder)",
+   "lat": 58.6,
+   "lon": 8.7,
+   "why": "Ingen av de tre flyene hun så var over 10° over horisonten. Feil landsdel for innflygingen til OSL.",
+   "img": ""
+  },
+  {
+   "name": "Telemark",
+   "lat": 59.45,
+   "lon": 8.9,
+   "why": "Flyene hun så sto 5–15° over horisonten. Avvist på fly og regn (regnet mens kameraet var tørt).",
+   "img": ""
+  },
+  {
+   "name": "Nøtterøy / Revetal / Andebu (Vestfold)",
+   "lat": 59.3,
+   "lon": 10.2,
+   "why": "Under ingen av flyhendelsene sto et fly høyt der. Regnet søndag/mandag mens glasset var tørt.",
+   "img": "img/60_vestfold_check.png"
+  },
+  {
+   "name": "Storsjøen (Rendalen)",
+   "lat": 61.5786,
+   "lon": 11.3084,
+   "why": "Innflygingen går vest for sjøen; 20:32/20:34-flyene sto 25–35° der mot 64–72° ved Evenstad. Svakere, ikke utelukket.",
+   "img": ""
+  },
+  {
+   "name": "Rendalen 61.30/11.63",
+   "lat": 61.3045,
+   "lon": 11.6283,
+   "why": "Flyene sto 15–25° over horisonten. Mye fugl, men ligger i kanten av Regionfelt Østlandet (skytefelt).",
+   "img": ""
+  },
+  {
+   "name": "Trysil",
+   "lat": 61.31,
+   "lon": 12.27,
+   "why": "Flyene hun så sto under 12° over horisonten. Blåbær-land, ikke tyttebær. 5.9 mm regn siden søndag mens glasset var tørt.",
+   "img": ""
+  },
+  {
+   "name": "Finnskogen 60.70/12.40",
+   "lat": 60.7,
+   "lon": 12.4,
+   "why": "Alle tre flyene sto 3–4° over horisonten, 106–120 km unna. Høyeste fly i vinduene 9–12° (Helsingfors-fly).",
+   "img": "img/67_check_60p70_12p40.png"
+  },
+  {
+   "name": "Kvam / Vinstra",
+   "lat": 61.68746,
+   "lon": 10.14689,
+   "why": "Fly 9° / 11° / 11°. Vest for Østerdalen, utenfor innflygingen. Koordinaten er et jorde.",
+   "img": "img/68_four_points.png"
+  },
+  {
+   "name": "Gausdal",
+   "lat": 61.35129,
+   "lon": 10.08446,
+   "why": "Fly 10° / 16° / 18°. Feiler alle tre hendelsene.",
+   "img": "img/68_four_points.png"
+  },
+  {
+   "name": "Øyer",
+   "lat": 61.24385,
+   "lon": 10.49094,
+   "why": "Fly 19° / 12° / 12°. 34 høye dagfly passerte uten INGEN FLY-reaksjon (luftveien Oslo–Trondheim).",
+   "img": "img/68_four_points.png"
+  },
+  {
+   "name": "Atna",
+   "lat": 61.7255,
+   "lon": 10.9594,
+   "why": "20:32 og 20:34 stemmer (78°), men 21:29-flyet passerte Atna 2,5 min før hun pekte (da 9°). 22 høye dagfly uoppdaget.",
+   "img": "img/68_four_points.png"
+  },
+  {
+   "name": "Lesja / Dovre 61.75/8.40",
+   "lat": 61.75,
+   "lon": 8.4,
+   "why": "Lå som nr. 1 i en utdatert fusjonsvariant (22.09, uten fly). Ingen av flyene hun så var i nærheten.",
+   "img": ""
+  },
+  {
+   "name": "Elverum sentrum / Terningmoen",
+   "lat": 60.85,
+   "lon": 11.5,
+   "why": "Selve cellen ligger i Terningmoen skytefelt. Området rundt (Elverum–Solør) er fortsatt et B-område: flyene 28–49°, men 22–34 høye dagfly uoppdaget mot 4 ved Evenstad.",
+   "img": ""
+  },
+  {
+   "name": "61.4307, 11.0483 (sjekket 23.09)",
+   "lat": 61.4307,
+   "lon": 11.0483,
+   "why": "Sjekket på bakken natt til 23.09: bolighus 7 m unna, ikke boksen.",
+   "img": ""
+  },
+  {
+   "name": "61.4495, 10.9763 (bom)",
+   "lat": 61.4495,
+   "lon": 10.9763,
+   "why": "Bom på veien 23.09, bare sett fra veien. Ikke ferdig sjekket.",
+   "img": ""
+  }
+ ],
+ "note": "Steder folk har foreslått, sjekket mot de tre flyene hun så, INGEN FLY-regnskapet, regn og skytefelt. Grå = avvist, gul = svakere/ikke utelukket."
+}

@@ -181,7 +181,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
     kart.createPane('hoyde').style.zIndex = '355'
 
     const g = Object.fromEntries(
-      (['modell', 'hintmarkorer', 'teoriomrader', 'hoyde891', 'fellesskap891', 'utelukket', 'kommuner', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'solidag', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'hytter', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
+      (['modell', 'hintmarkorer', 'teoriomrader', 'hoyde891', 'fellesskap891', 'dn_hoyde', 'dn_vei', 'dn_plan', 'dn_avvist', 'dn_notater', 'coop', 'utelukket', 'kommuner', 'innlandet', 'kjoretid', 'retning', 'skydekke', 'solidag', 'skyanalyse', 'defaultno', 'steder', 'teorier', 'hytter', 'fly', 'felt', 'utenfor'] as LagId[]).map((id) => [
         id,
         L.featureGroup(),
       ]),
@@ -483,6 +483,55 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
       ).addTo(g.hoyde891)
     }
   }, [hoyde891])
+
+  // Lag fra default.no (hentet 24.09). Lastes én gang.
+  useEffect(() => {
+    const g = grupper.current
+    if (!g) return
+    const base = `${import.meta.env.BASE_URL}data/defaultno/`
+    const hent = (f: string) => fetch(base + f).then((r) => (r.ok ? r.json() : null)).catch(() => null)
+    const esc = (t: unknown) => String(t ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!)
+    const kilde = '<p class="kilde">Kilde: default.no</p>'
+    for (const [id, navn] of [
+      ['dn_hoyde', 'eiffel_band'],
+      ['dn_vei', 'eiffel_road'],
+    ] as const) {
+      hent(`${navn}.json`).then((d: { bounds: L.LatLngBoundsExpression } | null) => {
+        if (d) L.imageOverlay(`${base}${navn}.png`, d.bounds, { opacity: 0.7, interactive: false, pane: 'hoyde' }).addTo(g[id])
+      })
+    }
+    type Stopp = { rank: number; name: string; lat: number; lon: number; walk: string; park_lat: number; park_lon: number; road_type: string; pine: boolean; nearest_building_m: number; checked: string }
+    hent('plan.json').then((d: { stops: Stopp[] } | null) => {
+      for (const s of d?.stops ?? []) {
+        L.marker([s.lat, s.lon], { icon: pin('pin-plan', String(s.rank), 22) })
+          .bindPopup(
+            `<div class="pop"><h5>${s.rank}. ${esc(s.name)}</h5><p>Parker ved ${s.park_lat.toFixed(4)}, ${s.park_lon.toFixed(4)} (${esc(s.road_type)}). Gå ${esc(s.walk)}.</p><p>${s.pine ? 'Furu. ' : ''}Nærmeste hus ${s.nearest_building_m} m.${s.checked ? ` Sjekket: ${esc(s.checked)}.` : ''}</p>${kilde}</div>`,
+          )
+          .addTo(g.dn_plan)
+      }
+    })
+    hent('rejected.json').then((d: { areas: { name: string; lat: number; lon: number; why: string }[] } | null) => {
+      for (const a of d?.areas ?? []) {
+        L.circleMarker([a.lat, a.lon], { radius: 9, color: '#475569', weight: 2, fillColor: '#94a3b8', fillOpacity: 0.6 })
+          .bindPopup(`<div class="pop"><h5>Avvist: ${esc(a.name)}</h5><p>${esc(a.why)}</p>${kilde}</div>`)
+          .addTo(g.dn_avvist)
+      }
+    })
+    hent('pins.json').then((d: { lat: number; lon: number; note: string }[] | null) => {
+      for (const n of d ?? []) {
+        L.circleMarker([n.lat, n.lon], { radius: 6, color: '#fff', weight: 2, fillColor: '#1e293b', fillOpacity: 1 })
+          .bindPopup(`<div class="pop"><h5>Feltnotat</h5><p>${esc(n.note)}</p>${kilde}</div>`)
+          .addTo(g.dn_notater)
+      }
+    })
+    hent('coop.json').then((d: { shops: { name: string; lat: number; lon: number; hours: string }[] } | null) => {
+      for (const b of d?.shops ?? []) {
+        L.circleMarker([b.lat, b.lon], { radius: 6, color: '#fff', weight: 2, fillColor: '#00843d', fillOpacity: 1 })
+          .bindPopup(`<div class="pop"><h5>${esc(b.name)}</h5><p>${esc(b.hours) || 'Åpningstider ukjent'}</p>${kilde}</div>`)
+          .addTo(g.coop)
+      }
+    })
+  }, [])
 
   // Fellesskapets 800–900 moh-kart
   useEffect(() => {
