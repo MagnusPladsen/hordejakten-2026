@@ -740,7 +740,11 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     tekst: 'INGEN PIZZA ENDA',
     bilder: [{ src: 'img/tavle-ingen-pizza.jpg', alt: 'Anja i glassboksen med tavla: INGEN PIZZA ENDA' }],
   },
-  { t: '24.09', tekst: 'HJELPER VELDIG AT JEG KAN SE DET DERE SKRIVER <3' },
+  {
+    t: '24.09',
+    tekst: 'HJELPER VELDIG AT JEG KAN SE DET DERE SKRIVER <3',
+    bilder: [{ src: 'img/tavle-ser-chatten.jpg', alt: 'Anja i glassboksen med tavla: HJELPER VELDIG AT JEG KAN SE DET DERE SKRIVER' }],
+  },
 ]
 
 export type Sted = {
