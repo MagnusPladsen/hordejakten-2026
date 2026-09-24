@@ -203,6 +203,15 @@ export const HINT: Hint[] = [
     lag: ['felt'],
   },
   {
+    id: 'graver',
+    tittel: '«Gråvær hele dagen» (24.09)',
+    status: 'bekreftet',
+    kilde: 'Tavla',
+    dato: '24.09',
+    tekst: 'Anja skrev 24.09: «GRÅVÆR HELE DAGEN».',
+    betydning: 'Etter klar himmel og sol 21.–23.09 var det overskyet hele 24.09 der kassen står. Kan sjekkes mot satellittbilder og værdata for 24.09: steder med sol store deler av dagen passer dårlig. Ikke lagt inn i modellen ennå.',
+  },
+  {
     id: 'ingenhytte',
     tittel: '«Ingen hytte i nærheten som jeg vet om eller ser» (17:20)',
     status: 'bekreftet',
@@ -795,7 +804,16 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     tekst: 'INGEN LYD I BOKSEN OVERHODET, JEG HAR KUN DERE Å UNDERHOLDE MEG. INGENTING ANNET',
     bilder: [{ src: 'img/tavle-ingen-lyd.jpg', alt: 'Anja med tavla: INGEN LYD I BOKSEN OVERHODET' }],
   },
-  { t: '24.09 18:07', tekst: 'MAMMA <3 (svar til chatten, som savner mamma og stemte på at Anja skal ringe mamma)' },
+  {
+    t: '24.09 18:07',
+    tekst: 'MAMMA <3 (svar til chatten, som savner mamma og stemte på at Anja skal ringe mamma)',
+    bilder: [{ src: 'img/tavle-mamma.jpg', alt: 'Nattkamera 18:07: Anja med tavla MAMMA og et hjerte' }],
+  },
+  {
+    t: '24.09',
+    tekst: 'GRÅVÆR HELE DAGEN',
+    bilder: [{ src: 'img/tavle-graver.jpg', alt: 'Anja med tavla: GRÅVÆR HELE DAGEN' }],
+  },
 ]
 
 export type Sted = {
