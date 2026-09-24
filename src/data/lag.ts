@@ -745,7 +745,7 @@ export const LAG: Lag[] = [
     kort: 'Anja pekte rett opp og skrev «FLY»',
     merkelapp: 'tolkning',
     forklaring:
-      'Sporene til alle 49 fly som var i lufta 21:28–21:34 (ekte tid). Prikkene viser hvor hvert fly var da Anja pekte opp. Kassen bør ligge nær et spor. De to tykke sporene er flyene nærmest: NOZ56U nordover over Løten og NOZ9EG sørover over Ringsakfjellet. Ringene er 10 km rundt der de var. Svake spor er fly under 3000 fot.',
+      'Sporene til alle 49 fly som var i lufta 21:28–21:34 (ekte tid). Prikkene viser hvor hvert fly var da Anja pekte opp. Kassen bør ligge nær et spor. De to tykke sporene er flyene nærmest: NOZ56U nordover over Hamar, like ved Løten og NOZ9EG sørover over Ringsakfjellet. Ringene er 10 km rundt der de var. Svake spor er fly under 3000 fot.',
     tegn: [
       { stil: 'linje', farge: FARGE.fly, tekst: 'Flyspor 21:28–21:34' },
       { stil: 'prikk', farge: FARGE.fly, tekst: 'Posisjon da hun pekte opp' },

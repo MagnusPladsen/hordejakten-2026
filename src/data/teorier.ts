@@ -26,7 +26,7 @@ export type Teori = {
 export const TEORIER_LISTE: Teori[] = [
   {
     id: 'loten',
-    navn: 'Løten og Elverum (under flyet)',
+    navn: 'Hamar–Løten–Elverum (under flyet)',
     etikett: 'Løten',
     kort: 'Der NOZ56U var da Anja pekte opp',
     senter: [60.87, 11.25],
@@ -38,7 +38,7 @@ export const TEORIER_LISTE: Teori[] = [
   },
   {
     id: 'rena',
-    navn: 'Rena og Åmot (Østerdalen)',
+    navn: 'Rena–Evenstad (Åmot og Stor-Elvdal)',
     etikett: 'Rena',
     kort: 'default.no sin toppkandidat',
     senter: [61.35, 11.1],
@@ -275,7 +275,7 @@ export const BEVIS: Bevis[] = [
     id: 'fly',
     tittel: 'Et fly rett over kl. 21:29 (NOZ56U eller NOZ9EG)',
     forklaring:
-      'Hun pekte nesten rett opp. To fly var nær: NOZ56U over Løten og NOZ9EG over Ringsakfjellet. NOZ56U er beste treff hos default.no, så Løten teller litt mer. Takk til default.no.',
+      'Hun pekte nesten rett opp. To fly var nær: NOZ56U over Hamar, like ved Løten og NOZ9EG over Ringsakfjellet. NOZ56U er beste treff hos default.no, så Løten teller litt mer. Takk til default.no.',
     standardPa: true,
     faktor: tabell({ loten: 3, ringsaker: 2.5, rudshogda: 1.6, rena: 1.3, solor: 0.7, gjovik: 0.8, roros: 0.7, valdres: 0.8, agder: 0.6, hardanger: 0.6, annet: 0.7 }),
   },
