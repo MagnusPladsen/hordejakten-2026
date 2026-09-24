@@ -212,6 +212,16 @@ export const HINT: Hint[] = [
     betydning: 'Etter klar himmel og sol 21.–23.09 var det overskyet hele 24.09 der kassen står. Kan sjekkes mot satellittbilder og værdata for 24.09: steder med sol store deler av dagen passer dårlig. Ikke lagt inn i modellen ennå.',
   },
   {
+    id: 'hogst',
+    tittel: '«Det har vært hogd tidligere der jeg gikk» (pil →)',
+    status: 'bekreftet',
+    kilde: 'Tavla',
+    dato: '24.09',
+    tekst: 'Anja skrev «DET HAR VÆRT HOGD TIDLIGERE DER JEG GIKK I GÅR, GIKK DEN VEIEN» med pil mot høyre i bildet, og «Så ingenting som ikke hører til i en skog».',
+    betydning: 'Høyre i bildet er ca. 310° (nordvest), siden kameraet filmer mot ca. 221°. Det passer med «KOM FRA DEN VEIEN ←» (ca. 130°): hun kom fra sørøst og gikk mot nordvest til kassen. På veien gikk hun gjennom et gammelt hogstfelt. Let etter eldre hogstflater sørøst for mulige steder, mellom veien og kassen. Ingen bygninger eller annet uvanlig langs gåturen. Det er uklart hva «i går» viser til.',
+    lag: ['felt'],
+  },
+  {
     id: 'ingenhytte',
     tittel: '«Ingen hytte i nærheten som jeg vet om eller ser» (17:20)',
     status: 'bekreftet',
@@ -828,6 +838,17 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     tekst: '5 SIFFER · GANSKE SIKKER (om dørlåsen)',
     bilder: [{ src: 'img/tavle-5-siffer.jpg', alt: 'Nattkamera 08:24: 5 SIFFER, GANSKE SIKKER' }],
   },
+  {
+    t: '23.09',
+    tekst: '2x HENGELÅS 4 TALL · 1x KODELÅS 5–6 TALL · TROR 5',
+    bilder: [{ src: 'img/tavle-laser.jpg', alt: 'Tavla: 2x HENGELÅS 4 TALL, 1x KODELÅS 5-6 TALL, TROR 5' }],
+  },
+  {
+    t: '24.09',
+    tekst: 'DET HAR VÆRT HOGD TIDLIGERE DER JEG GIKK I GÅR · GIKK DEN VEIEN → (pil mot høyre i bildet)',
+    bilder: [{ src: 'img/tavle-hogd.jpg', alt: 'Tavla: DET HAR VÆRT HOGD TIDLIGERE DER JEG GIKK, GIKK DEN VEIEN, med pil mot høyre' }],
+  },
+  { t: '24.09', tekst: 'SÅ INGENTING SOM IKKE HØRER TIL I EN SKOG I GÅR · PS! HÅPER PÅ PEPPERONIPIZZA' },
 ]
 
 export type Sted = {
@@ -1185,6 +1206,12 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '24.09 kveld',
+    tittel: '«Det har vært hogd der jeg gikk» med pil →: hun gikk gjennom et gammelt hogstfelt',
+    tekst: 'Pila peker mot høyre i bildet (ca. 310°, nordvest). Det passer med «kom fra den veien ←» (ca. 130°): fra bilen i sørøst, gjennom et gammelt hogstfelt, mot nordvest og oppover til kassen. Hun så ingenting uvanlig på veien.',
+    hint: 'hogst',
+  },
   {
     tid: '24.09 kveld',
     tittel: 'Spor: topp på ca. 891 moh ved Kroktjennet i Hemmeldalen (Åmot)',
