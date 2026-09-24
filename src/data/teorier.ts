@@ -274,14 +274,14 @@ export const BEVIS: Bevis[] = [
     id: 'fly',
     tittel: 'Et fly rett over kl. 21:29 (NOZ56U eller NOZ9EG)',
     forklaring:
-      'Hun pekte nesten rett opp. To fly var nær: NOZ56U over Løten og NOZ9EG over Ringsakfjellet. NOZ56U er beste treff hos default.no, så Løten teller litt mer.',
+      'Hun pekte nesten rett opp. To fly var nær: NOZ56U over Løten og NOZ9EG over Ringsakfjellet. NOZ56U er beste treff hos default.no, så Løten teller litt mer. Takk til default.no.',
     standardPa: true,
     faktor: tabell({ loten: 3, ringsaker: 2.5, rudshogda: 1.6, rena: 1.3, solor: 0.7, gjovik: 0.8, roros: 0.7, valdres: 0.8, agder: 0.6, hardanger: 0.6, annet: 0.7 }),
   },
   {
     id: 'defaultno',
     tittel: 'default.no sin fusjonsmodell',
-    forklaring: 'Nr. 1 er Rena/Åmot, nr. 2 Risør/Gjerstad. Flyet er allerede med i modellen deres, så dette teller mindre for å unngå dobbelttelling.',
+    forklaring: 'Nr. 1 er Rena/Åmot, nr. 2 Risør/Gjerstad. Flyet er allerede med i modellen deres, så dette teller mindre for å unngå dobbelttelling. Takk til default.no.',
     standardPa: true,
     faktor: tabell({ rena: 1.5, loten: 1.2, ringsaker: 1.2, rudshogda: 1.1, agder: 1.3, valdres: 1.1, roros: 1.1, hardanger: 0.8 }),
   },

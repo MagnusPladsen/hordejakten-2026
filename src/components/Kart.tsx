@@ -249,14 +249,14 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
     for (const k of DEFAULTNO) {
       L.circle(k.pos, { radius: 10000, color: FARGE.defaultno, weight: 1.5, dashArray: '3 4', fillOpacity: 0.04, interactive: false }).addTo(g.defaultno)
       L.marker(k.pos, { icon: pin('pin-default', String(k.nr), 24) })
-        .bindPopup(popupTekst(`#${k.nr} ${k.navn}`, `${k.p} i default.no sin modell.`))
+        .bindPopup(popupTekst(`#${k.nr} ${k.navn}`, `${k.p} i default.no sin modell.<br><span class="kilde">Kilde: default.no. Takk til default.no.</span>`))
         .addTo(g.defaultno)
     }
 
     for (const t of DEFAULTNO_TERRENG) {
       L.marker(t.pos, { icon: pin('pin-terreng', '', 14) })
         .bindTooltip(`${t.navn} (${t.omrade})`, { direction: 'right', offset: [8, 0], className: 'etikett' })
-        .bindPopup(popupTekst(`Terrengtreff: ${t.navn}`, `Sterkt treff i default.no sitt terrengsøk (${t.omrade}): nær vei, oppover, furu og riktig relieff.`))
+        .bindPopup(popupTekst(`Terrengtreff: ${t.navn}`, `Sterkt treff i default.no sitt terrengsøk (${t.omrade}): nær vei, oppover, furu og riktig relieff.<br><span class="kilde">Kilde: default.no. Takk til default.no.</span>`))
         .addTo(g.defaultno)
     }
 
@@ -437,7 +437,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
         .bindPopup(
           popupTekst(
             fly.kallesignal + (fly.type ? ` (${fly.type})` : ''),
-            `Sporet 21:28–21:34 (ekte tid). ${naa ? `Kl. ${PEKETID_EKTE} var flyet i ca. ${Math.round(naa.fot).toLocaleString('nb-NO')} fot.` : ''}`,
+            `Sporet 21:28–21:34 (ekte tid). ${naa ? `Kl. ${PEKETID_EKTE} var flyet i ca. ${Math.round(naa.fot).toLocaleString('nb-NO')} fot.` : ''}<br><span class="kilde">Flydata via default.no. Takk til default.no.</span>`,
           ),
         )
         .addTo(g.fly)

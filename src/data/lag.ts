@@ -714,7 +714,7 @@ export const LAG: Lag[] = [
       { stil: 'ring', farge: FARGE.defaultno, tekst: '10 km-radius' },
       { stil: 'ring', farge: FARGE.defaultno, tekst: 'Terrengtreff (vei, furu, relieff)' },
     ],
-    kilde: 'default.no, 22.09 kl. 16:42.',
+    kilde: 'default.no, 22.09 kl. 16:42. Takk til default.no.',
   },
   {
     id: 'steder',
@@ -751,7 +751,7 @@ export const LAG: Lag[] = [
       { stil: 'prikk', farge: FARGE.fly, tekst: 'Posisjon da hun pekte opp' },
       { stil: 'ring', farge: FARGE.fly, tekst: 'NOZ56U og NOZ9EG, 10 km' },
     ],
-    kilde: 'ADS-B fra adsb.lol (via default.no). Streamen er 45 sek forsinket.',
+    kilde: 'ADS-B fra adsb.lol (via default.no). Streamen er 45 sek forsinket. Takk til default.no.',
   },
   {
     id: 'felt',
