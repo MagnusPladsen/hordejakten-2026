@@ -251,9 +251,10 @@ export const BEVIS: Bevis[] = [
   },
   {
     id: 'frolandekorn',
-    tittel: 'Appen svarer på «FROLAND» («Ekornet kan klatre»)',
+    kilde: 'folk',
+    tittel: 'Skjermbilde: appen svarer på «FROLAND» (ikke bekreftet)',
     forklaring: 'Horde har lagt inn et eget svar når man skriver FROLAND i ord-boksen. Det viser at de har tenkt på Froland, men det kan like gjerne være en fleip mot en populær feil teori. Teller en del, men mindre enn at været ikke stemmer. Gir andre stedsnavn ikke noe svar, bør dette telle mye mer.',
-    standardPa: true,
+    standardPa: false,
     faktor: tabell({ agder: 2.5 }),
   },
   {
