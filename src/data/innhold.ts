@@ -489,12 +489,41 @@ export const HINT: Hint[] = [
     lag: ['teorier'],
   },
   {
+    id: 'dyreoversikt',
+    tittel: 'Dyrehintene så langt: ekorn, stokkand, rev, orrfugl og grevling',
+    status: 'tolkning',
+    kilde: 'Samlet av fellesskapet 25.09',
+    dato: '25.09',
+    tekst: 'Ekorn: «Hint-hint» med ekorn i vervemenyen i appen. Stokkand: ett bilde i den første promovideoen. Rev: revebamsen i boksen. Orrfugl: orrfuglleik-lyd når man rister appen. Grevling: en utstoppet grevling som støtter opp olivenolja i Horde Rewards.',
+    betydning: 'Alle fem finnes vanlig i skogen på Østlandet, så hvert dyr alene sier lite. Orrfuglen er mest stedbundet: orrfuglen leker på myrer og i åpen skog i høyden, ofte rundt 600–900 moh i Innlandet, og det passer med 810–891 moh. Slå på «default.no: orrfugl» for å se hvor orrfugl er observert. Alf sa på TikTok-live 25.09 at reven og anda «kanskje» har med hint å gjøre.',
+    lag: ['dn_orrfugl'],
+  },
+  {
+    id: 'orrfugl',
+    tittel: 'Orrfuglleik når man rister appen',
+    status: 'bekreftet',
+    kilde: 'Horde-appen (meldt av fellesskapet)',
+    dato: '25.09',
+    tekst: 'Rister man telefonen med Horde-appen åpen, spilles lyden av orrfugl som leker (spiller).',
+    betydning: 'Orrfuglen leker på myrer, islagte vann og i glissen skog, ofte i høyden. Kan peke mot fjellskog og myrer, for eksempel rundt 810–891 moh. Se kartlaget «default.no: orrfugl».',
+    lag: ['dn_orrfugl'],
+  },
+  {
+    id: 'grevling',
+    tittel: 'Utstoppet grevling i Horde Rewards',
+    status: 'bekreftet',
+    kilde: 'Horde Rewards i appen (meldt av fellesskapet)',
+    dato: '25.09',
+    tekst: 'I Horde Rewards står en utstoppet grevling og støtter opp en flaske olivenolje.',
+    betydning: 'Enda et dyr i rekken. Grevlingen lever mest i lavlandet og i løvskog, og er sjelden høyt til fjells. Uklart hva den skal peke på.',
+  },
+  {
     id: 'and',
-    tittel: 'En and i YouTube-video (ett bilde)',
+    tittel: 'En stokkand i den første promovideoen (ett bilde)',
     status: 'bekreftet',
     kilde: 'YouTube _KVnuWlzVsE',
     tekst: 'En and dukker opp i ett enkelt bilde helt nederst til høyre, ca. 00:15, mens Anja står på hendene.',
-    betydning: 'Enda et dyr i rekken rev, ekorn, kråke og and.',
+    betydning: 'Enda et dyr i rekken: ekorn, stokkand, rev, orrfugl og grevling. Se «Dyrehintene så langt».',
     lenke: 'https://www.youtube.com/watch?v=_KVnuWlzVsE&t=13s',
   },
   {
@@ -1235,6 +1264,12 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '25.09',
+    tittel: 'Dyrehintene: ekorn, stokkand, rev, orrfugl og grevling',
+    tekst: 'Nytt: orrfuglleik-lyd når man rister appen, og en utstoppet grevling i Horde Rewards. Orrfuglen leker ofte på myrer i høyden, som passer med 810–891 moh.',
+    hint: 'dyreoversikt',
+  },
   {
     tid: '25.09',
     tittel: 'Alf på TikTok-live: «Det er ekte lyd på streamen» og «viktige hint i helgen»',
