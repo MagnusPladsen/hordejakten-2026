@@ -231,11 +231,11 @@ export const HINT: Hint[] = [
   },
   {
     id: 'god-helg',
-    tittel: '«God helg og god jakt» med fruktkurv, og musikken «Goldenrod · Riverbank»',
+    tittel: '«God helg og god jakt» med fruktkurv, og musikk i Hordes story («Goldenrod · Riverbank»)',
     status: 'tolkning',
     kilde: 'Hordes story 25.09 (skjermbilde)',
     dato: '25.09',
-    tekst: 'Anja holdt opp en tavle med en tegnet fruktkurv (eple, appelsin, banan, pære, jordbær og druer) og «GOD HELG ♥ OG GOD JAKT». Øverst i storyen står musikken «Goldenrod · Riverbank», altså musikken Horde la på storyen. Det er uklart hva som er artist og hva som er sangtittel, og vi fant ikke noen kjent sang med det navnet, så det er trolig et spor fra Facebook sitt eget musikkbibliotek.',
+    tekst: 'Anja holdt opp en tavle med en tegnet fruktkurv (eple, appelsin, banan, pære, jordbær og druer) og «GOD HELG ♥ OG GOD JAKT». Musikken kommer fra Hordes story på Facebook: øverst i storyen står «Goldenrod · Riverbank», som er musikken Horde la på. Den var ikke på streamen, og Anja hører den ikke i boksen. Det er uklart hva som er artist og hva som er sangtittel, og vi fant ikke noen kjent sang med det navnet, så det er trolig et spor fra Facebook sitt eget musikkbibliotek.',
     betydning: 'Trolig bare en hilsen før helgen. Men tavla kl. 10:21 samme dag sa «GJETT RIKTIG SANG», så sangvalget kan være et hint: «Riverbank» betyr elvebredd, og «Goldenrod» er planten gullris. Alf har sagt at man aldri må krysse en elv, men kassen kan stå nær en. Fruktkurven kan også være et ordspill. Ren tolkning.',
   },
   {
@@ -956,7 +956,7 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
   },
   {
     t: '25.09',
-    tekst: 'GOD HELG ♥ · OG GOD JAKT (tegning av en fruktkurv, fra Hordes story)',
+    tekst: 'GOD HELG ♥ · OG GOD JAKT (tegning av en fruktkurv, fra Hordes story på Facebook. Musikken i storyen: «Goldenrod · Riverbank»)',
     bilder: [{ src: 'img/tavle-2509-god-helg.jpg', alt: 'Anja med tavla: tegning av en fruktkurv, GOD HELG og GOD JAKT' }],
   },
 ]
