@@ -230,6 +230,17 @@ export const HINT: Hint[] = [
     fokus: 'tretopp',
   },
   {
+    id: 'fly2509',
+    tittel: 'Hun pekte mot himmelen igjen 25.09 kl. 17:22: SAS50J over Stange',
+    status: 'bekreftet',
+    kilde: 'Stream + ADS-B fra adsb.lol (sporet til SAS50J)',
+    dato: '25.09',
+    tekst: 'Anja pekte opp mot himmelen kl. 17:22 (streamtid). Da, rundt 17:21–17:22 ekte tid, var SAS50J (Oslo → nord) over østre Stange mot Romedal og Løten, på 21 000–23 000 fot. På Flightradar24 var også SAS364 på vei nordover over Rena.',
+    betydning: 'Andre gang hun peker på et fly, og igjen er det et fly fra Gardermoen nordover langs linja Hamar–Løten–Elverum–Rena. SAS50J var ca. 23 km øst for sporet til NOZ56U fra 21.09. Kassen ligger trolig et sted mellom eller langs disse sporene, i skogen øst og nord for Hamar. Sporet er tegnet på kartet i laget «Flyene hun så».',
+    pos: [60.59, 11.536],
+    lag: ['fly'],
+  },
+  {
     id: 'musikk-cherry',
     tittel: 'Hordes innlegg om økonomisk stress har musikken «Cherry Blossom»',
     status: 'tolkning',
@@ -1012,6 +1023,14 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     tekst: 'THILPRTE OESHF (anagram av THE SHOPLIFTER) · NOEN SOM VET FASITEN',
     bilder: [{ src: 'img/tavle-2509-shoplifter.jpg', alt: 'Tavla: THILPRTE OESHF, som er THE SHOPLIFTER stokket om' }],
   },
+  {
+    t: '25.09 17:22',
+    tekst: '(ikke tavle) Anja pekte opp mot himmelen. Flightradar24 rundt da: SAS50J over Stange/Løten og SAS364 over Rena',
+    bilder: [
+      { src: 'img/fr24-2509-sas50j.jpg', alt: 'Flightradar24: SAS50J nordover mellom Hamar og Elverum' },
+      { src: 'img/fr24-2509-sas364.jpg', alt: 'Flightradar24: SAS364 nordover over Rena' },
+    ],
+  },
 ]
 
 export type Sted = {
@@ -1423,6 +1442,12 @@ export const SIKRE_FAKTA: string[] = [
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
   {
+    tid: '25.09 kl. 17:22',
+    tittel: 'Hun pekte opp mot himmelen: SAS50J over Stange mot Løten',
+    tekst: 'Ifølge ADS-B var SAS50J over østre Stange, nær Romedal og Løten, på ca. 22 000 fot da hun pekte. SAS364 var på vei nordover over Rena. Begge følger samme linje nordover fra Gardermoen som flyet 21.09. Sporet er på kartet.',
+    hint: 'fly2509',
+  },
+  {
     tid: '25.09',
     tittel: 'Tavla: «THILPRTE OESHF» = THE SHOPLIFTER · «Noen som vet fasiten»',
     tekst: 'Et anagram som går nøyaktig opp, og på samme tavle: «NOEN SOM VET FASITEN». Enten spør hun om noen kan løse det, eller så sier hun at BobTheShoplifter (som har laget default.no) vet fasiten. Takk til ham for all dataen!',
@@ -1581,3 +1606,9 @@ export const TIKTOK_2509: { sitat: string; betyr: string }[] = [
   { sitat: 'Man må kanskje gå litt, men aldri noe farlig, som å krysse en elv.', betyr: 'Veien til kassen er trygg. Ser den farlig ut, er det feil vei.' },
   { sitat: 'Husk at det er jaktsesong, og gå i tydelige klær.', betyr: 'Gå med synlige klær, gjerne oransje, og vis hensyn der det jaktes.' },
 ]
+
+/** SAS50J (A320neo, OSL nordover) 25.09 kl. 17:17–17:27, ekte tid. Anja pekte opp kl. 17:22 streamtid. Kilde: ADS-B fra adsb.lol. */
+export const FLY_2509: { kallesignal: string; spor: [string, number, number, number][] } = {
+  kallesignal: 'SAS50J',
+  spor: [["17:17:00", 60.1448, 11.3412, 10175], ["17:17:03", 60.1476, 11.3419, 10275], ["17:17:20", 60.1726, 11.3489, 10775], ["17:17:23", 60.1757, 11.3498, 10825], ["17:17:42", 60.2048, 11.3586, 11650], ["17:18:02", 60.235, 11.3683, 12600], ["17:18:43", 60.2993, 11.3875, 14525], ["17:19:02", 60.3301, 11.4005, 15350], ["17:19:23", 60.3644, 11.4239, 16425], ["17:20:21", 60.4597, 11.4892, 18975], ["17:21:03", 60.5292, 11.5304, 20825], ["17:21:21", 60.561, 11.5341, 21525], ["17:22:41", 60.7043, 11.5471, 24100], ["17:23:03", 60.7439, 11.5507, 24750], ["17:25:20", 61.007, 11.5747, 28550], ["17:26:42", 61.1689, 11.5894, 30300]],
+}

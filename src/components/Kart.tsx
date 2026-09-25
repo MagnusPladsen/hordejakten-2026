@@ -2,7 +2,7 @@ import { useEffect, useImperativeHandle, useLayoutEffect, useRef, type Ref } fro
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-import { BERGEN, DEFAULTNO, DEFAULTNO_TERRENG, FLY_PUNKT, FLY_PUNKT2, HYTTER, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, STEDER, TAAKE, TEORIER, type Sted } from '@/data/innhold'
+import { BERGEN, FLY_2509, DEFAULTNO, DEFAULTNO_TERRENG, FLY_PUNKT, FLY_PUNKT2, HYTTER, OSLO, SKYANALYSE, SKYDEKKE, SOL_I_DAG, STEDER, TAAKE, TEORIER, type Sted } from '@/data/innhold'
 import { FARGE, KJORETID_KLASSER, LAG, type LagId } from '@/data/lag'
 import { DN_LASTERE } from '@/lib/defaultno'
 import { VERN_LASTERE } from '@/lib/verneomrader'
@@ -456,6 +456,15 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
         L.circleMarker(naa.pos, { radius: hovedfly ? 6 : 3.5, color: '#fff', weight: 1.5, fillColor: FARGE.fly, fillOpacity: lavt ? 0.4 : 1 }).addTo(hovedfly ? g.fly : g.fly_alle)
       }
     }
+    // 25.09 kl. 17:22: hun pekte opp igjen, og SAS50J var over Stange
+    L.polyline(
+      FLY_2509.spor.map(([, la, lo]) => [la, lo] as LatLon),
+      { color: '#7c3aed', weight: 4, opacity: 0.9, bubblingMouseEvents: false },
+    )
+      .bindPopup(popupTekst('SAS50J 25.09 (A320neo)', 'Sporet 17:17–17:27 ekte tid. Anja pekte opp kl. 17:22 streamtid, da flyet var over østre Stange på ca. 22 000 fot.<br><span class="kilde">ADS-B fra adsb.lol.</span>'))
+      .addTo(g.fly)
+    L.circleMarker([60.59, 11.536], { radius: 6, color: '#fff', weight: 1.5, fillColor: '#7c3aed', fillOpacity: 1 }).addTo(g.fly)
+    L.circle([60.59, 11.536], { radius: 10000, color: '#7c3aed', weight: 2, dashArray: '5 5', fillOpacity: 0.06, interactive: false }).addTo(g.fly)
     for (const punkt of [FLY_PUNKT, FLY_PUNKT2]) {
       L.circle(punkt.pos, { radius: 10000, color: FARGE.fly, weight: 2, dashArray: '5 5', fillOpacity: 0.08, interactive: false }).addTo(g.fly)
     }

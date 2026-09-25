@@ -813,11 +813,12 @@ export const LAG: Lag[] = [
     kort: 'NOZ56U og NOZ9EG, nærmest da hun pekte',
     merkelapp: 'fakta',
     forklaring:
-      'Anja pekte rett opp og skrev «FLY» kl. 21:29. De to flyene som passer, var NOZ56U nordover over Hamar, like ved Løten, og NOZ9EG sørover over Ringsakfjellet. Sporene er fra ADS-B, prikkene viser hvor flyene var da hun pekte, og ringene er 10 km rundt. Kassen bør ligge nær et av dem. Slå på «Alle fly i lufta kl. 21:29» for å se de andre 47.',
+      'Anja pekte rett opp og skrev «FLY» kl. 21:29. De to flyene som passer, var NOZ56U nordover over Hamar, like ved Løten, og NOZ9EG sørover over Ringsakfjellet. Sporene er fra ADS-B, prikkene viser hvor flyene var da hun pekte, og ringene er 10 km rundt. Kassen bør ligge nær et av dem. Slå på «Alle fly i lufta kl. 21:29» for å se de andre 47. Lilla spor: SAS50J 25.09 kl. 17:22, da hun pekte opp igjen, over østre Stange.',
     tegn: [
       { stil: 'linje', farge: FARGE.fly, tekst: 'Spor 21:28–21:34' },
       { stil: 'prikk', farge: FARGE.fly, tekst: 'Posisjon da hun pekte opp' },
       { stil: 'ring', farge: FARGE.fly, tekst: '10 km rundt' },
+      { stil: 'linje', farge: '#7c3aed', tekst: 'SAS50J 25.09 kl. 17:22' },
     ],
     kilde: 'ADS-B fra adsb.lol (via default.no). Streamen er trolig 20 sek–1 min forsinket (vi tipper). Takk til default.no.',
   },
