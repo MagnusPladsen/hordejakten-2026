@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { SISTE_NYTT } from "@/data/innhold";
+import { SISTE_NYTT, TIKTOK_2509 } from "@/data/innhold";
 import {
   BEVIS,
   TEORIER_LISTE,
@@ -76,6 +76,7 @@ export function TeoriPanel({
     <div className="space-y-4">
       <SisteNytt />
       <DiscordKreditt className="spenn" />
+      <TikTokLive />
       <Intro />
 
       <div className="grid gap-4 @[46rem]:grid-cols-2 @[46rem]:items-center">
@@ -463,6 +464,37 @@ function SisteNytt() {
           )}
         </ul>
       )}
+    </section>
+  );
+}
+
+/** Det Alf sa på TikTok-live i dag, samlet */
+function TikTokLive() {
+  const [alle, setAlle] = useState(false);
+  const vis = alle ? TIKTOK_2509 : TIKTOK_2509.slice(0, 4);
+  return (
+    <section className="spenn rounded-2xl border-2 border-slate-900 bg-card p-4" aria-labelledby="tiktok-live">
+      <div className="flex items-center gap-2">
+        <span className="rounded-md bg-slate-900 px-2 py-0.5 text-[11px] font-bold tracking-wider text-white uppercase">TikTok-live</span>
+        <p id="tiktok-live" className="text-[12px] font-bold tracking-[0.14em] text-slate-500 uppercase">
+          Alf i dag, 25.09
+        </p>
+      </div>
+      <p className="mt-2 text-[17px] leading-snug font-semibold">Dette sa Alf på Hordes TikTok-live i dag</p>
+      <ol className="mt-3 space-y-3 @[46rem]:grid @[46rem]:grid-cols-2 @[46rem]:gap-x-5 @[46rem]:space-y-0 @[46rem]:gap-y-3">
+        {vis.map((t) => (
+          <li key={t.sitat} className="border-l-4 border-primary/60 pl-3">
+            <p className="text-[14.5px] leading-snug font-medium text-slate-900">{t.sitat}</p>
+            <p className="mt-0.5 text-[13px] leading-snug text-muted-foreground">{t.betyr}</p>
+          </li>
+        ))}
+      </ol>
+      {TIKTOK_2509.length > 4 && (
+        <button type="button" onClick={() => setAlle((a) => !a)} className="mt-2 min-h-11 text-[14px] font-semibold text-primary">
+          {alle ? "Vis færre" : `Vis alle ${TIKTOK_2509.length}`}
+        </button>
+      )}
+      <p className="mt-1 text-[12px] text-muted-foreground">Gjengitt i chatten og på Discord, ikke sjekket ordrett.</p>
     </section>
   );
 }
