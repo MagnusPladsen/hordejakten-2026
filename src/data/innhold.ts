@@ -1174,6 +1174,12 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
 /** Hva folk i chatten og på Discord tror, kort oppsummert. `fokus` er et sted på kartet. */
 export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: LatLon; hint?: string[] }[] = [
   {
+    tekst: 'Feltobservasjon: bjørka er for langt på høsten på ca. 510 moh (takk til Hagina)',
+    hvem: 'Hagina på Discord (25.09), ute mellom Hamar, Lillehammer og Sjusjøen på ca. 510 moh: «Her er bjørketrærne oransje, ikke gule som på streamen» og «de er mye tynnere i bladverket her oppe enn på stream». Høsten har altså kommet lenger der enn der kassen står. Det taler for at kassen står lavere eller et mildere sted, og mot 810–891 moh i det området, der høsten kommer enda tidligere.',
+    pos: [60.98, 10.72],
+    hint: ['eiffel', 'fjellmark'],
+  },
+  {
     tekst: 'Nær Brumunddal, der Anja kommer fra',
     hvem: 'Tips 25.09: Anja er opprinnelig fra Brumunddal, så kanskje hun er «nesten helt hjemme». For: Brumunddal ligger i Ringsaker, 9 km fra sporet til NOZ9EG, og det var vindstille der 23.09 kl. 17:49. Mot: ingen steder på 810–891 moh nær vei innen 20 km, de nærmeste er oppe mot Ringsakfjellet og Sjusjøen 20–30 km nord. Horde vil trolig ikke plassere henne der hun kan kjenne seg igjen, og det er bare ca. 1,5 t fra Oslo.',
     pos: [60.88362, 10.94489],
