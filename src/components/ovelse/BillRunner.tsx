@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useId, useRef, useState, type CSSProperties } from 'react'
 
-import armFarSrc from '@/assets/kodejakten/alf-arm-far.webp'
-import armNearSrc from '@/assets/kodejakten/alf-arm-near.webp'
-import headSrc from '@/assets/kodejakten/alf-head.webp'
-import legBackSrc from '@/assets/kodejakten/alf-leg-back.webp'
-import legFrontSrc from '@/assets/kodejakten/alf-leg-front.webp'
-import torsoSrc from '@/assets/kodejakten/alf-torso.webp'
+import armFarSrc from '@/assets/figur/figur-arm-far.svg'
+import armNearSrc from '@/assets/figur/figur-arm-near.svg'
+import headSrc from '@/assets/figur/figur-head.svg'
+import legBackSrc from '@/assets/figur/figur-leg-back.svg'
+import legFrontSrc from '@/assets/figur/figur-leg-front.svg'
+import torsoSrc from '@/assets/figur/figur-torso.svg'
 
 /**
  * Øvingsversjon av spill 2, «Bill Runner», bygd etter originalen (LopAlf,

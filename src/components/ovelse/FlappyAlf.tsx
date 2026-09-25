@@ -5,9 +5,9 @@ import type {
   PointerEvent as ReactPointerEvent,
 } from "react";
 
-import armFarSrc from "@/assets/kodejakten/alf-arm-far.webp";
-import armNearSrc from "@/assets/kodejakten/alf-arm-near.webp";
-import headSrc from "@/assets/kodejakten/alf-head.webp";
+import armFarSrc from "@/assets/figur/figur-arm-far.svg";
+import armNearSrc from "@/assets/figur/figur-arm-near.svg";
+import headSrc from "@/assets/figur/figur-head.svg";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 

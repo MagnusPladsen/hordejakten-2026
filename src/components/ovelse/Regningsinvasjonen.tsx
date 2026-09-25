@@ -6,7 +6,7 @@ import type {
 } from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import hodeSrc from '@/assets/kodejakten/alf-head.webp'
+import hodeSrc from '@/assets/figur/figur-head.svg'
 import {
   BOSS_KIND,
   COMBO_STEP,
