@@ -1425,3 +1425,15 @@ export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: {
     tekst: 'Ifølge chatten har flere allerede prøvd kodene ved kassen. Se «Mest sannsynlige koder» under Hint.',
   },
 ]
+
+/** Det Alf sa på Hordes TikTok-live 25.09, gjengitt i chatten. Vises på forsiden. */
+export const TIKTOK_2509: { sitat: string; betyr: string }[] = [
+  { sitat: '«Det er ekte lyd på streamen. Men dere husker kanskje tidligere år, da drev vi å trollet litt med lyden.»', betyr: 'Lyden er ekte, men kan være tatt opp og spilt av på nytt. default.no fant lydbiter som gjentar seg.' },
+  { sitat: 'Er lyden live eller forsinket? «Ja, det må du prøve å finne ut av.» (med et smil)', betyr: 'Han vil ikke si det. Vær forsiktig med å bruke lyd til å finne stedet.' },
+  { sitat: '«Har reven og anda noe med hint å gjøre? Ja, kanskje.»', betyr: 'Dyrene kan være hint: ekorn, stokkand, rev, orrfugl og grevling/vaskebjørn.' },
+  { sitat: '«Kan være at noen av kodene allerede har kommet.»', betyr: 'Noen koder kan allerede være kjent, for eksempel 5008 fra appen og 0810/0891 fra Horde AI.' },
+  { sitat: '«Kommer en del viktige hint nå i løpet av helgen.»', betyr: 'Følg med på streamen, appen og TikTok i helgen.' },
+  { sitat: 'Det blir kø hvis flere kommer samtidig, og 5 timers karantene hvis du ikke får åpnet kodene.', betyr: 'Ha kodene klare før du drar. Prøv de sikreste først.' },
+  { sitat: 'Man må kanskje gå litt, men aldri noe farlig, som å krysse en elv.', betyr: 'Veien til kassen er trygg. Ser den farlig ut, er det feil vei.' },
+  { sitat: 'Husk at det er jaktsesong, og gå i tydelige klær.', betyr: 'Gå med synlige klær, gjerne oransje, og vis hensyn der det jaktes.' },
+]
