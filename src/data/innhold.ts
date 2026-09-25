@@ -157,7 +157,7 @@ export const HINT: Hint[] = [
     kilde: 'default.no (lydanalyse) + chat. Takk til default.no.',
     dato: '21.09',
     tekst: 'default.no sin lydanalyse fant mulige tog (08:34, 11:29, 14:07), klokker (08:35, 14:00) og skudd (14:24, 14:54) den 21.09, alle med lav sikkerhet (0,33–0,51). I chatten sies det at Anja ikke hører tog, bil eller skyting.',
-    betydning: 'Usikkert: default.no fant identiske lydbiter 22–48 t fra hverandre, som tyder på loop. Men Alf sa på TikTok-live 25.09 at «det er ekte lyd på streamen» (tidligere år trollet de med lyden). Lyder fra streamen sier derfor ingenting om stedet. Anjas eget svar (ingen tog, bil eller skyting) teller mer: kassen står trolig et stille sted, ikke nær jernbane eller trafikkert vei.',
+    betydning: 'Usikkert: default.no fant identiske lydbiter 22–48 t fra hverandre, som tyder på loop. Men Alf sa på TikTok-live 25.09 at «det er ekte lyd på streamen» (tidligere år trollet de med lyden). Om den er live eller forsinket, ville han ikke si: «Ja, det må du prøve å finne ut av.» Det passer med ekte lyd som er tatt opp og spilt av på nytt. Lyder fra streamen sier derfor ingenting om stedet. Anjas eget svar (ingen tog, bil eller skyting) teller mer: kassen står trolig et stille sted, ikke nær jernbane eller trafikkert vei.',
   },
   {
     id: 'fugler',
@@ -254,8 +254,8 @@ export const HINT: Hint[] = [
     status: 'usikker',
     kilde: 'Alf på Hordes TikTok-live 25.09, gjengitt i chatten (ikke sjekket ordrett)',
     dato: '25.09',
-    tekst: 'Alf sa på TikTok-live: «Det er ekte lyd på streamen. Men dere husker kanskje tidligere år, da drev vi å trollet litt med lyden.» «Har reven og anda noe med hint å gjøre? Ja, kanskje.» «Kan være at noen av kodene allerede har kommet.» «Kommer en del viktige hint nå i løpet av helgen.» Han sa også at man kanskje må gå litt, men aldri noe farlig, som å krysse en elv, og ba alle huske at det er jaktsesong og gå i tydelige klær.',
-    betydning: 'Lyden: Alf sier den er ekte, men default.no fant lydbiter som gjentar seg 22–48 t senere. Begge deler kan stemme hvis noe av lyden er ekte og noe er lagt på, eller hvis Alf troller igjen. Vær forsiktig med å bruke lyd. Dyrene: reven og anda kan være hint. Kodene: noen kan allerede være kjent, for eksempel 5008 fra appen og 0810/0891 fra Horde AI. Flere viktige hint kommer i helgen. Veien til kassen krever ikke noe farlig, som å krysse en elv: du skal kunne gå dit uten å vade eller klatre.',
+    tekst: 'Alf sa på TikTok-live: «Det er ekte lyd på streamen. Men dere husker kanskje tidligere år, da drev vi å trollet litt med lyden.» «Har reven og anda noe med hint å gjøre? Ja, kanskje.» «Kan være at noen av kodene allerede har kommet.» «Kommer en del viktige hint nå i løpet av helgen.» På spørsmål om lyden er live eller forsinket, svarte han med et smil: «Ja, det må du prøve å finne ut av.» Han sa også at man kanskje må gå litt, men aldri noe farlig, som å krysse en elv, og ba alle huske at det er jaktsesong og gå i tydelige klær.',
+    betydning: 'Lyden: Alf sier den er ekte, men ville ikke si om den er live eller forsinket («det må du prøve å finne ut av»). default.no fant lydbiter som gjentar seg 22–48 t senere, så lyden kan være ekte, men spilt av på nytt. Begge deler kan stemme hvis noe av lyden er ekte og noe er lagt på, eller hvis Alf troller igjen. Vær forsiktig med å bruke lyd. Dyrene: reven og anda kan være hint. Kodene: noen kan allerede være kjent, for eksempel 5008 fra appen og 0810/0891 fra Horde AI. Flere viktige hint kommer i helgen. Veien til kassen krever ikke noe farlig, som å krysse en elv: du skal kunne gå dit uten å vade eller klatre.',
   },
   {
     id: 'kodeniappen',
