@@ -293,7 +293,10 @@ function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: numbe
     <div className="space-y-3">
       <section className="rounded-2xl border-2 border-primary/40 bg-card p-4">
         <h3 className="text-[16px] font-semibold">Mest sannsynlige koder</h3>
-        <p className="mt-0.5 text-[13px] text-muted-foreground">3 låser: 2 hengelåser med 4 siffer på pengeboksen, og 1 elektronisk lås med 5 siffer på døra for å slippe ut Anja. Vår beste gjetning:</p>
+        <p className="mt-0.5 text-[13px] text-muted-foreground">3 låser: 2 hengelåser med 4 siffer på pengeboksen, og 1 kodelås med 5 eller 6 siffer (trolig 5) på døra for å slippe ut Anja. Vår beste gjetning:</p>
+        <p className="mt-2 rounded-lg bg-amber-50 px-3 py-2 text-[13px] leading-snug text-amber-900 ring-1 ring-amber-200">
+          <b>Ha kodene klare før du drar.</b> Får du ikke opp låsene, blir det 5 timers karantene, og kommer flere samtidig, blir det kø (Alf på TikTok-live 25.09, ikke sjekket ordrett).
+        </p>
         <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
           {BESTE_KODER.map((b) => (
             <div key={b.las} className="rounded-xl bg-slate-50 p-3">

@@ -242,6 +242,15 @@ export const HINT: Hint[] = [
     fokus: 'tretopp',
   },
   {
+    id: 'regel-ko',
+    tittel: 'Kø ved kassen, og 5 timers karantene hvis du ikke får opp låsene',
+    status: 'usikker',
+    kilde: 'Alf på Hordes TikTok-live 25.09, gjengitt i chatten (ikke sjekket ordrett)',
+    dato: '25.09',
+    tekst: 'Alf sa på TikTok-live at det blir et køsystem hvis flere kommer til kassen samtidig, og at man får 5 timers karantene hvis man ikke klarer å åpne låsene. Det er for at alle skal få prøve, og ingen skal sitte lenge og prøve koder.',
+    betydning: 'Ha kodene klare før du drar ut. Du får trolig bare en kort runde med forsøk før du må vente 5 timer. Prøv de sikreste kodene først (se «Mest sannsynlige koder»).',
+  },
+  {
     id: 'tiktok2509',
     tittel: 'Alf på TikTok-live 25.09: ekte lyd, dyrene kan være hint, koder kan ha kommet',
     status: 'usikker',
@@ -1277,6 +1286,12 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '25.09',
+    tittel: 'Alf: kø ved kassen og 5 timers karantene hvis du ikke får opp låsene',
+    tekst: 'Kommer flere samtidig, blir det kø. Klarer du ikke å åpne kodene, må du vente 5 timer før du kan prøve igjen. Ha kodene klare før du drar. Gjengitt fra TikTok-live, ikke sjekket ordrett.',
+    hint: 'regel-ko',
+  },
   {
     tid: '25.09',
     tittel: 'Discord: mange tipper Finnskogen, flere Ringsaker–Rena og Birkebeinervegen',
