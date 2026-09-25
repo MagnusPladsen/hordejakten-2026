@@ -230,6 +230,15 @@ export const HINT: Hint[] = [
     fokus: 'tretopp',
   },
   {
+    id: 'shoplifter',
+    tittel: 'Tavla: «THILPRTE OESHF» = THE SHOPLIFTER',
+    status: 'lost',
+    kilde: 'Tavla',
+    dato: '25.09',
+    tekst: 'Anja skrev «THILPRTE OESHF» på tavla. De 13 bokstavene er nøyaktig THE SHOPLIFTER, stokket om, uten rest.',
+    betydning: 'Trolig en hilsen til BobTheShoplifter, en av de mest aktive i Discord-gruppa og mannen bak default.no, som mye av dataen i denne appen kommer fra. Anja kan se chatten, så det er et nikk til de som leter. Det kan bety at de er på riktig spor, eller bare at de har lagt merke til ham. Stor takk til BobTheShoplifter og default.no.',
+  },
+  {
     id: 'ferist',
     tittel: '«Ingen ferist som jeg merka»',
     status: 'bekreftet',
@@ -969,6 +978,11 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     bilder: [{ src: 'img/tavle-2509-god-helg.jpg', alt: 'Anja med tavla: tegning av en fruktkurv, GOD HELG og GOD JAKT' }],
   },
   { t: '25.09', tekst: 'INGEN FERIST SOM JEG MERKA' },
+  {
+    t: '25.09',
+    tekst: 'THILPRTE OESHF (anagram av THE SHOPLIFTER)',
+    bilder: [{ src: 'img/tavle-2509-shoplifter.jpg', alt: 'Tavla: THILPRTE OESHF, som er THE SHOPLIFTER stokket om' }],
+  },
 ]
 
 export type Sted = {
@@ -1373,6 +1387,12 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '25.09',
+    tittel: 'Tavla: «THILPRTE OESHF» = THE SHOPLIFTER',
+    tekst: 'Et anagram som går nøyaktig opp. Trolig en hilsen til BobTheShoplifter på Discord, som har laget default.no. Takk til ham for all dataen!',
+    hint: 'shoplifter',
+  },
   {
     tid: '25.09',
     tittel: '⚠️ ADVARSEL: 11 elgpåkjørsler siste timen i Elverum-området',

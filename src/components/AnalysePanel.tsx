@@ -97,7 +97,7 @@ export function AnalysePanel({ onVisKommuner }: { onVisKommuner: () => void }) {
             <a href="https://default.no" target="_blank" rel="noopener" className="font-semibold text-primary underline underline-offset-2">
               default.no
             </a>{' '}
-            for lydanalyse, fuglegjenkjenning, lydtagger, flyklipp og mye av dataen i appen.
+            (laget av BobTheShoplifter på Discord) for lydanalyse, fuglegjenkjenning, lydtagger, flyklipp og mye av dataen i appen.
           </li>
           <li>
             <a href="https://hordejakten.vercel.app" target="_blank" rel="noopener" className="font-semibold text-primary underline underline-offset-2">
