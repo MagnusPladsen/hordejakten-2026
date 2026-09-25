@@ -53,6 +53,7 @@ const DRONE: { tittel: string; tekst: string; kilde?: Kilde }[] = [
 const LETING: string[] = [
   'Det er jaktsesong. Småviltjakta startet 10. september, og elgjakta starter 25. september der kommunen åpner for den (noen steder først 5. oktober). Gå med synlige klær (gjerne oransje), vis hensyn der det jaktes, og ikke skremm viltet.',
   'Allemannsretten lar deg gå fritt i utmark. På innmark, som gårdstun, hustomter, hager, rundt hytter og på dyrket mark, gjelder den ikke. Er en privat vei stengt med bom eller skilt, kan du gå eller sykle forbi, men ikke kjøre.',
+  'Kjør sakte og se etter elg. 25.09 ble det meldt om 11 elgpåkjørsler på én time rundt Elverum. Elgjakta gjør elgen urolig, og den krysser veiene særlig i skumringen og i mørket.',
   'Alf sa på TikTok-live 25.09 at man kanskje må gå litt, men aldri gjøre noe farlig, som å krysse en elv. Ser veien farlig ut, er det feil vei. Og husk at det er jaktsesong: gå i tydelige klær.',
   'Kassen står ikke i farlig terreng. Ikke ta sjanser, si fra hvor du går, og ha med lys og varme klær.',
   'Kommer flere til kassen samtidig, blir det kø. Klarer du ikke å åpne låsene, får du 5 timers karantene (Alf på TikTok-live 25.09). Ha kodene klare før du drar.',

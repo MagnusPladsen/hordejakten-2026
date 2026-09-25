@@ -1375,6 +1375,11 @@ export const SIKRE_FAKTA: string[] = [
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
   {
     tid: '25.09',
+    tittel: '⚠️ ADVARSEL: 11 elgpåkjørsler siste timen i Elverum-området',
+    tekst: 'Meldt i chatten: 11 elgpåkjørsler på én time rundt Elverum. Elgjakta er i gang, og elgen er urolig og krysser veiene. Kjør sakte, særlig i skumringen og i mørket, og se etter elg langs veikanten. Pass på dere som leter!',
+  },
+  {
+    tid: '25.09',
     tittel: 'Alf på TikTok-live: «Det er ekte lyd på streamen» og «viktige hint i helgen»',
     tekst: 'Alf sa også at reven og anda «kanskje» har med hint å gjøre, og at «noen av kodene kan allerede ha kommet». Gjengitt i chatten, ikke sjekket ordrett. Lyden var tidligere regnet som loop, så det er nå usikkert.',
     hint: 'tiktok2509',
