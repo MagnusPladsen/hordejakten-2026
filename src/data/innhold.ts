@@ -239,15 +239,6 @@ export const HINT: Hint[] = [
     betydning: 'Trolig bare en hilsen før helgen. Men tavla kl. 10:21 samme dag sa «GJETT RIKTIG SANG», så sangvalget kan være et hint: «Riverbank» betyr elvebredd. Alf har sagt at man aldri må krysse en elv, men kassen kan stå nær en. Fruktkurven kan også være et ordspill. Ren tolkning.',
   },
   {
-    id: 'terje-tskjorte',
-    tittel: '«T-skjorte i Terje-modell» til 1 116 897: «de som kjøpte den, økte kredittscoren»',
-    status: 'usikker',
-    kilde: 'Horde-appen, butikken (skjermbilde delt 25.09)',
-    dato: '25.09',
-    tekst: 'I butikken i appen selges «T-skjorte i Terje-modell» i grønt, med H-logo og «Terje lurer ikke meg», til 1 116 897 mynter, samme sum som i kassen. Teksten sier: «Det går rykter om at de som kjøpte denne sist, økte kredittscoren sin betraktelig. Tilfeldig? Neppe.»',
-    betydning: 'Summen er den samme som premien, så varen er nok lagt inn som hint. «Terje» og «kredittscoren» peker på trikset som ga kode 5008: trykk «Kredittskår», hold på tallet og skriv «terje». Det styrker at 5008 er en av kodene, og at ord-boksen under Kredittskår er der kodehintene ligger. Prøv flere ord der, for eksempel TERJELURERIKKEMEG.',
-  },
-  {
     id: 'flylangtunna',
     tittel: '«Flyene er så langt unna at det er umulig å se» (25.09)',
     status: 'bekreftet',
@@ -474,7 +465,7 @@ export const HINT: Hint[] = [
     status: 'lost',
     kilde: 'Horde-appen',
     tekst: 'Trykk «Kredittskår», hold fingeren på tallet og skriv «terje». Da kommer «Du fant et hint! 5008».',
-    betydning: '5008 er postnummeret til Horde AS i Bergen (Lars Hilles gate 20A). Det kan også være koden til en av låsene.',
+    betydning: '5008 er postnummeret til Horde AS i Bergen (Lars Hilles gate 20A). Det kan også være koden til en av låsene. Butikken i appen selger også «T-skjorte i Terje-modell» (grønn, «Terje lurer ikke meg») til 1 116 897 mynter, samme sum som i kassen, med teksten «de som kjøpte denne sist, økte kredittscoren sin betraktelig. Tilfeldig? Neppe.» Den har ligget der en stund og er selve hintet til å prøve «terje» i Kredittskår.',
     lag: ['steder'],
   },
   {
@@ -1151,7 +1142,7 @@ export const BESTE_KODER: { las: string; kode: string; hvorfor: string; sjanse: 
 
 /** Alle kodekandidater samlet. 3 låser: 2 hengelåser (4 siffer) på pengeboksen, 1 dørlås (5 siffer) for Anja. */
 export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjanse; hint: string[] }[] = [
-  { kode: '5008', kilde: 'Kredittskår i appen + «terje». Også postnummeret til Horde AS i Bergen. Horde sier kodehintene ligger i appen, og T-skjorta i Terje-modell (1 116 897) peker samme vei.', status: 'bekreftet', sjanse: 'hoy', hint: ['terje', 'koder', 'kodeniappen', 'terje-tskjorte'] },
+  { kode: '5008', kilde: 'Kredittskår i appen + «terje». Også postnummeret til Horde AS i Bergen. Horde sier kodehintene ligger i appen, og T-skjorta i Terje-modell (1 116 897) i butikken er hintet til å skrive «terje».', status: 'bekreftet', sjanse: 'hoy', hint: ['terje', 'koder', 'kodeniappen'] },
   { kode: '0891', kilde: 'HORDEMINUS i Horde AI: «2,7 eiffeltårn» = 2,7 × 330 m (med antenne) = 891. Med 0 foran blir det 4 siffer, som en hengelås. Kan også være høyden (891 moh), eller begge deler.', status: 'tolkning', sjanse: 'middels', hint: ['eiffel', 'koder', 'kodeniappen'] },
   { kode: '8915', kilde: '891 med «+5» fra genseren satt bak (891 og 5). 4 siffer.', status: 'tolkning', sjanse: 'lav', hint: ['eiffel', 'pluss5'] },
   { kode: '0896', kilde: '891 + 5 = 896, med 0 foran.', status: 'tolkning', sjanse: 'lav', hint: ['eiffel', 'pluss5'] },
@@ -1367,12 +1358,6 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
-  {
-    tid: '25.09 kl. 12:22',
-    tittel: 'Nytt i appen: «T-skjorte i Terje-modell» koster 1 116 897',
-    tekst: 'Samme sum som i kassen, og teksten sier at de som kjøpte den, «økte kredittscoren sin betraktelig. Tilfeldig? Neppe.» Det peker på Kredittskår + «terje», som ga kode 5008. Styrker 5008.',
-    hint: 'terje-tskjorte',
-  },
   {
     tid: '25.09',
     tittel: 'Alf på TikTok-live: «Det er ekte lyd på streamen» og «viktige hint i helgen»',
