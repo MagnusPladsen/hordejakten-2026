@@ -230,6 +230,15 @@ export const HINT: Hint[] = [
     fokus: 'tretopp',
   },
   {
+    id: 'musikk-cherry',
+    tittel: 'Hordes innlegg om økonomisk stress har musikken «Cherry Blossom»',
+    status: 'tolkning',
+    kilde: 'Hordes Facebook-innlegg (ca. 24.09)',
+    dato: '24.09',
+    tekst: 'Horde la ut «Ikke stå i det alene», om gjeld og psykisk helse sammen med Mental Helse, med musikken «Cherry Blossom» av Ella Joy Meir.',
+    betydning: 'Trolig ikke et hint: innlegget handler om økonomisk stress, og musikken er fra Facebook sitt bibliotek. Det viser at Facebook skriver musikk som «sang · artist», så i storyen med fruktkurven heter sangen «Goldenrod» (gullris) og artisten «Riverbank».',
+  },
+  {
     id: 'skilt-tilbake',
     tittel: 'Horde-skiltet ser ut til å være tilbake (video 25.09 kl. 16:20)',
     status: 'usikker',
@@ -273,8 +282,8 @@ export const HINT: Hint[] = [
     status: 'tolkning',
     kilde: 'Hordes story 25.09 (skjermbilde)',
     dato: '25.09',
-    tekst: 'Anja holdt opp en tavle med en tegnet fruktkurv (eple, appelsin, banan, pære, jordbær og druer) og «GOD HELG ♥ OG GOD JAKT». Musikken kommer fra Hordes story på Facebook: øverst i storyen står «Goldenrod · Riverbank», som er musikken Horde la på. Den var ikke på streamen, og Anja hører den ikke i boksen. Det er uklart hva som er artist og hva som er sangtittel, og vi fant ikke noen kjent sang med det navnet, så det er trolig et spor fra Facebook sitt eget musikkbibliotek.',
-    betydning: 'Trolig bare en hilsen før helgen. Men tavla kl. 10:21 samme dag sa «GJETT RIKTIG SANG», så sangvalget kan være et hint: «Riverbank» betyr elvebredd, og «Goldenrod» er planten gullris. Alf har sagt at man aldri må krysse en elv, men kassen kan stå nær en. Fruktkurven kan også være et ordspill. Ren tolkning.',
+    tekst: 'Anja holdt opp en tavle med en tegnet fruktkurv (eple, appelsin, banan, pære, jordbær og druer) og «GOD HELG ♥ OG GOD JAKT». Musikken kommer fra Hordes story på Facebook: øverst i storyen står «Goldenrod · Riverbank», som er musikken Horde la på. Facebook skriver musikk som «sang · artist» (se Horde-innlegget med «Cherry Blossom · Ella Joy Meir»), så sangen heter «Goldenrod» og artisten «Riverbank». Den var ikke på streamen, og Anja hører den ikke i boksen. Det er uklart hva som er artist og hva som er sangtittel, og vi fant ikke noen kjent sang med det navnet, så det er trolig et spor fra Facebook sitt eget musikkbibliotek.',
+    betydning: 'Trolig bare en hilsen før helgen. Men tavla kl. 10:21 samme dag sa «GJETT RIKTIG SANG», så sangvalget kan være et hint. Sangen heter «Goldenrod», som er planten gullris. «Riverbank» (elvebredd) er bare artistnavnet, så det teller mindre. Alf har sagt at man aldri må krysse en elv, men kassen kan stå nær en. Fruktkurven kan også være et ordspill. Ren tolkning.',
   },
   {
     id: 'flylangtunna',
