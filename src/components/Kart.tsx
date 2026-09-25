@@ -8,6 +8,7 @@ import { DN_LASTERE } from '@/lib/defaultno'
 import { VERN_LASTERE } from '@/lib/verneomrader'
 import { VIND_LASTERE } from '@/lib/vind'
 import { STORVILT_LASTERE } from '@/lib/storvilt'
+import { hentHoyde, hoydeTekst } from '@/lib/hoyde'
 import { TRESLAG_LASTERE } from '@/lib/treslag'
 import { avstand, destinasjon, formaterTid, iPolygon, sektor, storsirkel, type LatLon } from '@/lib/geo'
 import { PEKETID_EKTE, posisjon, type FlyData } from '@/lib/fly'
@@ -354,6 +355,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
         <h5 class="sted" data-sted>Ruta her</h5>
         <p class="pop-koord">${lat}, ${lon}</p>
         <dl>
+          <dt>Høyde over havet</dt><dd data-hoyde>henter …</dd>
           <dt>Kjøretid fra Oslo</dt><dd>${p.sek == null ? 'ukjent' : formaterTid(p.sek)}</dd>
           <dt>Kjørelengde</dt><dd>${p.meter == null ? 'ukjent' : Math.round(p.meter / 1000) + ' km'}</dd>
           <dt>Til nærmeste bilvei</dt><dd>${p.snap < 1000 ? p.snap + ' m' : (p.snap / 1000).toFixed(1) + ' km'}</dd>
@@ -380,9 +382,30 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
         const el = popup.getElement()?.querySelector('[data-sted]')
         if (el && navn) el.textContent = `Nær ${navn}`
       })
+      hentHoyde(klikk[0], klikk[1]).then((h) => {
+        const el = popup.getElement()?.querySelector('[data-hoyde]')
+        if (el) el.textContent = h ? hoydeTekst(h) : 'ukjent'
+      })
     }
     visInfoRef.current = visInfo
     kart.on('click', (e: L.LeafletMouseEvent) => visInfo(e.latlng))
+    // Høyde over havet i popupen til alle markører og punkter (ikke ruter og flater)
+    kart.on('popupopen', (e: L.PopupEvent) => {
+      const kilde = (e.popup as unknown as { _source?: L.Layer })._source
+      const el = e.popup.getElement()?.querySelector('.pop')
+      if (!el || el.querySelector('[data-hoyde]')) return
+      const erPunkt = kilde instanceof L.Marker || kilde instanceof L.CircleMarker
+      if (!erPunkt) return
+      const ll = (kilde as L.Marker).getLatLng()
+      const rad = document.createElement('p')
+      rad.className = 'pop-hoyde'
+      rad.setAttribute('data-hoyde', '')
+      rad.textContent = 'Høyde: henter …'
+      el.appendChild(rad)
+      hentHoyde(ll.lat, ll.lng).then((h) => {
+        rad.textContent = h ? `Høyde: ${hoydeTekst(h)}` : 'Høyde: ukjent'
+      })
+    })
     // Klikk, dra eller zoom med musa i kartet: panelet går tilbake til smalt
     kart.on('mousedown dragstart', () => onKartBrukRef.current())
     kart.getContainer().addEventListener('wheel', () => onKartBrukRef.current(), { passive: true })
