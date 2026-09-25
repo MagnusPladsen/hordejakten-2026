@@ -230,15 +230,6 @@ export const HINT: Hint[] = [
     fokus: 'tretopp',
   },
   {
-    id: 'hordeai-grevling',
-    tittel: 'Horde AI om «grevling»: «1 Hordeminus = 3,4 grevlinger»',
-    status: 'usikker',
-    kilde: 'Horde AI i appen (skjermbilde delt 25.09)',
-    dato: '25.09',
-    tekst: 'Skriver man «Grevling» til Horde AI, svarer den at grevling er «et ganske sterkt forslag», og kan brukes som kodenavn, internt mål eller «en helt useriøs måleenhet». Eksempel: «1 Hordeminus = 3,4 grevlinger» og «Dette prosjektet er to grevlinger unna å være ferdig». Den avslutter med «Det gir ikke mer mening, men kanskje litt bedre stemning.»',
-    betydning: 'Trolig ikke et forhåndslaget svar som HORDEMINUS («2,7 eiffeltårn»), men at AI-en finner på noe, og kanskje husker HORDEMINUS fra tidligere i samme chat. Test i en ny, tom chat: gir den samme tekst, er det et hint. Tar man det på ordet: 1 Hordeminus = 810 eller 891 m, så 1 grevling er ca. 238 eller 262 m. Grevlingen passer med dyret i Horde Rewards.',
-  },
-  {
     id: 'god-helg',
     tittel: '«God helg og god jakt» med fruktkurv, og musikken «Goldenrod · Riverbank»',
     status: 'tolkning',
