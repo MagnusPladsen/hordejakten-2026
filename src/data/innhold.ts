@@ -1380,6 +1380,11 @@ export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: {
   },
   {
     tid: '25.09',
+    tittel: 'Streamen er fryst: tekniske problemer, sier Horde',
+    tekst: 'Streamen står stille, men ifølge Horde er det bare tekniske problemer. Anja er fortsatt i boksen, og det er ikke et hint.',
+  },
+  {
+    tid: '25.09',
     tittel: 'Alf på TikTok-live: «Det er ekte lyd på streamen» og «viktige hint i helgen»',
     tekst: 'Alf sa også at reven og anda «kanskje» har med hint å gjøre, og at «noen av kodene kan allerede ha kommet». Gjengitt i chatten, ikke sjekket ordrett. Lyden var tidligere regnet som loop, så det er nå usikkert.',
     hint: 'tiktok2509',
