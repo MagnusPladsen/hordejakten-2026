@@ -1,7 +1,7 @@
 import path from 'node:path'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import { defineConfig, type Plugin } from 'vite'
+import { defineConfig, loadEnv, type Plugin } from 'vite'
 
 // Kjører Vercel-funksjonene i api/ også under `bun run dev`
 const apiIUtvikling = (): Plugin => ({
@@ -24,11 +24,29 @@ const apiIUtvikling = (): Plugin => ({
   },
 })
 
+// robots.txt og sitemap.xml med riktig domene, laget ved bygging
+const seoFiler = (url: string): Plugin => ({
+  name: 'seo-filer',
+  generateBundle() {
+    const faner = ['teorier', 'hint', 'tavla', 'lag', 'spill', 'analyse', 'stream']
+    const dato = new Date().toISOString().slice(0, 10)
+    const sider = [`${url}/`, ...faner.map((f) => `${url}/?fane=${f}`)]
+    this.emitFile({ type: 'asset', fileName: 'robots.txt', source: `User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${url}/sitemap.xml\n` })
+    this.emitFile({
+      type: 'asset',
+      fileName: 'sitemap.xml',
+      source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sider
+        .map((s, i) => `  <url><loc>${s.replace(/&/g, '&amp;')}</loc><lastmod>${dato}</lastmod><changefreq>hourly</changefreq><priority>${i === 0 ? '1.0' : '0.7'}</priority></url>`)
+        .join('\n')}\n</urlset>\n`,
+    })
+  },
+})
+
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   base: './',
-  plugins: [react(), tailwindcss(), apiIUtvikling()],
+  plugins: [react(), tailwindcss(), apiIUtvikling(), seoFiler(loadEnv(mode, process.cwd(), '').VITE_SITE_URL ?? '')],
   resolve: {
     alias: { '@': path.resolve(import.meta.dirname, './src') },
   },
-})
+}))

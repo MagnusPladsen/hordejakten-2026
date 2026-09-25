@@ -121,6 +121,20 @@ export default function App() {
       .catch(() => {})
   }, [])
 
+  // Egen sidetittel per fane, for søk og faner i nettleseren
+  useEffect(() => {
+    const TITLER: Record<Fane, string> = {
+      teorier: 'Hordejakten 2026 – kart, hint og koder · Hvor står kassen?',
+      lag: 'Kart over Hordejakten 2026 · Vær, sol, vind og fly',
+      hint: 'Alle hint og koder i Hordejakten 2026',
+      tavla: 'Tavla: alt Anja har skrevet · Hordejakten 2026',
+      spill: 'Kodejakten: slik løser du spillene · Hordejakten 2026',
+      analyse: 'Analyse av lyd, fugler og fly · Hordejakten 2026',
+      stream: 'Se streamen fra Hordejakten 2026',
+    }
+    document.title = TITLER[fane]
+  }, [fane])
+
   useEffect(() => {
     const url = new URL(window.location.href)
     url.searchParams.set('fane', fane)
