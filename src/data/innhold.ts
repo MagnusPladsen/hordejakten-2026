@@ -259,12 +259,12 @@ export const HINT: Hint[] = [
   },
   {
     id: 'shoplifter',
-    tittel: 'Tavla: «THILPRTE OESHF» = THE SHOPLIFTER',
+    tittel: 'Tavla: «THILPRTE OESHF» = THE SHOPLIFTER · «Noen som vet fasiten»',
     status: 'lost',
     kilde: 'Tavla',
     dato: '25.09',
-    tekst: 'Anja skrev «THILPRTE OESHF» på tavla. Bokstavene kommer fra ballongene i en video Horde la ut (opptak via default.no), og de 13 bokstavene er nøyaktig THE SHOPLIFTER, stokket om, uten rest. Fargene på ballongene: grønn E, P og T · lilla E · blå F · gul H, H, I, R, S og T · rosa L og O.',
-    betydning: 'Trolig en hilsen til BobTheShoplifter, en av de mest aktive i Discord-gruppa og mannen bak default.no, som mye av dataen i denne appen kommer fra. Anja kan se chatten, så det er et nikk til de som leter. Det kan bety at de er på riktig spor, eller bare at de har lagt merke til ham. Fargene er ikke løst ennå. Én idé er dartskive-fargene fra Kodejakten (blå +, gul −, rosa ×, lilla ÷), men grønn finnes ikke der. Stor takk til BobTheShoplifter og default.no.',
+    tekst: 'Anja skrev «THILPRTE OESHF» og «NOEN SOM VET FASITEN» på samme tavle. Bokstavene kommer fra ballongene i en video Horde la ut (opptak via default.no), og de 13 bokstavene er nøyaktig THE SHOPLIFTER, stokket om, uten rest. Fargene på ballongene: grønn E, P og T · lilla E · blå F · gul H, H, I, R, S og T · rosa L og O.',
+    betydning: '«Noen som vet fasiten» kan bety to ting: at hun spør chatten om noen kan løse bokstavene, eller at THE SHOPLIFTER er «noen som vet fasiten», altså at BobTheShoplifter er inne på riktig svar. Uansett trolig en hilsen til BobTheShoplifter, en av de mest aktive i Discord-gruppa og mannen bak default.no, som mye av dataen i denne appen kommer fra. Anja kan se chatten, så det er et nikk til de som leter. Det kan bety at de er på riktig spor, eller bare at de har lagt merke til ham. Fargene er ikke løst ennå. Én idé er dartskive-fargene fra Kodejakten (blå +, gul −, rosa ×, lilla ÷), men grønn finnes ikke der. Stor takk til BobTheShoplifter og default.no.',
     lenke: 'https://default.no/cuts/202609251620_202609251703.mp4',
   },
   {
@@ -1009,7 +1009,7 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
   { t: '25.09', tekst: 'INGEN FERIST SOM JEG MERKA' },
   {
     t: '25.09',
-    tekst: 'THILPRTE OESHF (anagram av THE SHOPLIFTER)',
+    tekst: 'THILPRTE OESHF (anagram av THE SHOPLIFTER) · NOEN SOM VET FASITEN',
     bilder: [{ src: 'img/tavle-2509-shoplifter.jpg', alt: 'Tavla: THILPRTE OESHF, som er THE SHOPLIFTER stokket om' }],
   },
 ]
@@ -1424,8 +1424,8 @@ export const SIKRE_FAKTA: string[] = [
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
   {
     tid: '25.09',
-    tittel: 'Tavla: «THILPRTE OESHF» = THE SHOPLIFTER',
-    tekst: 'Et anagram som går nøyaktig opp. Trolig en hilsen til BobTheShoplifter på Discord, som har laget default.no. Takk til ham for all dataen!',
+    tittel: 'Tavla: «THILPRTE OESHF» = THE SHOPLIFTER · «Noen som vet fasiten»',
+    tekst: 'Et anagram som går nøyaktig opp, og på samme tavle: «NOEN SOM VET FASITEN». Enten spør hun om noen kan løse det, eller så sier hun at BobTheShoplifter (som har laget default.no) vet fasiten. Takk til ham for all dataen!',
     hint: 'shoplifter',
   },
   {
