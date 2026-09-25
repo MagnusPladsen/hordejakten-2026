@@ -230,6 +230,16 @@ export const HINT: Hint[] = [
     fokus: 'tretopp',
   },
   {
+    id: 'skilt-tilbake',
+    tittel: 'Horde-skiltet ser ut til å være tilbake (video 25.09 kl. 16:20)',
+    status: 'usikker',
+    kilde: 'Opptak av streamen via default.no (202609251620–202609251703). Takk til default.no.',
+    dato: '25.09',
+    tekst: 'I ballongvideoen fra 25.09 kl. 16:20–17:03 står et treskilt med «HORDE» til høyre for kassen, formet som en pil som peker mot venstre, altså mot kassen. Anja skrev «SKILTET ER BORTE» 23.09 kl. 19:12. Solen skinner rett inn i kameraet rundt kl. 16:45–16:50, og hun holder opp tavla to ganger.',
+    betydning: 'Enten er skiltet satt tilbake, eller så er det et annet skilt. Retningen er den samme som før: mot venstre i bildet, altså ca. 118–130°. At sola står rett foran kameraet rundt kl. 16:45 passer med at kameraet filmer mot sørvest (ca. 221°). Sjekk streamen for å bekrefte at skiltet står der nå.',
+    lenke: 'https://default.no/cuts/202609251620_202609251703.mp4',
+  },
+  {
     id: 'hand-tilbake',
     tittel: 'En hånd er tilbake foran kassen (25.09)',
     status: 'bekreftet',
