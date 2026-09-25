@@ -90,7 +90,7 @@ export function Anagram({ onGaTil }: { onGaTil: (pos: LatLon, zoom?: number) => 
           ))}
         </div>
         <p className="mt-2 text-[14px]">
-          Går nøyaktig opp i <b>{data.fasit}</b>, trolig en hilsen til BobTheShoplifter på Discord, som har laget default.no.
+          Går nøyaktig opp i <b>{data.fasit}</b>. THE SHOPLIFTER kan være en hilsen til BobTheShoplifter (default.no), og FILTER THE SHOP kan bety at du skal filtrere butikken i Horde-appen.
         </p>
       </div>
 
