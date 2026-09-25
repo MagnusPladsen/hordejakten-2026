@@ -3,6 +3,7 @@
 export type LagId =
   | 'modell'
   | 'hintmarkorer'
+  | 'hintmarkorer_alle'
   | 'teoriomrader'
   | 'innlandet'
   | 'kjoretid'
@@ -130,9 +131,22 @@ export const LAG: Lag[] = [
   },
   {
     id: 'hintmarkorer',
-    navn: 'Hint på kartet',
-    kort: 'Alle hint og tips som peker på et sted',
+    navn: 'Bekreftede hint på kartet',
+    kort: 'Bare hint som er bekreftet',
     merkelapp: 'fakta',
+    forklaring:
+      'En markør for hvert bekreftet hint som handler om et bestemt sted. Tolkninger, rykter og det folk sier er ikke med her: slå på «Alle hint og tips på kartet» for å se dem. Rød kant = siste nytt. Tallet viser hvor mange ting som hører til stedet. Trykk på markøren for å lese, og «Les hele hintet» for å åpne hintkortet.',
+    tegn: [
+      { stil: 'prikk', farge: '#ea580c', tekst: 'Bekreftet hint' },
+      { stil: 'ring', farge: '#dc2626', tekst: 'Siste nytt' },
+    ],
+    kilde: 'Hint-fanen, bare hint med status «Bekreftet» eller «Løst».',
+  },
+  {
+    id: 'hintmarkorer_alle',
+    navn: 'Alle hint og tips på kartet',
+    kort: 'Også tolkninger, rykter og det folk sier',
+    merkelapp: 'tolkning',
     forklaring:
       'En markør for hvert hint, tips og det folk sier som handler om et bestemt sted. Oransje = hint, lilla = det folk sier, rød kant = siste nytt. Tallet viser hvor mange ting som hører til stedet. Trykk på markøren for å lese, og «Les hele hintet» for å åpne hintkortet. Hint som ikke handler om et sted (for eksempel tallene på genseren) har ingen markør.',
     tegn: [
@@ -820,7 +834,7 @@ export const LAG_ETTER_ID = Object.fromEntries(LAG.map((l) => [l.id, l])) as Rec
 
 /** Lagene gruppert slik de vises i Kart-fanen */
 export const GRUPPER: { navn: string; forklaring: string; ider: LagId[] }[] = [
-  { navn: 'Hovedkart', forklaring: 'Hvor kassen mest sannsynlig står, og hvor hintene peker.', ider: ['hintmarkorer', 'modell', 'teoriomrader'] },
+  { navn: 'Hovedkart', forklaring: 'Hvor kassen mest sannsynlig står, og hvor hintene peker.', ider: ['hintmarkorer', 'hintmarkorer_alle', 'modell', 'teoriomrader'] },
   { navn: 'Høyden (2,7 eiffeltårn)', forklaring: '810 eller 891 moh, nær vei. Eller 891 m fra vei.', ider: ['hoyde891', 'fellesskap891', 'dn_hoyde', 'dn_vei'] },
   { navn: 'Fra default.no', forklaring: 'Letestopp, steder, avviste områder og feltnotater. Takk til default.no.', ider: ['dn_plan', 'dn_steder', 'dn_omrader', 'dn_avvist', 'dn_notater', 'coop', 'dn_pizza'] },
   { navn: 'default.no: terreng og skog', forklaring: 'Skytefelt, hogst, stier, bær og fugl. Takk til default.no.', ider: ['dn_skytefelt', 'dn_hogst', 'dn_leder', 'dn_gasoner', 'dn_baer', 'dn_baerfunn', 'dn_orrfugl', 'dn_storfugl', 'dn_satellitt'] },

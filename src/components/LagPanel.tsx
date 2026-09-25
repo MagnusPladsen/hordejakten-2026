@@ -272,7 +272,8 @@ function SjekkPunkt({ onSjekk }: { onSjekk: (pos: LatLon) => void }) {
 
 /** Ferdige visninger: slår på akkurat disse lagene og av resten */
 const VISNINGER: { id: string; navn: string; tekst: string; lag: LagId[] }[] = [
-  { id: 'standard', navn: 'Standard', tekst: 'Sannsynlighetskart, hint og teorier', lag: ['hintmarkorer', 'modell', 'teoriomrader', 'hoyde891', 'utelukket', 'utenfor'] },
+  { id: 'standard', navn: 'Bekreftet (standard)', tekst: 'Bare det som er bekreftet: hint, vær, sol og fly', lag: ['hintmarkorer', 'modell', 'utenfor'] },
+  { id: 'alt', navn: 'Alt vi har', tekst: 'Alle hint og tips, teorier, høyde og fellesskapets kart', lag: ['hintmarkorer_alle', 'modell', 'teoriomrader', 'hoyde891', 'utelukket', 'utenfor'] },
   { id: 'hoyde', navn: 'Høyden 810–891 moh', tekst: '2,7 eiffeltårn: høyde nær vei', lag: ['hintmarkorer', 'hoyde891', 'fellesskap891', 'dn_hoyde', 'utenfor'] },
   { id: 'hogst', navn: 'Hogst, stier og skytefelt', tekst: 'Hun gikk gjennom gammel hogst, uten sti, ingen skyting', lag: ['hintmarkorer', 'dn_hogst', 'dn_leder', 'dn_skytefelt', 'hoyde891', 'utenfor'] },
   { id: 'jaktfritt', navn: 'Der jakt er forbudt', tekst: '«Ingen skyting»: verneområder uten jakt', lag: ['hintmarkorer', 'jaktfritt', 'hoyde891', 'dn_skytefelt', 'utenfor'] },

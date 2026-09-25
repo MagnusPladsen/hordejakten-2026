@@ -11,7 +11,7 @@ import { PEKETID_EKTE, posisjon, type FlyData } from '@/lib/fly'
 import { FAKTORER, faktorer, klasse, utelukkNokkel, type Kontekst, type Punkt, type Resultat, type Vekter } from '@/lib/modell'
 import { TEORIER_LISTE, type TeoriId } from '@/data/teorier'
 import { stedsnavn } from '@/lib/stedsnavn'
-import { KART_MARKORER, statusTekst } from '@/data/kartmarkorer'
+import { KART_MARKORER, KART_MARKORER_BEKREFTET, statusTekst } from '@/data/kartmarkorer'
 
 export type Bakgrunn = 'gra' | 'topo' | 'satellitt'
 
@@ -263,7 +263,11 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
 
     // Hint på kartet: én markør per sted, med alt som hører til stedet
     const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!)
-    for (const m of KART_MARKORER) {
+    for (const [liste, gruppe] of [
+      [KART_MARKORER_BEKREFTET, g.hintmarkorer],
+      [KART_MARKORER, g.hintmarkorer_alle],
+    ] as const)
+    for (const m of liste) {
       const harHint = m.poster.some((p) => p.type === 'hint')
       const nytt = m.poster.some((p) => p.nytt)
       const klasse = `pin-hintmerke ${harHint ? '' : 'folk'} ${nytt ? 'nytt' : ''}`
@@ -281,7 +285,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
       L.marker(m.pos, { icon: pin(klasse, m.poster.length > 1 ? String(m.poster.length) : '!', 26), zIndexOffset: nytt ? 600 : 400 })
         .bindTooltip(m.poster[0].tittel, { direction: 'top', offset: [0, -14], className: 'etikett' })
         .bindPopup(html, { maxWidth: 300 })
-        .addTo(g.hintmarkorer)
+        .addTo(gruppe)
     }
     // Knappene i popupene er ren HTML, så klikket fanges her
     kart.on('popupopen', (e: L.PopupEvent) => {
