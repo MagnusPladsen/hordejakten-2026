@@ -30,7 +30,7 @@ export const FAKTORER: { id: FaktorId; navn: string; forklaring: string }[] = [
   { id: 'kjoretid', navn: 'Kjøretid fra Oslo', forklaring: 'Usikkert: hun sov og vet ikke hvor lenge de kjørte. Ruter nær valgt kjøretid får høyest poeng.' },
   { id: 'vei', navn: 'Nær bilvei', forklaring: '5–10 min gange fra bilen. Ruter langt fra vei trekkes ned.' },
   { id: 'skyfri', navn: 'Utelukk skyer og tåke', forklaring: 'Hun så klar himmel. 100 % = blått på Windy og tåka i Odal er helt utelukket.' },
-  { id: 'solidag', navn: 'Sol i dag (satellitt)', forklaring: 'Anja hadde sol mens det var skyet nesten overalt. Klare områder får høyest poeng.' },
+  { id: 'solidag', navn: 'Sol 23.09 (satellitt)', forklaring: 'Anja hadde sol mens det var skyet nesten overalt. Klare områder får høyest poeng.' },
   { id: 'utelukket', navn: 'Fellesskapets utelukkingskart', forklaring: 'Utelukker rødt og lyseblått (fjellbjørk) fra kartet i chatten.' },
   { id: 'innlandet', navn: 'Innlandet fylke', forklaring: 'Fellesskapet er sikre på Innlandet.' },
   { id: 'bokstaver', navn: 'Bokstavene: Norheimsund', forklaring: 'Nær Norheimsund, som vervebokstavene kan stave.' },
@@ -46,13 +46,13 @@ export const FORHAND: { id: string; navn: string; beskrivelse: string; vekter: V
   {
     id: 'fakta',
     navn: 'Bekreftet: vær, sol og fly',
-    beskrivelse: 'Standard. Bare det som er bekreftet av Anja og målinger: nær bilvei, klar himmel (Windy og tåka), sol i dag (satellitt) og flyet hun pekte på kl. 21:29 (ADS-B). Ikke default.no, fellesskapets kart, Innlandet eller kjøretid.',
+    beskrivelse: 'Standard. Bare det som er bekreftet av Anja og målinger: nær bilvei, klar himmel (Windy og tåka), sol 23.09 (satellitt) og flyet hun pekte på kl. 21:29 (ADS-B). Ikke default.no, fellesskapets kart, Innlandet eller kjøretid.',
     vekter: { kjoretid: 0, timer: 7, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0.7, bokstaver: 0, innlandet: 0, solidag: 0.5, bergen: 0, utelukket: 0 },
   },
   {
     id: 'alt',
     navn: 'Alt vi har',
-    beskrivelse: 'Alle hintene samlet: vær, sol i dag, flyet, Innlandet og default.no. Ikke kjøretid, fordi den er usikker.',
+    beskrivelse: 'Alle hintene samlet: vær, sol 23.09, flyet, Innlandet og default.no. Ikke kjøretid, fordi den er usikker.',
     vekter: { kjoretid: 0, timer: 7, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.3, fly: 0.6, bokstaver: 0, innlandet: 0.5, solidag: 0.4, bergen: 0, utelukket: 0.8 },
   },
   {
