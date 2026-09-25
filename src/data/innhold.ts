@@ -110,16 +110,6 @@ export const HINT: Hint[] = [
     lag: ['skydekke'],
   },
   {
-    id: 'vedkassen',
-    tittel: 'Folk skal være ved kassen og prøve koder',
-    status: 'usikker',
-    kilde: 'Chat',
-    dato: '23.09',
-    tekst: '«Flere som har prøvd seg på koden ved boksen nå by the way. Vi vet hvor det her er hen.»',
-    betydning: 'Stemmer det, er stedet funnet av noen, og kodene er nå det viktigste. Følg med på streamen: ser du folk komme inn i bildet, kommer de trolig fra parkeringen mot sørøst (118°).',
-    lenke: 'https://www.youtube.com/watch?v=EQHgfmZicc8',
-  },
-  {
     id: 'reise',
     pos: [59.9139, 10.7522],
     tittel: 'Reisen: fra Oslo kl. 04:00, sov nesten hele veien',
@@ -242,8 +232,8 @@ export const HINT: Hint[] = [
   {
     id: 'regel-ko',
     tittel: 'Kø ved kassen, og 5 timers karantene hvis du ikke får opp låsene',
-    status: 'usikker',
-    kilde: 'Alf på Hordes TikTok-live 25.09, gjengitt i chatten (ikke sjekket ordrett)',
+    status: 'bekreftet',
+    kilde: 'Alf på Hordes TikTok-live 25.09',
     dato: '25.09',
     tekst: 'Alf sa på TikTok-live at det blir et køsystem hvis flere kommer til kassen samtidig, og at man får 5 timers karantene hvis man ikke klarer å åpne låsene. Det er for at alle skal få prøve, og ingen skal sitte lenge og prøve koder.',
     betydning: 'Ha kodene klare før du drar ut. Du får trolig bare en kort runde med forsøk før du må vente 5 timer. Prøv de sikreste kodene først (se «Mest sannsynlige koder»).',
@@ -1110,6 +1100,21 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
 /** Hva folk i chatten og på Discord tror, kort oppsummert. `fokus` er et sted på kartet. */
 export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: LatLon; hint?: string[] }[] = [
   {
+    tekst: 'Tommsen A: ved Tingstadbrua (Ringsaker)',
+    hvem: 'Tommsen på Discord (25.09), punkt A. Skog, ca. 623 moh, ikke utelukket. Mot: nærmeste sted på 810–891 moh nær vei er 4,5 km unna.',
+    pos: [61.1139, 11.0011],
+  },
+  {
+    tekst: 'Tommsen B: Stor-Elvdal, vest for Glomma',
+    hvem: 'Tommsen på Discord (25.09), punkt B. Skog, ca. 411 moh, rett ved default.no sine letestopp ved Gålaveien. Mot: langt under 810–891 moh (nærmeste treff 2,7 km unna).',
+    pos: [61.4732, 10.9687],
+  },
+  {
+    tekst: 'Tommsen C: Gruvelia/Vardåsen arbeidsområde (Nannestad)',
+    hvem: 'Tommsen på Discord (25.09), punkt C. Mot: ca. 319 moh og punktet ligger i en elv. Nær Gardermoen, der det er mye lavtflygende fly, mens Anja skrev «LITE MED FLY HER». Langt fra 810–891 moh.',
+    pos: [60.18519, 10.89289],
+  },
+  {
     tekst: 'Birkebeinervegen over Ringsakfjellet (Ringsaker–Rena)',
     hvem: 'Flere på Discord (25.09). Birkebeinervegen går over fjellet mellom Ringsaker, Stor-Elvdal og Øyer, ca. 720–1040 moh. Det er 341 steder på 810–891 moh nær vei her, 233 av dem med vei mot sørøst. Passer godt med 2,7 eiffeltårn, og området er ikke utelukket.',
     pos: [61.36168, 10.84625],
@@ -1154,7 +1159,6 @@ export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: Lat
   { tekst: 'Ikke Odal eller Jessheim', hvem: 'Lokal: tykk tåke der i morges, mens Anja ikke hadde tåke.', pos: [60.3, 11.45], hint: ['taake'] },
   { tekst: 'Ikke Fredrikstad, Sarpsborg eller Halden', hvem: 'Overskyet der hele dagen, mens Anja hadde sol.', hint: ['solidag'] },
   { tekst: 'Tromsø (69° nord)', hvem: 'TikTok-teori om «MINUS HORDE». Rundt 20 t fra Oslo, så lite sannsynlig.', hint: ['bokstaver'] },
-  { tekst: 'Noen er alt ved kassen', hvem: 'Chatten sier flere prøver koder der nå.', hint: ['vedkassen', 'koder'] },
   { tekst: 'Sollyset er falskt', hvem: 'Noen mener bildet er filtrert. Da er hint fra sol i bildet usikre.', hint: ['lysfake', 'solidag'] },
 ]
 
@@ -1279,15 +1283,16 @@ export const SIKRE_FAKTA: string[] = [
   '3 låser: 2 hengelåser med 4 siffer på pengeboksen, og 1 kodelås på døra for Anja, med 5 eller 6 siffer (Anja er «ganske sikker» på 5). Appen ga 5008 som hint.',
   'Horde har svart i kommentarfeltet at hint til hva kodene kan være, ligger i appen.',
   'Horde AI har et forhåndslaget svar på HORDEMINUS: «2,7 eiffeltårn stablet oppå hverandre». Eiffeltårnet er 300 m uten antenne og 330 m med, så 2,7 tårn er 810 eller 891 m. HORDE MINUS er de ti bokstavene fra «Verv en venn» (N O R H E I M S U D) stokket om.',
+  'Kommer flere til kassen samtidig, blir det kø. Klarer du ikke å åpne låsene, får du 5 timers karantene (Alf på TikTok-live 25.09).',
 ]
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
   {
     tid: '25.09',
-    tittel: 'Alf: kø ved kassen og 5 timers karantene hvis du ikke får opp låsene',
-    tekst: 'Kommer flere samtidig, blir det kø. Klarer du ikke å åpne kodene, må du vente 5 timer før du kan prøve igjen. Ha kodene klare før du drar. Gjengitt fra TikTok-live, ikke sjekket ordrett.',
-    hint: 'regel-ko',
+    tittel: 'Alf på TikTok-live: «Det er ekte lyd på streamen» og «viktige hint i helgen»',
+    tekst: 'Alf sa også at reven og anda «kanskje» har med hint å gjøre, og at «noen av kodene kan allerede ha kommet». Gjengitt i chatten, ikke sjekket ordrett. Lyden var tidligere regnet som loop, så det er nå usikkert.',
+    hint: 'tiktok2509',
   },
   {
     tid: '25.09',
@@ -1299,12 +1304,6 @@ export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: {
     tittel: 'Dyrehintene: ekorn, stokkand, rev, orrfugl og grevling (eller vaskebjørn)',
     tekst: 'Nytt: orrfuglleik-lyd når man rister appen, og en utstoppet grevling i Horde Rewards. Orrfuglen leker ofte på myrer i høyden, som passer med 810–891 moh.',
     hint: 'dyreoversikt',
-  },
-  {
-    tid: '25.09',
-    tittel: 'Alf på TikTok-live: «Det er ekte lyd på streamen» og «viktige hint i helgen»',
-    tekst: 'Alf sa også at reven og anda «kanskje» har med hint å gjøre, og at «noen av kodene kan allerede ha kommet». Gjengitt i chatten, ikke sjekket ordrett. Lyden var tidligere regnet som loop, så det er nå usikkert.',
-    hint: 'tiktok2509',
   },
   {
     tid: '24.09 kl. 11:05',
@@ -1418,11 +1417,6 @@ export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: {
     tekst: 'Horde har lagt ut «Hvordan går det med Anja?». Genseren viser nå «+5» på ryggen, sammen med tallene og bokstavene. Horde skriver selv: «Kjenner jeg dere riktig så vil dere overanalysere denne videoen».',
     lenke: { tekst: 'Se videoen', url: 'https://www.youtube.com/shorts/1raIm3ANsAI' },
     hint: 'pluss5',
-  },
-  {
-    tid: '23.09',
-    tittel: 'Folk skal være ved kassen og prøve koder',
-    tekst: 'Ifølge chatten har flere allerede prøvd kodene ved kassen. Se «Mest sannsynlige koder» under Hint.',
   },
 ]
 
