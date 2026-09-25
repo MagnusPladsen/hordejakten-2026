@@ -410,7 +410,7 @@ function SisteNytt() {
   if (!nyest) return null;
   return (
     <section
-      className="overflow-hidden rounded-2xl bg-[#dc2626] text-white shadow-lg shadow-red-900/20 @[46rem]:grid @[46rem]:grid-cols-2"
+      className="overflow-hidden rounded-2xl bg-[#dc2626] text-white shadow-lg shadow-red-900/20"
       aria-labelledby="siste-nytt"
     >
       <div className="p-4">
@@ -441,7 +441,7 @@ function SisteNytt() {
         )}
       </div>
       {eldre.length > 0 && (
-        <ul className="divide-y divide-white/20 border-t border-white/20 bg-black/10 @[46rem]:border-t-0 @[46rem]:border-l">
+        <ul className="divide-y divide-white/20 border-t border-white/20 bg-black/10 @[46rem]:columns-2 @[46rem]:gap-0 @[46rem]:divide-y-0 [&>li]:break-inside-avoid @[46rem]:[&>li]:border-b @[46rem]:[&>li]:border-white/20">
           {eldre.map((n) => (
             <li
               key={n.tittel}
