@@ -230,6 +230,15 @@ export const HINT: Hint[] = [
     fokus: 'tretopp',
   },
   {
+    id: 'treslag',
+    tittel: '«35 % bjørk, 25 % gran, 40 % furu» rundt kassen (18:13)',
+    status: 'bekreftet',
+    kilde: 'Tavla',
+    dato: '25.09',
+    tekst: 'Anja skrev kl. 18:13: «KANSKJE 35% BJØRK, 25% GRAN, 40% FURU. AKKURAT RUNDT MEG.»',
+    betydning: 'Blandingsskog med mest furu og mye bjørk, og minst gran. Det passer furumo og lyngmark, ikke tett granskog. Mye bjørk tyder på høyereliggende skog eller et gammelt hogstfelt (som hun gikk gjennom). Et kartlag som viser hvor skogen ligner, kommer.',
+  },
+  {
     id: 'fly2509',
     tittel: 'Hun pekte mot himmelen igjen 25.09 kl. 17:22: SAS50J over Stange',
     status: 'bekreftet',
@@ -1031,6 +1040,11 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
       { src: 'img/fr24-2509-sas364.jpg', alt: 'Flightradar24: SAS364 nordover over Rena' },
     ],
   },
+  {
+    t: '25.09',
+    tekst: '(kl. 18:13) KANSKJE 35% BJØRK · 25% GRAN · 40% FURU · AKKURAT RUNDT MEG',
+    bilder: [{ src: 'img/tavle-2509-treslag.jpg', alt: 'Nattkamera 18:13: KANSKJE 35% BJØRK, 25% GRAN, 40% FURU, AKKURAT RUNDT MEG' }],
+  },
 ]
 
 export type Sted = {
@@ -1046,6 +1060,7 @@ export const STEDER: Sted[] = [
   { id: 'oslo', navn: 'Oslo (start)', pos: OSLO, type: 'start', info: 'Anja ble hentet her søndag 20.09 kl. 04:00.' },
   { id: 'horde', navn: 'Horde AS, 5008 Bergen', pos: [60.3896, 5.3297], type: 'hint', info: 'Koden 5008 er postnummeret til Horde AS (Lars Hilles gate 20A).' },
   { id: 'brauta', navn: '«Brauta», Ringebu (sør for Fåvang)', pos: [61.43659, 10.1854], type: 'hint', info: 'Stedsnavn som ligner Haalands mellomnavn Braut. Dyrket mark, ca. 190 moh. Tips fra chatten.' },
+  { id: 'jomfrua', navn: 'Jomfrua, Tjuven og Danseren (Ringsaker)', pos: [61.2279, 10.90754], type: 'hint', info: 'Tre fjelltopper innen 1,3 km, ca. 1010–1026 moh, åpent område over skoggrensa. Teori: olivenolje → «ekstra jomfru» → Jomfrua, THE SHOPLIFTER → Tjuven, orrfuglleik → Danseren.' },
   { id: 'texas', navn: '«Texas», Våler i Solør', pos: [60.87812, 12.21229], type: 'hint', info: 'Adressenavnet Texas i Våler (Innlandet), ca. 348 moh. Teori fra fellesskapet: «2,7 eiffeltårn» kan være Eiffeltårnet i Paris, Texas.' },
   { id: 'kompassen', navn: '«Kompassen», Våler i Solør', pos: [60.87639, 12.31426], type: 'hint', info: 'Holme som heter Kompassen, ca. 302 moh, 5,5 km rett øst (92°) for Texas.' },
   { id: 'kroktjennet', navn: 'Topp ca. 891 moh ved Kroktjennet, Åmot', pos: [61.2405, 11.01], type: 'hint', info: 'Tips fra fellesskapet: et punkt på 891 moh nordvest for Kroktjennet (Hemmeldalen, vest for Rena). Kartverket gir ca. 887 moh her, åpent område. Ligger inne i Hemmeldalen naturreservat, der det er strenge regler for inngrep.' },
@@ -1235,6 +1250,13 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
 
 /** Hva folk i chatten og på Discord tror, kort oppsummert. `fokus` er et sted på kartet. */
 export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: LatLon; hint?: string[] }[] = [
+  {
+    tekst: 'Jomfrua, Tjuven og Danseren: tre topper på Ringsakfjellet',
+    hvem: 'Teori 25.09: olivenolje → «ekstra jomfru» → Jomfrua, THE SHOPLIFTER → «tjuven» → Tjuven, orrfuglleik (parringsdans) → Danseren. Alle tre er fjelltopper i Ringsaker, innen 1,3 km. For: tre hint som peker på tre navn på samme sted, 9,5 km fra flyet NOZ9EG, ikke utelukket, og 20 steder på 810–891 moh nær vei innen 3 km. Mot: selve toppene er 1010–1026 moh og åpent område over skoggrensa, mens kassen står i skog. Hagina så at høsten er langt kommet i høyden der. Kassen kan i så fall stå lavere i lia under toppene.',
+    pos: [61.2238, 10.9001],
+    fokus: 'jomfrua',
+    hint: ['grevling', 'shoplifter', 'orrfugl'],
+  },
   {
     tekst: 'THE SHOPLIFTER = hint til «Bob», altså bobbanen på Lillehammer?',
     hvem: 'Tips 25.09: BobTheShoplifter kan være et nikk til «Bob», og Skandinavias eneste bobbane ligger på Hunderfossen ved Lillehammer. For: vindstille der 23.09 kl. 17:49, og 148 steder på 810–891 moh nær vei innen 10 km. Mot: selve bobbanen ligger lavt (ca. 280 moh), det er 25–46 km til flyene hun så, og Hagina så at høsten har kommet langt i høyden rundt Lillehammer. Trolig bare en hilsen til BobTheShoplifter.',
