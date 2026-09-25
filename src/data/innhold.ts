@@ -230,13 +230,23 @@ export const HINT: Hint[] = [
     fokus: 'tretopp',
   },
   {
+    id: 'hand-tilbake',
+    tittel: 'En hånd er tilbake foran kassen (25.09)',
+    status: 'bekreftet',
+    kilde: 'Stream (nattkamera)',
+    dato: '25.09',
+    tekst: 'En hånd står igjen i lyngen foran kassen, der Horde-skiltet med hendene sto før det ble fjernet 23.09. Den står rett opp med åpen hånd.',
+    betydning: 'Hendene under skiltet ble tidligere lest som tall (romertall eller fingre). Én åpen hånd kan bety 5, eller at hendene kommer tilbake én og én med et nytt tall eller en ny retning. Følg med på om flere dukker opp.',
+  },
+  {
     id: 'shoplifter',
     tittel: 'Tavla: «THILPRTE OESHF» = THE SHOPLIFTER',
     status: 'lost',
     kilde: 'Tavla',
     dato: '25.09',
-    tekst: 'Anja skrev «THILPRTE OESHF» på tavla. De 13 bokstavene er nøyaktig THE SHOPLIFTER, stokket om, uten rest.',
-    betydning: 'Trolig en hilsen til BobTheShoplifter, en av de mest aktive i Discord-gruppa og mannen bak default.no, som mye av dataen i denne appen kommer fra. Anja kan se chatten, så det er et nikk til de som leter. Det kan bety at de er på riktig spor, eller bare at de har lagt merke til ham. Stor takk til BobTheShoplifter og default.no.',
+    tekst: 'Anja skrev «THILPRTE OESHF» på tavla. Bokstavene kommer fra ballongene i en video Horde la ut (opptak via default.no), og de 13 bokstavene er nøyaktig THE SHOPLIFTER, stokket om, uten rest. Fargene på ballongene: grønn E, P og T · lilla E · blå F · gul H, H, I, R, S og T · rosa L og O.',
+    betydning: 'Trolig en hilsen til BobTheShoplifter, en av de mest aktive i Discord-gruppa og mannen bak default.no, som mye av dataen i denne appen kommer fra. Anja kan se chatten, så det er et nikk til de som leter. Det kan bety at de er på riktig spor, eller bare at de har lagt merke til ham. Fargene er ikke løst ennå. Én idé er dartskive-fargene fra Kodejakten (blå +, gul −, rosa ×, lilla ÷), men grønn finnes ikke der. Stor takk til BobTheShoplifter og default.no.',
+    lenke: 'https://default.no/cuts/202609251620_202609251703.mp4',
   },
   {
     id: 'ferist',
@@ -1187,6 +1197,12 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
 
 /** Hva folk i chatten og på Discord tror, kort oppsummert. `fokus` er et sted på kartet. */
 export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: LatLon; hint?: string[] }[] = [
+  {
+    tekst: 'THE SHOPLIFTER = hint til «Bob», altså bobbanen på Lillehammer?',
+    hvem: 'Tips 25.09: BobTheShoplifter kan være et nikk til «Bob», og Skandinavias eneste bobbane ligger på Hunderfossen ved Lillehammer. For: vindstille der 23.09 kl. 17:49, og 148 steder på 810–891 moh nær vei innen 10 km. Mot: selve bobbanen ligger lavt (ca. 280 moh), det er 25–46 km til flyene hun så, og Hagina så at høsten har kommet langt i høyden rundt Lillehammer. Trolig bare en hilsen til BobTheShoplifter.',
+    pos: [61.2185, 10.4525],
+    hint: ['shoplifter'],
+  },
   {
     tekst: 'Feltobservasjon: bjørka er for langt på høsten på ca. 510 moh (takk til Hagina)',
     hvem: 'Hagina på Discord (25.09), ute mellom Hamar, Lillehammer og Sjusjøen på ca. 510 moh: «Her er bjørketrærne oransje, ikke gule som på streamen» og «de er mye tynnere i bladverket her oppe enn på stream». Høsten har altså kommet lenger der enn der kassen står. Det taler for at kassen står lavere eller et mildere sted, og mot 810–891 moh i det området, der høsten kommer enda tidligere.',

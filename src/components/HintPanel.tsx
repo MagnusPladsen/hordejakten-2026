@@ -4,6 +4,7 @@ import { Check, Crosshair, ExternalLink, Link2, MapPinned } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Anagram as ShoplifterAnagram } from '@/components/Anagram'
 import { Bokstavord } from '@/components/Bokstavord'
 import { BESTE_KODER, BOKSTAVER, FOLK_TROR, HINT, KODER, SIKRE_FAKTA, SJANSE, STATUS, STEDER, TEORIER, type Hint } from '@/data/innhold'
 import type { LatLon } from '@/lib/geo'
@@ -337,6 +338,14 @@ function Oppsummering({ onGaTil, onHint }: { onGaTil: (pos: LatLon, zoom?: numbe
           </AccordionTrigger>
           <AccordionContent>
             <Bokstavord onGaTil={onGaTil} lenker={(ider) => <HintLenker ider={ider} onHint={onHint} />} />
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="shoplifter">
+          <AccordionTrigger className="py-3.5">
+            <Tittel tittel="THILPRTE OESHF: ord og generator" tekst="Tavla 25.09 (THE SHOPLIFTER): alle ord, kombinasjoner og stedsnavn, og en generator" />
+          </AccordionTrigger>
+          <AccordionContent>
+            <ShoplifterAnagram onGaTil={onGaTil} />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="folk" className="border-none">
