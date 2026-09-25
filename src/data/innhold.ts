@@ -250,12 +250,12 @@ export const HINT: Hint[] = [
   },
   {
     id: 'tiktok2509',
-    tittel: 'Alf på TikTok-live 25.09: ekte lyd, dyrene kan være hint, koder kan ha kommet',
+    tittel: 'Alf på TikTok-live 25.09: ekte lyd, dyrene kan være hint, koder kan ha kommet, ingen farlig vei',
     status: 'usikker',
     kilde: 'Alf på Hordes TikTok-live 25.09, gjengitt i chatten (ikke sjekket ordrett)',
     dato: '25.09',
-    tekst: 'Alf sa på TikTok-live: «Det er ekte lyd på streamen. Men dere husker kanskje tidligere år, da drev vi å trollet litt med lyden.» «Har reven og anda noe med hint å gjøre? Ja, kanskje.» «Kan være at noen av kodene allerede har kommet.» «Kommer en del viktige hint nå i løpet av helgen.»',
-    betydning: 'Lyden: Alf sier den er ekte, men default.no fant lydbiter som gjentar seg 22–48 t senere. Begge deler kan stemme hvis noe av lyden er ekte og noe er lagt på, eller hvis Alf troller igjen. Vær forsiktig med å bruke lyd. Dyrene: reven og anda kan være hint. Kodene: noen kan allerede være kjent, for eksempel 5008 fra appen og 0810/0891 fra Horde AI. Flere viktige hint kommer i helgen.',
+    tekst: 'Alf sa på TikTok-live: «Det er ekte lyd på streamen. Men dere husker kanskje tidligere år, da drev vi å trollet litt med lyden.» «Har reven og anda noe med hint å gjøre? Ja, kanskje.» «Kan være at noen av kodene allerede har kommet.» «Kommer en del viktige hint nå i løpet av helgen.» Han sa også at man kanskje må gå litt, men aldri noe farlig, som å krysse en elv, og ba alle huske at det er jaktsesong og gå i tydelige klær.',
+    betydning: 'Lyden: Alf sier den er ekte, men default.no fant lydbiter som gjentar seg 22–48 t senere. Begge deler kan stemme hvis noe av lyden er ekte og noe er lagt på, eller hvis Alf troller igjen. Vær forsiktig med å bruke lyd. Dyrene: reven og anda kan være hint. Kodene: noen kan allerede være kjent, for eksempel 5008 fra appen og 0810/0891 fra Horde AI. Flere viktige hint kommer i helgen. Veien til kassen krever ikke noe farlig, som å krysse en elv: du skal kunne gå dit uten å vade eller klatre.',
   },
   {
     id: 'kodeniappen',
