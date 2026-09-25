@@ -44,16 +44,16 @@ export const FAKTORER: { id: FaktorId; navn: string; forklaring: string }[] = [
 /** Ferdige teorier. `lag` slås på når teorien velges. */
 export const FORHAND: { id: string; navn: string; beskrivelse: string; vekter: Vekter; lag?: LagId[] }[] = [
   {
+    id: 'fakta',
+    navn: 'Bekreftet: vær, sol og fly',
+    beskrivelse: 'Standard. Bare det som er bekreftet av Anja og målinger: nær bilvei, klar himmel (Windy og tåka), sol i dag (satellitt) og flyet hun pekte på kl. 21:29 (ADS-B). Ikke default.no, fellesskapets kart, Innlandet eller kjøretid.',
+    vekter: { kjoretid: 0, timer: 7, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0.7, bokstaver: 0, innlandet: 0, solidag: 0.5, bergen: 0, utelukket: 0 },
+  },
+  {
     id: 'alt',
     navn: 'Alt vi har',
     beskrivelse: 'Alle hintene samlet: vær, sol i dag, flyet, Innlandet og default.no. Ikke kjøretid, fordi den er usikker.',
     vekter: { kjoretid: 0, timer: 7, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0.3, fly: 0.6, bokstaver: 0, innlandet: 0.5, solidag: 0.4, bergen: 0, utelukket: 0.8 },
-  },
-  {
-    id: 'fakta',
-    navn: 'Bare bekreftet',
-    beskrivelse: 'Bare det som er bekreftet: nær bilvei og klar himmel der hun var. Ikke kjøretid, fordi hun sov og ikke vet hvor lenge de kjørte.',
-    vekter: { kjoretid: 0, timer: 7, slingring: 2, vei: 0.8, skyfri: 1, retning: 0, retningBegge: false, skyanalyse: 0, defaultno: 0, fly: 0, bokstaver: 0, innlandet: 0, solidag: 0, bergen: 0, utelukket: 0 },
   },
   {
     id: 'innlandet',

@@ -20,7 +20,7 @@ const stedFor = (id?: string) => alleSteder.find((s) => s.id === id)?.pos
 
 const nyeHint = new Set(SISTE_NYTT.map((n) => n.hint).filter(Boolean) as string[])
 
-function lagMarkorer(): KartMarkor[] {
+function lagMarkorer(bareBekreftet = false): KartMarkor[] {
   const grupper = new Map<string, KartMarkor>()
   const legg = (pos: LatLon | undefined, post: MarkorPost) => {
     if (!pos) return
@@ -32,6 +32,7 @@ function lagMarkorer(): KartMarkor[] {
   }
 
   for (const h of HINT) {
+    if (bareBekreftet && h.status !== 'bekreftet' && h.status !== 'lost') continue
     legg(h.pos ?? stedFor(h.fokus), {
       type: 'hint',
       tittel: h.tittel,
@@ -41,7 +42,7 @@ function lagMarkorer(): KartMarkor[] {
       nytt: nyeHint.has(h.id),
     })
   }
-  for (const f of FOLK_TROR) {
+  for (const f of bareBekreftet ? [] : FOLK_TROR) {
     legg(f.pos ?? stedFor(f.fokus), { type: 'folk', tittel: f.tekst, tekst: f.hvem, hint: f.hint?.[0] })
   }
 
@@ -53,5 +54,7 @@ function lagMarkorer(): KartMarkor[] {
 }
 
 export const KART_MARKORER = lagMarkorer()
+/** Bare bekreftede hint, uten tolkninger, rykter og det folk sier. Vises som standard. */
+export const KART_MARKORER_BEKREFTET = lagMarkorer(true)
 
 export const statusTekst = (s?: Status) => (s ? STATUS[s].tekst : 'Folk sier')

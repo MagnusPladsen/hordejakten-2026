@@ -49,7 +49,7 @@ export default function App() {
   const [hoyde891, setHoyde891] = useState<Hoyde891 | null>(null)
   const [fellesskap891, setFellesskap891] = useState<[number, number][] | null>(null)
   const [kommuner, setKommuner] = useState<GeoJSON.FeatureCollection | null>(null)
-  const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['hintmarkorer', 'modell', 'teoriomrader', 'hoyde891', 'utelukket', 'utenfor']))
+  const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['hintmarkorer', 'modell', 'utenfor']))
   const [vekter, setVekter] = useState<Vekter>(FORHAND[0].vekter)
   const [modus, setModus] = useState<Modus>('alt')
   const [aktiveBevis, setAktiveBevis] = useState<Set<string>>(() => standardBevis('alt'))
@@ -152,6 +152,8 @@ export default function App() {
     (h: Hint) => {
       tilKartet()
       for (const id of h.lag ?? []) veksle(id, true)
+      // Hint som ikke er bekreftet, vises bare i «Alle hint og tips»
+      if ((h.pos || h.fokus) && h.status !== 'bekreftet' && h.status !== 'lost') veksle('hintmarkorer_alle', true)
       const sted = [...STEDER, ...TEORIER].find((s) => s.id === h.fokus)
       if (!desktop) setHoyde('lav')
       setTimeout(() => {
