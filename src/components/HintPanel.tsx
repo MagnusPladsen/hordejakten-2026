@@ -86,11 +86,11 @@ export function HintPanel({
             </span>
           ))}
         </div>
-      <DiscordKreditt kompakt className="spenn" />
         <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
           Bekreftet betyr at vi vet at det er sagt eller sett. Hva det betyr kan likevel være tolkning. Tolkning er noens forklaring, Usikker er rykter, og Uløst er ikke knekt ennå.
         </p>
       </div>
+      <DiscordKreditt kompakt className="spenn" />
       <section className="rounded-2xl border-2 border-emerald-200 bg-emerald-50/60 p-4">
         <h3 className="text-[16px] font-semibold">Dette vet vi sikkert</h3>
         <ul className="mt-2 space-y-2">
