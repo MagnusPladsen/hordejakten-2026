@@ -242,6 +242,14 @@ export const BEVIS: Bevis[] = [
     faktor: tabell({ agder: 0.15 }),
   },
   {
+    id: 'brumunddal',
+    kilde: 'folk',
+    tittel: 'Anja er fra Brumunddal («nesten hjemme»?)',
+    forklaring: 'Et tips om at kassen står nær der Anja kommer fra, i Ringsaker. Passer med flyet NOZ9EG og vindstille, men ikke med 810–891 moh like ved. Teller lite.',
+    standardPa: true,
+    faktor: tabell({ ringsaker: 1.2, rudshogda: 1.1 }),
+  },
+  {
     id: 'discord2509',
     kilde: 'folk',
     tittel: 'Discord 25.09: Ringsaker–Rena, og Finnskogen',

@@ -1174,6 +1174,12 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
 /** Hva folk i chatten og på Discord tror, kort oppsummert. `fokus` er et sted på kartet. */
 export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: LatLon; hint?: string[] }[] = [
   {
+    tekst: 'Nær Brumunddal, der Anja kommer fra',
+    hvem: 'Tips 25.09: Anja er opprinnelig fra Brumunddal, så kanskje hun er «nesten helt hjemme». For: Brumunddal ligger i Ringsaker, 9 km fra sporet til NOZ9EG, og det var vindstille der 23.09 kl. 17:49. Mot: ingen steder på 810–891 moh nær vei innen 20 km, de nærmeste er oppe mot Ringsakfjellet og Sjusjøen 20–30 km nord. Horde vil trolig ikke plassere henne der hun kan kjenne seg igjen, og det er bare ca. 1,5 t fra Oslo.',
+    pos: [60.88362, 10.94489],
+    fokus: 'ringsaker',
+  },
+  {
     tekst: 'Mange steder i Innlandet ligger ca. 890 moh',
     hvem: 'Discord 25.09: Trysil, Engerdal, Sjusjøen, Ringsakfjellet, oppover Østerdalen og Gudbrandsdalen ligger ca. 890 moh med samme type skog. Svar fra Veritas XO: men bare Froland og Østerdalen passer med dagen det var skyet over hele landet sør for Mo i Rana mens Anja hadde sol, og med flyene. Høyden alene snevrer altså lite inn.',
     hint: ['eiffel', 'solidag', 'fly'],
