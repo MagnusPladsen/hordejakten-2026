@@ -164,7 +164,7 @@ export const HINT: Hint[] = [
     status: 'tolkning',
     kilde: 'Fellesskapet (værdata)',
     dato: '23.09',
-    tekst: 'Været i Froland samsvarer ikke med det Anja har sett og skrevet.',
+    tekst: 'Det regnet i Froland onsdag kveld 23.09, men det var ikke regn på streamen. Været i Froland samsvarer ikke med det Anja har sett og skrevet.',
     betydning: 'Froland og Agder-teorien trekkes kraftig ned. Ekornet i kommunevåpenet er ikke nok alene, ekorn finnes overalt.',
     lag: ['teorier'],
     fokus: 'froland',
@@ -197,7 +197,7 @@ export const HINT: Hint[] = [
     kilde: 'Tavla + værdata (fra fellesskapet)',
     dato: '24.09',
     tekst: 'Anja sa at det regnet kl. 11:05 den 24.09. Ifølge fellesskapet regnet det i Rena akkurat da.',
-    betydning: 'Passer med Rena og Åmot. Regnbyger dekker ofte store områder, så det utelukker ikke steder i nærheten. Ikke sjekket mot radar her: da trengs regnradar for akkurat 11:05. Streamen ligger 45 sek bak.',
+    betydning: 'Passer med Rena og Åmot. Regnbyger dekker ofte store områder, så det utelukker ikke steder i nærheten. Ikke sjekket mot radar her: da trengs regnradar for akkurat 11:05. Streamen ligger trolig 20 sek–1 min bak (vi tipper).',
     pos: [61.133, 11.367],
   },
   {
@@ -228,6 +228,26 @@ export const HINT: Hint[] = [
     tekst: 'Anja skrev kl. 17:20: «INGEN HYTTE I NÆRHETEN SOM JEG VET OM ELLER SER».',
     betydning: 'Taler imot teorier om at kassen står ved en hytte eller et hyttefelt, som Tretopphyttene. Det passer med skog uten stier, 5–10 min fra en vei.',
     fokus: 'tretopp',
+  },
+  {
+    id: 'flylangtunna',
+    tittel: '«Flyene er så langt unna at det er umulig å se» (25.09)',
+    status: 'bekreftet',
+    kilde: 'Tavla',
+    dato: '25.09',
+    tekst: 'Anja skrev 25.09: «OVERSKYET. FLYENE ER SÅ LANGT UNNA AT DET ER UMULIG Å SE PÅ DAGEN, OG PÅ NATTA DERSOM DET IKKE ER HELT STJERNEKLART.» Samme dag: «INGEN TÅKE» (09:49) og «SIKKERT 5°, TROR DET ER VARMERE» (09:58).',
+    betydning: 'Flyene går høyt over henne, i marsjhøyde, ikke lavt inn mot en flyplass. Det passer med «LITE MED FLY HER» og med NOZ56U/NOZ9EG på 20 000–27 000 fot. Overskyet uten tåke og ca. 5 °C morgenen 25.09 kan sjekkes mot værdata.',
+    lag: ['fly'],
+  },
+  {
+    id: 'haaland-brauta',
+    tittel: 'Grevlingstativet: Haaland, og stedet Brauta?',
+    status: 'tolkning',
+    kilde: 'Tips fra chatten (Codex)',
+    dato: '25.09',
+    tekst: 'Dyret i Horde Rewards ligner flaskestativet Erling Braut Haaland tok med hjem fra Texas (en utstoppet vaskebjørn med en flaske). Teorien er at hintet ikke handler om dyret, men om navnet Haaland, eller mellomnavnet Braut. Det finnes et sted som heter Brauta i Ringebu, like sør for Fåvang.',
+    betydning: 'Brauta i Ringebu er dyrket mark på ca. 190 moh, altså ikke 810–891 moh. Men det er 37 steder på 810–891 moh nær vei innen 5 km, de fleste med vei mot sørøst. Vinden var ca. 4 m/s der 23.09 kl. 17:49, mens Anja skrev «vindstille». Ren tolkning.',
+    pos: [61.43659, 10.1854],
   },
   {
     id: 'regel-ko',
@@ -650,7 +670,7 @@ export const HINT: Hint[] = [
     kilde: 'Tavla («FLY») + ADS-B (adsb.lol via default.no). Takk til default.no.',
     dato: '21.09',
     tekst: 'Anja pekte rett opp kl. 21:29:38 og skrev «FLY» kl. 21:30 (streamtid). To fly var nær: NOZ56U nordover over Hamar, like ved Løten (ca. 24 000 fot), og NOZ9EG sørover over Ringsakfjellet ved Sjusjøen (ca. 23 500 fot). NOZ9EG passerte ca. 3 km fra Tretopphyttene kl. 21:31.',
-    betydning: 'Kassen står trolig under ett av de to sporene: Løten–Elverum eller Ringsaker (Sjusjøen–Brumunddal). Fellesskapet: «Eneste stedene det er sol i Norge nå + eneste stedene det fløy fly over hodet hennes 21:29.» Streamen er 45 sek forsinket.',
+    betydning: 'Kassen står trolig under ett av de to sporene: Løten–Elverum eller Ringsaker (Sjusjøen–Brumunddal). Fellesskapet: «Eneste stedene det er sol i Norge nå + eneste stedene det fløy fly over hodet hennes 21:29.» Streamen er trolig 20 sek–1 min forsinket (vi tipper).',
     lag: ['fly'],
   },
   {
@@ -780,7 +800,7 @@ export const HINT: Hint[] = [
   },
 ]
 
-/** Svar Anja har skrevet på tavla, i rekkefølgen de kom (nye legges nederst). Tider er streamtid (45 sek forsinket). */
+/** Svar Anja har skrevet på tavla, i rekkefølgen de kom (nye legges nederst). Tider er streamtid (trolig 20 sek–1 min forsinket, vi tipper). */
 export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: string }[] }[] = [
   { t: '21.09 18:31', tekst: 'INGEN FLY · INGEN SKYTING · OSLO, SØN KL 04.00 · CA 5–10 MIN Å GÅ FRA BIL' },
   { t: '21.09 18:36', tekst: 'INGEN FERGE · KUN BIL · VET IKKE ANG. TUNELLER' },
@@ -895,6 +915,36 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
   },
   { t: '24.09', tekst: 'SÅ INGENTING SOM IKKE HØRER TIL I EN SKOG I GÅR · PS! HÅPER PÅ PEPPERONIPIZZA' },
   { t: '24.09', tekst: '(kl. 11:05) Anja sa at det regnet' },
+  {
+    t: '25.09',
+    tekst: 'OVERSKYET · FLYENE ER SÅ LANGT UNNA AT DET ER UMULIG Å SE PÅ DAGEN, OG PÅ NATTA DERSOM DET IKKE ER HELT STJERNEKLART',
+    bilder: [{ src: 'img/tavle-2509-overskyet.jpg', alt: 'Tavla: OVERSKYET. FLYENE ER SÅ LANGT UNNA AT DET ER UMULIG Å SE' }],
+  },
+  {
+    t: '25.09',
+    tekst: 'KAN IKKE TESTE KODER · INGEN HAR FUNNET BOKSEN (siste del litt utydelig)',
+    bilder: [{ src: 'img/tavle-2509-koder.jpg', alt: 'Anja med tavla: KAN IKKE TESTE KODER' }],
+  },
+  {
+    t: '25.09',
+    tekst: '(kl. 09:49) INGEN TÅKE',
+    bilder: [{ src: 'img/tavle-2509-ingen-take.jpg', alt: 'Nattkamera 09:49: INGEN TÅKE' }],
+  },
+  {
+    t: '25.09',
+    tekst: '(kl. 09:58) SIKKERT 5° · TROR DET ER VARMERE',
+    bilder: [{ src: 'img/tavle-2509-5-grader.jpg', alt: 'Nattkamera 09:58: SIKKERT 5 GRADER, TROR DET ER VARMERE' }],
+  },
+  {
+    t: '25.09',
+    tekst: '(kl. 10:21) GJETT RIKTIG SANG · BACKFLIP',
+    bilder: [{ src: 'img/tavle-2509-sang.jpg', alt: 'Nattkamera 10:21: GJETT RIKTIG SANG, BACKFLIP' }],
+  },
+  {
+    t: '25.09',
+    tekst: '(kl. 10:38) IKKE TV, MEN PAD PÅ UTSIDEN AV GLASSET ←',
+    bilder: [{ src: 'img/tavle-2509-pad.jpg', alt: 'Nattkamera 10:38: IKKE TV, MEN PAD PÅ UTSIDEN AV GLASSET' }],
+  },
 ]
 
 export type Sted = {
@@ -909,6 +959,7 @@ export type Sted = {
 export const STEDER: Sted[] = [
   { id: 'oslo', navn: 'Oslo (start)', pos: OSLO, type: 'start', info: 'Anja ble hentet her søndag 20.09 kl. 04:00.' },
   { id: 'horde', navn: 'Horde AS, 5008 Bergen', pos: [60.3896, 5.3297], type: 'hint', info: 'Koden 5008 er postnummeret til Horde AS (Lars Hilles gate 20A).' },
+  { id: 'brauta', navn: '«Brauta», Ringebu (sør for Fåvang)', pos: [61.43659, 10.1854], type: 'hint', info: 'Stedsnavn som ligner Haalands mellomnavn Braut. Dyrket mark, ca. 190 moh. Tips fra chatten.' },
   { id: 'texas', navn: '«Texas», Våler i Solør', pos: [60.87812, 12.21229], type: 'hint', info: 'Adressenavnet Texas i Våler (Innlandet), ca. 348 moh. Teori fra fellesskapet: «2,7 eiffeltårn» kan være Eiffeltårnet i Paris, Texas.' },
   { id: 'kompassen', navn: '«Kompassen», Våler i Solør', pos: [60.87639, 12.31426], type: 'hint', info: 'Holme som heter Kompassen, ca. 302 moh, 5,5 km rett øst (92°) for Texas.' },
   { id: 'kroktjennet', navn: 'Topp ca. 891 moh ved Kroktjennet, Åmot', pos: [61.2405, 11.01], type: 'hint', info: 'Tips fra fellesskapet: et punkt på 891 moh nordvest for Kroktjennet (Hemmeldalen, vest for Rena). Kartverket gir ca. 887 moh her, åpent område. Ligger inne i Hemmeldalen naturreservat, der det er strenge regler for inngrep.' },
@@ -1037,7 +1088,7 @@ export const BOKSTAVER = ['N', 'O', 'R', 'H', 'E', 'I', 'M', 'S', 'U', 'D']
 
 export const FAKTA = [
   { verdi: '1 116 897 kr', tekst: 'Premie' },
-  { verdi: '45 sek', tekst: 'Forsinkelse på streamen' },
+  { verdi: '20 s–1 min', tekst: 'Forsinkelse på streamen (vi tipper)' },
   { verdi: '3 låser', tekst: '2 på pengeboksen (4 siffer), 1 på døra (5 siffer)' },
   { verdi: '5–10 min', tekst: 'Fra bilen, båret oppover' },
 ]
@@ -1100,6 +1151,11 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
 /** Hva folk i chatten og på Discord tror, kort oppsummert. `fokus` er et sted på kartet. */
 export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: LatLon; hint?: string[] }[] = [
   {
+    tekst: 'Mange steder i Innlandet ligger ca. 890 moh',
+    hvem: 'Discord 25.09: Trysil, Engerdal, Sjusjøen, Ringsakfjellet, oppover Østerdalen og Gudbrandsdalen ligger ca. 890 moh med samme type skog. Svar fra Veritas XO: men bare Froland og Østerdalen passer med dagen det var skyet over hele landet sør for Mo i Rana mens Anja hadde sol, og med flyene. Høyden alene snevrer altså lite inn.',
+    hint: ['eiffel', 'solidag', 'fly'],
+  },
+  {
     tekst: 'Tommsen A: ved Tingstadbrua (Ringsaker)',
     hvem: 'Tommsen på Discord (25.09), punkt A. Skog, ca. 623 moh, ikke utelukket. Mot: nærmeste sted på 810–891 moh nær vei er 4,5 km unna.',
     pos: [61.1139, 11.0011],
@@ -1150,7 +1206,7 @@ export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: Lat
   { tekst: 'Rena–Evenstad', hvem: 'default.no sin toppkandidat, øst for Glomma i Stor-Elvdal.', pos: [61.45, 11.1], hint: ['innlandet'] },
   { tekst: 'Gjøvik', hvem: 'Én person: vær og sol passer.', fokus: 'gjovik', hint: ['skyer'] },
   { tekst: 'Norheimsund', hvem: 'Bokstavene, men mangler én N. HORDE MINUS går opp uten rest, og Hardanger var blått på Windy.', fokus: 'norheimsund', hint: ['bokstaver', 'skyer'] },
-  { tekst: 'Froland er ute', hvem: 'Været samsvarer ikke med det Anja har sett. Et skjermbilde (ikke bekreftet) viser at appen svarer «Ekornet kan klatre» på FROLAND.', fokus: 'froland', hint: ['froland', 'frolandekorn', 'ekorn', 'skyanalyse'] },
+  { tekst: 'Froland er ute', hvem: 'Været samsvarer ikke med det Anja har sett: det regnet i Froland onsdag kveld, men ikke på streamen. Et skjermbilde (ikke bekreftet) viser at appen svarer «Ekornet kan klatre» på FROLAND.', fokus: 'froland', hint: ['froland', 'frolandekorn', 'ekorn', 'skyanalyse'] },
   { tekst: 'Lillehammer', hvem: 'Ekorn-maskot. Ligger i det blå båndet på Windy.', fokus: 'lillehammer', hint: ['ekorn'] },
   {
     tekst: 'MINUS HORDE = JAKTEN',

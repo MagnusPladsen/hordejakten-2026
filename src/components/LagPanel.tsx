@@ -272,14 +272,14 @@ function SjekkPunkt({ onSjekk }: { onSjekk: (pos: LatLon) => void }) {
 
 /** Ferdige visninger: slår på akkurat disse lagene og av resten */
 const VISNINGER: { id: string; navn: string; tekst: string; lag: LagId[] }[] = [
-  { id: 'standard', navn: 'Bekreftet (standard)', tekst: 'Bekreftede hint, flyene hun så, og der vær, sol og vegetasjon utelukker', lag: ['hintmarkorer', 'modell', 'fly', 'skydekke', 'solidag', 'utelukket', 'utenfor'] },
+  { id: 'standard', navn: 'Bekreftet (standard)', tekst: 'Bekreftede hint, flyene hun så, og der vær, vind, sol og vegetasjon utelukker', lag: ['hintmarkorer', 'modell', 'fly', 'skydekke', 'vind', 'solidag', 'utelukket', 'utenfor'] },
   { id: 'alt', navn: 'Alt vi har', tekst: 'Alle hint og tips, teorier, høyde og fellesskapets kart', lag: ['hintmarkorer_alle', 'modell', 'teoriomrader', 'hoyde891', 'utelukket', 'utenfor'] },
   { id: 'hoyde', navn: 'Høyden 810–891 moh', tekst: '2,7 eiffeltårn: høyde nær vei', lag: ['hintmarkorer', 'hoyde891', 'fellesskap891', 'dn_hoyde', 'utenfor'] },
   { id: 'hogst', navn: 'Hogst, stier og skytefelt', tekst: 'Hun gikk gjennom gammel hogst, uten sti, ingen skyting', lag: ['hintmarkorer', 'dn_hogst', 'dn_leder', 'dn_skytefelt', 'hoyde891', 'utenfor'] },
   { id: 'jaktfritt', navn: 'Der jakt er forbudt', tekst: '«Ingen skyting»: verneområder uten jakt', lag: ['hintmarkorer', 'jaktfritt', 'hoyde891', 'dn_skytefelt', 'utenfor'] },
   { id: 'felt', navn: 'Ute i felt', tekst: 'Parkering, letestopp, steder og feltnotater', lag: ['hintmarkorer', 'felt', 'hoyde891', 'dn_plan', 'dn_steder', 'dn_notater', 'dn_gasoner', 'dn_skytefelt', 'dn_hogst', 'dn_leder', 'utenfor'] },
   { id: 'defaultno', navn: 'default.no sine funn', tekst: 'Fusjonsmodell, søkeområder og letestopp', lag: ['dn_fusjon', 'dn_omrader', 'dn_steder', 'dn_plan', 'dn_avvist', 'dn_notater', 'utenfor'] },
-  { id: 'vaer', navn: 'Vær og fly', tekst: 'Skyer, sol, regn og flyene hun så', lag: ['skydekke', 'solidag', 'fly', 'fly_alle', 'dn_flyhendelser', 'dn_sjelden', 'dn_regn', 'dn_radar', 'utenfor'] },
+  { id: 'vaer', navn: 'Vær og fly', tekst: 'Skyer, sol, regn og flyene hun så', lag: ['skydekke', 'vind', 'solidag', 'fly', 'fly_alle', 'dn_flyhendelser', 'dn_sjelden', 'dn_regn', 'dn_radar', 'utenfor'] },
 ]
 
 type Filter = 'alle' | 'pa' | 'fakta' | 'beregnet' | 'tolkning'

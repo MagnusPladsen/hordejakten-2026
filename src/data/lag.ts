@@ -9,6 +9,7 @@ export type LagId =
   | 'kjoretid'
   | 'retning'
   | 'skydekke'
+  | 'vind'
   | 'utelukket'
   | 'jaktfritt'
   | 'jaktfritt_bare'
@@ -722,6 +723,20 @@ export const LAG: Lag[] = [
     kilde: 'hordejakten.vercel.app (kreditt til dem).',
   },
   {
+    id: 'vind',
+    navn: 'Vind 23.09 kl. 17:49',
+    kort: 'Hun skrev «vindstille». Grått = for mye vind',
+    merkelapp: 'beregnet',
+    forklaring:
+      'Anja skrev «LYDTETT · SOL · VINDSTILLE» kl. 17:49 den 23.09. Kartet viser vinden 10 m over bakken akkurat da. Grønt passer, grått passer dårlig. Inne i tett skog er det ofte roligere enn modellen sier, så 2–4 m/s er ikke utelukket. Rutene er ca. 22 × 22 km.',
+    tegn: [
+      { stil: 'fyll', farge: '#10b981', tekst: 'Under 2 m/s: passer' },
+      { stil: 'fyll', farge: '#94a3b8', tekst: '2–4 m/s: mulig i le' },
+      { stil: 'fyll', farge: '#475569', tekst: 'Over 4 m/s: passer dårlig' },
+    ],
+    kilde: 'Modellvind fra open-meteo (historisk varsel, MET Nordic), hentet 25.09.',
+  },
+  {
     id: 'solidag',
     navn: 'Sol 23.09 (satellitt)',
     kort: 'Klart her, skyet nesten alle andre steder',
@@ -793,7 +808,7 @@ export const LAG: Lag[] = [
       { stil: 'prikk', farge: FARGE.fly, tekst: 'Posisjon da hun pekte opp' },
       { stil: 'ring', farge: FARGE.fly, tekst: '10 km rundt' },
     ],
-    kilde: 'ADS-B fra adsb.lol (via default.no). Streamen er 45 sek forsinket. Takk til default.no.',
+    kilde: 'ADS-B fra adsb.lol (via default.no). Streamen er trolig 20 sek–1 min forsinket (vi tipper). Takk til default.no.',
   },
   {
     id: 'fly_alle',
@@ -807,7 +822,7 @@ export const LAG: Lag[] = [
       { stil: 'prikk', farge: FARGE.fly, tekst: 'Posisjon da hun pekte opp' },
       { stil: 'ring', farge: FARGE.fly, tekst: 'NOZ56U og NOZ9EG, 10 km' },
     ],
-    kilde: 'ADS-B fra adsb.lol (via default.no). Streamen er 45 sek forsinket. Takk til default.no.',
+    kilde: 'ADS-B fra adsb.lol (via default.no). Streamen er trolig 20 sek–1 min forsinket (vi tipper). Takk til default.no.',
   },
   {
     id: 'felt',
@@ -855,7 +870,7 @@ export const GRUPPER: { navn: string; forklaring: string; ider: LagId[] }[] = [
   { navn: 'default.no: terreng og skog', forklaring: 'Skytefelt, hogst, stier, bær og fugl. Takk til default.no.', ider: ['dn_skytefelt', 'dn_hogst', 'dn_leder', 'dn_gasoner', 'dn_baer', 'dn_baerfunn', 'dn_orrfugl', 'dn_storfugl', 'dn_satellitt'] },
   { navn: 'default.no: fly og vær', forklaring: 'Flyene hun så, stille himmel, regn og vær. Takk til default.no.', ider: ['dn_flyhendelser', 'dn_sjelden', 'dn_flylyd', 'dn_regn', 'dn_radar', 'dn_met', 'dn_vaer', 'dn_vegkamera'] },
   { navn: 'default.no: modeller', forklaring: 'Fusjonsmodellen med ulike bevis slått av og på. Slå på én om gangen. Takk til default.no.', ider: ['dn_fusjon', 'dn_fusjon_utenlyd', 'dn_fusjon_fly', 'dn_fusjon_flyskog', 'dn_fusjon_stille', 'dn_fusjon_stilleskog', 'dn_fusjon_utenmerker', 'dn_fusjon_utenfly', 'dn_fusjon_utenflylyd'] },
-  { navn: 'Vær og terreng', forklaring: 'Anja har hatt klar himmel og sol, og ser vanlig skog. Her passer det ikke.', ider: ['utelukket', 'kommuner', 'skydekke', 'solidag'] },
+  { navn: 'Vær og terreng', forklaring: 'Anja har hatt klar himmel og sol, og ser vanlig skog. Her passer det ikke.', ider: ['utelukket', 'kommuner', 'skydekke', 'vind', 'solidag'] },
   { navn: 'Jakt og verneområder', forklaring: 'Anja skrev «INGEN SKYTING». Hvis det betyr at det ikke jaktes der, kan kassen stå der jakt er forbudt.', ider: ['jaktfritt', 'jaktfritt_bare'] },
   { navn: 'Fly, retning og kjøretid', forklaring: 'Flyet hun pekte på, 118°-linjene og hvor langt man kommer fra Oslo.', ider: ['fly', 'fly_alle', 'retning', 'kjoretid'] },
   { navn: 'Steder og teorier', forklaring: 'Stedene hintene og folk i chatten peker på.', ider: ['teorier', 'hytter', 'steder', 'defaultno', 'innlandet', 'skyanalyse'] },
