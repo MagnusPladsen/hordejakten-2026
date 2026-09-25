@@ -230,6 +230,15 @@ export const HINT: Hint[] = [
     fokus: 'tretopp',
   },
   {
+    id: 'ferist',
+    tittel: '«Ingen ferist som jeg merka»',
+    status: 'bekreftet',
+    kilde: 'Tavla',
+    dato: '25.09',
+    tekst: 'Anja skrev 25.09: «INGEN FERIST SOM JEG MERKA».',
+    betydning: 'En ferist er en rist i veien som hindrer beitedyr i å gå ut, og den dunker godt når bilen kjører over. De er vanlige på seter- og fjellveier der sau og storfe går fritt, for eksempel på Ringsakfjellet, Sjusjøen og mange setervoller i Østerdalen. Taler litt imot slike veier, men hun sov mesteparten av turen, så hun kan ha kjørt over en uten å merke det.',
+  },
+  {
     id: 'god-helg',
     tittel: '«God helg og god jakt» med fruktkurv, og musikk i Hordes story («Goldenrod · Riverbank»)',
     status: 'tolkning',
@@ -959,6 +968,7 @@ export const TAVLE: { t: string; tekst: string; bilder?: { src: string; alt: str
     tekst: 'GOD HELG ♥ · OG GOD JAKT (tegning av en fruktkurv, fra Hordes story på Facebook. Musikken i storyen: «Goldenrod · Riverbank»)',
     bilder: [{ src: 'img/tavle-2509-god-helg.jpg', alt: 'Anja med tavla: tegning av en fruktkurv, GOD HELG og GOD JAKT' }],
   },
+  { t: '25.09', tekst: 'INGEN FERIST SOM JEG MERKA' },
 ]
 
 export type Sted = {
