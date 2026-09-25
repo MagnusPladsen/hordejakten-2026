@@ -193,6 +193,8 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
 
     const g = Object.fromEntries(LAG.map((l) => [l.id, L.featureGroup()])) as Record<LagId, L.FeatureGroup>
     grupper.current = g
+    // Nytt kart betyr nye, tomme lag. Uten dette blir lag som var på ved start, aldri tegnet i utvikling (React monterer to ganger).
+    lastet.current = new Set()
 
     // Retning 298° / 118° fra Oslo
     const nv = storsirkel(OSLO, destinasjon(OSLO, 298, 560), 40)
@@ -658,7 +660,10 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
       const last = DN_LASTERE[id] ?? VERN_LASTERE[id] ?? VIND_LASTERE[id]
       if (last && aktive.has(id) && !lastet.current.has(id)) {
         lastet.current.add(id)
-        last(gruppe).catch(() => lastet.current.delete(id))
+        last(gruppe).catch((e) => {
+          console.error(`Kunne ikke laste kartlaget ${id}`, e)
+          lastet.current.delete(id)
+        })
       }
     }
   }, [aktive])
