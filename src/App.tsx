@@ -50,7 +50,7 @@ export default function App() {
   const [hoyde891, setHoyde891] = useState<Hoyde891 | null>(null)
   const [fellesskap891, setFellesskap891] = useState<[number, number][] | null>(null)
   const [kommuner, setKommuner] = useState<GeoJSON.FeatureCollection | null>(null)
-  const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['hintmarkorer', 'modell', 'fly', 'skydekke', 'vind', 'solidag', 'utelukket', 'jaktfritt', 'utenfor']))
+  const [aktive, setAktive] = useState<Set<LagId>>(() => new Set<LagId>(['hintmarkorer', 'modell', 'fly', 'skydekke', 'vind', 'solidag', 'utelukket', 'storvilt', 'jaktfritt', 'utenfor']))
   const [vekter, setVekter] = useState<Vekter>(FORHAND[0].vekter)
   const [modus, setModus] = useState<Modus>('alt')
   const [aktiveBevis, setAktiveBevis] = useState<Set<string>>(() => standardBevis('alt'))
