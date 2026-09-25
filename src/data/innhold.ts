@@ -358,7 +358,7 @@ export const HINT: Hint[] = [
     kilde: 'Tavla',
     dato: '23.09',
     tekst: 'Anja skrev: «FÅR SE BITTELITE · MASSE SOPP · TYPISK FJELLMARK» og «IKKE VANN · STEIN + SOPP · MOSE PÅ STEINER». Hun ser bare litt av omgivelsene.',
-    betydning: 'Fjellmark betyr høyereliggende, skrinn skog og lyng, typisk 500–900 moh. Det passer Ringsakfjellet og Sjusjøen (under flyet NOZ9EG), og åsene over Rena, Løten og Åmot (Digeråsen 606 moh., Birkebeinerveien ca. 590 moh.). Det passer dårlig med lavlandet ved Rudshøgda, Gjøvik og Toten. Ingen vann i nærheten: ikke ved et vann eller en elv.',
+    betydning: 'Fjellmark betyr høyereliggende, skrinn skog og lyng, typisk 500–900 moh. Det passer Ringsakfjellet og Sjusjøen (under flyet NOZ9EG), og åsene over Rena, Løten og Åmot (Digeråsen 606 moh.). Det passer dårlig med lavlandet ved Rudshøgda, Gjøvik og Toten. Ingen vann i nærheten: ikke ved et vann eller en elv.',
     lag: ['teorier'],
   },
   {
@@ -1075,7 +1075,6 @@ export const DEFAULTNO: { nr: number; pos: LatLon; navn: string; p: string }[] =
 export const FLY_PUNKT = { pos: [60.8705, 11.2481] as LatLon, kallesignal: 'NOZ56U', hoydeFot: 23892 }
 /** Sterke terrengtreff fra default.no sitt «site finder» (vei, oppoverbakke, furu, relieff og solhorisont) */
 export const DEFAULTNO_TERRENG: { navn: string; pos: LatLon; omrade: string }[] = [
-  { navn: 'Birkebeinerveien', pos: [61.4495, 10.9752], omrade: 'Rena/Åmot' },
   { navn: 'Gålaveien', pos: [61.4725, 10.9677], omrade: 'Rena/Åmot' },
   { navn: 'Madsskardveien', pos: [61.4747, 11.0966], omrade: 'Rena/Åmot' },
   { navn: 'Tolvmilskogen', pos: [60.69, 12.35], omrade: 'Solør' },
@@ -1183,12 +1182,6 @@ export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: Lat
     tekst: 'Tommsen C: Gruvelia/Vardåsen arbeidsområde (Nannestad)',
     hvem: 'Tommsen på Discord (25.09), punkt C. Mot: ca. 319 moh og punktet ligger i en elv. Nær Gardermoen, der det er mye lavtflygende fly, mens Anja skrev «LITE MED FLY HER». Langt fra 810–891 moh.',
     pos: [60.18519, 10.89289],
-  },
-  {
-    tekst: 'Birkebeinervegen over Ringsakfjellet (Ringsaker–Rena)',
-    hvem: 'Flere på Discord (25.09). Birkebeinervegen går over fjellet mellom Ringsaker, Stor-Elvdal og Øyer, ca. 720–1040 moh. Det er 341 steder på 810–891 moh nær vei her, 233 av dem med vei mot sørøst. Passer godt med 2,7 eiffeltårn, og området er ikke utelukket.',
-    pos: [61.36168, 10.84625],
-    hint: ['eiffel', 'komfra'],
   },
   {
     tekst: 'Finnskogen',
@@ -1366,8 +1359,8 @@ export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: {
   },
   {
     tid: '25.09',
-    tittel: 'Discord: mange tipper Finnskogen, flere Ringsaker–Rena og Birkebeinervegen',
-    tekst: 'Birkebeinervegen går over Ringsakfjellet på 720–1040 moh og har mange steder på 810–891 moh nær vei. Finnskogen er for lav for 810–891 moh og er utelukket på fellesskapets kart. Begge er lagt på kartet under «Hva folk tror».',
+    tittel: 'Discord: mange tipper Finnskogen, flere Ringsaker–Rena',
+    tekst: 'Finnskogen er for lav for 810–891 moh og er utelukket på fellesskapets kart. Den er lagt på kartet under «Hva folk tror».',
   },
   {
     tid: '25.09',

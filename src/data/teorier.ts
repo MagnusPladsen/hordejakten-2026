@@ -244,8 +244,8 @@ export const BEVIS: Bevis[] = [
   {
     id: 'discord2509',
     kilde: 'folk',
-    tittel: 'Discord 25.09: Ringsaker–Rena og Birkebeinervegen, og Finnskogen',
-    forklaring: 'Flere på Discord peker på Ringsaker–Rena og Birkebeinervegen over Ringsakfjellet, som passer med 810–891 moh. Mange tipper også Finnskogen, men den er for lav og er utelukket på fellesskapets kart, så den teller lite.',
+    tittel: 'Discord 25.09: Ringsaker–Rena, og Finnskogen',
+    forklaring: 'Flere på Discord peker på Ringsaker–Rena, som passer med 810–891 moh. Mange tipper også Finnskogen, men den er for lav og er utelukket på fellesskapets kart, så den teller lite.',
     standardPa: true,
     faktor: tabell({ ringsaker: 1.3, rena: 1.15, solor: 1.1 }),
   },
