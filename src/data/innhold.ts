@@ -490,11 +490,11 @@ export const HINT: Hint[] = [
   },
   {
     id: 'dyreoversikt',
-    tittel: 'Dyrehintene så langt: ekorn, stokkand, rev, orrfugl og grevling',
+    tittel: 'Dyrehintene så langt: ekorn, stokkand, rev, orrfugl og grevling/vaskebjørn',
     status: 'tolkning',
     kilde: 'Samlet av fellesskapet 25.09',
     dato: '25.09',
-    tekst: 'Ekorn: «Hint-hint» med ekorn i vervemenyen i appen. Stokkand: ett bilde i den første promovideoen. Rev: revebamsen i boksen. Orrfugl: orrfuglleik-lyd når man rister appen. Grevling: en utstoppet grevling som støtter opp olivenolja i Horde Rewards.',
+    tekst: 'Ekorn: «Hint-hint» med ekorn i vervemenyen i appen. Stokkand: ett bilde i den første promovideoen. Rev: revebamsen i boksen. Orrfugl: orrfuglleik-lyd når man rister appen. Grevling eller vaskebjørn: et utstoppet dyr som støtter opp olivenolja i Horde Rewards. Det ligner Erling Haalands vaskebjørn fra Texas.',
     betydning: 'Alle fem finnes vanlig i skogen på Østlandet, så hvert dyr alene sier lite. Orrfuglen er mest stedbundet: orrfuglen leker på myrer og i åpen skog i høyden, ofte rundt 600–900 moh i Innlandet, og det passer med 810–891 moh. Slå på «default.no: orrfugl» for å se hvor orrfugl er observert. Alf sa på TikTok-live 25.09 at reven og anda «kanskje» har med hint å gjøre.',
     lag: ['dn_orrfugl'],
   },
@@ -510,12 +510,13 @@ export const HINT: Hint[] = [
   },
   {
     id: 'grevling',
-    tittel: 'Utstoppet grevling i Horde Rewards',
+    tittel: 'Utstoppet dyr i Horde Rewards: grevling, eller Haalands vaskebjørn?',
     status: 'bekreftet',
     kilde: 'Horde Rewards i appen (meldt av fellesskapet)',
     dato: '25.09',
-    tekst: 'I Horde Rewards står en utstoppet grevling og støtter opp en flaske olivenolje.',
-    betydning: 'Enda et dyr i rekken. Grevlingen lever mest i lavlandet og i løvskog, og er sjelden høyt til fjells. Uklart hva den skal peke på.',
+    tekst: 'I Horde Rewards står et utstoppet dyr og støtter opp en flaske olivenolje. Det har blitt kalt en grevling, men fellesskapet mener det ligner veldig på den utstoppede vaskebjørnen Erling Haaland kjøpte.',
+    betydning: 'Under fotball-VM 2026 kjøpte Haaland en utstoppet vaskebjørn på Wild Bill\'s Western Store i Dallas, Texas, og bar den gjennom Gardermoen (Nettavisen). Er dyret en vaskebjørn, kan det være et nikk til Haaland eller til Texas, og da henger det sammen med «Eiffeltårnet i Texas»-teorien (Texas og Kompassen i Våler). Er det en grevling, lever den mest i lavlandet og sjelden høyt til fjells. Uklart hva som stemmer.',
+    lenke: 'https://www.nettavisen.no/sport/utsolgt-for-utstoppet-vaskebjorn-etter-haaland-besok/s/5-95-3148456',
   },
   {
     id: 'and',
@@ -1104,7 +1105,7 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
 export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: LatLon; hint?: string[] }[] = [
   {
     tekst: '«Eiffeltårnet i Texas»: Texas og Kompassen i Våler (Solør)',
-    hvem: 'Noen mener «2,7 eiffeltårn» kan være Eiffeltårnet i Paris, Texas. I Våler i Solør finnes både adressenavnet «Texas» og en holme som heter «Kompassen», 5,5 km rett øst for hverandre. For: to navn fra hintene på samme sted, i Innlandet. Mot: Texas ligger ca. 348 moh og Kompassen 302 moh, langt unna 810–891 m. Tårnet i Paris, Texas er ca. 20 m, og 2,7 av dem er bare ca. 54 m. Området er utelukket på fellesskapets kart, og Solør er trukket ned.',
+    hvem: 'Noen mener «2,7 eiffeltårn» kan være Eiffeltårnet i Paris, Texas. I Våler i Solør finnes både adressenavnet «Texas» og en holme som heter «Kompassen», 5,5 km rett øst for hverandre. For: to navn fra hintene på samme sted, i Innlandet. Mot: Texas ligger ca. 348 moh og Kompassen 302 moh, langt unna 810–891 m. Tårnet i Paris, Texas er ca. 20 m, og 2,7 av dem er bare ca. 54 m. Området er utelukket på fellesskapets kart, og Solør er trukket ned. Nytt 25.09: det utstoppede dyret i Horde Rewards ligner Haalands vaskebjørn, som ble kjøpt i Dallas, Texas.',
     fokus: 'texas',
     hint: ['eiffel'],
   },
@@ -1266,7 +1267,7 @@ export const SIKRE_FAKTA: string[] = [
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
   {
     tid: '25.09',
-    tittel: 'Dyrehintene: ekorn, stokkand, rev, orrfugl og grevling',
+    tittel: 'Dyrehintene: ekorn, stokkand, rev, orrfugl og grevling (eller vaskebjørn)',
     tekst: 'Nytt: orrfuglleik-lyd når man rister appen, og en utstoppet grevling i Horde Rewards. Orrfuglen leker ofte på myrer i høyden, som passer med 810–891 moh.',
     hint: 'dyreoversikt',
   },
