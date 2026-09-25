@@ -9,6 +9,8 @@ export type LagId =
   | 'retning'
   | 'skydekke'
   | 'utelukket'
+  | 'jaktfritt'
+  | 'jaktfritt_bare'
   | 'hoyde891'
   | 'dn_hoyde'
   | 'dn_vei'
@@ -666,6 +668,31 @@ export const LAG: Lag[] = [
     kilde: 'Delt i chatten 23.09.',
   },
   {
+    id: 'jaktfritt',
+    navn: 'Verneområder der jakt er forbudt',
+    kort: 'Jakt forbudt eller delvis forbudt',
+    merkelapp: 'fakta',
+    forklaring:
+      'Anja skrev «INGEN SKYTING». Laget viser verneområder og om jakt er lov der. Klassen er lest ut fra verneforskriften for hvert område. «Delvis» betyr at bare noen arter eller perioder er lov, eller at noen arter (som ender og vadefugler) er fredet. Trykk på et område for å se setningen om jakt og lenke til forskriften.',
+    tegn: [
+      { stil: 'fyll', farge: '#e11d48', tekst: 'All jakt forbudt' },
+      { stil: 'fyll', farge: '#fda4af', tekst: 'Jakt delvis forbudt' },
+      { stil: 'linje', farge: '#64748b', tekst: 'Jakt tillatt etter vanlige regler' },
+      { stil: 'stiplet', farge: '#7c3aed', tekst: 'Uklart, les forskriften' },
+    ],
+    kilde: 'Miljødirektoratet (Naturbase) og verneforskriftene på Lovdata, hentet 24.09.2026.',
+  },
+  {
+    id: 'jaktfritt_bare',
+    navn: 'Bare der all jakt er forbudt',
+    kort: 'Streng filter: ingen jakt i det hele tatt',
+    merkelapp: 'fakta',
+    forklaring:
+      'Samme verneområder, men bare de der verneforskriften forbyr all jakt. Områder der noe jakt er lov (for eksempel elgjakt) er tatt bort.',
+    tegn: [{ stil: 'fyll', farge: '#e11d48', tekst: 'All jakt forbudt' }],
+    kilde: 'Miljødirektoratet (Naturbase) og verneforskriftene på Lovdata, hentet 24.09.2026.',
+  },
+  {
     id: 'kommuner',
     navn: 'Kommunevurdering (Vercel)',
     kort: 'Usikkert, lite sannsynlig, utelukket',
@@ -799,7 +826,7 @@ export const GRUPPER: { navn: string; forklaring: string; ider: LagId[] }[] = [
   { navn: 'default.no: terreng og skog', forklaring: 'Skytefelt, hogst, stier, bær og fugl. Takk til default.no.', ider: ['dn_skytefelt', 'dn_hogst', 'dn_leder', 'dn_gasoner', 'dn_baer', 'dn_baerfunn', 'dn_orrfugl', 'dn_storfugl', 'dn_satellitt'] },
   { navn: 'default.no: fly og vær', forklaring: 'Flyene hun så, stille himmel, regn og vær. Takk til default.no.', ider: ['dn_flyhendelser', 'dn_sjelden', 'dn_flylyd', 'dn_regn', 'dn_radar', 'dn_met', 'dn_vaer', 'dn_vegkamera'] },
   { navn: 'default.no: modeller', forklaring: 'Fusjonsmodellen med ulike bevis slått av og på. Slå på én om gangen. Takk til default.no.', ider: ['dn_fusjon', 'dn_fusjon_utenlyd', 'dn_fusjon_fly', 'dn_fusjon_flyskog', 'dn_fusjon_stille', 'dn_fusjon_stilleskog', 'dn_fusjon_utenmerker', 'dn_fusjon_utenfly', 'dn_fusjon_utenflylyd'] },
-  { navn: 'Vær og terreng', forklaring: 'Anja har hatt klar himmel og sol, og ser vanlig skog. Her passer det ikke.', ider: ['utelukket', 'kommuner', 'skydekke', 'solidag'] },
+  { navn: 'Vær og terreng', forklaring: 'Anja har hatt klar himmel og sol, og ser vanlig skog. Her passer det ikke.', ider: ['utelukket', 'jaktfritt', 'jaktfritt_bare', 'kommuner', 'skydekke', 'solidag'] },
   { navn: 'Fly, retning og kjøretid', forklaring: 'Flyet hun pekte på, 118°-linjene og hvor langt man kommer fra Oslo.', ider: ['fly', 'retning', 'kjoretid'] },
   { navn: 'Steder og teorier', forklaring: 'Stedene hintene og folk i chatten peker på.', ider: ['teorier', 'hytter', 'steder', 'defaultno', 'innlandet', 'skyanalyse'] },
   { navn: 'Annet', forklaring: 'Verktøy og bakgrunn.', ider: ['felt', 'utenfor'] },
