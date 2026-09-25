@@ -689,7 +689,7 @@ export const LAG: Lag[] = [
     kort: 'Jakt forbudt eller delvis forbudt',
     merkelapp: 'fakta',
     forklaring:
-      'Anja skrev «INGEN SKYTING». Laget viser verneområder og om jakt er lov der. Klassen er lest ut fra verneforskriften for hvert område. «Delvis» betyr at bare noen arter eller perioder er lov, eller at noen arter (som ender og vadefugler) er fredet. Trykk på et område for å se setningen om jakt og lenke til forskriften.',
+      'Anja skrev «INGEN SKYTING». Nå i slutten av september jaktes det i nesten all skog: småviltjakta startet 10.09 og elgjakta 25.09 i de fleste kommuner. Det finnes ikke åpne data om hvor jegerne er, så i stedet viser laget hvor jakt er forbudt, altså der det ikke skal skytes. Grå kant = jakt tillatt, altså trolig aktiv jakt. Klassen er lest ut fra verneforskriften for hvert område. «Delvis» betyr at bare noen arter eller perioder er lov, eller at noen arter (som ender og vadefugler) er fredet. Trykk på et område for å se setningen om jakt og lenke til forskriften.',
     tegn: [
       { stil: 'fyll', farge: '#e11d48', tekst: 'All jakt forbudt' },
       { stil: 'fyll', farge: '#fda4af', tekst: 'Jakt delvis forbudt' },
