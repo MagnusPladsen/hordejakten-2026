@@ -1114,7 +1114,7 @@ export const TEORIER: Sted[] = [
     info: 'Vervebokstavene N O R H E I M S U D gir NORHEIMSUND med én N til. 6,5 t fra Oslo uten ferge, og ca. 1 t fra Horde i Bergen (5008).',
   },
   { id: 'froland', navn: 'Froland (utelukket)', pos: [58.53, 8.63], type: 'teori', utelukket: true, info: 'Utelukket: været i Froland samsvarer ikke med det Anja har sett. Et skjermbilde som ikke er bekreftet, viser at FROLAND gir «Ekornet kan klatre» i appen.' },
-  { id: 'lillehammer', navn: 'Lillehammer (ekorn-maskot)', pos: [61.115, 10.466], type: 'teori', info: 'Ubekreftet teori om ekorn som maskot. Ligger i det blå båndet på Windy-kartet, så det taler imot.' },
+  { id: 'lillehammer', navn: 'Lillehammer (ekorn-maskot)', pos: [61.115, 10.466], type: 'teori', info: 'Lillehammer kommune lanserte i 2026 ekornet «Lille» som offisiell maskot for byens 200-årsjubileum. Kobler ekorn-hintet til Lillehammer. Mot: Lillehammer lå i det blå båndet på Windy-kartet, og Hagina så at høsten har kommet langt i høyden der.' },
   { id: 'notteroy', navn: 'Nøtterøy (utelukket)', pos: [59.21, 10.42], type: 'teori', utelukket: true, info: 'Ordspill på «nøtt», men «Ikke en øy» og «ingen ferge» taler mot.' },
 ]
 
@@ -1304,7 +1304,7 @@ export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: Lat
   { tekst: 'Gjøvik', hvem: 'Én person: vær og sol passer.', fokus: 'gjovik', hint: ['skyer'] },
   { tekst: 'Norheimsund', hvem: 'Bokstavene, men mangler én N. HORDE MINUS går opp uten rest, og Hardanger var blått på Windy.', fokus: 'norheimsund', hint: ['bokstaver', 'skyer'] },
   { tekst: 'Froland er ute', hvem: 'Været samsvarer ikke med det Anja har sett: det regnet i Froland onsdag kveld, men ikke på streamen. Et skjermbilde (ikke bekreftet) viser at appen svarer «Ekornet kan klatre» på FROLAND.', fokus: 'froland', hint: ['froland', 'frolandekorn', 'ekorn', 'skyanalyse'] },
-  { tekst: 'Lillehammer', hvem: 'Ekorn-maskot. Ligger i det blå båndet på Windy.', fokus: 'lillehammer', hint: ['ekorn'] },
+  { tekst: 'Lillehammer: ekornet «Lille» er byens maskot', hvem: 'Lillehammer kommune lanserte i 2026 ekornet «Lille» som offisiell maskot for 200-årsjubileet. Ekornet er et av dyrehintene (vervemenyen i appen). Mot: Lillehammer lå i det blå båndet på Windy, og Hagina så at bjørka er langt på høsten i høyden rundt Lillehammer. Bobbane-tipset («Bob») peker også mot Lillehammer.', fokus: 'lillehammer', hint: ['ekorn', 'dyreoversikt'] },
   {
     tekst: 'MINUS HORDE = JAKTEN',
     hvem: '«HORDEJAKTEN» minus «HORDE» gir «JAKTEN». Rev, and og kråke er jaktbare dyr, så dyrene kan også handle om jakt. Prøv ordene i kredittskår-boksen i appen, der «terje» ga 5008.', hint: ['bokstaver', 'dyr', 'and'] },
