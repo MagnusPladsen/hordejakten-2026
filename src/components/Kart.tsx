@@ -431,6 +431,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
     const g = grupper.current
     if (!flyData || !g) return
     g.fly.clearLayers()
+    g.fly_alle.clearLayers()
     for (const fly of flyData.fly) {
       const hovedfly = fly.kallesignal === FLY_PUNKT.kallesignal || fly.kallesignal === FLY_PUNKT2.kallesignal
       const naa = posisjon(fly, PEKETID_EKTE)
@@ -445,9 +446,10 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
             `Sporet 21:28–21:34 (ekte tid). ${naa ? `Kl. ${PEKETID_EKTE} var flyet i ca. ${Math.round(naa.fot).toLocaleString('nb-NO')} fot.` : ''}<br><span class="kilde">Flydata via default.no. Takk til default.no.</span>`,
           ),
         )
-        .addTo(g.fly)
+        // Flyene som passer med det hun så, vises som standard. Resten ligger i «Alle fly».
+        .addTo(hovedfly ? g.fly : g.fly_alle)
       if (naa) {
-        L.circleMarker(naa.pos, { radius: hovedfly ? 6 : 3.5, color: '#fff', weight: 1.5, fillColor: FARGE.fly, fillOpacity: lavt ? 0.4 : 1 }).addTo(g.fly)
+        L.circleMarker(naa.pos, { radius: hovedfly ? 6 : 3.5, color: '#fff', weight: 1.5, fillColor: FARGE.fly, fillOpacity: lavt ? 0.4 : 1 }).addTo(hovedfly ? g.fly : g.fly_alle)
       }
     }
     for (const punkt of [FLY_PUNKT, FLY_PUNKT2]) {

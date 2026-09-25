@@ -56,6 +56,7 @@ export type LagId =
   | 'steder'
   | 'teorier'
   | 'fly'
+  | 'fly_alle'
   | 'felt'
   | 'hytter'
   | 'utenfor'
@@ -782,9 +783,23 @@ export const LAG: Lag[] = [
   },
   {
     id: 'fly',
-    navn: 'Fly i lufta kl. 21:29',
-    kort: 'Anja pekte rett opp og skrev «FLY»',
-    merkelapp: 'tolkning',
+    navn: 'Flyene hun så kl. 21:29',
+    kort: 'NOZ56U og NOZ9EG, nærmest da hun pekte',
+    merkelapp: 'fakta',
+    forklaring:
+      'Anja pekte rett opp og skrev «FLY» kl. 21:29. De to flyene som passer, var NOZ56U nordover over Hamar, like ved Løten, og NOZ9EG sørover over Ringsakfjellet. Sporene er fra ADS-B, prikkene viser hvor flyene var da hun pekte, og ringene er 10 km rundt. Kassen bør ligge nær et av dem. Slå på «Alle fly i lufta kl. 21:29» for å se de andre 47.',
+    tegn: [
+      { stil: 'linje', farge: FARGE.fly, tekst: 'Spor 21:28–21:34' },
+      { stil: 'prikk', farge: FARGE.fly, tekst: 'Posisjon da hun pekte opp' },
+      { stil: 'ring', farge: FARGE.fly, tekst: '10 km rundt' },
+    ],
+    kilde: 'ADS-B fra adsb.lol (via default.no). Streamen er 45 sek forsinket. Takk til default.no.',
+  },
+  {
+    id: 'fly_alle',
+    navn: 'Alle fly i lufta kl. 21:29',
+    kort: 'Alle 49 flyspor, også de som ikke passer',
+    merkelapp: 'fakta',
     forklaring:
       'Sporene til alle 49 fly som var i lufta 21:28–21:34 (ekte tid). Prikkene viser hvor hvert fly var da Anja pekte opp. Kassen bør ligge nær et spor. De to tykke sporene er flyene nærmest: NOZ56U nordover over Hamar, like ved Løten og NOZ9EG sørover over Ringsakfjellet. Ringene er 10 km rundt der de var. Svake spor er fly under 3000 fot.',
     tegn: [
@@ -842,7 +857,7 @@ export const GRUPPER: { navn: string; forklaring: string; ider: LagId[] }[] = [
   { navn: 'default.no: modeller', forklaring: 'Fusjonsmodellen med ulike bevis slått av og på. Slå på én om gangen. Takk til default.no.', ider: ['dn_fusjon', 'dn_fusjon_utenlyd', 'dn_fusjon_fly', 'dn_fusjon_flyskog', 'dn_fusjon_stille', 'dn_fusjon_stilleskog', 'dn_fusjon_utenmerker', 'dn_fusjon_utenfly', 'dn_fusjon_utenflylyd'] },
   { navn: 'Vær og terreng', forklaring: 'Anja har hatt klar himmel og sol, og ser vanlig skog. Her passer det ikke.', ider: ['utelukket', 'kommuner', 'skydekke', 'solidag'] },
   { navn: 'Jakt og verneområder', forklaring: 'Anja skrev «INGEN SKYTING». Hvis det betyr at det ikke jaktes der, kan kassen stå der jakt er forbudt.', ider: ['jaktfritt', 'jaktfritt_bare'] },
-  { navn: 'Fly, retning og kjøretid', forklaring: 'Flyet hun pekte på, 118°-linjene og hvor langt man kommer fra Oslo.', ider: ['fly', 'retning', 'kjoretid'] },
+  { navn: 'Fly, retning og kjøretid', forklaring: 'Flyet hun pekte på, 118°-linjene og hvor langt man kommer fra Oslo.', ider: ['fly', 'fly_alle', 'retning', 'kjoretid'] },
   { navn: 'Steder og teorier', forklaring: 'Stedene hintene og folk i chatten peker på.', ider: ['teorier', 'hytter', 'steder', 'defaultno', 'innlandet', 'skyanalyse'] },
   { navn: 'Annet', forklaring: 'Verktøy og bakgrunn.', ider: ['felt', 'utenfor'] },
 ]
