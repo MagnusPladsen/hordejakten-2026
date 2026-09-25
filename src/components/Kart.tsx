@@ -8,6 +8,7 @@ import { DN_LASTERE } from '@/lib/defaultno'
 import { VERN_LASTERE } from '@/lib/verneomrader'
 import { VIND_LASTERE } from '@/lib/vind'
 import { STORVILT_LASTERE } from '@/lib/storvilt'
+import { TRESLAG_LASTERE } from '@/lib/treslag'
 import { avstand, destinasjon, formaterTid, iPolygon, sektor, storsirkel, type LatLon } from '@/lib/geo'
 import { PEKETID_EKTE, posisjon, type FlyData } from '@/lib/fly'
 import { FAKTORER, faktorer, klasse, utelukkNokkel, type Kontekst, type Punkt, type Resultat, type Vekter } from '@/lib/modell'
@@ -667,7 +668,7 @@ export function Kart({ ref, polstring, punkter, norge, flyData, innlandet, utelu
       if (aktive.has(id)) gruppe.addTo(kart)
       else gruppe.remove()
       // default.no-lagene og verneområdene hentes først når de slås på
-      const last = DN_LASTERE[id] ?? VERN_LASTERE[id] ?? VIND_LASTERE[id] ?? STORVILT_LASTERE[id]
+      const last = DN_LASTERE[id] ?? VERN_LASTERE[id] ?? VIND_LASTERE[id] ?? STORVILT_LASTERE[id] ?? TRESLAG_LASTERE[id]
       if (last && aktive.has(id) && !lastet.current.has(id)) {
         lastet.current.add(id)
         last(gruppe).catch((e) => {

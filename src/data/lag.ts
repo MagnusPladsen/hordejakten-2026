@@ -11,6 +11,7 @@ export type LagId =
   | 'skydekke'
   | 'vind'
   | 'storvilt'
+  | 'treslag'
   | 'utelukket'
   | 'jaktfritt'
   | 'jaktfritt_bare'
@@ -685,6 +686,20 @@ export const LAG: Lag[] = [
     kilde: 'Delt i chatten 23.09.',
   },
   {
+    id: 'treslag',
+    navn: 'Skog som ligner (bjørk, gran, furu)',
+    kort: '«35 % bjørk, 25 % gran, 40 % furu» rundt henne',
+    merkelapp: 'beregnet',
+    forklaring:
+      'Anja skrev kl. 18:13 den 25.09: «KANSKJE 35% BJØRK, 25% GRAN, 40% FURU. AKKURAT RUNDT MEG.» Kartet viser hvor skogen har omtrent den blandingen, regnet ut fra NIBIOs skogkart SR16 i ruter på ca. 2 × 2 km. Mørk grønn = svært lik. SR16 viser treslaget som dominerer i hver bestand, så andelene er grove, og «kanskje» betyr at tallene hennes også er anslag.',
+    tegn: [
+      { stil: 'rute', farge: '#166534', tekst: 'Svært lik (over 85 %)' },
+      { stil: 'rute', farge: '#16a34a', tekst: 'Lik (75–85 %)' },
+      { stil: 'rute', farge: '#86efac', tekst: 'Litt lik (65–75 %)' },
+    ],
+    kilde: 'NIBIO: SR16 skogressurskart (dominerende treslag), hentet 25.09.2026.',
+  },
+  {
     id: 'storvilt',
     navn: 'Elgjakt på statsgrunn (lite sannsynlig)',
     kort: 'Storviltjakt med rifle, farlig. Kassen står ikke der',
@@ -882,7 +897,7 @@ export const GRUPPER: { navn: string; forklaring: string; ider: LagId[] }[] = [
   { navn: 'default.no: terreng og skog', forklaring: 'Skytefelt, hogst, stier, bær og fugl. Takk til default.no.', ider: ['dn_skytefelt', 'dn_hogst', 'dn_leder', 'dn_gasoner', 'dn_baer', 'dn_baerfunn', 'dn_orrfugl', 'dn_storfugl', 'dn_satellitt'] },
   { navn: 'default.no: fly og vær', forklaring: 'Flyene hun så, stille himmel, regn og vær. Takk til default.no.', ider: ['dn_flyhendelser', 'dn_sjelden', 'dn_flylyd', 'dn_regn', 'dn_radar', 'dn_met', 'dn_vaer', 'dn_vegkamera'] },
   { navn: 'default.no: modeller', forklaring: 'Fusjonsmodellen med ulike bevis slått av og på. Slå på én om gangen. Takk til default.no.', ider: ['dn_fusjon', 'dn_fusjon_utenlyd', 'dn_fusjon_fly', 'dn_fusjon_flyskog', 'dn_fusjon_stille', 'dn_fusjon_stilleskog', 'dn_fusjon_utenmerker', 'dn_fusjon_utenfly', 'dn_fusjon_utenflylyd'] },
-  { navn: 'Vær og terreng', forklaring: 'Anja har hatt klar himmel og sol, og ser vanlig skog. Her passer det ikke.', ider: ['utelukket', 'kommuner', 'skydekke', 'vind', 'solidag'] },
+  { navn: 'Vær og terreng', forklaring: 'Anja har hatt klar himmel og sol, og ser vanlig skog. Her passer det ikke.', ider: ['treslag', 'utelukket', 'kommuner', 'skydekke', 'vind', 'solidag'] },
   { navn: 'Jakt og verneområder', forklaring: 'Anja skrev «INGEN SKYTING». Hvis det betyr at det ikke jaktes der, kan kassen stå der jakt er forbudt.', ider: ['storvilt', 'jaktfritt', 'jaktfritt_bare'] },
   { navn: 'Fly, retning og kjøretid', forklaring: 'Flyet hun pekte på, 118°-linjene og hvor langt man kommer fra Oslo.', ider: ['fly', 'fly_alle', 'retning', 'kjoretid'] },
   { navn: 'Steder og teorier', forklaring: 'Stedene hintene og folk i chatten peker på.', ider: ['teorier', 'hytter', 'steder', 'defaultno', 'innlandet', 'skyanalyse'] },

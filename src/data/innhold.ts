@@ -236,7 +236,8 @@ export const HINT: Hint[] = [
     kilde: 'Tavla',
     dato: '25.09',
     tekst: 'Anja skrev kl. 18:13: «KANSKJE 35% BJØRK, 25% GRAN, 40% FURU. AKKURAT RUNDT MEG.»',
-    betydning: 'Blandingsskog med mest furu og mye bjørk, og minst gran. Det passer furumo og lyngmark, ikke tett granskog. Mye bjørk tyder på høyereliggende skog eller et gammelt hogstfelt (som hun gikk gjennom). Et kartlag som viser hvor skogen ligner, kommer.',
+    betydning: 'Blandingsskog med mest furu og mye bjørk, og minst gran. Det passer furumo og lyngmark, ikke tett granskog. Mye bjørk tyder på høyereliggende skog eller et gammelt hogstfelt (som hun gikk gjennom). Slå på kartlaget «Skog som ligner (bjørk, gran, furu)» for å se hvor skogen har omtrent samme blanding.',
+    lag: ['treslag'],
   },
   {
     id: 'fly2509',
