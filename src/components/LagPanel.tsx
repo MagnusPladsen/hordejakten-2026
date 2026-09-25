@@ -272,7 +272,7 @@ function SjekkPunkt({ onSjekk }: { onSjekk: (pos: LatLon) => void }) {
 
 /** Ferdige visninger: slår på akkurat disse lagene og av resten */
 const VISNINGER: { id: string; navn: string; tekst: string; lag: LagId[] }[] = [
-  { id: 'standard', navn: 'Bekreftet (standard)', tekst: 'Bekreftede hint, flyene hun så, og der vær, vind, sol og vegetasjon utelukker', lag: ['hintmarkorer', 'modell', 'fly', 'skydekke', 'vind', 'solidag', 'utelukket', 'jaktfritt', 'utenfor'] },
+  { id: 'standard', navn: 'Bekreftet (standard)', tekst: 'Bekreftede hint, flyene hun så, og der vær, vind, sol og vegetasjon utelukker', lag: ['hintmarkorer', 'modell', 'fly', 'skydekke', 'vind', 'solidag', 'utelukket', 'storvilt', 'jaktfritt', 'utenfor'] },
   { id: 'alt', navn: 'Alt vi har', tekst: 'Alle hint og tips, teorier, høyde og fellesskapets kart', lag: ['hintmarkorer_alle', 'modell', 'teoriomrader', 'hoyde891', 'utelukket', 'utenfor'] },
   { id: 'hoyde', navn: 'Høyden 810–891 moh', tekst: '2,7 eiffeltårn: høyde nær vei', lag: ['hintmarkorer', 'hoyde891', 'fellesskap891', 'dn_hoyde', 'utenfor'] },
   { id: 'hogst', navn: 'Hogst, stier og skytefelt', tekst: 'Hun gikk gjennom gammel hogst, uten sti, ingen skyting', lag: ['hintmarkorer', 'dn_hogst', 'dn_leder', 'dn_skytefelt', 'hoyde891', 'utenfor'] },

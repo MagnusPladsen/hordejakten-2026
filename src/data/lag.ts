@@ -10,6 +10,7 @@ export type LagId =
   | 'retning'
   | 'skydekke'
   | 'vind'
+  | 'storvilt'
   | 'utelukket'
   | 'jaktfritt'
   | 'jaktfritt_bare'
@@ -684,12 +685,22 @@ export const LAG: Lag[] = [
     kilde: 'Delt i chatten 23.09.',
   },
   {
+    id: 'storvilt',
+    navn: 'Elgjakt på statsgrunn (lite sannsynlig)',
+    kort: 'Storviltjakt med rifle, farlig. Kassen står ikke der',
+    merkelapp: 'fakta',
+    forklaring:
+      'Elgjakta startet 25.09, og den foregår med rifle. Kassen står ikke i farlig terreng, så områder med elgjakt er lite sannsynlige. Laget viser Statskogs storviltjaktfelt, altså statsgrunn der det jaktes elg. Elgjakt på privat grunn finnes ikke som åpne kartdata, så mye elgterreng mangler på kartet. Småvilt- og fuglejakt (hagle) er ikke regnet som utelukket.',
+    tegn: [{ stil: 'rute', farge: '#f59e0b', tekst: 'Elgjakt (Statskog)' }],
+    kilde: 'Statskog: Storviltjaktfelt (Geonorge), hentet 25.09.2026. Navn og telefonnummer til jaktledere er fjernet.',
+  },
+  {
     id: 'jaktfritt',
     navn: 'Verneområder der jakt er forbudt',
     kort: 'Jakt forbudt eller delvis forbudt',
     merkelapp: 'fakta',
     forklaring:
-      'Anja skrev «INGEN SKYTING». Nå i slutten av september jaktes det i nesten all skog: småviltjakta startet 10.09 og elgjakta 25.09 i de fleste kommuner. Det finnes ikke åpne data om hvor jegerne er, så i stedet viser laget hvor jakt er forbudt, altså der det ikke skal skytes. Grå kant = jakt tillatt, altså trolig aktiv jakt. Klassen er lest ut fra verneforskriften for hvert område. «Delvis» betyr at bare noen arter eller perioder er lov, eller at noen arter (som ender og vadefugler) er fredet. Trykk på et område for å se setningen om jakt og lenke til forskriften.',
+      'Anja skrev «INGEN SKYTING». Nå i slutten av september jaktes det i nesten all skog: småviltjakta startet 10.09 og elgjakta 25.09 i de fleste kommuner. Småvilt- og fuglejakt (hagle) er ikke regnet som utelukket, men elgjakt (rifle) er farlig og regnes som lite sannsynlig: se laget «Elgjakt på statsgrunn». Dette laget viser hvor jakt er forbudt, altså der det ikke skal skytes. Grå kant = jakt tillatt, altså trolig aktiv jakt. Klassen er lest ut fra verneforskriften for hvert område. «Delvis» betyr at bare noen arter eller perioder er lov, eller at noen arter (som ender og vadefugler) er fredet. Trykk på et område for å se setningen om jakt og lenke til forskriften.',
     tegn: [
       { stil: 'fyll', farge: '#e11d48', tekst: 'All jakt forbudt' },
       { stil: 'fyll', farge: '#fda4af', tekst: 'Jakt delvis forbudt' },
@@ -871,7 +882,7 @@ export const GRUPPER: { navn: string; forklaring: string; ider: LagId[] }[] = [
   { navn: 'default.no: fly og vær', forklaring: 'Flyene hun så, stille himmel, regn og vær. Takk til default.no.', ider: ['dn_flyhendelser', 'dn_sjelden', 'dn_flylyd', 'dn_regn', 'dn_radar', 'dn_met', 'dn_vaer', 'dn_vegkamera'] },
   { navn: 'default.no: modeller', forklaring: 'Fusjonsmodellen med ulike bevis slått av og på. Slå på én om gangen. Takk til default.no.', ider: ['dn_fusjon', 'dn_fusjon_utenlyd', 'dn_fusjon_fly', 'dn_fusjon_flyskog', 'dn_fusjon_stille', 'dn_fusjon_stilleskog', 'dn_fusjon_utenmerker', 'dn_fusjon_utenfly', 'dn_fusjon_utenflylyd'] },
   { navn: 'Vær og terreng', forklaring: 'Anja har hatt klar himmel og sol, og ser vanlig skog. Her passer det ikke.', ider: ['utelukket', 'kommuner', 'skydekke', 'vind', 'solidag'] },
-  { navn: 'Jakt og verneområder', forklaring: 'Anja skrev «INGEN SKYTING». Hvis det betyr at det ikke jaktes der, kan kassen stå der jakt er forbudt.', ider: ['jaktfritt', 'jaktfritt_bare'] },
+  { navn: 'Jakt og verneområder', forklaring: 'Anja skrev «INGEN SKYTING». Hvis det betyr at det ikke jaktes der, kan kassen stå der jakt er forbudt.', ider: ['storvilt', 'jaktfritt', 'jaktfritt_bare'] },
   { navn: 'Fly, retning og kjøretid', forklaring: 'Flyet hun pekte på, 118°-linjene og hvor langt man kommer fra Oslo.', ider: ['fly', 'fly_alle', 'retning', 'kjoretid'] },
   { navn: 'Steder og teorier', forklaring: 'Stedene hintene og folk i chatten peker på.', ider: ['teorier', 'hytter', 'steder', 'defaultno', 'innlandet', 'skyanalyse'] },
   { navn: 'Annet', forklaring: 'Verktøy og bakgrunn.', ider: ['felt', 'utenfor'] },
