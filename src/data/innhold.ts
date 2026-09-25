@@ -240,12 +240,12 @@ export const HINT: Hint[] = [
   },
   {
     id: 'god-helg',
-    tittel: '«God helg og god jakt» med fruktkurv, og sangen «Riverbank»',
+    tittel: '«God helg og god jakt» med fruktkurv, og musikken «Goldenrod · Riverbank»',
     status: 'tolkning',
     kilde: 'Hordes story 25.09 (skjermbilde)',
     dato: '25.09',
-    tekst: 'Anja holdt opp en tavle med en tegnet fruktkurv (eple, appelsin, banan, pære, jordbær og druer) og «GOD HELG ♥ OG GOD JAKT». Storyen hadde musikken «Riverbank» av Goldenrod.',
-    betydning: 'Trolig bare en hilsen før helgen. Men tavla kl. 10:21 samme dag sa «GJETT RIKTIG SANG», så sangvalget kan være et hint: «Riverbank» betyr elvebredd. Alf har sagt at man aldri må krysse en elv, men kassen kan stå nær en. Fruktkurven kan også være et ordspill. Ren tolkning.',
+    tekst: 'Anja holdt opp en tavle med en tegnet fruktkurv (eple, appelsin, banan, pære, jordbær og druer) og «GOD HELG ♥ OG GOD JAKT». Øverst i storyen står musikken «Goldenrod · Riverbank», altså musikken Horde la på storyen. Det er uklart hva som er artist og hva som er sangtittel, og vi fant ikke noen kjent sang med det navnet, så det er trolig et spor fra Facebook sitt eget musikkbibliotek.',
+    betydning: 'Trolig bare en hilsen før helgen. Men tavla kl. 10:21 samme dag sa «GJETT RIKTIG SANG», så sangvalget kan være et hint: «Riverbank» betyr elvebredd, og «Goldenrod» er planten gullris. Alf har sagt at man aldri må krysse en elv, men kassen kan stå nær en. Fruktkurven kan også være et ordspill. Ren tolkning.',
   },
   {
     id: 'flylangtunna',
