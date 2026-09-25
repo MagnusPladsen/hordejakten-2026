@@ -159,7 +159,7 @@ export const HINT: Hint[] = [
     kilde: 'default.no (lydanalyse) + chat. Takk til default.no.',
     dato: '21.09',
     tekst: 'default.no sin lydanalyse fant mulige tog (08:34, 11:29, 14:07), klokker (08:35, 14:00) og skudd (14:24, 14:54) den 21.09, alle med lav sikkerhet (0,33–0,51). I chatten sies det at Anja ikke hører tog, bil eller skyting.',
-    betydning: 'Kan ikke brukes: lyden på streamen er trolig falsk og går i loop (default.no fant identiske lydbiter 22–48 t fra hverandre, og chatten sier det samme). Lyder fra streamen sier derfor ingenting om stedet. Anjas eget svar (ingen tog, bil eller skyting) teller mer: kassen står trolig et stille sted, ikke nær jernbane eller trafikkert vei.',
+    betydning: 'Usikkert: default.no fant identiske lydbiter 22–48 t fra hverandre, som tyder på loop. Men Alf sa på TikTok-live 25.09 at «det er ekte lyd på streamen» (tidligere år trollet de med lyden). Lyder fra streamen sier derfor ingenting om stedet. Anjas eget svar (ingen tog, bil eller skyting) teller mer: kassen står trolig et stille sted, ikke nær jernbane eller trafikkert vei.',
   },
   {
     id: 'fugler',
@@ -240,6 +240,15 @@ export const HINT: Hint[] = [
     tekst: 'Anja skrev kl. 17:20: «INGEN HYTTE I NÆRHETEN SOM JEG VET OM ELLER SER».',
     betydning: 'Taler imot teorier om at kassen står ved en hytte eller et hyttefelt, som Tretopphyttene. Det passer med skog uten stier, 5–10 min fra en vei.',
     fokus: 'tretopp',
+  },
+  {
+    id: 'tiktok2509',
+    tittel: 'Alf på TikTok-live 25.09: ekte lyd, dyrene kan være hint, koder kan ha kommet',
+    status: 'usikker',
+    kilde: 'Alf på Hordes TikTok-live 25.09, gjengitt i chatten (ikke sjekket ordrett)',
+    dato: '25.09',
+    tekst: 'Alf sa på TikTok-live: «Det er ekte lyd på streamen. Men dere husker kanskje tidligere år, da drev vi å trollet litt med lyden.» «Har reven og anda noe med hint å gjøre? Ja, kanskje.» «Kan være at noen av kodene allerede har kommet.» «Kommer en del viktige hint nå i løpet av helgen.»',
+    betydning: 'Lyden: Alf sier den er ekte, men default.no fant lydbiter som gjentar seg 22–48 t senere. Begge deler kan stemme hvis noe av lyden er ekte og noe er lagt på, eller hvis Alf troller igjen. Vær forsiktig med å bruke lyd. Dyrene: reven og anda kan være hint. Kodene: noen kan allerede være kjent, for eksempel 5008 fra appen og 0810/0891 fra Horde AI. Flere viktige hint kommer i helgen.',
   },
   {
     id: 'kodeniappen',
@@ -1226,6 +1235,12 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '25.09',
+    tittel: 'Alf på TikTok-live: «Det er ekte lyd på streamen» og «viktige hint i helgen»',
+    tekst: 'Alf sa også at reven og anda «kanskje» har med hint å gjøre, og at «noen av kodene kan allerede ha kommet». Gjengitt i chatten, ikke sjekket ordrett. Lyden var tidligere regnet som loop, så det er nå usikkert.',
+    hint: 'tiktok2509',
+  },
   {
     tid: '24.09 kl. 11:05',
     tittel: 'Anja sa det regnet, og da regnet det i Rena',
