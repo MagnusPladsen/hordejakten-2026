@@ -1104,6 +1104,18 @@ export const KODER: { kode: string; kilde: string; status: Status; sjanse: Sjans
 /** Hva folk i chatten og på Discord tror, kort oppsummert. `fokus` er et sted på kartet. */
 export const FOLK_TROR: { tekst: string; hvem: string; fokus?: string; pos?: LatLon; hint?: string[] }[] = [
   {
+    tekst: 'Birkebeinervegen over Ringsakfjellet (Ringsaker–Rena)',
+    hvem: 'Flere på Discord (25.09). Birkebeinervegen går over fjellet mellom Ringsaker, Stor-Elvdal og Øyer, ca. 720–1040 moh. Det er 341 steder på 810–891 moh nær vei her, 233 av dem med vei mot sørøst. Passer godt med 2,7 eiffeltårn, og området er ikke utelukket.',
+    pos: [61.36168, 10.84625],
+    hint: ['eiffel', 'komfra'],
+  },
+  {
+    tekst: 'Finnskogen',
+    hvem: 'Mange på Discord tipper Finnskogen nå (25.09). Mot: terrenget er for lavt for 810–891 moh (ingen treff i høydelaget), og Finnskogen er utelukket på fellesskapets utelukkingskart.',
+    pos: [60.60349, 12.37164],
+    hint: ['eiffel'],
+  },
+  {
     tekst: '«Eiffeltårnet i Texas»: Texas og Kompassen i Våler (Solør)',
     hvem: 'Noen mener «2,7 eiffeltårn» kan være Eiffeltårnet i Paris, Texas. I Våler i Solør finnes både adressenavnet «Texas» og en holme som heter «Kompassen», 5,5 km rett øst for hverandre. For: to navn fra hintene på samme sted, i Innlandet. Mot: Texas ligger ca. 348 moh og Kompassen 302 moh, langt unna 810–891 m. Tårnet i Paris, Texas er ca. 20 m, og 2,7 av dem er bare ca. 54 m. Området er utelukket på fellesskapets kart, og Solør er trukket ned. Nytt 25.09: det utstoppede dyret i Horde Rewards ligner Haalands vaskebjørn, som ble kjøpt i Dallas, Texas.',
     fokus: 'texas',
@@ -1265,6 +1277,11 @@ export const SIKRE_FAKTA: string[] = [
 
 /** Siste nytt, nyeste først. Det øverste vises stort øverst i Teorier-fanen. */
 export const SISTE_NYTT: { tid: string; tittel: string; tekst: string; lenke?: { tekst: string; url: string }; hint?: string }[] = [
+  {
+    tid: '25.09',
+    tittel: 'Discord: mange tipper Finnskogen, flere Ringsaker–Rena og Birkebeinervegen',
+    tekst: 'Birkebeinervegen går over Ringsakfjellet på 720–1040 moh og har mange steder på 810–891 moh nær vei. Finnskogen er for lav for 810–891 moh og er utelukket på fellesskapets kart. Begge er lagt på kartet under «Hva folk tror».',
+  },
   {
     tid: '25.09',
     tittel: 'Dyrehintene: ekorn, stokkand, rev, orrfugl og grevling (eller vaskebjørn)',
