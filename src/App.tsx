@@ -4,6 +4,7 @@ import { toast } from 'sonner'
 
 import { Ark, type Fane, type Hoyde } from '@/components/Ark'
 import { HintPanel } from '@/components/HintPanel'
+import { TikTokLiveLenke, useTikTokLive } from '@/components/TikTokLive'
 import { Kart, type Hoyde891, type Bakgrunn, type KartApi } from '@/components/Kart'
 import { LagPanel } from '@/components/LagPanel'
 import { Legende } from '@/components/Legende'
@@ -63,6 +64,7 @@ export default function App() {
     return startParam.get('hint') ? 'hint' : 'teorier'
   })
   // Bredt sidepanel på desktop, til kartet tas i bruk
+  const tiktok = useTikTokLive()
   const [bred, setBred] = useState(true)
   const [vinduBredde, setVinduBredde] = useState(() => window.innerWidth)
   useEffect(() => {
@@ -265,15 +267,18 @@ export default function App() {
             <p className="text-[12px] text-muted-foreground" aria-live="polite">{punkter ? 'Hvor står kassen?' : 'Laster kartdata …'}</p>
           </div>
         </div>
-        <a
-          href={STREAM.url}
-          target="_blank"
-          rel="noopener"
-          className="pointer-events-auto flex items-center gap-2 rounded-full bg-[#dc2626] px-3.5 py-2 text-xs font-bold tracking-wider text-white shadow-lg shadow-red-900/20"
-        >
-          <span className="live-puls size-2 rounded-full bg-white" />
-          LIVE
-        </a>
+        <div className="flex flex-col items-end gap-2">
+          <a
+            href={STREAM.url}
+            target="_blank"
+            rel="noopener"
+            className="pointer-events-auto flex items-center gap-2 rounded-full bg-[#dc2626] px-3.5 py-2 text-xs font-bold tracking-wider text-white shadow-lg shadow-red-900/20"
+          >
+            <span className="live-puls size-2 rounded-full bg-white" />
+            LIVE
+          </a>
+          {tiktok && <TikTokLiveLenke status={tiktok} kompakt={!desktop} />}
+        </div>
       </header>
 
       <Legende
