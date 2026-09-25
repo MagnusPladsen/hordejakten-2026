@@ -42,7 +42,7 @@ export function DiscordKreditt({ kompakt, className }: { kompakt?: boolean; clas
         </div>
         <p className="mt-2 text-[18px] leading-snug font-semibold">Det meste vi vet, er funnet av folk i «Hordejakten 2026» på Discord.</p>
         <p className="mt-1.5 text-[14.5px] leading-relaxed text-indigo-100">
-          Hint, tavlebilder, koder, kart og teorier kommer fra rundt 3 000 som leter sammen der. Vil du være med å finne Anja, er det der det skjer. <Heart className="inline size-4 -translate-y-px fill-current" />
+          Hint, tavlebilder, koder, kart og teorier kommer fra rundt 3 000 som leter sammen der, blant dem BobTheShoplifter, som har laget default.no. Vil du være med å finne Anja, er det der det skjer. <Heart className="inline size-4 -translate-y-px fill-current" />
         </p>
         <a
           href={DISCORD_URL}
