@@ -723,7 +723,7 @@ export const LAG: Lag[] = [
   },
   {
     id: 'solidag',
-    navn: 'Sol i dag (satellitt)',
+    navn: 'Sol 23.09 (satellitt)',
     kort: 'Klart her, skyet nesten alle andre steder',
     merkelapp: 'tolkning',
     forklaring:

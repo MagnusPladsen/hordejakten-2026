@@ -51,7 +51,7 @@ export const HINT: Hint[] = [
     status: 'tolkning',
     kilde: 'Satellittbilde (fellesskapet)',
     dato: '23.09',
-    tekst: 'Tidligere i dag var det skyer over store deler av Norge på satellitt, mens Anja hadde sol. Klart var det fra Kongsvinger opp til Rena på siden mot Sverige, i deler av Vestfold og rundt Trondheim–Ålesund.',
+    tekst: 'Formiddagen 23.09 var det skyer over store deler av Norge på satellitt, mens Anja hadde sol. Klart var det fra Kongsvinger opp til Rena på siden mot Sverige, i deler av Vestfold og rundt Trondheim–Ålesund.',
     betydning: 'Kassen står trolig i et av de klare områdene. Det peker mot Kongsvinger–Elverum–Rena, som passer med flyet over Hamar, like ved Løten. Fredrikstad, Sarpsborg og Halden var overskyet hele dagen og er ute. Trondheim–Ålesund var blått på Windy tidligere, og det er uklart hvilke deler av Vestfold som var klare.',
     lag: ['solidag'],
   },
@@ -387,7 +387,7 @@ export const HINT: Hint[] = [
     kilde: 'Tavla («KAMERA 41 ØST») + default.no. Takk til default.no.',
     dato: '23.09',
     tekst: 'Anja skrev «KAMERA 41 ØST». Kameraet står altså nordøst for kassen og filmer mot ca. 221° (sørvest).',
-    betydning: 'Stemmer nesten helt med default.no, som regnet ut kameraretningen fra sola alene (219–220°). Da er sollyset på streamen trolig ekte, og sol-hintene (soloppgang, sola i sør, sol i dag) blir mer til å stole på.',
+    betydning: 'Stemmer nesten helt med default.no, som regnet ut kameraretningen fra sola alene (219–220°). Da er sollyset på streamen trolig ekte, og sol-hintene (soloppgang, sola i sør, sol 23.09) blir mer til å stole på.',
   },
   {
     id: 'solmiddag',

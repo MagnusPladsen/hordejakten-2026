@@ -210,7 +210,7 @@ export const BEVIS: Bevis[] = [
   },
   {
     id: 'solidag',
-    tittel: 'Sol i dag mens det var skyet nesten overalt',
+    tittel: 'Sol 23.09 mens det var skyet nesten overalt',
     forklaring:
       'På satellitt 23.09 var det bare klart Kongsvinger–Rena mot Sverige, i deler av Vestfold og rundt Trondheim–Ålesund. Teorien løftes etter hvor stor del av området som var klart. Grovt tegnet fra en beskrivelse. Obs: noen mener sollyset på streamen kan være falskt. Tror du det, slå av dette hintet.',
     standardPa: true,
