@@ -242,6 +242,14 @@ export const BEVIS: Bevis[] = [
     faktor: tabell({ agder: 0.15 }),
   },
   {
+    id: 'hagina-bjork',
+    kilde: 'folk',
+    tittel: 'Bjørka er for langt på høsten på 510 moh ved Sjusjøen (Hagina)',
+    forklaring: 'Hagina var ute mellom Hamar, Lillehammer og Sjusjøen på ca. 510 moh: bjørka er oransje og har tynt bladverk, mens den er gul og tett på streamen. Høsten har kommet lenger der enn ved kassen, og enda lenger høyere opp. Trekker ned høyt terreng i det området (Ringsakfjellet og Sjusjøen), og teller litt for lavere steder like ved (Løten og Rudshøgda).',
+    standardPa: true,
+    faktor: tabell({ ringsaker: 0.6, loten: 1.1, rudshogda: 1.1 }),
+  },
+  {
     id: 'brumunddal',
     kilde: 'folk',
     tittel: 'Anja er fra Brumunddal («nesten hjemme»?)',
