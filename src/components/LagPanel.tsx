@@ -275,6 +275,7 @@ const VISNINGER: { id: string; navn: string; tekst: string; lag: LagId[] }[] = [
   { id: 'standard', navn: 'Standard', tekst: 'Sannsynlighetskart, hint og teorier', lag: ['hintmarkorer', 'modell', 'teoriomrader', 'hoyde891', 'utelukket', 'utenfor'] },
   { id: 'hoyde', navn: 'Høyden 810–891 moh', tekst: '2,7 eiffeltårn: høyde nær vei', lag: ['hintmarkorer', 'hoyde891', 'fellesskap891', 'dn_hoyde', 'utenfor'] },
   { id: 'hogst', navn: 'Hogst, stier og skytefelt', tekst: 'Hun gikk gjennom gammel hogst, uten sti, ingen skyting', lag: ['hintmarkorer', 'dn_hogst', 'dn_leder', 'dn_skytefelt', 'hoyde891', 'utenfor'] },
+  { id: 'jaktfritt', navn: 'Der jakt er forbudt', tekst: '«Ingen skyting»: verneområder uten jakt', lag: ['hintmarkorer', 'jaktfritt', 'hoyde891', 'dn_skytefelt', 'utenfor'] },
   { id: 'felt', navn: 'Ute i felt', tekst: 'Parkering, letestopp, steder og feltnotater', lag: ['hintmarkorer', 'felt', 'hoyde891', 'dn_plan', 'dn_steder', 'dn_notater', 'dn_gasoner', 'dn_skytefelt', 'dn_hogst', 'dn_leder', 'utenfor'] },
   { id: 'defaultno', navn: 'default.no sine funn', tekst: 'Fusjonsmodell, søkeområder og letestopp', lag: ['dn_fusjon', 'dn_omrader', 'dn_steder', 'dn_plan', 'dn_avvist', 'dn_notater', 'utenfor'] },
   { id: 'vaer', navn: 'Vær og fly', tekst: 'Skyer, sol, regn og flyene hun så', lag: ['skydekke', 'solidag', 'fly', 'dn_flyhendelser', 'dn_sjelden', 'dn_regn', 'dn_radar', 'utenfor'] },
