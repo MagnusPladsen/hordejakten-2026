@@ -9,7 +9,7 @@ const sek = (hms: string) => {
   return t * 3600 + m * 60 + s
 }
 
-/** Streamen er 45 sek forsinket. Anja pekte opp 21:29:38 og skrev «FLY» 21:30:12–21:30:30 (streamtid). */
+/** Streamen er trolig 20 sek–1 min forsinket (vi tipper). Anja pekte opp 21:29:38 og skrev «FLY» 21:30:12–21:30:30 (streamtid). */
 export const PEKETID_EKTE = '21:29:15'
 export const VINDU_SEK = 60
 
